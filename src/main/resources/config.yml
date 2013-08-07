@@ -1,0 +1,11 @@
+duelme:
+    duelsenderloc:
+        world:
+        x:
+        y:
+        z:
+    dueltargetloc:
+        world:
+        x:
+        y:
+        z:

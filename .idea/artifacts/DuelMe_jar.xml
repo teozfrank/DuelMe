@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="DuelMe:jar">
+    <output-path>$PROJECT_DIR$/../../DevServer/plugins</output-path>
+    <root id="archive" name="DuelMe.jar">
+      <element id="module-output" name="DuelMe" />
+    </root>
+  </artifact>
+</component>

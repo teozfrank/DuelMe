@@ -1,4 +1,4 @@
-package com.teozcommunity.teozfrank.duelme.listeners;
+package com.teozcommunity.teozfrank.duelme.events;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import org.bukkit.entity.Player;

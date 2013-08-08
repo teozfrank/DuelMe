@@ -1,11 +1,11 @@
 package com.teozcommunity.teozfrank.duelme.main;
 
 import com.teozcommunity.teozfrank.duelme.commands.DuelCommand;
-import com.teozcommunity.teozfrank.duelme.listeners.PlayerMove;
+import com.teozcommunity.teozfrank.duelme.events.PlayerMove;
+import com.teozcommunity.teozfrank.duelme.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +25,10 @@ public class DuelMe extends JavaPlugin {
     //boolean to keep track of if a duel is in progress
     public boolean inProgress;
 
+    //String to hold the plugin version
+    public String version;
+
+    //String to to keep track of the dueling status
     public String duelStatus;
 
     //hashmap to keep track of the dueling requests
@@ -39,6 +43,8 @@ public class DuelMe extends JavaPlugin {
     //arraylist to hold the frozen players (before a duel starts)
     public ArrayList<String> frozenPlayers;
 
+    public Util util;
+
     @Override
     public void onEnable(){
         if(!(new File(getDataFolder(), "config.yml")).exists())
@@ -46,12 +52,14 @@ public class DuelMe extends JavaPlugin {
             saveDefaultConfig();
         }
         this.pluginPrefix = ChatColor.GOLD+"[DuelMe] ";
+        this.version = this.getDescription().getVersion();
         this.inProgress = false;
         this.duelStatus = "WAITING";
         this.duelRequests = new HashMap<String, String>();
         this.duelingPlayers = new ArrayList<String>();
         this.spectatingPlayers = new ArrayList<String>();
         this.frozenPlayers = new ArrayList<String>();
+        this.util = new Util(this);
         this.registerCommands();
         this.registerEvents();
 

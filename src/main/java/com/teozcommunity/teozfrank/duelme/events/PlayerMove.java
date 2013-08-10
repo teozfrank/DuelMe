@@ -22,13 +22,13 @@ public class PlayerMove implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerMove(PlayerMoveEvent e){
 
         Player p = e.getPlayer();
 
         if(!plugin.frozenPlayers.isEmpty()){
-            if(plugin.frozenPlayers.contains(p.getName())){
+            if(plugin.frozenPlayers.contains(p.getPlayer())){
                 System.out.print(p.getName());
                 e.setTo(e.getFrom());
             }

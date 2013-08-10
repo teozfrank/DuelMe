@@ -9,3 +9,9 @@ duelme:
         x:
         y:
         z:
+    lobbyspawnloc:
+        world:
+        x:
+        y:
+        z:
+

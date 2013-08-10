@@ -1,11 +1,16 @@
 package com.teozcommunity.teozfrank.duelme.main;
 
 import com.teozcommunity.teozfrank.duelme.commands.DuelCommand;
-import com.teozcommunity.teozfrank.duelme.events.PlayerMove;
+import com.teozcommunity.teozfrank.duelme.events.*;
+import com.teozcommunity.teozfrank.duelme.util.Locations;
 import com.teozcommunity.teozfrank.duelme.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import sun.plugin2.main.client.PluginMain;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,15 +40,19 @@ public class DuelMe extends JavaPlugin {
     public HashMap<String,String> duelRequests;
 
     //arraylist to hold the dueling players
-    public ArrayList<String> duelingPlayers;
+    public ArrayList<Player> duelingPlayers;
 
     //arraylist to hold the spectating players
-    public ArrayList<String> spectatingPlayers;
+    public ArrayList<Player> spectatingPlayers;
 
     //arraylist to hold the frozen players (before a duel starts)
-    public ArrayList<String> frozenPlayers;
+    public ArrayList<Player> frozenPlayers;
 
+    //our util class
     public Util util;
+
+    //our locations class
+    public Locations locations;
 
     @Override
     public void onEnable(){
@@ -56,10 +65,11 @@ public class DuelMe extends JavaPlugin {
         this.inProgress = false;
         this.duelStatus = "WAITING";
         this.duelRequests = new HashMap<String, String>();
-        this.duelingPlayers = new ArrayList<String>();
-        this.spectatingPlayers = new ArrayList<String>();
-        this.frozenPlayers = new ArrayList<String>();
+        this.duelingPlayers = new ArrayList<Player>();
+        this.spectatingPlayers = new ArrayList<Player>();
+        this.frozenPlayers = new ArrayList<Player>();
         this.util = new Util(this);
+        this.locations = new Locations(this);
         this.registerCommands();
         this.registerEvents();
 
@@ -79,7 +89,13 @@ public class DuelMe extends JavaPlugin {
     }
 
     public void registerEvents(){
-        Bukkit.getPluginManager().registerEvents(new PlayerMove(this),this);
+        PluginManager pm = Bukkit.getPluginManager();
+        pm.registerEvents(new PlayerMove(this), this);
+        pm.registerEvents(new PlayerDeath(this),this);
+        pm.registerEvents(new PlayerBreakBlock(this),this);
+        pm.registerEvents(new PlayerQuit(this),this);
+        pm.registerEvents(new PlayerTeleport(this),this);
+        pm.registerEvents(new PlayerRespawn(this),this);
     }
 
 }

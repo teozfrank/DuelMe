@@ -34,6 +34,7 @@ public class Util {
         this.inventories.put(p.getName(), inv);
         this.armour.put(p.getName(), arm);
         p.getInventory().clear(-1,-1);
+        p.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+" your inventory has been stored and will be restored after.");
     }
 
     public void restoreInventory(Player p){
@@ -42,43 +43,40 @@ public class Util {
         p.getInventory().setArmorContents(this.armour.get(p.getName()));
         this.inventories.remove(p.getName());
         this.armour.remove(p.getName());
+        p.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+" your inventory has been restored.");
+    }
+
+    public int teleportPlayers(Player sender, Player target){
+
+        try{
+            sender.teleport(plugin.locations.senderSpawnLocation());
+            target.teleport(plugin.locations.targetSpawnLocation());
+            return 1;
+        }
+        catch(Exception e){
+           sender.sendMessage("there was an error attempting to teleport to start the duel! Duel cancelled!");
+           target.sendMessage("there was an error attempting to teleport to start the duel! Duel cancelled!");
+            return -1;
+        }
     }
 
     public void startDuel(Player sender,Player target){
         if(!plugin.inProgress){
             plugin.duelRequests.remove(target.getName());
 
-            String senderWorldIn = plugin.getConfig().getString("duelme.duelsenderloc.world");
-            double senderxIn = plugin.getConfig().getDouble("duelme.duelsenderloc.x");
-            double senderyIn = plugin.getConfig().getDouble("duelme.duelsenderloc.y");
-            double senderzIn = plugin.getConfig().getDouble("duelme.duelsenderloc.z");
+            int success = this.teleportPlayers(sender.getPlayer(),target.getPlayer());
+            if(success==1){
+                plugin.duelingPlayers.add(sender.getPlayer());
+                plugin.duelingPlayers.add(target.getPlayer());
 
+                plugin.util.storeInventory(sender.getPlayer());
+                plugin.util.storeInventory(target.getPlayer());
 
-            String targetWorldIn = plugin.getConfig().getString("duelme.dueltargetloc.world");
-            double targetxIn = plugin.getConfig().getDouble("duelme.dueltargetloc.x");
-            double targetyIn = plugin.getConfig().getDouble("duelme.dueltargetloc.y");
-            double targetzIn = plugin.getConfig().getDouble("duelme.dueltargetloc.z");
+                //plugin.frozenPlayers.add(sender.getName());
+                //plugin.frozenPlayers.add(target.getName());
 
-
-            World senderWorld = Bukkit.getWorld(senderWorldIn);
-            World targetWorld = Bukkit.getWorld(targetWorldIn);
-
-            Location senderLoc = new Location(senderWorld,senderxIn,senderyIn,senderzIn);
-            Location targetLoc = new Location(targetWorld,targetxIn,targetyIn,targetzIn);
-
-            sender.teleport(senderLoc);
-            target.teleport(targetLoc);
-
-            plugin.duelingPlayers.add(sender.getName());
-            plugin.duelingPlayers.add(target.getName());
-
-            plugin.util.storeInventory(sender.getPlayer());
-            plugin.util.storeInventory(target.getPlayer());
-
-            //plugin.frozenPlayers.add(sender.getName());
-            //plugin.frozenPlayers.add(target.getName());
-
-            //Bukkit.getScheduler().scheduleSyncDelayedTask(plugin,new StartDuelThread(plugin,sender.getPlayer(),target.getPlayer()));
+                //Bukkit.getScheduler().scheduleSyncDelayedTask(plugin,new StartDuelThread(plugin,sender.getPlayer(),target.getPlayer()));
+            }
         }
         else {
             sender.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"A duel is already in progress, please try again later");
@@ -140,8 +138,9 @@ public class Util {
     * Method to leave a duel
     */
     public void leaveDuel(Player leavingPlayer){
-        if(plugin.duelingPlayers.contains(leavingPlayer.getName())){
-            //TODO finish off this
+        if(plugin.duelingPlayers.contains(leavingPlayer.getPlayer())){
+            plugin.util.broadcastMessage(ChatColor.RED+leavingPlayer.getName()+ " has ended the duel by leaving!!");
+            plugin.util.endDuel();
         }
         else {
             leavingPlayer.sendMessage(plugin.pluginPrefix+ChatColor.RED+"You cannot leave a duel if you are not in one!");
@@ -153,9 +152,25 @@ public class Util {
     */
     public void endDuel(){
 
-
-
-
+        for(Player p: Bukkit.getOnlinePlayers()){
+            if(plugin.duelingPlayers.contains(p.getPlayer())){
+                if(!p.getPlayer().isDead()){
+                    plugin.duelingPlayers.remove(p.getPlayer());//remove them from the dueling players
+                    this.restoreInventory(p.getPlayer());//restore their inventory
+                    p.teleport(plugin.locations.lobbySpawnLocation());//teleport them to lobby location
+                }
+            }
+        }
     }
+
+    public void broadcastMessage(String message){
+        for(Player p: Bukkit.getOnlinePlayers()){
+            p.sendMessage(plugin.pluginPrefix+ message);
+        }
+    }
+
+
+
+
 
 }

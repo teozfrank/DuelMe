@@ -39,8 +39,8 @@ public class StartDuelThread extends BukkitRunnable {
 
         }
         plugin.frozenPlayers.clear();
-        plugin.duelingPlayers.add(sender.getName());
-        plugin.duelingPlayers.add(target.getName());
+        plugin.duelingPlayers.add(sender.getPlayer());
+        plugin.duelingPlayers.add(target.getPlayer());
         sender.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"Duel!");
         target.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"Duel!");
         plugin.duelStatus = "IN PROGRESS";

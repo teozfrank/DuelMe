@@ -1,6 +1,7 @@
 package com.teozcommunity.teozfrank.duelme.events;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -21,14 +22,16 @@ public class PlayerDeath implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerDeath(PlayerDeathEvent e){
         Player p = e.getEntity();
         if(plugin.duelingPlayers.size()==2){
-
+           e.getDrops().clear();//drop nothing on death
+           e.setDeathMessage(ChatColor.YELLOW+p.getName()+" Was Killed in a Duel!");
+           plugin.util.endDuel();//end the duel
         }
         else {
-
+           plugin.util.endDuel();
         }
     }
 }

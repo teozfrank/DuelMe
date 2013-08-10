@@ -6,35 +6,33 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 
 /**
  * Created with IntelliJ IDEA.
  * User: Frank
- * Date: 08/08/13
- * Time: 16:18
+ * Date: 10/08/13
+ * Time: 22:10
  * To change this template use File | Settings | File Templates.
  */
-public class PlayerQuit implements Listener {
-
+public class PlayerBreakBlock implements Listener {
     private DuelMe plugin;
 
-    public PlayerQuit(DuelMe plugin){
+    public PlayerBreakBlock(DuelMe plugin){
         this.plugin = plugin;
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerQuit(PlayerQuitEvent e){
+    public void onPlayerBreakBlock(BlockBreakEvent e){
         Player p = e.getPlayer();
         if(plugin.duelingPlayers.contains(p.getPlayer())){
-            plugin.duelingPlayers.remove(p.getPlayer());
-            plugin.util.restoreInventory(p.getPlayer());
-            plugin.util.broadcastMessage(ChatColor.RED+ p.getName()+" has ended a duel by quitting!");
-            if(plugin.duelingPlayers.size()<=1){
-                plugin.util.endDuel();
-            }
+            e.setCancelled(true);
+            p.sendMessage(plugin.pluginPrefix+ ChatColor.RED+" Not allowed during a Duel!");
         }
-
     }
+
+
+
 
 }

@@ -61,6 +61,19 @@ public class Locations {
         return lobbySpawnLoc;
     }
 
+    public Location spectateSpawnLocation(){
+        String WorldIn = plugin.getConfig().getString("duelme.spectatespawnloc.world");
+        double targetxIn = plugin.getConfig().getDouble("duelme.spectatespawnloc.x");
+        double targetyIn = plugin.getConfig().getDouble("duelme.spectatespawnloc.y");
+        double targetzIn = plugin.getConfig().getDouble("duelme.spectatespawnloc.z");
+
+        World targetWorld = Bukkit.getWorld(WorldIn);
+
+        Location specatateSpawnLoc = new Location(targetWorld,targetxIn,targetyIn,targetzIn);
+
+        return specatateSpawnLoc;
+    }
+
     public void setSenderSpawnLocation(Player p){
         Location loc = p.getLocation();
         String world = p.getWorld().getName();

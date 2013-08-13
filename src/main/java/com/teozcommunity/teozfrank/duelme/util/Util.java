@@ -114,7 +114,19 @@ public class Util {
     * Method to spectate a duel in progress
     */
     public void spectateDuel(Player p){
-
+        if(plugin.inProgress){
+            p.teleport(plugin.locations.spectateSpawnLocation());
+            plugin.spectatingPlayers.add(p.getPlayer());
+            this.storeInventory(p.getPlayer());
+            for(Player pl: Bukkit.getOnlinePlayers()){
+                pl.hidePlayer(p.getPlayer());//hide the player from everyone else
+            }
+            p.setAllowFlight(true);//let them fly
+            p.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+"Successfully teleported to duel spectate area.");
+        }
+        else {
+            p.sendMessage(plugin.pluginPrefix+ChatColor.RED+"You cannot spectate when a duel is not in progress!");
+        }
     }
 
     /*
@@ -148,7 +160,7 @@ public class Util {
 
     }
     /*
-    * Method to leave a duel
+    * Method to end a duel
     */
     public void endDuel(){
 
@@ -162,7 +174,12 @@ public class Util {
             }
             if(plugin.spectatingPlayers.contains(p.getPlayer())){
                 plugin.spectatingPlayers.remove(p.getPlayer());
+                this.restoreInventory(p.getPlayer());
                 p.teleport(plugin.locations.lobbySpawnLocation());
+                for(Player pl:Bukkit.getOnlinePlayers()){
+                    pl.showPlayer(p.getPlayer());
+                }
+                p.setAllowFlight(false);
             }
             plugin.inProgress = false;
         }

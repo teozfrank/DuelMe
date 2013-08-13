@@ -29,6 +29,10 @@ public class PlayerBreakBlock implements Listener {
             e.setCancelled(true);
             p.sendMessage(plugin.pluginPrefix+ ChatColor.RED+" Not allowed during a Duel!");
         }
+        if(plugin.spectatingPlayers.contains(p.getPlayer())){
+            e.setCancelled(true);
+            p.sendMessage(plugin.pluginPrefix+ ChatColor.RED+" Not allowed while spectating a duel!");
+        }
     }
 
 

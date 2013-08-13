@@ -1,6 +1,7 @@
 package com.teozcommunity.teozfrank.duelme.events;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,6 +35,15 @@ public class PlayerQuit implements Listener {
             if(plugin.duelingPlayers.size()<=1){
                 plugin.util.endDuel();
             }
+        }
+        if(plugin.spectatingPlayers.contains(p.getPlayer())){
+            plugin.spectatingPlayers.remove(p.getPlayer());
+            plugin.util.restoreInventory(p.getPlayer());
+            for(Player pl: Bukkit.getOnlinePlayers()){
+              pl.showPlayer(p.getPlayer());
+            }
+            p.teleport(plugin.locations.lobbySpawnLocation());
+            p.setAllowFlight(false);
         }
 
     }

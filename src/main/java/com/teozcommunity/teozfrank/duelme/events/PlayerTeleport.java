@@ -31,6 +31,11 @@ public class PlayerTeleport implements Listener {
            e.setCancelled(true);//cancel the teleport event
            p.sendMessage(plugin.pluginPrefix+ ChatColor.RED+" Teleportation is disabled during a duel!");
        }
+        if(plugin.spectatingPlayers.contains(p.getPlayer())){
+            e.setCancelled(true);
+            p.sendMessage(plugin.pluginPrefix+ ChatColor.RED+" Teleportation is disabled while spectating a duel, "+
+                    "use /duel leave to leave the spectating area.");
+        }
 
     }
 

@@ -1,5 +1,6 @@
 package com.teozcommunity.teozfrank.duelme.main;
 
+import com.teozcommunity.teozfrank.duelme.commands.DuelAdminCommand;
 import com.teozcommunity.teozfrank.duelme.commands.DuelCommand;
 import com.teozcommunity.teozfrank.duelme.events.*;
 import com.teozcommunity.teozfrank.duelme.util.Locations;
@@ -9,8 +10,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import sun.plugin2.main.client.PluginMain;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -86,6 +85,7 @@ public class DuelMe extends JavaPlugin {
     */
     public void registerCommands(){
        getCommand("duel").setExecutor(new DuelCommand(this));
+       getCommand("dueladmin").setExecutor(new DuelAdminCommand(this));
     }
 
     public void registerEvents(){

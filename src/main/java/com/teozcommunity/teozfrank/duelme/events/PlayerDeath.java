@@ -22,7 +22,7 @@ public class PlayerDeath implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerDeath(PlayerDeathEvent e){
         Player p = e.getEntity();
         if(plugin.duelingPlayers.size()==2){

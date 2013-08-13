@@ -1,5 +1,5 @@
 name: DuelMe
-version: 0.1
+version: 0.2
 author: teozfrank
 main: com.teozcommunity.teozfrank.duelme.main.DuelMe
 commands:
@@ -8,3 +8,8 @@ commands:
         permission: duelme.duel
         permission-message: You do not have permission for this command!
         usage: /<command>
+    dueladmin:
+        description: Access to dueladmin commands
+        permission: duelme.admin
+        permission-message: You do not have permission for this command!
+        useage: /<command>

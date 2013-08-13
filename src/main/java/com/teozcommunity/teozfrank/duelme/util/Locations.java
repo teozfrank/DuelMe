@@ -2,8 +2,10 @@ package com.teozcommunity.teozfrank.duelme.util;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 
 /**
  * Created with IntelliJ IDEA.
@@ -57,6 +59,78 @@ public class Locations {
         Location lobbySpawnLoc = new Location(targetWorld,targetxIn,targetyIn,targetzIn);
 
         return lobbySpawnLoc;
+    }
+
+    public void setSenderSpawnLocation(Player p){
+        Location loc = p.getLocation();
+        String world = p.getWorld().getName();
+
+        double senderxIn = loc.getBlockX();
+        double senderyIn = loc.getBlockY();
+        double senderzIn = loc.getBlockZ();
+
+        plugin.getConfig().set("duelme.duelsenderloc.world",world);
+        plugin.getConfig().set("duelme.duelsenderloc.x", senderxIn);
+        plugin.getConfig().set("duelme.duelsenderloc.y",senderyIn);
+        plugin.getConfig().set("duelme.duelsenderloc.z",senderzIn);
+        plugin.saveConfig();
+        plugin.reloadConfig();
+        p.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+"Sender Spawn Location set!");
+
+    }
+
+    public void setTargetSpawnLocation(Player p){
+        Location loc = p.getLocation();
+        String world = p.getWorld().getName();
+
+        double senderxIn = loc.getBlockX();
+        double senderyIn = loc.getBlockY();
+        double senderzIn = loc.getBlockZ();
+
+        plugin.getConfig().set("duelme.dueltargetloc.world",world);
+        plugin.getConfig().set("duelme.dueltargetloc.x", senderxIn);
+        plugin.getConfig().set("duelme.dueltargetloc.y",senderyIn);
+        plugin.getConfig().set("duelme.dueltargetloc.z",senderzIn);
+        plugin.saveConfig();
+        plugin.reloadConfig();
+        p.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+"Target Spawn Location set!");
+
+    }
+
+    public void setLobbySpawnLocation(Player p){
+        Location loc = p.getLocation();
+        String world = p.getWorld().getName();
+
+        double senderxIn = loc.getBlockX();
+        double senderyIn = loc.getBlockY();
+        double senderzIn = loc.getBlockZ();
+
+        plugin.getConfig().set("duelme.lobbyspawnloc.world",world);
+        plugin.getConfig().set("duelme.lobbyspawnloc.x", senderxIn);
+        plugin.getConfig().set("duelme.lobbyspawnloc.y",senderyIn);
+        plugin.getConfig().set("duelme.lobbyspawnloc.z",senderzIn);
+        plugin.saveConfig();
+        plugin.reloadConfig();
+        p.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+"Lobby Spawn Location set!");
+
+    }
+
+    public void setSpectateLocation(Player p){
+        Location loc = p.getLocation();
+        String world = p.getWorld().getName();
+
+        double senderxIn = loc.getBlockX();
+        double senderyIn = loc.getBlockY();
+        double senderzIn = loc.getBlockZ();
+
+        plugin.getConfig().set("duelme.spectatespawnloc.world",world);
+        plugin.getConfig().set("duelme.spectatespawnloc.x", senderxIn);
+        plugin.getConfig().set("duelme.spectatespawnloc.y",senderyIn);
+        plugin.getConfig().set("duelme.spectatespawnloc.z",senderzIn);
+        plugin.saveConfig();
+        plugin.reloadConfig();
+        p.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+"Spectate Spawn Location set!");
+
     }
 
 

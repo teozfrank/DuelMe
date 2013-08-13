@@ -3,8 +3,6 @@ package com.teozcommunity.teozfrank.duelme.util;
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -71,6 +69,8 @@ public class Util {
 
                 plugin.util.storeInventory(sender.getPlayer());
                 plugin.util.storeInventory(target.getPlayer());
+
+                plugin.inProgress = true;
 
                 //plugin.frozenPlayers.add(sender.getName());
                 //plugin.frozenPlayers.add(target.getName());
@@ -160,6 +160,11 @@ public class Util {
                     p.teleport(plugin.locations.lobbySpawnLocation());//teleport them to lobby location
                 }
             }
+            if(plugin.spectatingPlayers.contains(p.getPlayer())){
+                plugin.spectatingPlayers.remove(p.getPlayer());
+                p.teleport(plugin.locations.lobbySpawnLocation());
+            }
+            plugin.inProgress = false;
         }
     }
 

@@ -14,4 +14,8 @@ duelme:
         x:
         y:
         z:
-
+    spectatespawnloc:
+        world:
+        x:
+        y:
+        z:

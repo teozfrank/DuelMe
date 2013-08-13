@@ -28,6 +28,7 @@ public class PlayerQuit implements Listener {
         Player p = e.getPlayer();
         if(plugin.duelingPlayers.contains(p.getPlayer())){
             plugin.duelingPlayers.remove(p.getPlayer());
+            p.teleport(plugin.locations.lobbySpawnLocation());// teleport to lobby spawn
             plugin.util.restoreInventory(p.getPlayer());
             plugin.util.broadcastMessage(ChatColor.RED+ p.getName()+" has ended a duel by quitting!");
             if(plugin.duelingPlayers.size()<=1){

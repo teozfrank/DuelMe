@@ -1,6 +1,7 @@
 package com.teozcommunity.teozfrank.duelme.util;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
+import com.teozcommunity.teozfrank.duelme.threads.StartDuelThread;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -64,18 +65,20 @@ public class Util {
 
             int success = this.teleportPlayers(sender.getPlayer(),target.getPlayer());
             if(success==1){
-                plugin.duelingPlayers.add(sender.getPlayer());
-                plugin.duelingPlayers.add(target.getPlayer());
+
+
+                plugin.inProgress = true;
+
+                plugin.frozenPlayers.add(sender.getPlayer());
+                plugin.frozenPlayers.add(target.getPlayer());
+
+                sender.teleport(plugin.locations.senderSpawnLocation());
+                target.teleport(plugin.locations.targetSpawnLocation());
 
                 plugin.util.storeInventory(sender.getPlayer());
                 plugin.util.storeInventory(target.getPlayer());
 
-                plugin.inProgress = true;
-
-                //plugin.frozenPlayers.add(sender.getName());
-                //plugin.frozenPlayers.add(target.getName());
-
-                //Bukkit.getScheduler().scheduleSyncDelayedTask(plugin,new StartDuelThread(plugin,sender.getPlayer(),target.getPlayer()));
+                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin,new StartDuelThread(plugin,sender.getPlayer(),target.getPlayer()));
             }
         }
         else {
@@ -93,7 +96,12 @@ public class Util {
         Player duelSender = Bukkit.getPlayer(sender);
 
         if(duelSender!=null){
-            this.startDuel(duelSender.getPlayer(),acceptingPlayer.getPlayer());
+            if(sender!=null){
+                this.startDuel(duelSender.getPlayer(),acceptingPlayer.getPlayer());
+            }
+            else{
+                acceptingPlayer.sendMessage(plugin.pluginPrefix+ChatColor.RED+"You do not have a duel to accept!");
+            }
         }
 
         else {

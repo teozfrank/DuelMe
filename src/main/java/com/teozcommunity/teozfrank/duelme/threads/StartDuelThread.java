@@ -2,7 +2,9 @@ package com.teozcommunity.teozfrank.duelme.threads;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
@@ -12,7 +14,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  * Time: 20:38
  * To change this template use File | Settings | File Templates.
  */
-public class StartDuelThread extends BukkitRunnable {
+public class StartDuelThread implements Runnable {
 
     private DuelMe plugin;
     private Player sender;
@@ -26,6 +28,7 @@ public class StartDuelThread extends BukkitRunnable {
 
     @Override
     public void run() {
+
         for(int x=10;x>=1;x--){
             sender.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"Duel Starting in: "+x);
             target.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"Duel Starting in: "+x);
@@ -41,8 +44,10 @@ public class StartDuelThread extends BukkitRunnable {
         plugin.frozenPlayers.clear();
         plugin.duelingPlayers.add(sender.getPlayer());
         plugin.duelingPlayers.add(target.getPlayer());
-        sender.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"Duel!");
+        sender.sendMessage(plugin.pluginPrefix + ChatColor.YELLOW + "Duel!");
         target.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"Duel!");
+        target.setItemInHand(new ItemStack(Material.IRON_AXE,1));
+        sender.setItemInHand(new ItemStack(Material.IRON_AXE,1));
         plugin.duelStatus = "IN PROGRESS";
 
     }

@@ -22,7 +22,7 @@ public class PlayerRespawn implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerRespawn(PlayerRespawnEvent e){
         Player p = e.getPlayer();
         if(plugin.duelingPlayers.contains(p.getPlayer())){

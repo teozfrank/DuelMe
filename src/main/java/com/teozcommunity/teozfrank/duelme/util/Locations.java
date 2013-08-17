@@ -78,9 +78,9 @@ public class Locations {
         Location loc = p.getLocation();
         String world = p.getWorld().getName();
 
-        double senderxIn = loc.getBlockX();
-        double senderyIn = loc.getBlockY();
-        double senderzIn = loc.getBlockZ();
+        double senderxIn = loc.getX();
+        double senderyIn = loc.getY();
+        double senderzIn = loc.getZ();
 
         plugin.getConfig().set("duelme.duelsenderloc.world",world);
         plugin.getConfig().set("duelme.duelsenderloc.x", senderxIn);
@@ -96,9 +96,9 @@ public class Locations {
         Location loc = p.getLocation();
         String world = p.getWorld().getName();
 
-        double senderxIn = loc.getBlockX();
-        double senderyIn = loc.getBlockY();
-        double senderzIn = loc.getBlockZ();
+        double senderxIn = loc.getX();
+        double senderyIn = loc.getY();
+        double senderzIn = loc.getZ();
 
         plugin.getConfig().set("duelme.dueltargetloc.world",world);
         plugin.getConfig().set("duelme.dueltargetloc.x", senderxIn);
@@ -114,9 +114,9 @@ public class Locations {
         Location loc = p.getLocation();
         String world = p.getWorld().getName();
 
-        double senderxIn = loc.getBlockX();
-        double senderyIn = loc.getBlockY();
-        double senderzIn = loc.getBlockZ();
+        double senderxIn = loc.getX();
+        double senderyIn = loc.getY();
+        double senderzIn = loc.getZ();
 
         plugin.getConfig().set("duelme.lobbyspawnloc.world",world);
         plugin.getConfig().set("duelme.lobbyspawnloc.x", senderxIn);
@@ -132,9 +132,9 @@ public class Locations {
         Location loc = p.getLocation();
         String world = p.getWorld().getName();
 
-        double senderxIn = loc.getBlockX();
-        double senderyIn = loc.getBlockY();
-        double senderzIn = loc.getBlockZ();
+        double senderxIn = loc.getX();
+        double senderyIn = loc.getY();
+        double senderzIn = loc.getZ();
 
         plugin.getConfig().set("duelme.spectatespawnloc.world",world);
         plugin.getConfig().set("duelme.spectatespawnloc.x", senderxIn);

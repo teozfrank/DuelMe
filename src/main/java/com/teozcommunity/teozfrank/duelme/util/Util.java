@@ -92,22 +92,29 @@ public class Util {
 * Method to accept duel requests
 */
     public void acceptDuel(Player acceptingPlayer){
-        String sender = plugin.duelRequests.get(acceptingPlayer.getName());
-        Player duelSender = Bukkit.getPlayer(sender);
+        Player aPlayer = acceptingPlayer.getPlayer();
+        String aPlayerName = acceptingPlayer.getName();
 
-        if(duelSender!=null){
-            if(sender!=null){
-                this.startDuel(duelSender.getPlayer(),acceptingPlayer.getPlayer());
-            }
-            else{
-                acceptingPlayer.sendMessage(plugin.pluginPrefix+ChatColor.RED+"You do not have a duel to accept!");
-            }
+        if(plugin.duelRequests.containsKey(aPlayerName)){
+           String dSender = plugin.duelRequests.get(aPlayerName);
+           Player dSenderPlayer = Bukkit.getPlayer(dSender);
+           if(dSenderPlayer!=null){
+              plugin.util.startDuel(dSenderPlayer,aPlayer);
+           }
+           else {
+               aPlayer.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"The duel sender "+dSender+" has gone offline!");
+               plugin.duelRequests.remove(aPlayerName);
+           }
         }
 
         else {
-            acceptingPlayer.sendMessage(plugin.pluginPrefix+ ChatColor.RED+"The duel sender "+ChatColor.AQUA+sender+ChatColor.RED+" has gone offline!");
-            plugin.duelRequests.remove(acceptingPlayer.getName());
+            aPlayer.sendMessage(plugin.pluginPrefix+ChatColor.RED+"You do not have any pending duel reqests to accept!");
         }
+
+        //else {
+         //   acceptingPlayer.sendMessage(plugin.pluginPrefix+ ChatColor.RED+"The duel sender "+ChatColor.AQUA+sender+ChatColor.RED+" has gone offline!");
+        //    plugin.duelRequests.remove(acceptingPlayer.getName());
+        //}
 
     }
 

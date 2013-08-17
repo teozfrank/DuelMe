@@ -1,6 +1,7 @@
 package com.teozcommunity.teozfrank.duelme.events;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -27,12 +28,16 @@ public class PlayerMove implements Listener {
 
         Player p = e.getPlayer();
 
-        if(!plugin.frozenPlayers.isEmpty()){
-            if(plugin.frozenPlayers.contains(p.getPlayer())){
+        //if(!plugin.frozenPlayers.isEmpty()){
+           // if(plugin.frozenPlayers.contains(p.getPlayer())){
                 System.out.print(p.getName());
-                e.setTo(e.getFrom());
-            }
-        }
+                int x = e.getFrom().getBlockX()-1;
+                int y = e.getFrom().getBlockY();
+                int z = e.getFrom().getBlockZ()-1;
+                Location from = new Location(p.getWorld(),x,y,z);
+                e.setTo(from);
+            //}
+        //}
 
     }
 }

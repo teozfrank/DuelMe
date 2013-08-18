@@ -4,6 +4,8 @@ import com.teozcommunity.teozfrank.duelme.commands.DuelAdminCommand;
 import com.teozcommunity.teozfrank.duelme.commands.DuelCommand;
 import com.teozcommunity.teozfrank.duelme.events.*;
 import com.teozcommunity.teozfrank.duelme.util.Locations;
+import com.teozcommunity.teozfrank.duelme.util.SendConsoleMessage;
+import com.teozcommunity.teozfrank.duelme.util.UpdateChecker;
 import com.teozcommunity.teozfrank.duelme.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -53,25 +55,40 @@ public class DuelMe extends JavaPlugin {
     //our locations class
     public Locations locations;
 
+    //our update checker class
+    public UpdateChecker updateChecker;
+
+    //our colored console message class
+    public SendConsoleMessage sendConsoleMessage;
+
+
     @Override
     public void onEnable(){
+        this.sendConsoleMessage = new SendConsoleMessage(this);
+        this.version = this.getDescription().getVersion();// called early so that any classes or methods that use this is available
+        this.sendConsoleMessage.info("Enabling");
+        this.util = new Util(this);
+        this.locations = new Locations(this);
+        this.updateChecker = new UpdateChecker(this,"http://dev.bukkit.org/bukkit-plugins/rank-list/files.rss");
+        if(this.updateChecker.updateAvailable()&&this.getConfig().getBoolean("duelme.checkforupdates")){
+            this.sendConsoleMessage.info("A new version of this plugin is available: " + this.updateChecker.getVersion());
+            this.sendConsoleMessage.info("Download it here " + this.updateChecker.getLink());
+        }
+
         if(!(new File(getDataFolder(), "config.yml")).exists())
         {
             saveDefaultConfig();
         }
         this.pluginPrefix = ChatColor.GOLD+"[DuelMe] ";
-        this.version = this.getDescription().getVersion();
         this.inProgress = false;
         this.duelStatus = "WAITING";
         this.duelRequests = new HashMap<String, String>();
         this.duelingPlayers = new ArrayList<Player>();
         this.spectatingPlayers = new ArrayList<Player>();
         this.frozenPlayers = new ArrayList<Player>();
-        this.util = new Util(this);
-        this.locations = new Locations(this);
         this.registerCommands();
         this.registerEvents();
-
+        this.sendConsoleMessage.info("Enabled!");
     }
 
     @Override
@@ -96,6 +113,7 @@ public class DuelMe extends JavaPlugin {
         pm.registerEvents(new PlayerQuit(this),this);
         pm.registerEvents(new PlayerTeleport(this),this);
         pm.registerEvents(new PlayerRespawn(this),this);
+        pm.registerEvents(new PlayerJoin(this),this);
     }
 
 }

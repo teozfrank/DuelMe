@@ -4,6 +4,7 @@ import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import com.teozcommunity.teozfrank.duelme.threads.StartDuelThread;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -33,7 +34,7 @@ public class Util {
         this.inventories.put(p.getName(), inv);
         this.armour.put(p.getName(), arm);
         p.getInventory().clear(-1,-1);
-        p.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+" your inventory has been stored and will be restored after.");
+        p.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+" your inventory has been stored and will be restored after the Duel.");
     }
 
     public void restoreInventory(Player p){
@@ -53,8 +54,8 @@ public class Util {
             return 1;
         }
         catch(Exception e){
-           sender.sendMessage("there was an error attempting to teleport to start the duel! Duel cancelled!");
-           target.sendMessage("there was an error attempting to teleport to start the duel! Duel cancelled!");
+           sender.sendMessage("there was an error attempting to teleport to start the duel! Have the spawn locations been set? Duel cancelled!");
+           target.sendMessage("there was an error attempting to teleport to start the duel! Have the spawn locations been set? Duel cancelled!");
             return -1;
         }
     }
@@ -71,6 +72,8 @@ public class Util {
 
                 plugin.frozenPlayers.add(sender.getPlayer());
                 plugin.frozenPlayers.add(target.getPlayer());
+                sender.setGameMode(GameMode.SURVIVAL);
+                target.setGameMode(GameMode.SURVIVAL);
 
                 sender.teleport(plugin.locations.senderSpawnLocation());
                 target.teleport(plugin.locations.targetSpawnLocation());
@@ -108,13 +111,8 @@ public class Util {
         }
 
         else {
-            aPlayer.sendMessage(plugin.pluginPrefix+ChatColor.RED+"You do not have any pending duel reqests to accept!");
+            aPlayer.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"You do not have any pending duel requests to accept!");
         }
-
-        //else {
-         //   acceptingPlayer.sendMessage(plugin.pluginPrefix+ ChatColor.RED+"The duel sender "+ChatColor.AQUA+sender+ChatColor.RED+" has gone offline!");
-        //    plugin.duelRequests.remove(acceptingPlayer.getName());
-        //}
 
     }
 
@@ -140,7 +138,7 @@ public class Util {
             p.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+"Successfully teleported to duel spectate area.");
         }
         else {
-            p.sendMessage(plugin.pluginPrefix+ChatColor.RED+"You cannot spectate when a duel is not in progress!");
+            p.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"You cannot spectate when a duel is not in progress!");
         }
     }
 
@@ -149,14 +147,20 @@ public class Util {
     */
     public void sendRequest(Player sender,Player target){
 
-        if(!plugin.duelRequests.containsValue(sender.getName())){
-            plugin.duelRequests.put(target.getName(),sender.getName());
-            sender.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+"You have sent a duel request to "+ChatColor.AQUA+target.getName());
-            target.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+"You have been sent a duel request from \n"+
-                    ChatColor.AQUA+sender.getName()+ChatColor.GREEN+" use "+ChatColor.AQUA+"/duel accept"+ChatColor.GREEN+" to accept the request.");
+        if(sender!=target){
+
+            if(!plugin.duelRequests.containsValue(sender.getName())){
+                plugin.duelRequests.put(target.getName(),sender.getName());
+                sender.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+"You have sent a duel request to "+ChatColor.AQUA+target.getName());
+                target.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+"You have been sent a duel request from \n"+
+                ChatColor.AQUA+sender.getName()+ChatColor.GREEN+" use "+ChatColor.AQUA+"/duel accept"+ChatColor.GREEN+" to accept the request.");
+            }
+            else {
+                sender.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"You have already sent a duel request to another player!");
+            }
         }
-        else {
-            sender.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"You have already sent a duel request to another player!");
+        else{
+            sender.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"You cannot duel yourself!");
         }
 
     }
@@ -170,7 +174,7 @@ public class Util {
             plugin.util.endDuel();
         }
         else {
-            leavingPlayer.sendMessage(plugin.pluginPrefix+ChatColor.RED+"You cannot leave a duel if you are not in one!");
+            leavingPlayer.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"You cannot leave a duel if you are not in one!");
         }
 
     }

@@ -7,6 +7,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.util.Vector;
+
+import java.util.HashMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,6 +19,8 @@ import org.bukkit.event.player.PlayerMoveEvent;
  * To change this template use File | Settings | File Templates.
  */
 public class PlayerMove implements Listener {
+
+    private static HashMap<Player, Vector> Locations= new HashMap<Player, Vector>();
 
     private DuelMe plugin;
 
@@ -28,16 +33,22 @@ public class PlayerMove implements Listener {
 
         Player p = e.getPlayer();
 
-        //if(!plugin.frozenPlayers.isEmpty()){
-           // if(plugin.frozenPlayers.contains(p.getPlayer())){
-                System.out.print(p.getName());
-                int x = e.getFrom().getBlockX()-1;
-                int y = e.getFrom().getBlockY();
-                int z = e.getFrom().getBlockZ()-1;
-                Location from = new Location(p.getWorld(),x,y,z);
-                e.setTo(from);
-            //}
-        //}
+        if(plugin.frozenPlayers.contains(p.getPlayer())){
+          Location loc = p.getLocation();
+
+            if(Locations.get(p) == null){
+                Locations.put(p, loc.toVector());
+            }
+
+            if(loc.getBlockX() != Locations.get(p).getBlockX() || loc.getBlockZ() != Locations.get(p).getBlockZ()){
+                loc.setX(Locations.get(p).getBlockX() + .5);
+                loc.setZ(Locations.get(p).getBlockZ() + .5);
+                loc.setPitch(loc.getPitch());
+                loc.setYaw(loc.getYaw());
+                p.teleport(loc);
+            }
+
+        }
 
     }
 }

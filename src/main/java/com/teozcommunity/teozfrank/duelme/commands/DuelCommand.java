@@ -67,7 +67,7 @@ public class DuelCommand implements CommandExecutor {
                         plugin.util.sendRequest(p.getPlayer(),targetPlayer.getPlayer());
                     }
                     else{
-                        p.sendMessage(plugin.pluginPrefix+ChatColor.RED+"Player "+ChatColor.GOLD+args[0]+ChatColor.RED+" is not online! Did you type it correctly?");
+                        p.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"Player "+ChatColor.AQUA+args[0]+ChatColor.YELLOW+" is not online! Did you type the name correctly?");
                     }
 
                 }

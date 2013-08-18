@@ -1,4 +1,5 @@
 duelme:
+    checkforupdates: true
     duelsenderloc:
         world:
         x:

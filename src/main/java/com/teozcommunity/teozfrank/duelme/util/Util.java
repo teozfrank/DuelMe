@@ -120,7 +120,7 @@ public class Util {
     * Method to deny duel requests
     */
     public void denyDuel(Player p){
-
+       p.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+"Will be implemented soon, for now just ignore the request you were sent.");
     }
 
     /*
@@ -169,7 +169,16 @@ public class Util {
     * Method to leave a duel
     */
     public void leaveDuel(Player leavingPlayer){
-        if(plugin.duelingPlayers.contains(leavingPlayer.getPlayer())){
+        if(plugin.spectatingPlayers.contains(leavingPlayer.getPlayer())){
+            plugin.spectatingPlayers.remove(leavingPlayer.getPlayer());
+            this.restoreInventory(leavingPlayer.getPlayer());
+            leavingPlayer.teleport(plugin.locations.lobbySpawnLocation());
+            for(Player pl:Bukkit.getOnlinePlayers()){
+                pl.showPlayer(leavingPlayer.getPlayer());
+            }
+            leavingPlayer.setAllowFlight(false);
+        }
+        else if(plugin.duelingPlayers.contains(leavingPlayer.getPlayer())){
             plugin.util.broadcastMessage(ChatColor.RED+leavingPlayer.getName()+ " has ended the duel by leaving!!");
             plugin.util.endDuel();
         }

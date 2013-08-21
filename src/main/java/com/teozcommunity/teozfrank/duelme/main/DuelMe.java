@@ -114,6 +114,7 @@ public class DuelMe extends JavaPlugin {
         pm.registerEvents(new PlayerTeleport(this),this);
         pm.registerEvents(new PlayerRespawn(this),this);
         pm.registerEvents(new PlayerJoin(this),this);
+        pm.registerEvents(new PlayerHitsPlayer(this),this);
     }
 
 }

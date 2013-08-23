@@ -30,7 +30,7 @@ public class Locations {
 
         World senderWorld = Bukkit.getWorld(senderWorldIn);
 
-        Location senderSpawnLocation = new Location(senderWorld,senderxIn,senderyIn,senderzIn);
+        Location senderSpawnLocation = new Location(senderWorld,senderxIn,senderyIn+0.5,senderzIn);
 
         return senderSpawnLocation;
     }
@@ -43,7 +43,7 @@ public class Locations {
 
         World targetWorld = Bukkit.getWorld(targetWorldIn);
 
-        Location targetSpawnLoc = new Location(targetWorld,targetxIn,targetyIn,targetzIn);
+        Location targetSpawnLoc = new Location(targetWorld,targetxIn,targetyIn+0.5,targetzIn);
 
         return targetSpawnLoc;
     }
@@ -56,7 +56,7 @@ public class Locations {
 
         World targetWorld = Bukkit.getWorld(WorldIn);
 
-        Location lobbySpawnLoc = new Location(targetWorld,targetxIn,targetyIn,targetzIn);
+        Location lobbySpawnLoc = new Location(targetWorld,targetxIn,targetyIn+0.5,targetzIn);
 
         return lobbySpawnLoc;
     }
@@ -69,7 +69,7 @@ public class Locations {
 
         World targetWorld = Bukkit.getWorld(WorldIn);
 
-        Location specatateSpawnLoc = new Location(targetWorld,targetxIn,targetyIn,targetzIn);
+        Location specatateSpawnLoc = new Location(targetWorld,targetxIn,targetyIn+0.5,targetzIn);
 
         return specatateSpawnLoc;
     }

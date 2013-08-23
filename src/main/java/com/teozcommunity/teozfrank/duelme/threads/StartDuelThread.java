@@ -14,7 +14,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  * Time: 20:38
  * To change this template use File | Settings | File Templates.
  */
-public class StartDuelThread implements Runnable {
+public class StartDuelThread extends BukkitRunnable {
 
     private DuelMe plugin;
     private Player sender;

@@ -5,6 +5,7 @@ import com.teozcommunity.teozfrank.duelme.threads.StartDuelThread;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -70,18 +71,28 @@ public class Util {
 
                 plugin.inProgress = true;
 
-                plugin.frozenPlayers.add(sender.getPlayer());
-                plugin.frozenPlayers.add(target.getPlayer());
+                //plugin.frozenPlayers.add(sender.getPlayer());
+                //plugin.frozenPlayers.add(target.getPlayer());
                 sender.setGameMode(GameMode.SURVIVAL);
                 target.setGameMode(GameMode.SURVIVAL);
-
-                sender.teleport(plugin.locations.senderSpawnLocation());
-                target.teleport(plugin.locations.targetSpawnLocation());
 
                 plugin.util.storeInventory(sender.getPlayer());
                 plugin.util.storeInventory(target.getPlayer());
 
-                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin,new StartDuelThread(plugin,sender.getPlayer(),target.getPlayer()));
+                sender.teleport(plugin.locations.senderSpawnLocation());
+                target.teleport(plugin.locations.targetSpawnLocation());
+
+
+
+                //plugin.frozenPlayers.clear();
+                plugin.duelingPlayers.add(sender.getPlayer());
+                plugin.duelingPlayers.add(target.getPlayer());
+                sender.sendMessage(plugin.pluginPrefix + ChatColor.YELLOW + "Duel!");
+                target.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"Duel!");
+                target.setItemInHand(new ItemStack(Material.IRON_AXE,1));
+                sender.setItemInHand(new ItemStack(Material.IRON_AXE,1));
+
+                //Bukkit.getScheduler().scheduleSyncDelayedTask(plugin,new StartDuelThread(plugin,sender.getPlayer(),target.getPlayer()));
             }
         }
         else {

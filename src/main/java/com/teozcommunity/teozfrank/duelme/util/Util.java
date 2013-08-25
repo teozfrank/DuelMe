@@ -142,7 +142,7 @@ public class Util {
         }
 
         else {
-            aPlayer.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"You do not have any pending duel requests to accept!");
+            aPlayer.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"You do not have any pending duel requests to accept!, if you just received a request the player may have cancelled it!");
         }
 
     }
@@ -246,8 +246,10 @@ public class Util {
     }
 
     public void cancelRequest(Player p){
-        if(plugin.duelRequests.containsKey(p.getName())){
+        if(plugin.duelRequests.containsValue(p.getName())){
+            p.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+"You have cancelled your sent duel request!");
             plugin.duelRequests.remove(p.getName());
+
         }
         else {
             p.sendMessage(plugin.pluginPrefix+ChatColor.RED+"You do not have any duel requests to cancel!");

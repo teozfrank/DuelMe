@@ -28,6 +28,7 @@ public class Util {
 
     public HashMap<String, ItemStack[]> inventories = new HashMap <String, ItemStack[]>();
     public HashMap <String, ItemStack[]> armour = new HashMap <String, ItemStack[]>();
+    public HashMap <String, Integer> exp = new HashMap <String, Integer>();
 
     public void storeInventory(Player p){
         ItemStack[] inv = p.getInventory().getContents();
@@ -45,6 +46,22 @@ public class Util {
         this.inventories.remove(p.getName());
         this.armour.remove(p.getName());
         p.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+" your inventory has been restored.");
+
+    }
+
+    public void storeExpLevel(Player p){
+        int level = p.getLevel();
+        this.exp.put(p.getName(),level);
+    }
+
+    public void restoreExpLevel(Player p){
+        if(this.exp.containsKey(p.getName())){
+            int level = this.exp.get(p.getName());
+            p.setLevel(level);
+        }
+        else{
+            p.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"there was an error trying to restore your exp level!");
+        }
     }
 
     public int teleportPlayers(Player sender, Player target){
@@ -76,8 +93,11 @@ public class Util {
                 sender.setGameMode(GameMode.SURVIVAL);
                 target.setGameMode(GameMode.SURVIVAL);
 
-                plugin.util.storeInventory(sender.getPlayer());
-                plugin.util.storeInventory(target.getPlayer());
+                this.storeInventory(sender.getPlayer());
+                this.storeInventory(target.getPlayer());
+
+                this.storeExpLevel(sender.getPlayer());
+                this.storeExpLevel(target.getPlayer());
 
                 sender.teleport(plugin.locations.senderSpawnLocation());
                 target.teleport(plugin.locations.targetSpawnLocation());
@@ -209,6 +229,7 @@ public class Util {
                     plugin.duelingPlayers.remove(p.getPlayer());//remove them from the dueling players
                     this.restoreInventory(p.getPlayer());//restore their inventory
                     p.teleport(plugin.locations.lobbySpawnLocation());//teleport them to lobby location
+                    this.restoreExpLevel(p.getPlayer());//restore their exp level
                 }
             }
             if(plugin.spectatingPlayers.contains(p.getPlayer())){

@@ -103,8 +103,8 @@ public class Util {
     }
 
     /*
-* Method to accept duel requests
-*/
+    * Method to accept duel requests
+    */
     public void acceptDuel(Player acceptingPlayer){
         Player aPlayer = acceptingPlayer.getPlayer();
         String aPlayerName = acceptingPlayer.getName();
@@ -221,6 +221,15 @@ public class Util {
                 p.setAllowFlight(false);
             }
             plugin.inProgress = false;
+        }
+    }
+
+    public void cancelRequest(Player p){
+        if(plugin.duelRequests.containsKey(p.getName())){
+            plugin.duelRequests.remove(p.getName());
+        }
+        else {
+            p.sendMessage(plugin.pluginPrefix+ChatColor.RED+"You do not have any duel requests to cancel!");
         }
     }
 

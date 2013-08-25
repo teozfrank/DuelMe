@@ -45,6 +45,9 @@ public class PlayerQuit implements Listener {
             p.teleport(plugin.locations.lobbySpawnLocation());
             p.setAllowFlight(false);
         }
+        if(plugin.duelRequests.containsKey(p.getPlayer())){// if target leaves
+            plugin.duelRequests.remove(p.getPlayer());// duel request is cancelled
+        }
 
     }
 

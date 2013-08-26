@@ -49,8 +49,9 @@ public class UpdateChecker {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            plugin.sendConsoleMessage.severe("error trying to check for updates!");
         }
+
 
         return false;
     }

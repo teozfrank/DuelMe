@@ -118,8 +118,8 @@ public class DuelMe extends JavaPlugin {
 
     public void checkForUpdates(){
         if(this.updateChecker.updateAvailable()&&this.getConfig().getBoolean("duelme.checkforupdates")){
-            this.sendConsoleMessage.info("A new version of this plugin is available: " + this.updateChecker.getVersion());
-            this.sendConsoleMessage.info("Download it here " + this.updateChecker.getLink());
+              this.sendConsoleMessage.info("A new version of this plugin is available: " + this.updateChecker.getVersion());
+              this.sendConsoleMessage.info("Download it here " + this.updateChecker.getLink());
         }
     }
 

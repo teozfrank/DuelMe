@@ -8,6 +8,8 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import pgDev.bukkit.DisguiseCraft.DisguiseCraft;
+import pgDev.bukkit.DisguiseCraft.api.DisguiseCraftAPI;
 
 import java.util.HashMap;
 
@@ -21,6 +23,7 @@ import java.util.HashMap;
 public class Util {
 
     private DuelMe plugin;
+
 
     public Util(DuelMe plugin){
         this.plugin = plugin;
@@ -36,7 +39,7 @@ public class Util {
         this.inventories.put(p.getName(), inv);
         this.armour.put(p.getName(), arm);
         p.getInventory().clear(-1,-1);
-        p.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+" your inventory has been stored and will be restored after the Duel.");
+        p.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+"Your inventory has been stored and will be restored after the Duel.");
     }
 
     public void restoreInventory(Player p){
@@ -45,7 +48,7 @@ public class Util {
         p.getInventory().setArmorContents(this.armour.get(p.getName()));
         this.inventories.remove(p.getName());
         this.armour.remove(p.getName());
-        p.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+" your inventory has been restored.");
+        p.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+"Your inventory has been restored.");
 
     }
 
@@ -61,7 +64,7 @@ public class Util {
             p.setLevel(level);
         }
         else{
-            p.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"there was an error trying to restore your exp level!");
+            p.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"Their was an error trying to restore your exp level!");
         }
     }
 
@@ -99,6 +102,8 @@ public class Util {
 
                 this.storeExpLevel(sender.getPlayer());
                 this.storeExpLevel(target.getPlayer());
+
+                this.handleDisguise(target.getPlayer(),sender.getPlayer());
 
                 sender.teleport(plugin.locations.senderSpawnLocation());
                 target.teleport(plugin.locations.targetSpawnLocation());
@@ -261,6 +266,26 @@ public class Util {
         for(Player p: Bukkit.getOnlinePlayers()){
             p.sendMessage(plugin.pluginPrefix+ message);
         }
+    }
+
+
+    public void handleDisguise(Player sender,Player target){
+
+        try{
+            DisguiseCraftAPI dcAPI = DisguiseCraft.getAPI();
+
+           if(dcAPI.isDisguised(sender.getPlayer())){
+             dcAPI.undisguisePlayer(sender.getPlayer());
+           }
+           if(dcAPI.isDisguised(target.getPlayer())){
+               dcAPI.undisguisePlayer(target.getPlayer());
+           }
+        }
+
+        catch(Exception e){
+            //server must not be using disguisecraft so we wont output an error
+        }
+
     }
 
 

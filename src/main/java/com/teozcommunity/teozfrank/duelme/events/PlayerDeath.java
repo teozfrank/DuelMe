@@ -26,9 +26,18 @@ public class PlayerDeath implements Listener {
     public void onPlayerDeath(PlayerDeathEvent e){
         Player p = e.getEntity();
         if(plugin.duelingPlayers.size()==2){
-           e.getDrops().clear();//drop nothing on death
-           e.setDeathMessage(ChatColor.YELLOW+p.getName()+" Was Killed in a Duel!");
-           plugin.util.endDuel();//end the duel
+           if(p.getKiller() instanceof Player){
+                Player killer = p.getKiller();
+                e.getDrops().clear();//drop nothing on death
+                e.setDeathMessage(plugin.pluginPrefix+ChatColor.YELLOW+p.getName()+ChatColor.AQUA+" Was Killed in a Duel by "+
+                   ChatColor.YELLOW+killer.getName());
+                plugin.util.endDuel();//end the duel
+           }
+           else {
+               e.getDrops().clear();//drop nothing on death
+               e.setDeathMessage(plugin.pluginPrefix+ChatColor.YELLOW+p.getName()+ChatColor.AQUA+" Was Killed in a Duel!");
+               plugin.util.endDuel();//end the duel
+           }
         }
         else {
            plugin.util.endDuel();

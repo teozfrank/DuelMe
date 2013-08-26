@@ -1,22 +1,5 @@
 duelme:
+# should duelme check for updates? (recommended)
     checkforupdates: true
-    duelsenderloc:
-        world:
-        x:
-        y:
-        z:
-    dueltargetloc:
-        world:
-        x:
-        y:
-        z:
-    lobbyspawnloc:
-        world:
-        x:
-        y:
-        z:
-    spectatespawnloc:
-        world:
-        x:
-        y:
-        z:
+# do not touch this below, it will break the plugin!
+    configversion: 1.0

@@ -52,6 +52,7 @@ public class Util {
     public void storeExpLevel(Player p){
         int level = p.getLevel();
         this.exp.put(p.getName(),level);
+        p.setLevel(0);
     }
 
     public void restoreExpLevel(Player p){
@@ -248,7 +249,7 @@ public class Util {
     public void cancelRequest(Player p){
         if(plugin.duelRequests.containsValue(p.getName())){
             p.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+"You have cancelled your sent duel request!");
-            plugin.duelRequests.remove(p.getName());
+            plugin.duelRequests.remove(p.getPlayer());
 
         }
         else {

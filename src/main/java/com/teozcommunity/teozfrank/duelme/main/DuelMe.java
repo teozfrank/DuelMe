@@ -1,18 +1,17 @@
 package com.teozcommunity.teozfrank.duelme.main;
 
+import com.teozcommunity.teozfrank.MetricsLite;
 import com.teozcommunity.teozfrank.duelme.commands.DuelAdminCommand;
 import com.teozcommunity.teozfrank.duelme.commands.DuelCommand;
 import com.teozcommunity.teozfrank.duelme.events.*;
-import com.teozcommunity.teozfrank.duelme.util.Locations;
-import com.teozcommunity.teozfrank.duelme.util.SendConsoleMessage;
-import com.teozcommunity.teozfrank.duelme.util.UpdateChecker;
-import com.teozcommunity.teozfrank.duelme.util.Util;
+import com.teozcommunity.teozfrank.duelme.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -61,24 +60,23 @@ public class DuelMe extends JavaPlugin {
     //our colored console message class
     public SendConsoleMessage sendConsoleMessage;
 
+    //our file manager class
+    public FileManager fileManager;
+
 
     @Override
     public void onEnable(){
-        this.sendConsoleMessage = new SendConsoleMessage(this);
+        this.sendConsoleMessage = new SendConsoleMessage(this);// called first so we can use the colored messages
         this.version = this.getDescription().getVersion();// called early so that any classes or methods that use this is available
         this.sendConsoleMessage.info("Enabling");
+        this.fileManager = new FileManager(this);
         this.util = new Util(this);
         this.locations = new Locations(this);
-        this.updateChecker = new UpdateChecker(this,"http://dev.bukkit.org/bukkit-plugins/rank-list/files.rss");
-        if(this.updateChecker.updateAvailable()&&this.getConfig().getBoolean("duelme.checkforupdates")){
-            this.sendConsoleMessage.info("A new version of this plugin is available: " + this.updateChecker.getVersion());
-            this.sendConsoleMessage.info("Download it here " + this.updateChecker.getLink());
-        }
+        this.updateChecker = new UpdateChecker(this,"http://dev.bukkit.org/bukkit-plugins/duelme/files.rss");
+        this.checkForUpdates();
+        this.submitStats();
+        this.setupYMLs(); //setup our config and other files
 
-        if(!(new File(getDataFolder(), "config.yml")).exists())
-        {
-            saveDefaultConfig();
-        }
         this.pluginPrefix = ChatColor.GOLD+"[DuelMe] ";
         this.inProgress = false;
         this.duelStatus = "WAITING";
@@ -90,6 +88,7 @@ public class DuelMe extends JavaPlugin {
         this.registerEvents();
         this.sendConsoleMessage.info("Enabled!");
     }
+
 
     @Override
     public void onDisable(){
@@ -116,5 +115,33 @@ public class DuelMe extends JavaPlugin {
         pm.registerEvents(new PlayerJoin(this),this);
         pm.registerEvents(new PlayerHitsPlayer(this),this);
     }
+
+    public void checkForUpdates(){
+        if(this.updateChecker.updateAvailable()&&this.getConfig().getBoolean("duelme.checkforupdates")){
+            this.sendConsoleMessage.info("A new version of this plugin is available: " + this.updateChecker.getVersion());
+            this.sendConsoleMessage.info("Download it here " + this.updateChecker.getLink());
+        }
+    }
+
+    public void submitStats(){
+        try {
+            MetricsLite metrics = new MetricsLite(this);
+            metrics.start();
+        } catch (IOException e) {
+            System.out.println("Failed to submit the stats :-(");
+        }
+    }
+
+    public void setupYMLs(){
+        if(!(new File(getDataFolder(), "config.yml")).exists())
+        {
+            saveDefaultConfig();
+        }
+        if(!(new File(getDataFolder(), "locations.yml")).exists())
+        {
+            this.fileManager.saveDefaultLocations();
+        }
+    }
+
 
 }

@@ -1,5 +1,13 @@
 package com.teozcommunity.teozfrank.duelme.util;
 
+import com.teozcommunity.teozfrank.duelme.main.DuelMe;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Frank
@@ -8,5 +16,57 @@ package com.teozcommunity.teozfrank.duelme.util;
  * To change this template use File | Settings | File Templates.
  */
 public class FileManager {
-    //TODO add locations yml config file handling here
+    private DuelMe plugin;
+
+    public FileManager(DuelMe plugin){
+        this.plugin = plugin;
+    }
+
+
+    private FileConfiguration locations = null;
+    private File locationsFile = null;
+
+
+    public void reloadLocations() {
+        if(locationsFile == null){
+            locationsFile = new File(plugin.getDataFolder(),"locations.yml");
+        }
+        locations = YamlConfiguration.loadConfiguration(locationsFile);
+
+        InputStream defConfigStream = plugin.getResource("locations.yml");
+        if(defConfigStream != null){
+            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+            locations.setDefaults(defConfig);
+        }
+
+    }
+
+    public FileConfiguration getLocations(){
+        if(locations == null){
+            this.reloadLocations();
+        }
+        return locations;
+    }
+
+    public void saveLocations(){
+        if(locations == null || locationsFile == null){
+            return;
+        }
+        try{
+            this.getLocations().save(locationsFile);
+        }
+        catch(IOException e){
+            plugin.sendConsoleMessage.severe("Error saving rewards config!");
+        }
+    }
+
+    public void saveDefaultLocations(){
+        if(locationsFile == null){
+            locationsFile = new File(plugin.getDataFolder(),"locations.yml");
+        }
+        if(!locationsFile.exists()){
+            plugin.saveResource("locations.yml",false);
+        }
+    }
+
 }

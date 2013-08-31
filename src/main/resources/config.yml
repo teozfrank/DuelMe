@@ -1,5 +1,7 @@
+# do not touch the config version below, it will break the plugin!
 duelme:
-# should duelme check for updates? (recommended)
-    checkforupdates: true
-# do not touch this below, it will break the plugin!
     configversion: 1.0
+    checkforupdates: true
+    announce:
+        duelstarts: true
+        deaths: true

@@ -39,7 +39,7 @@ public class DuelAdminCommand implements CommandExecutor {
                         ChatColor.GREEN + "/dueladmin setspectatespawn " + ChatColor.GOLD + "- Set the specate spawn location \n" +
                         ChatColor.GREEN + "/dueladmin reload " + ChatColor.GOLD + "- Reload the plugin config from disk \n\n" +
 
-                        ChatColor.GREEN + "0o--------------" + ChatColor.GOLD + " V" + plugin.version + " BETA by TeOzFrAnK " + ChatColor.GREEN + "-------------o0\n" +
+                        ChatColor.GREEN + "0o--------------" + ChatColor.GOLD + " V" + plugin.version + " ALPHA by TeOzFrAnK " + ChatColor.GREEN + "-------------o0\n" +
                         ChatColor.GREEN + "0o-----" + ChatColor.GOLD + " http://dev.bukkit.org/bukkit-plugins/duelme/ " + ChatColor.GREEN + "------o0"
 
                 );

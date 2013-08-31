@@ -12,6 +12,8 @@ import pgDev.bukkit.DisguiseCraft.DisguiseCraft;
 import pgDev.bukkit.DisguiseCraft.api.DisguiseCraftAPI;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,6 +25,7 @@ import java.util.HashMap;
 public class Util {
 
     private DuelMe plugin;
+    Random rand = new Random();
 
 
     public Util(DuelMe plugin){
@@ -105,24 +108,35 @@ public class Util {
 
                 this.handleDisguise(target.getPlayer(),sender.getPlayer());
 
-                sender.teleport(plugin.locations.senderSpawnLocation());
-                target.teleport(plugin.locations.targetSpawnLocation());
+                //sender.teleport(plugin.locations.senderSpawnLocation());
+                //target.teleport(plugin.locations.targetSpawnLocation());
 
+
+
+                if(plugin.getConfig().getBoolean("duelme.announce.duelstart")){
+                    this.broadcastMessage(ChatColor.AQUA+"A Duel is beginning! "+ChatColor.GOLD+sender.getName()+ChatColor.AQUA+
+                            " VS "+ChatColor.GOLD+target.getName());
+                }
 
 
                 //plugin.frozenPlayers.clear();
                 plugin.duelingPlayers.add(sender.getPlayer());
                 plugin.duelingPlayers.add(target.getPlayer());
+                sender.setHealth(20);
+                target.setHealth(20);
                 sender.sendMessage(plugin.pluginPrefix + ChatColor.YELLOW + "Duel!");
                 target.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"Duel!");
-                target.setItemInHand(new ItemStack(Material.IRON_AXE,1));
-                sender.setItemInHand(new ItemStack(Material.IRON_AXE,1));
+                //TODO add config file for items
+                int randSender = rand.nextInt(5);
+                int randTarget = rand.nextInt(5);
+                target.setItemInHand(this.randomItem(randTarget));
+                sender.setItemInHand(this.randomItem(randSender));
 
                 //Bukkit.getScheduler().scheduleSyncDelayedTask(plugin,new StartDuelThread(plugin,sender.getPlayer(),target.getPlayer()));
             }
         }
         else {
-            sender.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"A duel is already in progress, please try again later");
+            sender.sendMessage(plugin.pluginPrefix + ChatColor.YELLOW + "A duel is already in progress, please try again later");
             target.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"A duel is already in progress, please try again later");
             plugin.duelRequests.remove(target.getName());
         }
@@ -165,14 +179,20 @@ public class Util {
     */
     public void spectateDuel(Player p){
         if(plugin.inProgress){
-            p.teleport(plugin.locations.spectateSpawnLocation());
-            plugin.spectatingPlayers.add(p.getPlayer());
-            this.storeInventory(p.getPlayer());
-            for(Player pl: Bukkit.getOnlinePlayers()){
-                pl.hidePlayer(p.getPlayer());//hide the player from everyone else
+            if(!plugin.duelingPlayers.contains(p.getPlayer())){
+                p.teleport(plugin.locations.spectateSpawnLocation());
+                plugin.spectatingPlayers.add(p.getPlayer());
+                this.storeInventory(p.getPlayer());
+                this.storeExpLevel(p.getPlayer());
+                for(Player pl: Bukkit.getOnlinePlayers()){
+                    pl.hidePlayer(p.getPlayer());//hide the player from everyone else
+                }
+                p.setAllowFlight(true);//let them fly
+                p.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+"Successfully teleported to duel spectate area.");
             }
-            p.setAllowFlight(true);//let them fly
-            p.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+"Successfully teleported to duel spectate area.");
+            else{
+                p.sendMessage(plugin.pluginPrefix+ChatColor.RED+"You cannot spectate while dueling!");
+            }
         }
         else {
             p.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"You cannot spectate when a duel is not in progress!");
@@ -234,6 +254,7 @@ public class Util {
                 if(!p.getPlayer().isDead()){
                     plugin.duelingPlayers.remove(p.getPlayer());//remove them from the dueling players
                     this.restoreInventory(p.getPlayer());//restore their inventory
+                    p.setHealth(20);
                     p.teleport(plugin.locations.lobbySpawnLocation());//teleport them to lobby location
                     this.restoreExpLevel(p.getPlayer());//restore their exp level
                 }
@@ -246,6 +267,7 @@ public class Util {
                     pl.showPlayer(p.getPlayer());
                 }
                 p.setAllowFlight(false);
+                this.restoreExpLevel(p.getPlayer());//restore their exp level
             }
             plugin.inProgress = false;
         }
@@ -253,8 +275,13 @@ public class Util {
 
     public void cancelRequest(Player p){
         if(plugin.duelRequests.containsValue(p.getName())){
+            for(Map.Entry<String, String > values: plugin.duelRequests.entrySet()){
+                if(values.getValue().equals(p.getName())){
+                    plugin.duelRequests.remove(values.getKey());
+                }
+            }
             p.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+"You have cancelled your sent duel request!");
-            plugin.duelRequests.remove(p.getPlayer());
+
 
         }
         else {
@@ -267,7 +294,9 @@ public class Util {
             p.sendMessage(plugin.pluginPrefix+ message);
         }
     }
-
+    /*
+     * method to handle mob disguises if server is using it
+     */
 
     public void handleDisguise(Player sender,Player target){
 
@@ -284,6 +313,29 @@ public class Util {
 
         catch(Exception e){
             //server must not be using disguisecraft so we wont output an error
+        }
+
+    }
+
+    public ItemStack randomItem(int rand){
+
+        if(rand == 1){
+          return new ItemStack(Material.WOOD_AXE,1);
+        }
+        else if(rand == 2){
+          return new ItemStack(Material.WOOD_SWORD,1);
+        }
+        else if(rand == 3){
+          return new ItemStack(Material.IRON_AXE,1);
+        }
+        else if(rand == 4){
+          return new ItemStack(Material.DIAMOND_HOE,1);
+        }
+        else if(rand == 5){
+            return new ItemStack(Material.STONE_SWORD,1);
+        }
+        else{
+          return new ItemStack(Material.IRON_SPADE,1);
         }
 
     }

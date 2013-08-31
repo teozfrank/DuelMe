@@ -29,14 +29,19 @@ public class PlayerDeath implements Listener {
            if(p.getKiller() instanceof Player){
                 Player killer = p.getKiller();
                 e.getDrops().clear();//drop nothing on death
-                e.setDeathMessage(plugin.pluginPrefix+ChatColor.YELLOW+p.getName()+ChatColor.AQUA+" Was Killed in a Duel by "+
-                   ChatColor.YELLOW+killer.getName());
+
+               if(plugin.getConfig().getBoolean("duelme.announce.deaths")){
+                    e.setDeathMessage(plugin.pluginPrefix+ChatColor.YELLOW+p.getName()+ChatColor.AQUA+" Was Killed in a Duel by "+
+                        ChatColor.YELLOW+killer.getName());
+               }
                 plugin.util.endDuel();//end the duel
            }
            else {
                e.getDrops().clear();//drop nothing on death
-               e.setDeathMessage(plugin.pluginPrefix+ChatColor.YELLOW+p.getName()+ChatColor.AQUA+" Was Killed in a Duel!");
-               plugin.util.endDuel();//end the duel
+               if(plugin.getConfig().getBoolean("duelme.announce.deaths")){
+                    e.setDeathMessage(plugin.pluginPrefix+ChatColor.YELLOW+p.getName()+ChatColor.AQUA+" Was Killed in a Duel!");
+                    plugin.util.endDuel();//end the duel
+               }
            }
         }
         else {

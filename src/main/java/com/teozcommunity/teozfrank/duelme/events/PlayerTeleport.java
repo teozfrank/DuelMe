@@ -2,6 +2,7 @@ package com.teozcommunity.teozfrank.duelme.events;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -26,10 +27,19 @@ public class PlayerTeleport implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerTeleport(PlayerTeleportEvent e){
        Player p = e.getPlayer();
+       if(!plugin.duelingPlayers.contains(p.getPlayer())||!plugin.spectatingPlayers.contains(p.getPlayer())){
+            for(Player pl: plugin.duelingPlayers){
+                if(e.getTo().equals(pl.getLocation())){
+                    pl.sendMessage(plugin.pluginPrefix+ChatColor.RED+"You cannot teleport to dueling players!");
+                    e.setCancelled(true);
+                    return;
+                }
+            }
+       }
 
        if(plugin.duelingPlayers.contains(p.getPlayer())){// if the player is dueling
            e.setCancelled(true);//cancel the teleport event
-           //p.sendMessage(plugin.pluginPrefix+ ChatColor.RED+" Teleportation is disabled during a duel!");
+           p.sendMessage(plugin.pluginPrefix+ ChatColor.RED+" Teleportation is disabled during a duel!");
        }
         if(plugin.spectatingPlayers.contains(p.getPlayer())){
             e.setCancelled(true);

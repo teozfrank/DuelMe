@@ -55,22 +55,6 @@ public class Util {
 
     }
 
-    public void storeExpLevel(Player p){
-        int level = p.getLevel();
-        this.exp.put(p.getName(),level);
-        p.setLevel(0);
-    }
-
-    public void restoreExpLevel(Player p){
-        if(this.exp.containsKey(p.getName())){
-            int level = this.exp.get(p.getName());
-            p.setLevel(level);
-        }
-        else{
-            p.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"Their was an error trying to restore your exp level!");
-        }
-    }
-
     public int teleportPlayers(Player sender, Player target){
 
         try{
@@ -103,8 +87,6 @@ public class Util {
                 this.storeInventory(sender.getPlayer());
                 this.storeInventory(target.getPlayer());
 
-                this.storeExpLevel(sender.getPlayer());
-                this.storeExpLevel(target.getPlayer());
 
                 this.handleDisguise(target.getPlayer(),sender.getPlayer());
 
@@ -183,7 +165,6 @@ public class Util {
                 p.teleport(plugin.locations.spectateSpawnLocation());
                 plugin.spectatingPlayers.add(p.getPlayer());
                 this.storeInventory(p.getPlayer());
-                this.storeExpLevel(p.getPlayer());
                 for(Player pl: Bukkit.getOnlinePlayers()){
                     pl.hidePlayer(p.getPlayer());//hide the player from everyone else
                 }
@@ -256,7 +237,6 @@ public class Util {
                     this.restoreInventory(p.getPlayer());//restore their inventory
                     p.setHealth(20);
                     p.teleport(plugin.locations.lobbySpawnLocation());//teleport them to lobby location
-                    this.restoreExpLevel(p.getPlayer());//restore their exp level
                 }
             }
             if(plugin.spectatingPlayers.contains(p.getPlayer())){
@@ -266,8 +246,8 @@ public class Util {
                 for(Player pl:Bukkit.getOnlinePlayers()){
                     pl.showPlayer(p.getPlayer());
                 }
+                p.setHealth(20);
                 p.setAllowFlight(false);
-                this.restoreExpLevel(p.getPlayer());//restore their exp level
             }
             plugin.inProgress = false;
         }

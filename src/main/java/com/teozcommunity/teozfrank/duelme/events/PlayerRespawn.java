@@ -29,7 +29,6 @@ public class PlayerRespawn implements Listener {
            e.setRespawnLocation(plugin.locations.lobbySpawnLocation());
            plugin.duelingPlayers.remove(p.getPlayer());
            plugin.util.restoreInventory(p.getPlayer());
-           plugin.util.restoreExpLevel(p.getPlayer());//restore their exp level
         }
 
     }

@@ -22,7 +22,7 @@ public class PlayerDeath implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerDeath(PlayerDeathEvent e){
         Player p = e.getEntity();
         if(plugin.duelingPlayers.size()==2){
@@ -40,8 +40,9 @@ public class PlayerDeath implements Listener {
                e.getDrops().clear();//drop nothing on death
                if(plugin.getConfig().getBoolean("duelme.announce.deaths")){
                     e.setDeathMessage(plugin.pluginPrefix+ChatColor.YELLOW+p.getName()+ChatColor.AQUA+" Was Killed in a Duel!");
-                    plugin.util.endDuel();//end the duel
                }
+               e.setKeepLevel(true);
+               plugin.util.endDuel();//end the duel
            }
         }
         else {

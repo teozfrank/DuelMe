@@ -3,5 +3,5 @@ duelme:
     configversion: 1.0
     checkforupdates: true
     announce:
-        duelstarts: true
+        duelstart: true
         deaths: true

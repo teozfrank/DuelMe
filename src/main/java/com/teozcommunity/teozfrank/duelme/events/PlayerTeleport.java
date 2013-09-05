@@ -30,7 +30,7 @@ public class PlayerTeleport implements Listener {
        if(!plugin.duelingPlayers.contains(p.getPlayer())||!plugin.spectatingPlayers.contains(p.getPlayer())){
             for(Player pl: plugin.duelingPlayers){
                 if(e.getTo().equals(pl.getLocation())){
-                    pl.sendMessage(plugin.pluginPrefix+ChatColor.RED+"You cannot teleport to dueling players!");
+                    p.sendMessage(plugin.pluginPrefix+ChatColor.RED+"You cannot teleport to dueling players!");
                     e.setCancelled(true);
                     return;
                 }

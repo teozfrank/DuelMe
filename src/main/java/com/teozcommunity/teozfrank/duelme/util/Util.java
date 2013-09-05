@@ -279,16 +279,18 @@ public class Util {
      */
 
     public void handleDisguise(Player sender,Player target){
-
         try{
-            DisguiseCraftAPI dcAPI = DisguiseCraft.getAPI();
+            if (plugin.getServer().getPluginManager().getPlugin("DisguiseCraft") != null) {
+                DisguiseCraftAPI dcAPI = DisguiseCraft.getAPI();
 
-           if(dcAPI.isDisguised(sender.getPlayer())){
-             dcAPI.undisguisePlayer(sender.getPlayer());
-           }
-           if(dcAPI.isDisguised(target.getPlayer())){
-               dcAPI.undisguisePlayer(target.getPlayer());
-           }
+                if(dcAPI.isDisguised(sender.getPlayer())){
+                    dcAPI.undisguisePlayer(sender.getPlayer());
+                }
+                if(dcAPI.isDisguised(target.getPlayer())){
+                    dcAPI.undisguisePlayer(target.getPlayer());
+                }
+            }
+
         }
 
         catch(Exception e){

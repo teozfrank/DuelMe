@@ -92,7 +92,9 @@ public class DuelMe extends JavaPlugin {
 
     @Override
     public void onDisable(){
-
+        if(this.inProgress){
+            this.util.endDuel();
+        }
         Bukkit.getScheduler().cancelTasks(this);
     }
 

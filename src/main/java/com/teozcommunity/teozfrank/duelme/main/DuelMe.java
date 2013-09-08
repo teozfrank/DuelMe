@@ -72,8 +72,12 @@ public class DuelMe extends JavaPlugin {
         this.fileManager = new FileManager(this);
         this.util = new Util(this);
         this.locations = new Locations(this);
-        this.updateChecker = new UpdateChecker(this,"http://dev.bukkit.org/bukkit-plugins/duelme/files.rss");
-        this.checkForUpdates();
+        if(this.getConfig().getBoolean("duelme.checkforupdates")){
+            this.updateChecker = new UpdateChecker(this,"http://dev.bukkit.org/bukkit-plugins/duelme/files.rss");
+            this.checkForUpdates();
+            Bukkit.getPluginManager().registerEvents(new PlayerJoin(this),this);
+        }
+
         this.submitStats();
         this.setupYMLs(); //setup our config and other files
 
@@ -114,12 +118,11 @@ public class DuelMe extends JavaPlugin {
         pm.registerEvents(new PlayerQuit(this),this);
         pm.registerEvents(new PlayerTeleport(this),this);
         pm.registerEvents(new PlayerRespawn(this),this);
-        pm.registerEvents(new PlayerJoin(this),this);
         pm.registerEvents(new PlayerHitsPlayer(this),this);
     }
 
     public void checkForUpdates(){
-        if(this.updateChecker.updateAvailable()&&this.getConfig().getBoolean("duelme.checkforupdates")){
+        if(this.updateChecker.updateAvailable()){
               this.sendConsoleMessage.info("A new version of this plugin is available: " + this.updateChecker.getVersion());
               this.sendConsoleMessage.info("Download it here " + this.updateChecker.getLink());
         }

@@ -8,6 +8,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitTask;
 import pgDev.bukkit.DisguiseCraft.DisguiseCraft;
 import pgDev.bukkit.DisguiseCraft.api.DisguiseCraftAPI;
 
@@ -79,14 +80,11 @@ public class Util {
 
                 plugin.inProgress = true;
 
-                //plugin.frozenPlayers.add(sender.getPlayer());
-                //plugin.frozenPlayers.add(target.getPlayer());
                 sender.setGameMode(GameMode.SURVIVAL);
                 target.setGameMode(GameMode.SURVIVAL);
 
                 this.storeInventory(sender.getPlayer());
                 this.storeInventory(target.getPlayer());
-
 
                 this.handleDisguise(target.getPlayer(),sender.getPlayer());
 
@@ -101,20 +99,16 @@ public class Util {
                 }
 
 
-                //plugin.frozenPlayers.clear();
-                plugin.duelingPlayers.add(sender.getPlayer());
-                plugin.duelingPlayers.add(target.getPlayer());
                 sender.setHealth(20);
                 target.setHealth(20);
-                sender.sendMessage(plugin.pluginPrefix + ChatColor.YELLOW + "Duel!");
-                target.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"Duel!");
                 //TODO add config file for items
                 int randSender = rand.nextInt(5);
                 int randTarget = rand.nextInt(5);
                 target.setItemInHand(this.randomItem(randTarget));
                 sender.setItemInHand(this.randomItem(randSender));
 
-                //Bukkit.getScheduler().scheduleSyncDelayedTask(plugin,new StartDuelThread(plugin,sender.getPlayer(),target.getPlayer()));
+                new StartDuelThread(plugin, sender.getPlayer(), target.getPlayer()).runTaskTimer(plugin, 0L, 20L);
+
             }
         }
         else {

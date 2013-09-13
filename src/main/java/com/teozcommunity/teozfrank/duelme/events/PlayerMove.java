@@ -33,7 +33,7 @@ public class PlayerMove implements Listener {
 
         Player p = e.getPlayer();
 
-        if(plugin.frozenPlayers.contains(p.getPlayer())){
+        if(plugin.frozenPlayers.contains(p)){
           Location loc = p.getLocation();
 
             if(Locations.get(p) == null){
@@ -41,8 +41,8 @@ public class PlayerMove implements Listener {
             }
 
             if(loc.getBlockX() != Locations.get(p).getBlockX() || loc.getBlockZ() != Locations.get(p).getBlockZ()){
-                loc.setX(Locations.get(p).getBlockX() + .5);
-                loc.setZ(Locations.get(p).getBlockZ() + .5);
+                loc.setX(Locations.get(p).getBlockX());
+                loc.setZ(Locations.get(p).getBlockZ());
                 loc.setPitch(loc.getPitch());
                 loc.setYaw(loc.getYaw());
                 p.teleport(loc);

@@ -1,6 +1,7 @@
 package com.teozcommunity.teozfrank.duelme.threads;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -19,36 +20,65 @@ public class StartDuelThread extends BukkitRunnable {
     private DuelMe plugin;
     private Player sender;
     private Player target;
+    private int countDown;
 
     public StartDuelThread(DuelMe plugin,Player sender, Player target) {
         this.plugin = plugin;
         this.sender = sender;
         this.target = target;
+        this.countDown = 15;
     }
 
     @Override
-    public void run() {
+    public void run(){
 
-        for(int x=10;x>=1;x--){
-            sender.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"Duel Starting in: "+x);
-            target.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"Duel Starting in: "+x);
+        plugin.frozenPlayers.add(sender);
+        plugin.frozenPlayers.add(target);
 
-            try{
-                Thread.sleep(1000);
+        if (this.countDown > 0) {
+            switch(this.countDown) {
+                case 15:
+                    sender.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"Starting duel in: "+ChatColor.GOLD+this.countDown);
+                    target.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"Starting duel in: "+ChatColor.GOLD+this.countDown);
+                   break;
+                case 10:
+                    sender.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"Starting duel in: "+ChatColor.GOLD+this.countDown);
+                    target.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"Starting duel in: "+ChatColor.GOLD+this.countDown);
+                    break;
+                case 5:
+                case 4:
+                case 3:
+                case 2:
+                case 1:
+                    sender.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"Starting duel in: "+ChatColor.GOLD+this.countDown);
+                    target.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"Starting duel in: "+ChatColor.GOLD+this.countDown);
+                break;
+                default:
+                break;
             }
-            catch(InterruptedException e){
-                plugin.getLogger().severe("there was an error while counting down the start of a duel!");
-            }
+            this.countDown--;
+        }
+        else{
+
+            plugin.frozenPlayers.clear();//let them move
+            plugin.duelingPlayers.add(sender);
+            plugin.duelingPlayers.add(target);
+            sender.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"Duel!");
+            target.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"Duel!");
+            this.cancel();
+        }
+    }
+            /*plugin.frozenPlayers.clear();
+            plugin.duelingPlayers.add(sender.getPlayer());
+            plugin.duelingPlayers.add(target.getPlayer());
+            sender.sendMessage(plugin.pluginPrefix + ChatColor.YELLOW + "Duel!");
+            target.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"Duel!");
+            target.setItemInHand(new ItemStack(Material.IRON_AXE,1));
+            sender.setItemInHand(new ItemStack(Material.IRON_AXE,1));
+            plugin.duelStatus = "IN PROGRESS";
 
         }
-        plugin.frozenPlayers.clear();
-        plugin.duelingPlayers.add(sender.getPlayer());
-        plugin.duelingPlayers.add(target.getPlayer());
-        sender.sendMessage(plugin.pluginPrefix + ChatColor.YELLOW + "Duel!");
-        target.sendMessage(plugin.pluginPrefix+ChatColor.YELLOW+"Duel!");
-        target.setItemInHand(new ItemStack(Material.IRON_AXE,1));
-        sender.setItemInHand(new ItemStack(Material.IRON_AXE,1));
-        plugin.duelStatus = "IN PROGRESS";
 
-    }
+
+    }*/
 }

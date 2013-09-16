@@ -22,6 +22,7 @@ public class UpdateChecker {
     private DuelMe plugin;
     private URL fileFeed;
     private String version;
+    private String version2;
     private String link;
 
     public UpdateChecker(DuelMe plugin,String url){
@@ -41,7 +42,8 @@ public class UpdateChecker {
             Node latest = document.getElementsByTagName("item").item(0);
             NodeList children = latest.getChildNodes();
 
-            this.version = children.item(1).getTextContent().replaceAll("[a-zA-Z]","");
+            this.version2 = children.item(1).getTextContent().replaceAll("[a-zA-Z]","");//trims letters
+            this.version = version2.replaceAll(" ","");//trims white space
             this.link = children.item(3).getTextContent();
 
             if(!plugin.getDescription().getVersion().equals(this.version)){

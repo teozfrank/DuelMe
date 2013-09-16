@@ -126,6 +126,9 @@ public class DuelMe extends JavaPlugin {
               this.sendConsoleMessage.info("A new version of this plugin is available: " + this.updateChecker.getVersion());
               this.sendConsoleMessage.info("Download it here " + this.updateChecker.getLink());
         }
+        else {
+            this.sendConsoleMessage.info("You are running the latest version! :)");
+        }
     }
 
     public void submitStats(){

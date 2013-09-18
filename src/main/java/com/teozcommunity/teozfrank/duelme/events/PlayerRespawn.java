@@ -9,29 +9,29 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Frank
+ * Original Author: teozfrank
  * Date: 10/08/13
  * Time: 22:40
- * To change this template use File | Settings | File Templates.
+ * -----------------------------
+ * Removing this header is in breach of the license agreement,
+ * please do not remove, move or edit it in any way.
+ * -----------------------------
  */
 public class PlayerRespawn implements Listener {
 
     private DuelMe plugin;
 
-    public PlayerRespawn(DuelMe plugin){
+    public PlayerRespawn(DuelMe plugin) {
         this.plugin = plugin;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerRespawn(PlayerRespawnEvent e){
+    public void onPlayerRespawn(PlayerRespawnEvent e) {
         Player p = e.getPlayer();
-        if(plugin.duelingPlayers.contains(p.getPlayer())){
-           e.setRespawnLocation(plugin.locations.lobbySpawnLocation());
-           plugin.duelingPlayers.remove(p.getPlayer());
-           plugin.util.restoreInventory(p.getPlayer());
+        if (plugin.duelingPlayers.contains(p.getPlayer())) {
+            e.setRespawnLocation(plugin.locations.lobbySpawnLocation());
+            plugin.duelingPlayers.remove(p.getPlayer());
+            plugin.util.restoreInventory(p.getPlayer());
         }
-
     }
-
-
 }

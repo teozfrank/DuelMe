@@ -13,31 +13,33 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Frank
+ * Original Author: teozfrank
  * Date: 21/08/13
  * Time: 02:17
- * To change this template use File | Settings | File Templates.
+ * Project: DuelMe
+ * -----------------------------
+ * Removing this header is in breach of the license agreement,
+ * please do not remove, move or edit it in any way.
+ * -----------------------------
  */
 public class PlayerHitsPlayer implements Listener {
 
     private DuelMe plugin;
 
-    public PlayerHitsPlayer(DuelMe plugin){
+    public PlayerHitsPlayer(DuelMe plugin) {
         this.plugin = plugin;
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
-    public void onPlayerDeath(EntityDamageByEntityEvent e){
+    public void onPlayerDeath(EntityDamageByEntityEvent e) {
 
-        if(e.getDamager() instanceof Player && e.getEntity() instanceof Player){//if the damager is a player and target is a player
-           Player damager = (Player) e.getDamager();
-           if(plugin.spectatingPlayers.contains(damager.getPlayer())){
-              damager.sendMessage(plugin.pluginPrefix+ChatColor.RED+"You are not allowed to do that while spectating!");
-              e.setCancelled(true);
-           }
+        if (e.getDamager() instanceof Player && e.getEntity() instanceof Player) {//if the damager is a player and target is a player
+            Player damager = (Player) e.getDamager();
+            if (plugin.spectatingPlayers.contains(damager.getPlayer())) {
+                damager.sendMessage(plugin.pluginPrefix + ChatColor.RED + "You are not allowed to do that while spectating!");
+                e.setCancelled(true);
+            }
         }
 
     }
-
-
 }

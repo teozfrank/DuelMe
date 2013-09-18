@@ -10,32 +10,32 @@ import org.bukkit.event.block.BlockBreakEvent;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Frank
+ * Original Author: teozfrank
  * Date: 10/08/13
  * Time: 22:10
- * To change this template use File | Settings | File Templates.
+ * Project: DuelMe
+ * -----------------------------
+ * Removing this header is in breach of the license agreement,
+ * please do not remove, move or edit it in any way.
+ * -----------------------------
  */
 public class PlayerBreakBlock implements Listener {
     private DuelMe plugin;
 
-    public PlayerBreakBlock(DuelMe plugin){
+    public PlayerBreakBlock(DuelMe plugin) {
         this.plugin = plugin;
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlayerBreakBlock(BlockBreakEvent e){
+    public void onPlayerBreakBlock(BlockBreakEvent e) {
         Player p = e.getPlayer();
-        if(plugin.duelingPlayers.contains(p.getPlayer())){
+        if (plugin.duelingPlayers.contains(p.getPlayer())) {
             e.setCancelled(true);
-            p.sendMessage(plugin.pluginPrefix+ ChatColor.RED+" Not allowed during a Duel!");
+            p.sendMessage(plugin.pluginPrefix + ChatColor.RED + " Not allowed during a Duel!");
         }
-        if(plugin.spectatingPlayers.contains(p.getPlayer())){
+        if (plugin.spectatingPlayers.contains(p.getPlayer())) {
             e.setCancelled(true);
-            p.sendMessage(plugin.pluginPrefix+ ChatColor.RED+" Not allowed while spectating a duel!");
+            p.sendMessage(plugin.pluginPrefix + ChatColor.RED + " Not allowed while spectating a duel!");
         }
     }
-
-
-
-
 }

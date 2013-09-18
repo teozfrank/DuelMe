@@ -13,34 +13,38 @@ import java.util.HashMap;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Frank
+ * Original Author: teozfrank
  * Date: 06/08/13
  * Time: 20:48
- * To change this template use File | Settings | File Templates.
+ * Project: DuelMe
+ * -----------------------------
+ * Removing this header is in breach of the license agreement,
+ * please do not remove, move or edit it in any way.
+ * -----------------------------
  */
 public class PlayerMove implements Listener {
 
-    private static HashMap<Player, Vector> Locations= new HashMap<Player, Vector>();
+    private static HashMap<Player, Vector> Locations = new HashMap<Player, Vector>();
 
     private DuelMe plugin;
 
-    public PlayerMove(DuelMe plugin){
+    public PlayerMove(DuelMe plugin) {
         this.plugin = plugin;
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
-    public void onPlayerMove(PlayerMoveEvent e){
+    public void onPlayerMove(PlayerMoveEvent e) {
 
         Player p = e.getPlayer();
 
-        if(plugin.frozenPlayers.contains(p)){
-          Location loc = p.getLocation();
+        if (plugin.frozenPlayers.contains(p)) {
+            Location loc = p.getLocation();
 
-            if(Locations.get(p) == null){
+            if (Locations.get(p) == null) {
                 Locations.put(p, loc.toVector());
             }
 
-            if(loc.getBlockX() != Locations.get(p).getBlockX() || loc.getBlockZ() != Locations.get(p).getBlockZ()){
+            if (loc.getBlockX() != Locations.get(p).getBlockX() || loc.getBlockZ() != Locations.get(p).getBlockZ()) {
                 loc.setX(Locations.get(p).getBlockX());
                 loc.setZ(Locations.get(p).getBlockZ());
                 loc.setPitch(loc.getPitch());

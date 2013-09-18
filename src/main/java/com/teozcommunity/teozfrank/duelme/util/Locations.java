@@ -9,20 +9,23 @@ import org.bukkit.entity.Player;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Frank
+ * Original Author: teozfrank
  * Date: 08/08/13
  * Time: 17:11
- * To change this template use File | Settings | File Templates.
+ * -----------------------------
+ * Removing this header is in breach of the license agreement,
+ * please do not remove, move or edit it in any way.
+ * -----------------------------
  */
 public class Locations {
 
     private DuelMe plugin;
 
-    public Locations(DuelMe plugin){
+    public Locations(DuelMe plugin) {
         this.plugin = plugin;
     }
 
-    public Location senderSpawnLocation(){
+    public Location senderSpawnLocation() {
         String senderWorldIn = plugin.fileManager.getLocations().getString("locations.duelsender.world");
         double senderxIn = plugin.fileManager.getLocations().getDouble("locations.duelsender.x");
         double senderyIn = plugin.fileManager.getLocations().getDouble("locations.duelsender.y");
@@ -30,12 +33,12 @@ public class Locations {
 
         World senderWorld = Bukkit.getWorld(senderWorldIn);
 
-        Location senderSpawnLocation = new Location(senderWorld,senderxIn,senderyIn+0.5,senderzIn);
+        Location senderSpawnLocation = new Location(senderWorld, senderxIn, senderyIn + 0.5, senderzIn);
 
         return senderSpawnLocation;
     }
 
-    public Location targetSpawnLocation(){
+    public Location targetSpawnLocation() {
         String targetWorldIn = plugin.fileManager.getLocations().getString("locations.dueltarget.world");
         double targetxIn = plugin.fileManager.getLocations().getDouble("locations.dueltarget.x");
         double targetyIn = plugin.fileManager.getLocations().getDouble("locations.dueltarget.y");
@@ -43,12 +46,12 @@ public class Locations {
 
         World targetWorld = Bukkit.getWorld(targetWorldIn);
 
-        Location targetSpawnLoc = new Location(targetWorld,targetxIn,targetyIn+0.5,targetzIn);
+        Location targetSpawnLoc = new Location(targetWorld, targetxIn, targetyIn + 0.5, targetzIn);
 
         return targetSpawnLoc;
     }
 
-    public Location lobbySpawnLocation(){
+    public Location lobbySpawnLocation() {
         String WorldIn = plugin.fileManager.getLocations().getString("locations.lobbyspawn.world");
         double targetxIn = plugin.fileManager.getLocations().getDouble("locations.lobbyspawn.x");
         double targetyIn = plugin.fileManager.getLocations().getDouble("locations.lobbyspawn.y");
@@ -56,12 +59,12 @@ public class Locations {
 
         World targetWorld = Bukkit.getWorld(WorldIn);
 
-        Location lobbySpawnLoc = new Location(targetWorld,targetxIn,targetyIn+0.5,targetzIn);
+        Location lobbySpawnLoc = new Location(targetWorld, targetxIn, targetyIn + 0.5, targetzIn);
 
         return lobbySpawnLoc;
     }
 
-    public Location spectateSpawnLocation(){
+    public Location spectateSpawnLocation() {
         String WorldIn = plugin.fileManager.getLocations().getString("locations.spectatespawn.world");
         double targetxIn = plugin.fileManager.getLocations().getDouble("locations.spectatespawn.x");
         double targetyIn = plugin.fileManager.getLocations().getDouble("locations.spectatespawn.y");
@@ -69,12 +72,12 @@ public class Locations {
 
         World targetWorld = Bukkit.getWorld(WorldIn);
 
-        Location specatateSpawnLoc = new Location(targetWorld,targetxIn,targetyIn+0.5,targetzIn);
+        Location specatateSpawnLoc = new Location(targetWorld, targetxIn, targetyIn + 0.5, targetzIn);
 
         return specatateSpawnLoc;
     }
 
-    public void setSenderSpawnLocation(Player p){
+    public void setSenderSpawnLocation(Player p) {
         Location loc = p.getLocation();
         String world = p.getWorld().getName();
 
@@ -82,19 +85,17 @@ public class Locations {
         double senderyIn = loc.getY();
         double senderzIn = loc.getZ();
 
-
-
-        plugin.fileManager.getLocations().set("locations.duelsender.world",world);
+        plugin.fileManager.getLocations().set("locations.duelsender.world", world);
         plugin.fileManager.getLocations().set("locations.duelsender.x", senderxIn);
-        plugin.fileManager.getLocations().set("locations.duelsender.y",senderyIn);
-        plugin.fileManager.getLocations().set("locations.duelsender.z",senderzIn);
+        plugin.fileManager.getLocations().set("locations.duelsender.y", senderyIn);
+        plugin.fileManager.getLocations().set("locations.duelsender.z", senderzIn);
         plugin.fileManager.saveLocations();
         plugin.fileManager.reloadLocations();
-        p.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+"Sender Spawn Location set!");
+        p.sendMessage(plugin.pluginPrefix + ChatColor.GREEN + "Sender Spawn Location set!");
 
     }
 
-    public void setTargetSpawnLocation(Player p){
+    public void setTargetSpawnLocation(Player p) {
         Location loc = p.getLocation();
         String world = p.getWorld().getName();
 
@@ -102,17 +103,17 @@ public class Locations {
         double senderyIn = loc.getY();
         double senderzIn = loc.getZ();
 
-        plugin.fileManager.getLocations().set("locations.dueltarget.world",world);
+        plugin.fileManager.getLocations().set("locations.dueltarget.world", world);
         plugin.fileManager.getLocations().set("locations.dueltarget.x", senderxIn);
-        plugin.fileManager.getLocations().set("locations.dueltarget.y",senderyIn);
-        plugin.fileManager.getLocations().set("locations.dueltarget.z",senderzIn);
+        plugin.fileManager.getLocations().set("locations.dueltarget.y", senderyIn);
+        plugin.fileManager.getLocations().set("locations.dueltarget.z", senderzIn);
         plugin.fileManager.saveLocations();
         plugin.fileManager.reloadLocations();
-        p.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+"Target Spawn Location set!");
+        p.sendMessage(plugin.pluginPrefix + ChatColor.GREEN + "Target Spawn Location set!");
 
     }
 
-    public void setLobbySpawnLocation(Player p){
+    public void setLobbySpawnLocation(Player p) {
         Location loc = p.getLocation();
         String world = p.getWorld().getName();
 
@@ -120,17 +121,16 @@ public class Locations {
         double senderyIn = loc.getY();
         double senderzIn = loc.getZ();
 
-        plugin.fileManager.getLocations().set("locations.lobbyspawn.world",world);
+        plugin.fileManager.getLocations().set("locations.lobbyspawn.world", world);
         plugin.fileManager.getLocations().set("locations.lobbyspawn.x", senderxIn);
-        plugin.fileManager.getLocations().set("locations.lobbyspawn.y",senderyIn);
-        plugin.fileManager.getLocations().set("locations.lobbyspawn.z",senderzIn);
+        plugin.fileManager.getLocations().set("locations.lobbyspawn.y", senderyIn);
+        plugin.fileManager.getLocations().set("locations.lobbyspawn.z", senderzIn);
         plugin.fileManager.saveLocations();
         plugin.fileManager.reloadLocations();
-        p.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+"Lobby Spawn Location set!");
-
+        p.sendMessage(plugin.pluginPrefix + ChatColor.GREEN + "Lobby Spawn Location set!");
     }
 
-    public void setSpectateLocation(Player p){
+    public void setSpectateLocation(Player p) {
         Location loc = p.getLocation();
         String world = p.getWorld().getName();
 
@@ -138,15 +138,12 @@ public class Locations {
         double senderyIn = loc.getY();
         double senderzIn = loc.getZ();
 
-        plugin.fileManager.getLocations().set("locations.spectatespawn.world",world);
+        plugin.fileManager.getLocations().set("locations.spectatespawn.world", world);
         plugin.fileManager.getLocations().set("locations.spectatespawn.x", senderxIn);
-        plugin.fileManager.getLocations().set("locations.spectatespawn.y",senderyIn);
-        plugin.fileManager.getLocations().set("locations.spectatespawn.z",senderzIn);
+        plugin.fileManager.getLocations().set("locations.spectatespawn.y", senderyIn);
+        plugin.fileManager.getLocations().set("locations.spectatespawn.z", senderzIn);
         plugin.fileManager.saveLocations();
         plugin.fileManager.reloadLocations();
-        p.sendMessage(plugin.pluginPrefix+ChatColor.GREEN+"Spectate Spawn Location set!");
-
+        p.sendMessage(plugin.pluginPrefix + ChatColor.GREEN + "Spectate Spawn Location set!");
     }
-
-
 }

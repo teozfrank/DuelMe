@@ -10,43 +10,45 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Frank
+ * Original Author: teozfrank
  * Date: 08/08/13
  * Time: 16:33
- * To change this template use File | Settings | File Templates.
+ * Project: DuelMe
+ * -----------------------------
+ * Removing this header is in breach of the license agreement,
+ * please do not remove, move or edit it in any way.
+ * -----------------------------
  */
 public class PlayerDeath implements Listener {
     private DuelMe plugin;
 
-    public PlayerDeath(DuelMe plugin){
+    public PlayerDeath(DuelMe plugin) {
         this.plugin = plugin;
     }
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void onPlayerDeath(PlayerDeathEvent e){
+    public void onPlayerDeath(PlayerDeathEvent e) {
         Player p = e.getEntity();
-        if(plugin.duelingPlayers.size()==2){
-           if(p.getKiller() instanceof Player){
+        if (plugin.duelingPlayers.size() == 2) {
+            if (p.getKiller() instanceof Player) {
                 Player killer = p.getKiller();
                 e.getDrops().clear();//drop nothing on death
 
-               if(plugin.getConfig().getBoolean("duelme.announce.deaths")){
-                    e.setDeathMessage(plugin.pluginPrefix+ChatColor.YELLOW+p.getName()+ChatColor.AQUA+" Was Killed in a Duel by "+
-                        ChatColor.YELLOW+killer.getName());
-               }
+                if (plugin.getConfig().getBoolean("duelme.announce.deaths")) {
+                    e.setDeathMessage(plugin.pluginPrefix + ChatColor.YELLOW + p.getName() + ChatColor.AQUA + " Was Killed in a Duel by " +
+                            ChatColor.YELLOW + killer.getName());
+                }
                 plugin.util.endDuel();//end the duel
-           }
-           else {
-               e.getDrops().clear();//drop nothing on death
-               if(plugin.getConfig().getBoolean("duelme.announce.deaths")){
-                    e.setDeathMessage(plugin.pluginPrefix+ChatColor.YELLOW+p.getName()+ChatColor.AQUA+" Was Killed in a Duel!");
-               }
-               e.setKeepLevel(true);
-               plugin.util.endDuel();//end the duel
-           }
-        }
-        else {
-           plugin.util.endDuel();
+            } else {
+                e.getDrops().clear();//drop nothing on death
+                if (plugin.getConfig().getBoolean("duelme.announce.deaths")) {
+                    e.setDeathMessage(plugin.pluginPrefix + ChatColor.YELLOW + p.getName() + ChatColor.AQUA + " Was Killed in a Duel!");
+                }
+                e.setKeepLevel(true);
+                plugin.util.endDuel();//end the duel
+            }
+        } else {
+            plugin.util.endDuel();
         }
     }
 }

@@ -2,10 +2,9 @@ package com.teozcommunity.teozfrank.duelme.util;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import com.teozcommunity.teozfrank.duelme.threads.StartDuelThread;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
+import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
@@ -28,20 +27,39 @@ import java.util.Random;
  */
 public class Util {
 
+    /**
+     * duelme plugin
+     */
     private DuelMe plugin;
-    Random rand = new Random();
+
+    /**
+     * random class
+     */
+    Random rand;
+
+    /**
+     * hashmap to store players inventories
+     */
+    private HashMap<String, ItemStack[]> inventories;
+
+    /**
+     * hashmap to store players armour
+     */
+    private HashMap<String, ItemStack[]> armour;
 
 
     public Util(DuelMe plugin) {
         this.plugin = plugin;
+        this.inventories = new HashMap<String, ItemStack[]>();
+        this.armour = new HashMap<String, ItemStack[]>();
+        this.rand = new Random();
     }
 
-    public HashMap<String, ItemStack[]> inventories = new HashMap<String, ItemStack[]>();
-    public HashMap<String, ItemStack[]> armour = new HashMap<String, ItemStack[]>();
-    public HashMap<String, Integer> exp = new HashMap<String, Integer>();
 
-    /*
+
+    /**
     * Method to store a players inventory
+    * @param p the player to store the inventory of
     */
     public void storeInventory(Player p) {
         ItemStack[] inv = p.getInventory().getContents();
@@ -52,8 +70,9 @@ public class Util {
         p.sendMessage(plugin.pluginPrefix + ChatColor.GREEN + "Your inventory has been stored and will be restored after the Duel.");
     }
 
-    /*
+    /**
     * Method to restore a players inventory
+    * @param p the player to restore the inventory to
     */
     public void restoreInventory(Player p) {
         p.getInventory().clear(-1, -1);// clear their inventory completely
@@ -68,8 +87,10 @@ public class Util {
         }
     }
 
-    /*
+    /**
     * Method to teleport dueling players to their spawn location
+    * @param sender the duel requester
+    * @param target the duel recipient
     */
     public int teleportPlayers(Player sender, Player target) {
 
@@ -84,8 +105,10 @@ public class Util {
         }
     }
 
-    /*
+    /**
     * Method to start duel between two players
+    * @param sender the duel requester
+    * @param target the duel recipient
     */
     public void startDuel(Player sender, Player target) {
         if (!plugin.inProgress) {
@@ -129,8 +152,9 @@ public class Util {
         }
     }
 
-    /*
+    /**
     * Method to accept duel requests
+    * @param acceptingPlayer player accepting the duel
     */
     public void acceptDuel(Player acceptingPlayer) {
         Player aPlayer = acceptingPlayer.getPlayer();
@@ -151,15 +175,17 @@ public class Util {
 
     }
 
-    /*
+    /**
     * Method to deny duel requests
+    * @param p duel denying player
     */
     public void denyDuel(Player p) {
         p.sendMessage(plugin.pluginPrefix + ChatColor.GREEN + "Will be implemented soon, for now just ignore the request you were sent.");
     }
 
-    /*
+    /**
     * Method to spectate a duel in progress
+    * @param p Spectating player
     */
     public void spectateDuel(Player p) {
         if (plugin.inProgress) {
@@ -180,8 +206,10 @@ public class Util {
         }
     }
 
-    /*
+    /**
     * Method to send duel request
+    * @param sender the request sender
+    * @param target the request recipient
     */
     public void sendRequest(Player sender, Player target) {
 
@@ -201,8 +229,9 @@ public class Util {
 
     }
 
-    /*
+    /**
     * Method to leave a duel
+    * @param leavingPlayer the leaving player
     */
     public void leaveDuel(Player leavingPlayer) {
         if (plugin.spectatingPlayers.contains(leavingPlayer.getPlayer())) {
@@ -222,7 +251,7 @@ public class Util {
 
     }
 
-    /*
+    /**
     * Method to end a duel
     */
     public void endDuel() {
@@ -249,8 +278,9 @@ public class Util {
         }
     }
 
-    /*
-    * Method to broadcast a plugin message to all online players
+    /**
+    * Method to cancel a duel request
+    * @param p Player that cancels the request
     */
     public void cancelRequest(Player p) {
         if (plugin.duelRequests.containsValue(p.getName())) {
@@ -265,8 +295,9 @@ public class Util {
         }
     }
 
-    /*
+    /**
     * Method to broadcast a plugin message to all online players
+    * @param message message to send to all players
     */
     public void broadcastMessage(String message) {
         for (Player p : Bukkit.getOnlinePlayers()) {
@@ -274,8 +305,10 @@ public class Util {
         }
     }
 
-    /*
+    /**
      * method to handle mob disguises if server is using it
+     * @param sender the duel sender
+     * @param target the duel acceptor
      */
     public void handleDisguise(Player sender, Player target) {
         try {
@@ -295,8 +328,10 @@ public class Util {
         }
     }
 
-    /*
+    /**
     * Method to return a random itemstack when a duel begins, this will be removed soon
+    * @return a random ItemStack depending on the number passed in
+    * @param rand random integer passed in ranges from 1 = 5
     */
     public ItemStack randomItem(int rand) {
 
@@ -312,6 +347,29 @@ public class Util {
             return new ItemStack(Material.STONE_SWORD, 1);
         } else {
             return new ItemStack(Material.IRON_SPADE, 1);
+        }
+
+    }
+    /**
+     * Method to update a sign in a given location
+     * @param world Signs world
+     * @param signLoc Signs Location in the world
+     * @param line1 sets Signs first line
+     * @param line2 sets Signs second line
+     * @param line3 sets Signs third line
+     */
+    public void updateSign(String world,Location signLoc,String line1,String line2,String line3){
+
+        Block block = Bukkit.getWorld(world).getBlockAt(signLoc);
+
+        try{
+            if(block.getType() == Material.SIGN || block.getType() == Material.WALL_SIGN){
+               //TODO finish adding code to get sign and set its contents
+            }
+
+        }
+        catch(Exception e){
+
         }
 
     }

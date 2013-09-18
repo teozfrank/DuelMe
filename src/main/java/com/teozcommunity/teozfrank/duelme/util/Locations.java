@@ -25,6 +25,10 @@ public class Locations {
         this.plugin = plugin;
     }
 
+    /**
+     * gets the senders spawn location from locations configuration file
+     * @return senders spawn location
+     */
     public Location senderSpawnLocation() {
         String senderWorldIn = plugin.fileManager.getLocations().getString("locations.duelsender.world");
         double senderxIn = plugin.fileManager.getLocations().getDouble("locations.duelsender.x");
@@ -38,6 +42,10 @@ public class Locations {
         return senderSpawnLocation;
     }
 
+    /**
+     * gets the targets spawn location from locations configuration file
+     * @return targets spawn location
+     */
     public Location targetSpawnLocation() {
         String targetWorldIn = plugin.fileManager.getLocations().getString("locations.dueltarget.world");
         double targetxIn = plugin.fileManager.getLocations().getDouble("locations.dueltarget.x");
@@ -51,6 +59,10 @@ public class Locations {
         return targetSpawnLoc;
     }
 
+    /**
+     * gets the lobby spawn location from locations configuration file
+     * @return lobby spawn location
+     */
     public Location lobbySpawnLocation() {
         String WorldIn = plugin.fileManager.getLocations().getString("locations.lobbyspawn.world");
         double targetxIn = plugin.fileManager.getLocations().getDouble("locations.lobbyspawn.x");
@@ -64,6 +76,10 @@ public class Locations {
         return lobbySpawnLoc;
     }
 
+    /**
+     * gets the spectators spawn location from locations configuration file
+     * @return spectators spawn location
+     */
     public Location spectateSpawnLocation() {
         String WorldIn = plugin.fileManager.getLocations().getString("locations.spectatespawn.world");
         double targetxIn = plugin.fileManager.getLocations().getDouble("locations.spectatespawn.x");
@@ -77,6 +93,10 @@ public class Locations {
         return specatateSpawnLoc;
     }
 
+    /**
+     * sets the senders spawn location to disk and reloads configuration file
+     * @param p the player thats setting the duel sender spawn location
+     */
     public void setSenderSpawnLocation(Player p) {
         Location loc = p.getLocation();
         String world = p.getWorld().getName();
@@ -95,6 +115,10 @@ public class Locations {
 
     }
 
+    /**
+     * sets the targets spawn location to disk and reloads configuration file
+     * @param p the player thats setting the duel target spawn location
+     */
     public void setTargetSpawnLocation(Player p) {
         Location loc = p.getLocation();
         String world = p.getWorld().getName();
@@ -113,6 +137,10 @@ public class Locations {
 
     }
 
+    /**
+     * sets the lobby spawn location to disk and reloads configuration file
+     * @param p the player thats setting the lobby spawn location
+     */
     public void setLobbySpawnLocation(Player p) {
         Location loc = p.getLocation();
         String world = p.getWorld().getName();
@@ -130,6 +158,10 @@ public class Locations {
         p.sendMessage(plugin.pluginPrefix + ChatColor.GREEN + "Lobby Spawn Location set!");
     }
 
+    /**
+     * sets the spectators spawn location to disk and reloads configuration file
+     * @param p the player thats setting the spectators spawn location
+     */
     public void setSpectateLocation(Player p) {
         Location loc = p.getLocation();
         String world = p.getWorld().getName();

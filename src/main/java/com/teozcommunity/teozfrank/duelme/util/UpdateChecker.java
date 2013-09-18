@@ -37,6 +37,10 @@ public class UpdateChecker {
         }
     }
 
+    /**
+     * method to check if a plugin update is available
+     * @return true if the plugin is up to date
+     */
     public boolean updateAvailable() {
         try {
             InputStream input = this.fileFeed.openConnection().getInputStream();
@@ -57,10 +61,18 @@ public class UpdateChecker {
         return false;
     }
 
+    /**
+     *
+     * @return the latest version of the plugin
+     */
     public String getVersion() {
         return this.version;
     }
 
+    /**
+     *
+     * @return the latest download url of the plugin
+     */
     public String getLink() {
         return this.link;
     }

@@ -1,5 +1,6 @@
 package com.teozcommunity.teozfrank.duelme.main;
 
+import com.teozcommunity.teozfrank.MetricsLite;
 import com.teozcommunity.teozfrank.duelme.commands.DuelAdminCommand;
 import com.teozcommunity.teozfrank.duelme.commands.DuelCommand;
 import com.teozcommunity.teozfrank.duelme.events.*;
@@ -27,43 +28,69 @@ import java.util.HashMap;
  */
 public class DuelMe extends JavaPlugin {
 
-    //String to hold our plugin prefix
+    /**
+     * String to hold our plugin prefix
+     */
     public String pluginPrefix;
 
-    //boolean to keep track of if a duel is in progress
+    /**
+     * boolean to keep track of if a duel is in progress
+     */
     public boolean inProgress;
 
-    //String to hold the plugin version
+    /**
+     * String to hold the plugin version
+     */
     public String version;
 
-    //String to to keep track of the dueling status
+    /**
+     * String to to keep track of the dueling status
+     */
     public String duelStatus;
 
-    //hashmap to keep track of the dueling requests
+    /**
+     * hashmap to keep track of the dueling requests
+     */
     public HashMap<String, String> duelRequests;
 
-    //arraylist to hold the dueling players
+    /**
+     * arraylist to hold the current dueling players
+     */
     public ArrayList<Player> duelingPlayers;
 
-    //arraylist to hold the spectating players
+    /**
+     * arraylist to hold the current spectating players
+     */
     public ArrayList<Player> spectatingPlayers;
 
-    //arraylist to hold the frozen players (before a duel starts)
+    /**
+     * arraylist to hold the frozen players (before a duel starts)
+     */
     public ArrayList<Player> frozenPlayers;
 
-    //our util class
+    /**
+     * utilities class
+     */
     public Util util;
 
-    //our locations class
+    /**
+     * locations class
+     */
     public Locations locations;
 
-    //our update checker class
+    /**
+     * update checker class
+     */
     public UpdateChecker updateChecker;
 
-    //our colored console message class
+    /**
+     * coloured console sender class
+     */
     public SendConsoleMessage sendConsoleMessage;
 
-    //our file manager class
+    /**
+     * file manager class
+     */
     public FileManager fileManager;
 
 

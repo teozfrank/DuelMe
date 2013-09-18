@@ -26,6 +26,10 @@ public class PlayerBreakBlock implements Listener {
         this.plugin = plugin;
     }
 
+    /**
+     * method to check block breaking events, cancels them if needed
+     * @param e block break event
+     */
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerBreakBlock(BlockBreakEvent e) {
         Player p = e.getPlayer();

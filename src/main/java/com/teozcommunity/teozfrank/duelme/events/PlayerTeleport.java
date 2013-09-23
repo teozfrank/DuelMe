@@ -30,7 +30,7 @@ public class PlayerTeleport implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerTeleport(PlayerTeleportEvent e) {
         Player p = e.getPlayer();
-        if (!plugin.duelingPlayers.contains(p.getPlayer()) || !plugin.spectatingPlayers.contains(p.getPlayer())) {
+        if (!plugin.duelingPlayers.isEmpty()) {
             for (Player pl : plugin.duelingPlayers) {
                 if (e.getTo().equals(pl.getLocation())) {
                     p.sendMessage(plugin.pluginPrefix + ChatColor.RED + "You cannot teleport to dueling players!");

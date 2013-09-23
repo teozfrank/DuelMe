@@ -10,7 +10,7 @@
     <description>duelme a plugin to allow players to pvp, in a contained area 1v1</description>
 
     <properties>
-        <bukkit.version>1.6.2-R0.1-SNAPSHOT</bukkit.version>
+        <bukkit.version>1.6.4-R0.1-SNAPSHOT</bukkit.version>
     </properties>
 
     <repositories>

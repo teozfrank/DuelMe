@@ -1,12 +1,15 @@
 package com.teozcommunity.teozfrank.duelme.events;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
-import org.bukkit.ChatColor;
+import org.bukkit.*;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.inventory.meta.FireworkMeta;
 
 /**
  * Created with IntelliJ IDEA.
@@ -33,7 +36,9 @@ public class PlayerDeath implements Listener {
             if (p.getKiller() instanceof Player) {
                 Player killer = p.getKiller();
                 e.getDrops().clear();//drop nothing on death
-
+                e.setDroppedExp(0);
+                e.setKeepLevel(true);
+                this.launchFirework(plugin.locations.lobbySpawnLocation());// little suprise for when a player dies
                 if (plugin.getConfig().getBoolean("duelme.announce.deaths")) {
                     e.setDeathMessage(plugin.pluginPrefix + ChatColor.YELLOW + p.getName() + ChatColor.AQUA + " Was Killed in a Duel by " +
                             ChatColor.YELLOW + killer.getName());
@@ -50,5 +55,24 @@ public class PlayerDeath implements Listener {
         } else {
             plugin.util.endDuel();
         }
+    }
+
+    public void launchFirework(Location loc){
+        //Spawn the Firework, get the FireworkMeta.
+        Firework fw = (Firework) Bukkit.getServer().getWorld(loc.getWorld().getName()).spawnEntity(loc, EntityType.FIREWORK);
+        FireworkMeta fwm = fw.getFireworkMeta();
+
+        //Create our effect with this
+        FireworkEffect effect = FireworkEffect.builder()
+                .trail(true)
+                .flicker(true)
+                .withColor(Color.AQUA)
+                .withFade(Color.BLUE).with(FireworkEffect.Type.STAR)
+                .build();
+        fwm.addEffect(effect);
+        fwm.setPower(1);
+
+        //Then apply this to our rocket
+        fw.setFireworkMeta(fwm);
     }
 }

@@ -4,7 +4,7 @@
 
     <groupId>com.teozcommunity.teozfrank</groupId>
     <artifactId>duelme</artifactId>
-    <version>0.1</version>
+    <version>0.7</version>
     <packaging>jar</packaging>
     <name>duelme</name>
     <description>duelme a plugin to allow players to pvp, in a contained area 1v1</description>

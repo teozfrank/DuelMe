@@ -119,6 +119,8 @@ public class Util {
 
 
                 plugin.inProgress = true;
+                System.out.print(sender.getLocation());
+                System.out.print(target.getLocation());
 
                 sender.setGameMode(GameMode.SURVIVAL);
                 target.setGameMode(GameMode.SURVIVAL);
@@ -189,7 +191,10 @@ public class Util {
     */
     public void spectateDuel(Player p) {
         if (plugin.inProgress) {
-            if (!plugin.duelingPlayers.contains(p.getPlayer())) {
+            if(plugin.frozenPlayers.contains(p)){
+                p.sendMessage(plugin.pluginPrefix + ChatColor.YELLOW + "You cannot spectate while in a duel!");
+                return;
+            } else if (!plugin.duelingPlayers.contains(p.getPlayer())) {
                 p.teleport(plugin.locations.spectateSpawnLocation());
                 plugin.spectatingPlayers.add(p.getPlayer());
                 this.storeInventory(p.getPlayer());

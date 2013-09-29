@@ -33,11 +33,11 @@ public class PlayerBreakBlock implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerBreakBlock(BlockBreakEvent e) {
         Player p = e.getPlayer();
-        if (plugin.duelingPlayers.contains(p.getPlayer())) {
+        if (plugin.duelingPlayers.contains(p)||plugin.frozenPlayers.contains(p)) {
             e.setCancelled(true);
             p.sendMessage(plugin.pluginPrefix + ChatColor.RED + " Not allowed during a Duel!");
         }
-        if (plugin.spectatingPlayers.contains(p.getPlayer())) {
+        if (plugin.spectatingPlayers.contains(p)) {
             e.setCancelled(true);
             p.sendMessage(plugin.pluginPrefix + ChatColor.RED + " Not allowed while spectating a duel!");
         }

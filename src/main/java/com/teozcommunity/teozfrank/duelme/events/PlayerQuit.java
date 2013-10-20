@@ -33,15 +33,18 @@ public class PlayerQuit implements Listener {
         if (plugin.duelingPlayers.contains(p.getPlayer())) {
             plugin.duelingPlayers.remove(p.getPlayer());
             p.teleport(plugin.locations.lobbySpawnLocation());// teleport to lobby spawn
-            plugin.util.restoreInventory(p.getPlayer());
+            if(plugin.seperateInventories){
+                plugin.util.restoreInventory(p.getPlayer());
+            }
             plugin.util.broadcastMessage(ChatColor.RED + p.getName() + " has ended a duel by quitting!");
             if (plugin.duelingPlayers.size() <= 1) {
                 plugin.util.endDuel();
             }
         }
         if (plugin.spectatingPlayers.contains(p.getPlayer())) {
-            plugin.spectatingPlayers.remove(p.getPlayer());
-            plugin.util.restoreInventory(p.getPlayer());
+            if(plugin.seperateInventories){
+                plugin.util.restoreInventory(p.getPlayer());
+            }
             for (Player pl : Bukkit.getOnlinePlayers()) {
                 pl.showPlayer(p.getPlayer());
             }

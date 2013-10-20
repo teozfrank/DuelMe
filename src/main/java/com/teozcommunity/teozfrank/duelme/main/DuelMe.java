@@ -93,9 +93,15 @@ public class DuelMe extends JavaPlugin {
      */
     public FileManager fileManager;
 
+    /**
+     * boolean to use separate inventories
+     */
+    public boolean seperateInventories;
+
 
     @Override
     public void onEnable() {
+        this.seperateInventories = this.getConfig().getBoolean("duelme.seperateinventories");
         this.sendConsoleMessage = new SendConsoleMessage(this);// called first so we can use the colored messages
         this.version = this.getDescription().getVersion();// called early so that any classes or methods that use this is available
         this.sendConsoleMessage.info("Enabling");
@@ -176,5 +182,9 @@ public class DuelMe extends JavaPlugin {
         if (!(new File(getDataFolder(), "locations.yml")).exists()) {
             this.fileManager.saveDefaultLocations();
         }
+    }
+
+    public boolean useSeperateInventories(){
+        return this.seperateInventories;
     }
 }

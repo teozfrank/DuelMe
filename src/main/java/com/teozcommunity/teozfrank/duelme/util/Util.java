@@ -125,8 +125,10 @@ public class Util {
                 sender.setGameMode(GameMode.SURVIVAL);
                 target.setGameMode(GameMode.SURVIVAL);
 
-                this.storeInventory(sender.getPlayer());
-                this.storeInventory(target.getPlayer());
+                if(plugin.seperateInventories){
+                    this.storeInventory(sender.getPlayer());
+                    this.storeInventory(target.getPlayer());
+                }
 
                 this.handleDisguise(target.getPlayer(), sender.getPlayer());
 
@@ -264,7 +266,9 @@ public class Util {
             if (plugin.duelingPlayers.contains(p.getPlayer())) {
                 if (!p.getPlayer().isDead()) {
                     plugin.duelingPlayers.remove(p.getPlayer());//remove them from the dueling players
-                    this.restoreInventory(p.getPlayer());//restore their inventory
+                    if(plugin.seperateInventories){
+                        this.restoreInventory(p.getPlayer());//restore their inventory
+                    }
                     p.setHealth(20);
                     p.teleport(plugin.locations.lobbySpawnLocation());//teleport them to lobby location
                 }

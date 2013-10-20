@@ -31,11 +31,11 @@ public class PlayerHitsPlayer implements Listener {
     }
 
     @EventHandler(priority = EventPriority.NORMAL)
-    public void onPlayerDeath(EntityDamageByEntityEvent e) {
+    public void onPlayerDamage(EntityDamageByEntityEvent e) {
 
         if (e.getDamager() instanceof Player && e.getEntity() instanceof Player) {//if the damager is a player and target is a player
             Player damager = (Player) e.getDamager();
-            if (plugin.spectatingPlayers.contains(damager.getPlayer())) {
+            if (plugin.spectatingPlayers.contains(damager)) {
                 damager.sendMessage(plugin.pluginPrefix + ChatColor.RED + "You are not allowed to do that while spectating!");
                 e.setCancelled(true);
             }

@@ -31,11 +31,9 @@ public class PlayerJoin implements Listener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         if (p.isOp() || p.hasPermission("duelme.update.notify")) {
-            if (plugin.updateChecker.updateAvailable()) {
-                p.sendMessage(plugin.pluginPrefix + ChatColor.GREEN + "has an update!\n" +
-                        ChatColor.GOLD + "Your version: " + ChatColor.GREEN + plugin.version + "\n" +
-                        ChatColor.GOLD + "Latest version: " + ChatColor.GREEN + plugin.updateChecker.getVersion() + "\n" +
-                        ChatColor.GOLD + "Download: " + ChatColor.GREEN + plugin.updateChecker.getLink());
+            if (plugin.updateChecker.updateAvailable) {
+               p.sendMessage(ChatColor.GREEN+"There is an update available for "+ChatColor.GOLD+"DuelMe "+ChatColor.GREEN+"please download it here: "+
+               ChatColor.GOLD+"http://dev.bukkit.org/bukkit-plugins/duelme/");
             }
         }
     }

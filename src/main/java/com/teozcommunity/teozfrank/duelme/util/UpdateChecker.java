@@ -1,79 +1,145 @@
 package com.teozcommunity.teozfrank.duelme.util;
 
-import com.teozcommunity.teozfrank.duelme.main.DuelMe;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 /**
  * Created with IntelliJ IDEA.
- * Original Author: teozfrank
+ * User: Frank
  * Date: 17/08/13
  * Time: 23:42
- * -----------------------------
- * Removing this header is in breach of the license agreement,
- * please do not remove, move or edit it in any way.
- * -----------------------------
+ * To change this template use File | Settings | File Templates.
+ */
+
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
+import com.teozcommunity.teozfrank.duelme.main.DuelMe;
+import org.bukkit.ChatColor;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+
+/**
+ * This class is a barebones example of how to use the BukkitDev ServerMods API to check for file updates.
+ * <br>
+ * See the README file for further information of use.
  */
 public class UpdateChecker {
 
     private DuelMe plugin;
-    private URL fileFeed;
-    private String version;
-    private String version2;
-    private String link;
 
-    public UpdateChecker(DuelMe plugin, String url) {
+    // The project's unique ID
+    private final int projectID;
+
+
+    // Keys for extracting file information from JSON response
+    private static final String API_NAME_VALUE = "name";
+    private static final String API_LINK_VALUE = "downloadUrl";
+    private static final String API_RELEASE_TYPE_VALUE = "releaseType";
+    private static final String API_FILE_NAME_VALUE = "fileName";
+    private static final String API_GAME_VERSION_VALUE = "gameVersion";
+
+    // Static information for querying the API
+    private static final String API_QUERY = "/servermods/files?projectIds=";
+    private static final String API_HOST = "https://api.curseforge.com";
+    public boolean updateAvailable;
+
+    /**
+     * Check for updates anonymously (keyless)
+     *
+     * @param projectID The BukkitDev Project ID, found in the "Facts" panel on the right-side of your project page.
+     */
+    public UpdateChecker(DuelMe plugin, int projectID) {
+
         this.plugin = plugin;
+        this.projectID = projectID;
+        this.updateAvailable = false;
+        query();
+    }
+
+
+    /**
+     * Query the API to find the latest approved file's details.
+     */
+    public void query() {
+        URL url = null;
+
         try {
-            this.fileFeed = new URL(url);
+            // Create the URL to query using the project's ID
+            url = new URL(API_HOST + API_QUERY + projectID);
         } catch (MalformedURLException e) {
+            // There was an error creating the URL
+
             e.printStackTrace();
+            return;
         }
-    }
 
-    /**
-     * method to check if a plugin update is available
-     * @return true if the plugin is up to date
-     */
-    public boolean updateAvailable() {
         try {
-            InputStream input = this.fileFeed.openConnection().getInputStream();
-            Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(input);
-            Node latest = document.getElementsByTagName("item").item(0);
-            NodeList children = latest.getChildNodes();
+            // Open a connection and query the project
+            URLConnection conn = url.openConnection();
 
-            this.version2 = children.item(1).getTextContent().replaceAll("[a-zA-Z]", "");//trims letters
-            this.version = version2.replaceAll(" ", "");//trims white space
-            this.link = children.item(3).getTextContent();
 
-            if (!plugin.getDescription().getVersion().equals(this.version)) {
-                return true;
+            // Add the user-agent to identify the program
+            conn.addRequestProperty("User-Agent", "ServerModsAPI-Example (by Gravity)");
+
+            // Read the response of the query
+            // The response will be in a JSON format, so only reading one line is necessary.
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String response = reader.readLine();
+
+            // Parse the array of files from the query's response
+            JSONArray array = (JSONArray) JSONValue.parse(response);
+
+            if (array.size() > 0) {
+                // Get the newest file's details
+                JSONObject latest = (JSONObject) array.get(array.size() - 1);
+
+                // Get the version's title
+                String versionName = (String) latest.get(API_NAME_VALUE);
+
+                // Get the version's link
+                String versionLink = (String) latest.get(API_LINK_VALUE);
+
+                // Get the version's release type
+                String versionType = (String) latest.get(API_RELEASE_TYPE_VALUE);
+
+                // Get the version's file name
+                String versionFileName = (String) latest.get(API_FILE_NAME_VALUE);
+
+                // Get the version's game version
+                String versionGameVersion = (String) latest.get(API_GAME_VERSION_VALUE);
+
+
+                versionName = versionName.replaceAll("[a-zA-Z]", "");
+                versionName = versionName.replaceAll(" ","");
+
+                if(!versionName.equals(plugin.version)){
+                    this.updateAvailable = true;
+                    plugin.sendConsoleMessage.info("There is a new update available! download it on bukkit dev "+
+                            ChatColor.YELLOW+"http://dev.bukkit.org/bukkit-plugins/duelme/");
+                }
+                else {
+                    this.updateAvailable = false;
+                    plugin.sendConsoleMessage.info("plugin is up to date!");
+                }
+
+            } else {
+                System.out.println("There are no files for this project");
             }
-        } catch (Exception e) {
-            plugin.sendConsoleMessage.severe("error trying to check for updates!");
+        } catch (IOException e) {
+            // There was an error reading the query
+
+            e.printStackTrace();
+            return;
         }
-        return false;
     }
 
-    /**
-     *
-     * @return the latest version of the plugin
-     */
-    public String getVersion() {
-        return this.version;
+    public boolean isUpdateAvailable(){
+        return this.updateAvailable;
     }
 
-    /**
-     *
-     * @return the latest download url of the plugin
-     */
-    public String getLink() {
-        return this.link;
-    }
 }

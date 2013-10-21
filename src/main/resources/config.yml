@@ -2,7 +2,8 @@
 duelme:
     configversion: 1.1
     checkforupdates: true
-    seperateinventories: true
-    announce:
-        duelstart: true
-        deaths: true
+    duel:
+       seperateinventories: true
+       announce:
+          duelstart: true
+          deaths: true

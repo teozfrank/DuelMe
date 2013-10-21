@@ -101,7 +101,7 @@ public class DuelMe extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        this.seperateInventories = this.getConfig().getBoolean("duelme.seperateinventories");
+        this.seperateInventories = this.getConfig().getBoolean("duelme.duel.seperateinventories");
         this.sendConsoleMessage = new SendConsoleMessage(this);// called first so we can use the colored messages
         this.version = this.getDescription().getVersion();// called early so that any classes or methods that use this is available
         this.sendConsoleMessage.info("Enabling");
@@ -109,7 +109,6 @@ public class DuelMe extends JavaPlugin {
         this.util = new Util(this);
         this.locations = new Locations(this);
         if (this.getConfig().getBoolean("duelme.checkforupdates")) {
-            this.updateChecker = new UpdateChecker(this, "http://dev.bukkit.org/bukkit-plugins/duelme/files.rss");
             this.checkForUpdates();
             Bukkit.getPluginManager().registerEvents(new PlayerJoin(this), this);
         }
@@ -158,12 +157,7 @@ public class DuelMe extends JavaPlugin {
     }
 
     public void checkForUpdates() {
-        if (this.updateChecker.updateAvailable()) {
-            this.sendConsoleMessage.info("A new version of this plugin is available: " + this.updateChecker.getVersion());
-            this.sendConsoleMessage.info("Download it here " + this.updateChecker.getLink());
-        } else {
-            this.sendConsoleMessage.info("You are running the latest version! :)");
-        }
+        this.updateChecker = new UpdateChecker(this,60044);
     }
 
     public void submitStats() {

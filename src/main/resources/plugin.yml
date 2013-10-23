@@ -1,5 +1,5 @@
 name: DuelMe
-version: 0.7.2
+version: 0.7.3.1
 author: teozfrank
 main: com.teozcommunity.teozfrank.duelme.main.DuelMe
 commands:

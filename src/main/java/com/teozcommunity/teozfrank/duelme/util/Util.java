@@ -142,10 +142,12 @@ public class Util {
                 sender.setHealth(20);
                 target.setHealth(20);
                 //TODO add config file for items
-                int randSender = rand.nextInt(5);
-                int randTarget = rand.nextInt(5);
-                target.setItemInHand(this.randomItem(randTarget));
-                sender.setItemInHand(this.randomItem(randSender));
+                if(plugin.seperateInventories){
+                    int randSender = rand.nextInt(5);
+                    int randTarget = rand.nextInt(5);
+                    target.setItemInHand(this.randomItem(randTarget));
+                    sender.setItemInHand(this.randomItem(randSender));
+                }
 
                 new StartDuelThread(plugin, sender.getPlayer(), target.getPlayer()).runTaskTimer(plugin, 0L, 20L);//start our countdown thread
             }

@@ -67,7 +67,7 @@ public class Util {
         this.inventories.put(p.getName(), inv);
         this.armour.put(p.getName(), arm);
         p.getInventory().clear(-1, -1);
-        p.sendMessage(plugin.pluginPrefix + ChatColor.GREEN + "Your inventory has been stored and will be restored after the Duel.");
+        p.sendMessage(plugin.pluginPrefix + ChatColor.GREEN + "Your inventory has been stored and will be restored after the DuelArena.");
     }
 
     /**
@@ -99,8 +99,8 @@ public class Util {
             target.teleport(plugin.locations.targetSpawnLocation());
             return 1;
         } catch (Exception e) {
-            sender.sendMessage("there was an error attempting to teleport to start the duel! Have the spawn locations been set? Duel cancelled!");
-            target.sendMessage("there was an error attempting to teleport to start the duel! Have the spawn locations been set? Duel cancelled!");
+            sender.sendMessage("there was an error attempting to teleport to start the duel! Have the spawn locations been set? DuelArena cancelled!");
+            target.sendMessage("there was an error attempting to teleport to start the duel! Have the spawn locations been set? DuelArena cancelled!");
             return -1;
         }
     }
@@ -136,7 +136,7 @@ public class Util {
                 //target.teleport(plugin.locations.targetSpawnLocation());
 
                 if (plugin.getConfig().getBoolean("duelme.announce.duelstart")) {
-                    this.broadcastMessage(ChatColor.AQUA + "A Duel is beginning! " + ChatColor.GOLD + sender.getName() + ChatColor.AQUA +
+                    this.broadcastMessage(ChatColor.AQUA + "A DuelArena is beginning! " + ChatColor.GOLD + sender.getName() + ChatColor.AQUA +
                             " VS " + ChatColor.GOLD + target.getName());
                 }
                 sender.setHealth(20);

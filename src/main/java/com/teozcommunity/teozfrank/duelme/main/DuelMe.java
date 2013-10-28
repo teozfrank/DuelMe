@@ -49,26 +49,6 @@ public class DuelMe extends JavaPlugin {
     public String duelStatus;
 
     /**
-     * hashmap to keep track of the dueling requests
-     */
-    public HashMap<String, String> duelRequests;
-
-    /**
-     * arraylist to hold the current dueling players
-     */
-    public ArrayList<Player> duelingPlayers;
-
-    /**
-     * arraylist to hold the current spectating players
-     */
-    public ArrayList<Player> spectatingPlayers;
-
-    /**
-     * arraylist to hold the frozen players (before a duel starts)
-     */
-    public ArrayList<Player> frozenPlayers;
-
-    /**
      * utilities class
      */
     public Util util;

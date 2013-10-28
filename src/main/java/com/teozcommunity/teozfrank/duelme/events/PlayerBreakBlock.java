@@ -35,7 +35,7 @@ public class PlayerBreakBlock implements Listener {
         Player p = e.getPlayer();
         if (plugin.duelingPlayers.contains(p)||plugin.frozenPlayers.contains(p)) {
             e.setCancelled(true);
-            p.sendMessage(plugin.pluginPrefix + ChatColor.RED + " Not allowed during a Duel!");
+            p.sendMessage(plugin.pluginPrefix + ChatColor.RED + " Not allowed during a DuelArena!");
         }
         if (plugin.spectatingPlayers.contains(p)) {
             e.setCancelled(true);

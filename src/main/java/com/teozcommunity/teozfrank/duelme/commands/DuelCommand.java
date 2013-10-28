@@ -37,7 +37,7 @@ public class DuelCommand implements CommandExecutor {
 
             if (length < 1) {
                 p.sendMessage(ChatColor.GREEN + "0o--------------- " + plugin.pluginPrefix + ChatColor.GOLD + "PVP for fun" + ChatColor.GREEN + " ---------------o0\n\n" +
-                        ChatColor.GREEN + "/duel <player> " + ChatColor.GOLD + "- Duel a specified player \n" +
+                        ChatColor.GREEN + "/duel <player> " + ChatColor.GOLD + "- DuelArena a specified player \n" +
                         ChatColor.GREEN + "/duel cancel " + ChatColor.GOLD + "- Cancel a sent duel request \n" +
                         ChatColor.GREEN + "/duel accept " + ChatColor.GOLD + "- Accept a duel request \n" +
                         ChatColor.GREEN + "/duel deny " + ChatColor.GOLD + "- Deny a duel request \n" +

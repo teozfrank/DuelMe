@@ -27,7 +27,9 @@ public class FileManager {
 
 
     private FileConfiguration locations = null;
+    private FileConfiguration messages = null;
     private File locationsFile = null;
+    private File messagesFile = null;
 
 
     public void reloadLocations() {
@@ -58,7 +60,7 @@ public class FileManager {
         try {
             this.getLocations().save(locationsFile);
         } catch (IOException e) {
-            plugin.sendConsoleMessage.severe("Error saving rewards config!");
+            plugin.sendConsoleMessage.severe("Error saving locations config!");
         }
     }
 
@@ -70,4 +72,47 @@ public class FileManager {
             plugin.saveResource("locations.yml", false);
         }
     }
+
+    public void reloadMessages() {
+        if (messagesFile == null) {
+            messagesFile = new File(plugin.getDataFolder(), "messages.yml");
+        }
+        messages = YamlConfiguration.loadConfiguration(messagesFile);
+
+        InputStream defConfigStream = plugin.getResource("messages.yml");
+        if (defConfigStream != null) {
+            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+            messages.setDefaults(defConfig);
+        }
+
+    }
+
+    public FileConfiguration getMessages() {
+        if (messages == null) {
+            this.reloadMessages();
+        }
+        return messages;
+    }
+
+    public void saveMessages() {
+        if (messages == null || messagesFile == null) {
+            return;
+        }
+        try {
+            this.getLocations().save(messagesFile);
+        } catch (IOException e) {
+            plugin.sendConsoleMessage.severe("Error saving messages config!");
+        }
+    }
+
+    public void saveDefaultMessages() {
+        if (messagesFile == null) {
+            messagesFile = new File(plugin.getDataFolder(), "messages.yml");
+        }
+        if (!messagesFile.exists()) {
+            plugin.saveResource("messages.yml", false);
+        }
+    }
+
+
 }

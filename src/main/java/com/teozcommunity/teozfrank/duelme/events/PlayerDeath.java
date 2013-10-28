@@ -40,14 +40,14 @@ public class PlayerDeath implements Listener {
                 e.setKeepLevel(true);
                 this.launchFirework(plugin.locations.lobbySpawnLocation());// little suprise for when a player dies
                 if (plugin.getConfig().getBoolean("duelme.announce.deaths")) {
-                    e.setDeathMessage(plugin.pluginPrefix + ChatColor.YELLOW + p.getName() + ChatColor.AQUA + " Was Killed in a DuelArena by " +
+                    e.setDeathMessage(plugin.pluginPrefix + ChatColor.YELLOW + p.getName() + ChatColor.AQUA + " Was Killed in a Duel by " +
                             ChatColor.YELLOW + killer.getName());
                 }
                 plugin.util.endDuel();//end the duel
             } else {
                 e.getDrops().clear();//drop nothing on death
                 if (plugin.getConfig().getBoolean("duelme.announce.deaths")) {
-                    e.setDeathMessage(plugin.pluginPrefix + ChatColor.YELLOW + p.getName() + ChatColor.AQUA + " Was Killed in a DuelArena!");
+                    e.setDeathMessage(plugin.pluginPrefix + ChatColor.YELLOW + p.getName() + ChatColor.AQUA + " Was Killed in a Duel!");
                 }
                 e.setKeepLevel(true);
                 plugin.util.endDuel();//end the duel

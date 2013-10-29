@@ -45,6 +45,10 @@ public class DuelArena {
         return pos2;
     }
 
+    public boolean hasStarted(){
+        return hasStarted;
+    }
+
     public List<String> getPlayers(){
         return players;
     }
@@ -63,5 +67,9 @@ public class DuelArena {
 
     public void setPlayers(List<String> players){
         this.players = players;
+    }
+
+    public void setStarted(boolean setStarted){
+        this.hasStarted = setStarted;
     }
 }

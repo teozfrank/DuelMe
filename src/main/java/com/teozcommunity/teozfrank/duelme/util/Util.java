@@ -5,6 +5,7 @@ import com.teozcommunity.teozfrank.duelme.threads.StartDuelThread;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
@@ -47,6 +48,9 @@ public class Util {
      */
     private HashMap<String, ItemStack[]> armour;
 
+    public static String UNKNOWN_CMD = ChatColor.RED+"Unknown Command!";
+    public static String NO_PERMS = ChatColor.RED+"You do not have permission!";
+
 
     public Util(DuelMe plugin) {
         this.plugin = plugin;
@@ -87,31 +91,6 @@ public class Util {
         }
     }
 
-    /**
-    * Method to teleport dueling players to their spawn location
-    * @param sender the duel requester
-    * @param target the duel recipient
-    */
-    public int teleportPlayers(Player sender, Player target) {
-
-        try {
-            sender.teleport(plugin.locations.senderSpawnLocation());
-            target.teleport(plugin.locations.targetSpawnLocation());
-            return 1;
-        } catch (Exception e) {
-            sender.sendMessage("there was an error attempting to teleport to start the duel! Have the spawn locations been set? Duel cancelled!");
-            target.sendMessage("there was an error attempting to teleport to start the duel! Have the spawn locations been set? Duel cancelled!");
-            return -1;
-        }
-    }
-
-    /**
-    * Method to deny duel requests
-    * @param p duel denying player
-    */
-    public void denyDuel(Player p) {
-        p.sendMessage(plugin.pluginPrefix + ChatColor.GREEN + "Will be implemented soon, for now just ignore the request you were sent.");
-    }
 
     /**
     * Method to broadcast a plugin message to all online players
@@ -147,48 +126,55 @@ public class Util {
     }
 
     /**
-    * Method to return a random itemstack when a duel begins, this will be removed soon
-    * @return a random ItemStack depending on the number passed in
-    * @param rand random integer passed in ranges from 1 = 5
-    */
-    public ItemStack randomItem(int rand) {
-
-        if (rand == 1) {
-            return new ItemStack(Material.WOOD_AXE, 1);
-        } else if (rand == 2) {
-            return new ItemStack(Material.WOOD_SWORD, 1);
-        } else if (rand == 3) {
-            return new ItemStack(Material.IRON_AXE, 1);
-        } else if (rand == 4) {
-            return new ItemStack(Material.DIAMOND_HOE, 1);
-        } else if (rand == 5) {
-            return new ItemStack(Material.STONE_SWORD, 1);
-        } else {
-            return new ItemStack(Material.IRON_SPADE, 1);
-        }
-
-    }
-    /**
-     * Method to update a sign in a given location
-     * @param world Signs world
-     * @param signLoc Signs Location in the world
-     * @param line1 sets Signs first line
-     * @param line2 sets Signs second line
-     * @param line3 sets Signs third line
+     * sends a message to the recipient with the plugin prefix
+     * @param sender the recipient to send the message to
+     * @param message the message to send the sender
      */
-    public void updateSign(String world,Location signLoc,String line1,String line2,String line3){
-
-        Block block = Bukkit.getWorld(world).getBlockAt(signLoc);
-
-        try{
-            if(block.getType() == Material.SIGN || block.getType() == Material.WALL_SIGN){
-               //TODO finish adding code to get sign and set its contents
-            }
-
-        }
-        catch(Exception e){
-
+    public static void sendMsg(CommandSender sender, String message) {
+        if (sender == null) {
+            return;
         }
 
+        Player p = null;
+
+        if (sender instanceof Player) {
+            p = (Player) sender;
+        }
+
+        if (p == null) {
+            Bukkit.getLogger().info(ChatColor.GOLD+"[DuelMe] " + ChatColor.stripColor(message));
+        } else {
+            p.sendMessage(ChatColor.GOLD+"[DuelMe] " + message);
+        }
     }
+
+    public static void sendMsg(Player player, String message){
+        player.sendMessage(ChatColor.GOLD+"[DuelMe]" + message);
+    }
+
+    /**
+     * sends a empty message to the recipient with the plugin prefix
+     * @param sender the recipient to send the message to
+     * @param message the message to send the sender
+     */
+    public static void sendEmptyMsg(CommandSender sender, String message) {
+        if (sender == null) {
+            return;
+        }
+
+        Player p = null;
+
+        if (sender instanceof Player) {
+            p = (Player) sender;
+        }
+
+        if (p == null) {
+            Bukkit.getLogger().info(ChatColor.stripColor(message));
+        } else {
+            p.sendMessage(message);
+        }
+    }
+
+
+
 }

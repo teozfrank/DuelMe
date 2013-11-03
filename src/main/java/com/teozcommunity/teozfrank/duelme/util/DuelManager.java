@@ -1,6 +1,8 @@
 package com.teozcommunity.teozfrank.duelme.util;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -20,6 +22,8 @@ public class DuelManager {
 
     /**
      * hashmap to keep track of the dueling requests
+     * the key is the duel sender
+     * the value is the player who has been sent a request
      */
     public HashMap<String, String> duelRequests;
 
@@ -130,6 +134,40 @@ public class DuelManager {
             if(!a.hasStarted()){
 
             }
+        }
+
+    }
+
+    /**
+     * handle duel requests
+     * @param duelSender the sender of the request
+     * @param duelTargetIn the string player of the target player
+     */
+    public void sendRequest(Player duelSender,String duelTargetIn){
+
+        String duelSenderName = duelSender.getName();
+
+        if(this.duelRequests.containsKey(duelSenderName) && this.duelRequests.containsValue(duelTargetIn)){
+            Util.sendMsg(duelSender,ChatColor.YELLOW+"You have already sent a request to "+duelTargetIn);
+            return;
+        }
+
+        Player duelTarget = Bukkit.getPlayer(duelTargetIn);
+
+        if(duelTarget != null){
+
+            String duelTargetName = duelTarget.getName();
+            if(duelSenderName == duelTargetName){
+                Util.sendMsg(duelSender,ChatColor.RED+"You cannot duel yourself!");
+                return;
+            }
+
+            Util.sendMsg(duelSender,"You have sent a duel request to "+duelTargetName);
+            Util.sendMsg(duelTarget,"You have been sent a duel request from "+duelSenderName +
+            "use /duel accept "+duelSenderName+" ,to accept.");
+            this.duelRequests.put(duelSenderName,duelTargetName);
+        } else {
+            Util.sendMsg(duelSender, ChatColor.RED+ duelTargetIn+"is not online!");
         }
 
     }

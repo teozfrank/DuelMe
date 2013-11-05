@@ -17,7 +17,7 @@ public class DuelArena {
     private Location pos1;
     private Location pos2;
     private List<String> players;
-    private boolean hasStarted;
+    private DuelState duelState;
 
     public DuelArena(String name, Location pos1, Location pos2, List<String> players){
         this.name = name;
@@ -31,6 +31,7 @@ public class DuelArena {
         this.pos1 = pos1;
         this.pos2 = pos2;
         this.players = null;
+        this.duelState = DuelState.WAITING;
     }
 
     public String getName(){
@@ -45,8 +46,8 @@ public class DuelArena {
         return pos2;
     }
 
-    public boolean hasStarted(){
-        return hasStarted;
+    public DuelState getDuelState(){
+        return duelState;
     }
 
     public List<String> getPlayers(){
@@ -69,7 +70,7 @@ public class DuelArena {
         this.players = players;
     }
 
-    public void setStarted(boolean setStarted){
-        this.hasStarted = setStarted;
+    public void setDuelState(DuelState duelState){
+        this.duelState = duelState;
     }
 }

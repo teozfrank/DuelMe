@@ -125,20 +125,6 @@ public class DuelManager {
     }
 
     /**
-     * adds players to a duel arena
-     * @param player1 the first player
-     * @param player2 the second player
-     */
-    public void addPlayersToArena(String player1,String player2){
-        for(DuelArena a: this.getDuelArenas()){
-            if(!a.hasStarted()){
-
-            }
-        }
-
-    }
-
-    /**
      * handle duel requests
      * @param duelSender the sender of the request
      * @param duelTargetIn the string player of the target player
@@ -167,7 +153,49 @@ public class DuelManager {
             "use /duel accept "+duelSenderName+" ,to accept.");
             this.duelRequests.put(duelSenderName,duelTargetName);
         } else {
-            Util.sendMsg(duelSender, ChatColor.RED+ duelTargetIn+"is not online!");
+            Util.sendMsg(duelSender, ChatColor.RED+ duelTargetIn +"is not online!");
+        }
+
+    }
+
+    /**
+     * handles accepting the request with the specified player to accept the duel request
+     * @param accepter the player that is accepting the request
+     * @param senderIn the string player of whom they are accepting
+     */
+    public void acceptRequest(Player accepter,String senderIn){
+
+        if(this.duelRequests.containsKey(senderIn) && this.duelRequests.containsValue(accepter.getName())){
+          Player sender = Bukkit.getPlayer(senderIn);
+          if(sender != null){
+            this.startDuel(accepter,sender);
+          } else {
+            Util.sendMsg(accepter,ChatColor.YELLOW+"Duel sender "+ senderIn +" has gone offline!, duel cancelled!");
+            return;
+          }
+          this.duelRequests.remove(senderIn);
+        } else {
+            Util.sendMsg(accepter,ChatColor.RED+"You do not have any duel requests to accept!");
+            return;
+        }
+
+    }
+
+    /**
+     * attempt to start the duel with the two players
+     * @param accepter the player that accepted the request
+     * @param sender the player that sent the reqest
+     */
+    public void startDuel(Player accepter, Player sender) {
+
+        for(DuelArena a: this.getDuelArenas()){
+            if(a.getDuelState() == DuelState.WAITING){
+              //TODO teleport the players to an arena, start the countdown, give items....
+            } else {
+                Util.sendMsg(accepter,ChatColor.YELLOW+"There are no free duel arenas, please try again layer!");
+                Util.sendMsg(sender,ChatColor.YELLOW+"There are no free duel arenas, please try again layer!");
+                return;
+            }
         }
 
     }

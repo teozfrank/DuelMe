@@ -107,6 +107,17 @@ public class DuelManager {
         return null;
     }
 
+    public boolean isFrozen(String playerIn){
+        if(this.getFrozenPlayers().contains(playerIn)){
+            return true;
+        }
+        return false;
+    }
+
+    public List<String> getFrozenPlayers(){
+        return this.frozenPlayers;
+    }
+
     /**
      * gets the arena of a player
      * @param player the players name

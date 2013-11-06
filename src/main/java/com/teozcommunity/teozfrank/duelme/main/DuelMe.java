@@ -27,115 +27,49 @@ import java.util.HashMap;
 public class DuelMe extends JavaPlugin {
 
     /**
-     * String to hold our plugin prefix
+     * class to send coloured console messages
      */
-    public String pluginPrefix;
+    private SendConsoleMessage sendConsoleMessage;
 
     /**
-     * boolean to keep track of if a duel is in progress
+     * duelmanager class
      */
-    public boolean inProgress;
-
-    /**
-     * String to hold the plugin version
-     */
-    public String version;
-
-    /**
-     * String to to keep track of the dueling status
-     */
-    public String duelStatus;
-
-    /**
-     * utilities class
-     */
-    public Util util;
-
-    /**
-     * locations class
-     */
-    public Locations locations;
+    private DuelManager duelManager;
 
     /**
      * update checker class
      */
-    public UpdateChecker updateChecker;
+    private UpdateChecker updateChecker;
 
     /**
-     * coloured console sender class
+     * filemanager class
      */
-    public SendConsoleMessage sendConsoleMessage;
-
-    /**
-     * file manager class
-     */
-    public FileManager fileManager;
-
-    /**
-     * boolean to use separate inventories
-     */
-    public boolean seperateInventories;
+    private FileManager fileManager;
 
 
     @Override
     public void onEnable() {
-        this.seperateInventories = this.getConfig().getBoolean("duelme.duel.seperateinventories");
-        this.sendConsoleMessage = new SendConsoleMessage(this);// called first so we can use the colored messages
-        this.version = this.getDescription().getVersion();// called early so that any classes or methods that use this is available
-        this.sendConsoleMessage.info("Enabling");
-        this.fileManager = new FileManager(this);
-        this.util = new Util(this);
-        this.locations = new Locations(this);
-        if (this.getConfig().getBoolean("duelme.checkforupdates")) {
-            this.checkForUpdates();
-            Bukkit.getPluginManager().registerEvents(new PlayerJoin(this), this);
-        }
+      this.sendConsoleMessage = new SendConsoleMessage(this);
+      this.sendConsoleMessage.info("Enabling.");
+      this.fileManager = new FileManager(this);
+      this.setupYMLs();
+      this.checkForUpdates();
+      this.submitStats();
+      this.duelManager = new DuelManager(this);
 
-        this.submitStats();
-        this.setupYMLs(); //setup our config and other files
-
-        this.pluginPrefix = ChatColor.GOLD + "[DuelMe] ";
-        this.inProgress = false;
-        this.duelStatus = "WAITING";
-        this.duelRequests = new HashMap<String, String>();
-        this.duelingPlayers = new ArrayList<Player>();
-        this.spectatingPlayers = new ArrayList<Player>();
-        this.frozenPlayers = new ArrayList<Player>();
-        this.registerCommands();
-        this.registerEvents();
-        this.sendConsoleMessage.info("Enabled!");
+      this.sendConsoleMessage.info("Enabled!");
     }
 
 
     @Override
     public void onDisable() {
-        if (this.inProgress) {
-            this.util.endDuel();
-        }
-        Bukkit.getScheduler().cancelTasks(this);
-    }
 
-    /*
-     * Register our plugin commands
-     */
-    public void registerCommands() {
-        getCommand("duel").setExecutor(new DuelCommand(this));
-        getCommand("dueladmin").setExecutor(new DuelAdminCommand(this));
-    }
-
-    public void registerEvents() {
-        PluginManager pm = Bukkit.getPluginManager();
-        pm.registerEvents(new PlayerMove(this), this);
-        pm.registerEvents(new PlayerDeath(this), this);
-        pm.registerEvents(new PlayerBreakBlock(this), this);
-        pm.registerEvents(new PlayerQuit(this), this);
-        pm.registerEvents(new PlayerTeleport(this), this);
-        pm.registerEvents(new PlayerRespawn(this), this);
-        pm.registerEvents(new PlayerHitsPlayer(this), this);
     }
 
     public void checkForUpdates() {
-        this.updateChecker = new UpdateChecker(this,60044);
+        if(this.getConfig().getBoolean("duelme.checkforupdates")){
+            this.updateChecker = new UpdateChecker(this,60044);
+        }
     }
 
     public void submitStats() {
@@ -143,7 +77,7 @@ public class DuelMe extends JavaPlugin {
             MetricsLite metrics = new MetricsLite(this);
             metrics.start();
         } catch (IOException e) {
-            System.out.println("Failed to submit the stats :-(");
+            this.sendConsoleMessage.severe("Could not submit the stats! :(");
         }
     }
 
@@ -156,7 +90,12 @@ public class DuelMe extends JavaPlugin {
         }
     }
 
-    public boolean useSeperateInventories(){
-        return this.seperateInventories;
+    public DuelManager getDuelManager(){
+        return this.duelManager;
     }
+
+    public FileManager getFileManager(){
+        return this.fileManager;
+    }
+
 }

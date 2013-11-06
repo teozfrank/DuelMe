@@ -1,8 +1,6 @@
 package com.teozcommunity.teozfrank.duelme.main;
 
 import com.teozcommunity.teozfrank.MetricsLite;
-import com.teozcommunity.teozfrank.duelme.commands.DuelAdminCommand;
-import com.teozcommunity.teozfrank.duelme.commands.DuelCommand;
 import com.teozcommunity.teozfrank.duelme.events.*;
 import com.teozcommunity.teozfrank.duelme.util.*;
 import org.bukkit.Bukkit;

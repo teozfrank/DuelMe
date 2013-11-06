@@ -171,9 +171,9 @@ public class DuelManager {
             this.startDuel(accepter,sender);
           } else {
             Util.sendMsg(accepter,ChatColor.YELLOW+"Duel sender "+ senderIn +" has gone offline!, duel cancelled!");
-            return;
           }
           this.duelRequests.remove(senderIn);
+          return;
         } else {
             Util.sendMsg(accepter,ChatColor.RED+"You do not have any duel requests to accept!");
             return;

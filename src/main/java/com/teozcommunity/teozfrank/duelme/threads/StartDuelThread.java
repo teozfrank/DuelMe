@@ -1,6 +1,7 @@
 package com.teozcommunity.teozfrank.duelme.threads;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
+import com.teozcommunity.teozfrank.duelme.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -35,13 +36,13 @@ public class StartDuelThread extends BukkitRunnable {
     @Override
     public void run() {
 
-        plugin.frozenPlayers.add(sender);
+        /* plugin.frozenPlayers.add(sender);
         plugin.frozenPlayers.add(target);
 
         if (this.countDown > 0) {
             switch (this.countDown) {
                 case 15:
-                    sender.sendMessage(plugin.pluginPrefix + ChatColor.YELLOW + "Starting duel in: " + ChatColor.GOLD + this.countDown);
+                    Util.sendMsg(sender,ChatColor.YELLOW + "Starting duel in: " + ChatColor.GOLD + this.countDown);
                     target.sendMessage(plugin.pluginPrefix + ChatColor.YELLOW + "Starting duel in: " + ChatColor.GOLD + this.countDown);
                     break;
                 case 10:
@@ -69,6 +70,6 @@ public class StartDuelThread extends BukkitRunnable {
             target.sendMessage(plugin.pluginPrefix + ChatColor.YELLOW + "Duel!");
             plugin.duelStatus = "IN PROGRESS";
             this.cancel();
-        }
+        }*/
     }
 }

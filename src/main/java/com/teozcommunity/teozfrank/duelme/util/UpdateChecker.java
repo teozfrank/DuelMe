@@ -117,14 +117,14 @@ public class UpdateChecker {
                 versionName = versionName.replaceAll("[a-zA-Z]", "");
                 versionName = versionName.replaceAll(" ","");
 
-                if(!versionName.equals(plugin.version)){
+                if(!versionName.equals(plugin.getDescription().getVersion())){
                     this.updateAvailable = true;
-                    plugin.sendConsoleMessage.info("There is a new update available! download it on bukkit dev "+
+                    plugin.getConsoleMessageSender().info("There is a new update available! download it on bukkit dev "+
                             ChatColor.YELLOW+"http://dev.bukkit.org/bukkit-plugins/duelme/");
                 }
                 else {
                     this.updateAvailable = false;
-                    plugin.sendConsoleMessage.info("plugin is up to date!");
+                    plugin.getConsoleMessageSender().info("plugin is up to date!");
                 }
 
             } else {

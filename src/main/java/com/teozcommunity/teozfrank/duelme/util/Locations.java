@@ -30,10 +30,11 @@ public class Locations {
      * @return senders spawn location
      */
     public Location senderSpawnLocation() {
-        String senderWorldIn = plugin.fileManager.getLocations().getString("locations.duelsender.world");
-        double senderxIn = plugin.fileManager.getLocations().getDouble("locations.duelsender.x");
-        double senderyIn = plugin.fileManager.getLocations().getDouble("locations.duelsender.y");
-        double senderzIn = plugin.fileManager.getLocations().getDouble("locations.duelsender.z");
+        FileManager fm = plugin.getFileManager();
+        String senderWorldIn = fm.getLocations().getString("locations.duelsender.world");
+        double senderxIn = fm.getLocations().getDouble("locations.duelsender.x");
+        double senderyIn = fm.getLocations().getDouble("locations.duelsender.y");
+        double senderzIn = fm.getLocations().getDouble("locations.duelsender.z");
 
         World senderWorld = Bukkit.getWorld(senderWorldIn);
 
@@ -47,10 +48,11 @@ public class Locations {
      * @return targets spawn location
      */
     public Location targetSpawnLocation() {
-        String targetWorldIn = plugin.fileManager.getLocations().getString("locations.dueltarget.world");
-        double targetxIn = plugin.fileManager.getLocations().getDouble("locations.dueltarget.x");
-        double targetyIn = plugin.fileManager.getLocations().getDouble("locations.dueltarget.y");
-        double targetzIn = plugin.fileManager.getLocations().getDouble("locations.dueltarget.z");
+        FileManager fm = plugin.getFileManager();
+        String targetWorldIn = fm.getLocations().getString("locations.dueltarget.world");
+        double targetxIn = fm.getLocations().getDouble("locations.dueltarget.x");
+        double targetyIn = fm.getLocations().getDouble("locations.dueltarget.y");
+        double targetzIn = fm.getLocations().getDouble("locations.dueltarget.z");
 
         World targetWorld = Bukkit.getWorld(targetWorldIn);
 
@@ -64,10 +66,11 @@ public class Locations {
      * @return lobby spawn location
      */
     public Location lobbySpawnLocation() {
-        String WorldIn = plugin.fileManager.getLocations().getString("locations.lobbyspawn.world");
-        double targetxIn = plugin.fileManager.getLocations().getDouble("locations.lobbyspawn.x");
-        double targetyIn = plugin.fileManager.getLocations().getDouble("locations.lobbyspawn.y");
-        double targetzIn = plugin.fileManager.getLocations().getDouble("locations.lobbyspawn.z");
+        FileManager fm = plugin.getFileManager();
+        String WorldIn = fm.getLocations().getString("locations.lobbyspawn.world");
+        double targetxIn = fm.getLocations().getDouble("locations.lobbyspawn.x");
+        double targetyIn = fm.getLocations().getDouble("locations.lobbyspawn.y");
+        double targetzIn = fm.getLocations().getDouble("locations.lobbyspawn.z");
 
         World targetWorld = Bukkit.getWorld(WorldIn);
 
@@ -81,10 +84,11 @@ public class Locations {
      * @return spectators spawn location
      */
     public Location spectateSpawnLocation() {
-        String WorldIn = plugin.fileManager.getLocations().getString("locations.spectatespawn.world");
-        double targetxIn = plugin.fileManager.getLocations().getDouble("locations.spectatespawn.x");
-        double targetyIn = plugin.fileManager.getLocations().getDouble("locations.spectatespawn.y");
-        double targetzIn = plugin.fileManager.getLocations().getDouble("locations.spectatespawn.z");
+        FileManager fm = plugin.getFileManager();
+        String WorldIn = fm.getLocations().getString("locations.spectatespawn.world");
+        double targetxIn = fm.getLocations().getDouble("locations.spectatespawn.x");
+        double targetyIn = fm.getLocations().getDouble("locations.spectatespawn.y");
+        double targetzIn = fm.getLocations().getDouble("locations.spectatespawn.z");
 
         World targetWorld = Bukkit.getWorld(WorldIn);
 
@@ -98,6 +102,7 @@ public class Locations {
      * @param p the player thats setting the duel sender spawn location
      */
     public void setSenderSpawnLocation(Player p) {
+        FileManager fm = plugin.getFileManager();
         Location loc = p.getLocation();
         String world = p.getWorld().getName();
 
@@ -105,13 +110,13 @@ public class Locations {
         double senderyIn = loc.getY();
         double senderzIn = loc.getZ();
 
-        plugin.fileManager.getLocations().set("locations.duelsender.world", world);
-        plugin.fileManager.getLocations().set("locations.duelsender.x", senderxIn);
-        plugin.fileManager.getLocations().set("locations.duelsender.y", senderyIn);
-        plugin.fileManager.getLocations().set("locations.duelsender.z", senderzIn);
-        plugin.fileManager.saveLocations();
-        plugin.fileManager.reloadLocations();
-        p.sendMessage(plugin.pluginPrefix + ChatColor.GREEN + "Sender Spawn Location set!");
+        fm.getLocations().set("locations.duelsender.world", world);
+        fm.getLocations().set("locations.duelsender.x", senderxIn);
+        fm.getLocations().set("locations.duelsender.y", senderyIn);
+        fm.getLocations().set("locations.duelsender.z", senderzIn);
+        fm.saveLocations();
+        fm.reloadLocations();
+        Util.sendMsg(p,ChatColor.GREEN + "Sender Spawn Location set!");
 
     }
 
@@ -120,6 +125,7 @@ public class Locations {
      * @param p the player thats setting the duel target spawn location
      */
     public void setTargetSpawnLocation(Player p) {
+        FileManager fm = plugin.getFileManager();
         Location loc = p.getLocation();
         String world = p.getWorld().getName();
 
@@ -127,13 +133,13 @@ public class Locations {
         double senderyIn = loc.getY();
         double senderzIn = loc.getZ();
 
-        plugin.fileManager.getLocations().set("locations.dueltarget.world", world);
-        plugin.fileManager.getLocations().set("locations.dueltarget.x", senderxIn);
-        plugin.fileManager.getLocations().set("locations.dueltarget.y", senderyIn);
-        plugin.fileManager.getLocations().set("locations.dueltarget.z", senderzIn);
-        plugin.fileManager.saveLocations();
-        plugin.fileManager.reloadLocations();
-        p.sendMessage(plugin.pluginPrefix + ChatColor.GREEN + "Target Spawn Location set!");
+        fm.getLocations().set("locations.dueltarget.world", world);
+        fm.getLocations().set("locations.dueltarget.x", senderxIn);
+        fm.getLocations().set("locations.dueltarget.y", senderyIn);
+        fm.getLocations().set("locations.dueltarget.z", senderzIn);
+        fm.saveLocations();
+        fm.reloadLocations();
+        Util.sendMsg(p,ChatColor.GREEN + "Target Spawn Location set!");
 
     }
 
@@ -142,6 +148,7 @@ public class Locations {
      * @param p the player thats setting the lobby spawn location
      */
     public void setLobbySpawnLocation(Player p) {
+        FileManager fm = plugin.getFileManager();
         Location loc = p.getLocation();
         String world = p.getWorld().getName();
 
@@ -149,13 +156,13 @@ public class Locations {
         double senderyIn = loc.getY();
         double senderzIn = loc.getZ();
 
-        plugin.fileManager.getLocations().set("locations.lobbyspawn.world", world);
-        plugin.fileManager.getLocations().set("locations.lobbyspawn.x", senderxIn);
-        plugin.fileManager.getLocations().set("locations.lobbyspawn.y", senderyIn);
-        plugin.fileManager.getLocations().set("locations.lobbyspawn.z", senderzIn);
-        plugin.fileManager.saveLocations();
-        plugin.fileManager.reloadLocations();
-        p.sendMessage(plugin.pluginPrefix + ChatColor.GREEN + "Lobby Spawn Location set!");
+        fm.getLocations().set("locations.lobbyspawn.world", world);
+        fm.getLocations().set("locations.lobbyspawn.x", senderxIn);
+        fm.getLocations().set("locations.lobbyspawn.y", senderyIn);
+        fm.getLocations().set("locations.lobbyspawn.z", senderzIn);
+        fm.saveLocations();
+        fm.reloadLocations();
+        Util.sendMsg(p, ChatColor.GREEN + "Lobby Spawn Location set!");
     }
 
     /**
@@ -163,6 +170,7 @@ public class Locations {
      * @param p the player thats setting the spectators spawn location
      */
     public void setSpectateLocation(Player p) {
+        FileManager fm = plugin.getFileManager();
         Location loc = p.getLocation();
         String world = p.getWorld().getName();
 
@@ -170,12 +178,12 @@ public class Locations {
         double senderyIn = loc.getY();
         double senderzIn = loc.getZ();
 
-        plugin.fileManager.getLocations().set("locations.spectatespawn.world", world);
-        plugin.fileManager.getLocations().set("locations.spectatespawn.x", senderxIn);
-        plugin.fileManager.getLocations().set("locations.spectatespawn.y", senderyIn);
-        plugin.fileManager.getLocations().set("locations.spectatespawn.z", senderzIn);
-        plugin.fileManager.saveLocations();
-        plugin.fileManager.reloadLocations();
-        p.sendMessage(plugin.pluginPrefix + ChatColor.GREEN + "Spectate Spawn Location set!");
+        fm.getLocations().set("locations.spectatespawn.world", world);
+        fm.getLocations().set("locations.spectatespawn.x", senderxIn);
+        fm.getLocations().set("locations.spectatespawn.y", senderyIn);
+        fm.getLocations().set("locations.spectatespawn.z", senderzIn);
+        fm.saveLocations();
+        fm.reloadLocations();
+        Util.sendMsg(p, ChatColor.GREEN + "Spectate Spawn Location set!");
     }
 }

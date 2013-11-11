@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,16 +22,11 @@ public class DuelManager {
     private DuelMe plugin;
 
     /**
-     * hashmap to keep track of the dueling requests
+     * map to keep track of the dueling requests
      * the key is the duel sender
      * the value is the player who has been sent a request
      */
-    public HashMap<String, String> duelRequests;
-
-    /**
-     * list to hold the current dueling players
-     */
-    public List<String> duelingPlayers;
+    public Map<String, String> duelRequests;
 
     /**
      * list to hold the current spectating players
@@ -42,7 +38,6 @@ public class DuelManager {
      */
     public List<String> frozenPlayers;
 
-
     /**
      * list to hold arena objects
      */
@@ -50,6 +45,9 @@ public class DuelManager {
 
     public DuelManager(DuelMe plugin){
         this.plugin = plugin;
+        this.duelRequests = new HashMap<String, String>();
+        this.spectatingPlayers = new ArrayList<String>();
+        this.frozenPlayers = new ArrayList<String>();
     }
 
     /**

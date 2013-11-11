@@ -1,7 +1,7 @@
 package com.teozcommunity.teozfrank.duelme.commands;
 
-import com.teozcommunity.teozfrank.duelme.commands.dueladmin.AcceptCmd;
-import com.teozcommunity.teozfrank.duelme.commands.dueladmin.DuelCmd;
+import com.teozcommunity.teozfrank.duelme.commands.duel.AcceptCmd;
+import com.teozcommunity.teozfrank.duelme.commands.duel.DuelCmd;
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import com.teozcommunity.teozfrank.duelme.util.Util;
 import org.bukkit.ChatColor;
@@ -36,7 +36,15 @@ public class DuelExecutor extends CmdExecutor implements CommandExecutor {
             if (args.length < 1) {
 
 
-                Util.sendEmptyMsg(sender, "DuelMe");
+                Util.sendEmptyMsg(sender,
+                        ChatColor.translateAlternateColorCodes('&',"&a0o----------= &6DuelMe: PVP for fun &a=----------o0"));
+                Util.sendEmptyMsg(sender, "");
+                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel - "+ ChatColor.GOLD + "brings up this message");
+                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel send <player> - "+ ChatColor.GOLD + "send a duel request to a player");
+                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel accept <player> - "+ ChatColor.GOLD + "accept a duel request");
+                Util.sendEmptyMsg(sender,"");
+                Util.sendEmptyMsg(sender,ChatColor.GOLD+"0o-----------= V"+plugin.getVersion()+" by TeOzFrAnK =-----------o0");
+                Util.sendEmptyMsg(sender,ChatColor.GOLD+"0o---= http://dev.bukkit.org/bukkit-plugins/duelme/ =---o0");
                 //TODO finish implementing the list of commands for plugin
                 return true;
             }
@@ -46,7 +54,7 @@ public class DuelExecutor extends CmdExecutor implements CommandExecutor {
             DuelCmd cmd = (DuelCmd) super.getCmd(sub);
 
             if (cmd == null) {
-                Util.sendMsg(sender, ChatColor.RED + "\"" + sub + "\" is not valid for this command.");
+                Util.sendMsg(sender, ChatColor.RED + "\"" + sub + "\" is not valid for the duel command.");
                 return true;
             }
 

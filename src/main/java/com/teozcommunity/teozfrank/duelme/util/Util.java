@@ -59,8 +59,6 @@ public class Util {
         this.rand = new Random();
     }
 
-
-
     /**
     * Method to store a players inventory
     * @param p the player to store the inventory of
@@ -71,7 +69,7 @@ public class Util {
         this.inventories.put(p.getName(), inv);
         this.armour.put(p.getName(), arm);
         p.getInventory().clear(-1, -1);
-        p.sendMessage(plugin.pluginPrefix + ChatColor.GREEN + "Your inventory has been stored and will be restored after the Duel.");
+        Util.sendMsg(p,ChatColor.GREEN + "Your inventory has been stored and will be restored after the Duel.");
     }
 
     /**
@@ -85,9 +83,9 @@ public class Util {
             p.getInventory().setArmorContents(this.armour.get(p.getName()));
             this.inventories.remove(p.getName());
             this.armour.remove(p.getName());
-            p.sendMessage(plugin.pluginPrefix + ChatColor.GREEN + "Your inventory has been restored.");
+            Util.sendMsg(p,ChatColor.GREEN + "Your inventory has been restored.");
         } else {
-            p.sendMessage(plugin.pluginPrefix + ChatColor.RED + "There was an error restoring your inventory!");
+            Util.sendMsg(p,ChatColor.RED + "There was an error restoring your inventory!");
         }
     }
 
@@ -98,7 +96,7 @@ public class Util {
     */
     public void broadcastMessage(String message) {
         for (Player p : Bukkit.getOnlinePlayers()) {
-            p.sendMessage(plugin.pluginPrefix + message);
+            Util.sendMsg(p, message);
         }
     }
 
@@ -149,7 +147,7 @@ public class Util {
     }
 
     public static void sendMsg(Player player, String message){
-        player.sendMessage(ChatColor.GOLD+"[DuelMe]" + message);
+        player.sendMessage(ChatColor.GOLD+"[DuelMe] " + message);
     }
 
     /**

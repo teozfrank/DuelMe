@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class CmdExecutor {
 
-    private DuelMe plugin;
+    public DuelMe plugin;
     public ConcurrentHashMap<String, SubCmd> commands;
 
     public CmdExecutor(DuelMe plugin) {

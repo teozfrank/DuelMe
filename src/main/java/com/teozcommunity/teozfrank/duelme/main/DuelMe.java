@@ -1,6 +1,7 @@
 package com.teozcommunity.teozfrank.duelme.main;
 
 import com.teozcommunity.teozfrank.MetricsLite;
+import com.teozcommunity.teozfrank.duelme.commands.DuelExecutor;
 import com.teozcommunity.teozfrank.duelme.events.*;
 import com.teozcommunity.teozfrank.duelme.util.*;
 import org.bukkit.Bukkit;
@@ -46,9 +47,15 @@ public class DuelMe extends JavaPlugin {
      */
     private FileManager fileManager;
 
+    /**
+     * string to hold the plugin version
+     */
+    private String version;
+
 
     @Override
     public void onEnable() {
+      this.version = this.getDescription().getVersion();
       this.sendConsoleMessage = new SendConsoleMessage(this);
       this.sendConsoleMessage.info("Enabling.");
       this.fileManager = new FileManager(this);
@@ -57,6 +64,7 @@ public class DuelMe extends JavaPlugin {
       this.submitStats();
       this.duelManager = new DuelManager(this);
 
+      getCommand("duel").setExecutor(new DuelExecutor(this));
       this.sendConsoleMessage.info("Enabled!");
     }
 
@@ -96,6 +104,14 @@ public class DuelMe extends JavaPlugin {
 
     public FileManager getFileManager(){
         return this.fileManager;
+    }
+
+    public SendConsoleMessage getConsoleMessageSender(){
+        return this.sendConsoleMessage;
+    }
+
+    public String getVersion(){
+        return this.version;
     }
 
 }

@@ -2,7 +2,9 @@ package com.teozcommunity.teozfrank.duelme.commands.duel;
 
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
+import com.teozcommunity.teozfrank.duelme.util.DuelManager;
 import com.teozcommunity.teozfrank.duelme.util.Util;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -26,5 +28,15 @@ public class AcceptCmd extends DuelCmd {
             return;
         }
 
+        if(args.length < 1){
+            Util.sendMsg(sender, ChatColor.GREEN + "Usage: /duel accept <player>");
+            return;
+        }
+
+        Player accepter = (Player) sender;
+        String senderName = getValue(args, 0, "");
+
+        DuelManager dm = plugin.getDuelManager();
+        dm.acceptRequest(accepter , senderName);
     }
 }

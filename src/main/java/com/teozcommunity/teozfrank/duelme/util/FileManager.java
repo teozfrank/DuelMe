@@ -60,7 +60,7 @@ public class FileManager {
         try {
             this.getLocations().save(locationsFile);
         } catch (IOException e) {
-            plugin.sendConsoleMessage.severe("Error saving locations config!");
+            plugin.getConsoleMessageSender().severe("Error saving locations config!");
         }
     }
 
@@ -101,7 +101,7 @@ public class FileManager {
         try {
             this.getLocations().save(messagesFile);
         } catch (IOException e) {
-            plugin.sendConsoleMessage.severe("Error saving messages config!");
+            plugin.getConsoleMessageSender().severe("Error saving messages config!");
         }
     }
 

@@ -2,6 +2,7 @@ package com.teozcommunity.teozfrank.duelme.commands;
 
 import com.teozcommunity.teozfrank.duelme.commands.duel.AcceptCmd;
 import com.teozcommunity.teozfrank.duelme.commands.duel.DuelCmd;
+import com.teozcommunity.teozfrank.duelme.commands.duel.SendCmd;
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import com.teozcommunity.teozfrank.duelme.util.Util;
 import org.bukkit.ChatColor;
@@ -22,9 +23,14 @@ public class DuelExecutor extends CmdExecutor implements CommandExecutor {
     public DuelExecutor(DuelMe plugin) {
         super(plugin);
         DuelCmd accept = new AcceptCmd(plugin, "duelme.player.accept");
+        DuelCmd send = new SendCmd(plugin, "duelme.player.send");
 
         addCmd("accept", accept, new String[]{
                 "a"
+        });
+
+        addCmd("send", send, new String[]{
+                "s"
         });
     }
 

@@ -2,6 +2,7 @@ package com.teozcommunity.teozfrank.duelme.util;
 
 import org.bukkit.Location;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,7 +31,7 @@ public class DuelArena {
         this.name = name;
         this.pos1 = pos1;
         this.pos2 = pos2;
-        this.players = null;
+        this.players = new ArrayList<String>();
         this.duelState = DuelState.WAITING;
     }
 

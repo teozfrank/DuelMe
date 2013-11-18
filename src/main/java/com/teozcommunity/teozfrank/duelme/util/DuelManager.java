@@ -177,7 +177,9 @@ public class DuelManager {
         if(this.duelRequests.containsKey(senderIn) && this.duelRequests.containsValue(accepter.getName())){
           Player sender = Bukkit.getPlayer(senderIn);
           if(sender != null){
+            this.duelRequests.remove(senderIn);
             this.startDuel(accepter,sender);
+            return;
           } else {
             Util.sendMsg(accepter,ChatColor.YELLOW+"Duel sender "+ senderIn +" has gone offline!, duel cancelled!");
           }
@@ -201,8 +203,8 @@ public class DuelManager {
             if(a.getDuelState() == DuelState.WAITING){
               //TODO teleport the players to an arena, start the countdown, give items....
             } else {
-                Util.sendMsg(accepter,ChatColor.YELLOW+"There are no free duel arenas, please try again layer!");
-                Util.sendMsg(sender,ChatColor.YELLOW+"There are no free duel arenas, please try again layer!");
+                Util.sendMsg(accepter,ChatColor.YELLOW+"There are no free duel arenas, please try again later!");
+                Util.sendMsg(sender,ChatColor.YELLOW+"There are no free duel arenas, please try again later!");
                 return;
             }
         }

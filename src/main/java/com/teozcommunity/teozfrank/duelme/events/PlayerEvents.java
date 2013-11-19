@@ -37,7 +37,12 @@ public class PlayerEvents implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerBreakBlock(BlockBreakEvent e) {
-        //TODO implement this method according to the event
+        Player dueler = e.getPlayer();
+        DuelManager dm = plugin.getDuelManager();
+
+        if(dm.isInDuel(dueler.getName())){
+            e.setCancelled(true);
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

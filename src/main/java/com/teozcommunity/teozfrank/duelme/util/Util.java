@@ -50,6 +50,7 @@ public class Util {
 
     public static String UNKNOWN_CMD = ChatColor.RED+"Unknown Command!";
     public static String NO_PERMS = ChatColor.RED+"You do not have permission!";
+    public static String NO_ARENAS = ChatColor.RED + "There are no arenas to start the duel! Please notify a member of staff!";
 
 
     public Util(DuelMe plugin) {
@@ -110,11 +111,11 @@ public class Util {
             if (plugin.getServer().getPluginManager().getPlugin("DisguiseCraft") != null) {
                 DisguiseCraftAPI dcAPI = DisguiseCraft.getAPI();
 
-                if (dcAPI.isDisguised(sender.getPlayer())) {
-                    dcAPI.undisguisePlayer(sender.getPlayer());
+                if (dcAPI.isDisguised(sender)) {
+                    dcAPI.undisguisePlayer(sender);
                 }
-                if (dcAPI.isDisguised(target.getPlayer())) {
-                    dcAPI.undisguisePlayer(target.getPlayer());
+                if (dcAPI.isDisguised(target)) {
+                    dcAPI.undisguisePlayer(target);
                 }
             }
 

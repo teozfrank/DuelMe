@@ -48,6 +48,7 @@ public class DuelManager {
         this.duelRequests = new HashMap<String, String>();
         this.spectatingPlayers = new ArrayList<String>();
         this.frozenPlayers = new ArrayList<String>();
+        this.duelArenas = new ArrayList<DuelArena>();
     }
 
     /**
@@ -143,7 +144,8 @@ public class DuelManager {
         String duelSenderName = duelSender.getName();
 
         if(this.duelRequests.containsKey(duelSenderName) && this.duelRequests.containsValue(duelTargetIn)){
-            Util.sendMsg(duelSender,ChatColor.YELLOW+"You have already sent a request to "+duelTargetIn);
+            Util.sendMsg(duelSender,ChatColor.YELLOW+"You have already sent a request to " +
+                    ChatColor.AQUA + duelTargetIn + ".");
             return;
         }
 
@@ -157,12 +159,12 @@ public class DuelManager {
                 return;
             }
 
-            Util.sendMsg(duelSender,"You have sent a duel request to "+duelTargetName);
-            Util.sendMsg(duelTarget,"You have been sent a duel request from "+duelSenderName +
-            "use /duel accept "+duelSenderName+" ,to accept.");
+            Util.sendMsg(duelSender,ChatColor.GREEN + "You have sent a duel request to " + ChatColor.AQUA + duelTargetName + ".");
+            Util.sendMsg(duelTarget,ChatColor.translateAlternateColorCodes('&',"&aYou have been sent a duel request from &b" + duelSenderName));
+            Util.sendEmptyMsg(duelTarget,ChatColor.translateAlternateColorCodes('&',"&ause &b/duel accept "+duelSenderName+"&a, to accept the request."));
             this.duelRequests.put(duelSenderName,duelTargetName);
         } else {
-            Util.sendMsg(duelSender, ChatColor.RED+ duelTargetIn +"is not online!");
+            Util.sendMsg(duelSender, ChatColor.AQUA+ duelTargetIn + ChatColor.RED + " is not online! Did you type it correctly?");
         }
 
     }
@@ -178,6 +180,7 @@ public class DuelManager {
           Player sender = Bukkit.getPlayer(senderIn);
           if(sender != null){
             this.duelRequests.remove(senderIn);
+            plugin.getConsoleMessageSender().info("starting duel with " + accepter + " and " + sender );
             this.startDuel(accepter,sender);
             return;
           } else {
@@ -186,7 +189,7 @@ public class DuelManager {
           this.duelRequests.remove(senderIn);
           return;
         } else {
-            Util.sendMsg(accepter,ChatColor.RED+"You do not have any duel requests to accept!");
+            Util.sendMsg(accepter,ChatColor.RED+"You do not have any duel requests from "+ ChatColor.AQUA + senderIn +".");
             return;
         }
 
@@ -198,8 +201,14 @@ public class DuelManager {
      * @param sender the player that sent the reqest
      */
     public void startDuel(Player accepter, Player sender) {
+        List<DuelArena> arenas = this.getDuelArenas();
 
-        for(DuelArena a: this.getDuelArenas()){
+       if(arenas.size() <= 1){
+         Util.sendMsg(sender , Util.NO_ARENAS);
+         Util.sendMsg(accepter , Util.NO_ARENAS);
+         return;
+       }
+        for(DuelArena a: arenas){
             if(a.getDuelState() == DuelState.WAITING){
               //TODO teleport the players to an arena, start the countdown, give items....
             } else {

@@ -41,12 +41,12 @@ public class Util {
     /**
      * hashmap to store players inventories
      */
-    private HashMap<String, ItemStack[]> inventories;
+    private static HashMap<String, ItemStack[]> inventories;
 
     /**
      * hashmap to store players armour
      */
-    private HashMap<String, ItemStack[]> armour;
+    private static HashMap<String, ItemStack[]> armour;
 
     public static String UNKNOWN_CMD = ChatColor.RED+"Unknown Command!";
     public static String NO_PERMS = ChatColor.RED+"You do not have permission!";
@@ -64,11 +64,11 @@ public class Util {
     * Method to store a players inventory
     * @param p the player to store the inventory of
     */
-    public void storeInventory(Player p) {
+    public static void storeInventory(Player p) {
         ItemStack[] inv = p.getInventory().getContents();
         ItemStack[] arm = p.getInventory().getArmorContents();
-        this.inventories.put(p.getName(), inv);
-        this.armour.put(p.getName(), arm);
+        inventories.put(p.getName(), inv);
+        armour.put(p.getName(), arm);
         p.getInventory().clear(-1, -1);
         Util.sendMsg(p,ChatColor.GREEN + "Your inventory has been stored and will be restored after the Duel.");
     }
@@ -77,13 +77,13 @@ public class Util {
     * Method to restore a players inventory
     * @param p the player to restore the inventory to
     */
-    public void restoreInventory(Player p) {
+    public static void restoreInventory(Player p) {
         p.getInventory().clear(-1, -1);// clear their inventory completely
-        if (this.inventories.containsKey(p.getName()) && this.armour.containsKey(p.getName())) {
-            p.getInventory().setContents(this.inventories.get(p.getName()));
-            p.getInventory().setArmorContents(this.armour.get(p.getName()));
-            this.inventories.remove(p.getName());
-            this.armour.remove(p.getName());
+        if (inventories.containsKey(p.getName()) && armour.containsKey(p.getName())) {
+            p.getInventory().setContents(inventories.get(p.getName()));
+            p.getInventory().setArmorContents(armour.get(p.getName()));
+            inventories.remove(p.getName());
+            armour.remove(p.getName());
             Util.sendMsg(p,ChatColor.GREEN + "Your inventory has been restored.");
         } else {
             Util.sendMsg(p,ChatColor.RED + "There was an error restoring your inventory!");

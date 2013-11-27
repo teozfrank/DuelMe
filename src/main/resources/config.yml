@@ -1,9 +1,0 @@
-# do not touch the config version below, it will break the plugin!
-duelme:
-    configversion: 1.1
-    checkforupdates: true
-    duel:
-       seperateinventories: true
-       announce:
-          duelstart: true
-          deaths: true

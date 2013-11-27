@@ -3,7 +3,10 @@ package com.teozcommunity.teozfrank.duelme.util;
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -201,16 +204,39 @@ public class DuelManager {
      * @param sender the player that sent the reqest
      */
     public void startDuel(Player accepter, Player sender) {
+        String accepterName = accepter.getName();
+        String senderName = sender.getName();
         List<DuelArena> arenas = this.getDuelArenas();
+        FileManager fm = plugin.getFileManager();
 
-       if(arenas.size() <= 1){
+       if(arenas.size() <= 0){
          Util.sendMsg(sender , Util.NO_ARENAS);
          Util.sendMsg(accepter , Util.NO_ARENAS);
          return;
        }
         for(DuelArena a: arenas){
             if(a.getDuelState() == DuelState.WAITING){
-              //TODO teleport the players to an arena, start the countdown, give items....
+              a.setDuelState(DuelState.STARTING);//set the duel state to starting
+
+              a.addPlayer(accepterName);//add the players to the arena
+              a.addPlayer(senderName);
+
+              if(fm.isUsingSeperateInventories()){//store the players inventories
+                  Util.storeInventory(accepter);
+                  Util.storeInventory(sender);
+              }
+
+              accepter.teleport(this.generateRandomLocation(a));//teleport the players to a random location in the duel arena
+              sender.teleport(this.generateRandomLocation(a));
+
+              frozenPlayers.add(accepter.getName());//freeze the players
+              frozenPlayers.add(sender.getName());
+
+              fm.giveDuelItems(accepter);//give them items
+              fm.giveDuelItems(sender);
+
+              //TODO start the count down thread
+
             } else {
                 Util.sendMsg(accepter,ChatColor.YELLOW+"There are no free duel arenas, please try again later!");
                 Util.sendMsg(sender,ChatColor.YELLOW+"There are no free duel arenas, please try again later!");
@@ -218,5 +244,36 @@ public class DuelManager {
             }
         }
 
+    }
+
+    /**
+     * Generates a random point between two other points.
+     *
+     * @param arg0 Point 1.
+     * @param arg1 Point 2.
+     * @return A random point.
+     */
+    private double randomGenRange(double arg0, double arg1) {
+        double range = (arg0 < arg1) ? arg1 - arg0 : arg0 - arg1;
+        if (range < 1)
+            return Math.floor(arg0) + 0.5d;
+        double min = (arg0 < arg1) ? arg0 : arg1;
+        return Math.floor(min + (Math.random() * range)) + 0.5d;
+    }
+
+    /**
+     * Generates a random location in a duelarena
+     *
+     * @param a The arena.
+     * @return Random location.
+     */
+    private Location generateRandomLocation(DuelArena a) {
+        double x, y, z;
+        World w = a.getPos1().getWorld();
+        x = randomGenRange(a.getPos1().getX(), a.getPos2().getX());
+        y = randomGenRange(a.getPos1().getY(), a.getPos2().getY());
+        z = randomGenRange(a.getPos1().getZ(), a.getPos2().getZ());
+
+        return new Location(w, x, y + 0.5, z);
     }
 }

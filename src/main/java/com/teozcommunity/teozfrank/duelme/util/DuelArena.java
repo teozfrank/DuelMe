@@ -67,6 +67,14 @@ public class DuelArena {
         this.pos2 = pos2;
     }
 
+    public void removePlayer(String playerName){
+        this.players.remove(playerName);
+    }
+
+    public void addPlayer(String playerName){
+        this.players.add(playerName);
+    }
+
     public void setPlayers(List<String> players){
         this.players = players;
     }

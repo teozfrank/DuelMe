@@ -3,6 +3,7 @@ package com.teozcommunity.teozfrank.duelme.util;
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
@@ -112,6 +113,15 @@ public class FileManager {
         if (!messagesFile.exists()) {
             plugin.saveResource("messages.yml", false);
         }
+    }
+
+    public boolean isUsingSeperateInventories(){
+       boolean isUsingSeperateInventories = plugin.getConfig().getBoolean("duelme.duel.separateinventories");
+       return isUsingSeperateInventories;
+    }
+
+    public void giveDuelItems(Player player){
+       //TODO finish implementing duel items from items.yml
     }
 
 

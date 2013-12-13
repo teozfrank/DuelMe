@@ -1,6 +1,7 @@
 package com.teozcommunity.teozfrank.duelme.util;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
+import com.teozcommunity.teozfrank.duelme.threads.StartDuelThread;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -116,8 +117,38 @@ public class DuelManager {
         return false;
     }
 
+    /**
+     * get a list of the frozen players
+     * @return list of frozen players
+     */
     public List<String> getFrozenPlayers(){
         return this.frozenPlayers;
+    }
+
+    /**
+     * add a frozen player to stop them from moving
+     * @param playerName the players name
+     */
+    public void addFrozenPlayer(String playerName){
+        this.frozenPlayers.add(playerName);
+    }
+
+    /**
+     * add a frozen players to stop them from moving
+     * @param senderName the duel sender
+     * @param targetName the duel target
+     */
+    public void addFrozenPlayer(String senderName, String targetName){
+        this.frozenPlayers.add(senderName);
+        this.frozenPlayers.add(targetName);
+    }
+
+    /**
+     * remove a frozen player allowing them to move
+     * @param playerName the players name
+     */
+    public void removeFrozenPlayer(String playerName){
+        this.frozenPlayers.remove(playerName);
     }
 
     /**
@@ -183,7 +214,7 @@ public class DuelManager {
           Player sender = Bukkit.getPlayer(senderIn);
           if(sender != null){
             this.duelRequests.remove(senderIn);
-            plugin.getConsoleMessageSender().info("starting duel with " + accepter + " and " + sender );
+            SendConsoleMessage.info("starting duel with " + accepter + " and " + sender);
             this.startDuel(accepter,sender);
             return;
           } else {
@@ -204,12 +235,12 @@ public class DuelManager {
      * @param sender the player that sent the reqest
      */
     public void startDuel(Player accepter, Player sender) {
-        String accepterName = accepter.getName();
-        String senderName = sender.getName();
-        List<DuelArena> arenas = this.getDuelArenas();
-        FileManager fm = plugin.getFileManager();
+        String accepterName = accepter.getName();//the duel accepter name
+        String senderName = sender.getName();//the duel request sender name
+        List<DuelArena> arenas = this.getDuelArenas();//list of arenas
+        FileManager fm = plugin.getFileManager();//file manager instance
 
-       if(arenas.size() <= 0){
+       if(arenas.size() <= 0){//if there are no arenas stop the duel
          Util.sendMsg(sender , Util.NO_ARENAS);
          Util.sendMsg(accepter , Util.NO_ARENAS);
          return;
@@ -235,15 +266,15 @@ public class DuelManager {
               fm.giveDuelItems(accepter);//give them items
               fm.giveDuelItems(sender);
 
-              //TODO start the count down thread
-
-            } else {
-                Util.sendMsg(accepter,ChatColor.YELLOW+"There are no free duel arenas, please try again later!");
-                Util.sendMsg(sender,ChatColor.YELLOW+"There are no free duel arenas, please try again later!");
-                return;
+                /**
+                 * start the duel with the two players and the arena they are in
+                 */
+              new StartDuelThread(plugin, sender, accepter, a).runTaskTimer(plugin ,20L ,20L );
+              return;
             }
         }
-
+        Util.sendMsg(accepter,ChatColor.YELLOW+"There are no free duel arenas, please try again later!");
+        Util.sendMsg(sender,ChatColor.YELLOW+"There are no free duel arenas, please try again later!");
     }
 
     /**

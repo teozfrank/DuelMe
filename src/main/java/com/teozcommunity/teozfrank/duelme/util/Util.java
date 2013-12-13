@@ -147,8 +147,24 @@ public class Util {
         }
     }
 
+    /**
+     * send a plugin message to a player
+     * @param player the player to send the message to
+     * @param message the message to send the player
+     */
     public static void sendMsg(Player player, String message){
         player.sendMessage(ChatColor.GOLD+"[DuelMe] " + message);
+    }
+
+    /**
+     * send the same message to two players
+     * @param sender the duel sender
+     * @param target the duel acceptor
+     * @param message the message to send to the two players
+     */
+    public static void sendMsg(Player sender, Player target, String message){
+        sender.sendMessage(ChatColor.GOLD+"[DuelMe] " + message);
+        target.sendMessage(ChatColor.GOLD+"[DuelMe] " + message);
     }
 
     /**

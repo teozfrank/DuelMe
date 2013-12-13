@@ -7,10 +7,10 @@
     <version>0.7</version>
     <packaging>jar</packaging>
     <name>duelme</name>
-    <description>duelme a plugin to allow players to pvp, in a contained area 1v1</description>
+    <description>duelme a plugin to allow players to pvp, in a controlled area</description>
 
     <properties>
-        <bukkit.version>1.6.4-R2.1-SNAPSHOT</bukkit.version>
+        <bukkit.version>1.7.2-R0.1-SNAPSHOT</bukkit.version>
     </properties>
 
     <repositories>

@@ -85,7 +85,6 @@ public class PlayerEvents implements Listener {
                 loc.setYaw(loc.getYaw());
 
                 p.teleport(loc);
-
             }
         }
     }

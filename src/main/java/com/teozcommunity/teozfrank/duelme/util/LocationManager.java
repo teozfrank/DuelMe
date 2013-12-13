@@ -17,11 +17,11 @@ import org.bukkit.entity.Player;
  * please do not remove, move or edit it in any way.
  * -----------------------------
  */
-public class Locations {
+public class LocationManager {
 
     private DuelMe plugin;
 
-    public Locations(DuelMe plugin) {
+    public LocationManager(DuelMe plugin) {
         this.plugin = plugin;
     }
 

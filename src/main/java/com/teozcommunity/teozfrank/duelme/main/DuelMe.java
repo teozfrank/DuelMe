@@ -28,11 +28,6 @@ import java.util.HashMap;
 public class DuelMe extends JavaPlugin {
 
     /**
-     * class to send coloured console messages
-     */
-    private SendConsoleMessage sendConsoleMessage;
-
-    /**
      * duelmanager class
      */
     private DuelManager duelManager;
@@ -55,23 +50,21 @@ public class DuelMe extends JavaPlugin {
 
     @Override
     public void onEnable() {
+      SendConsoleMessage.info("Enabling.");
       this.version = this.getDescription().getVersion();
-      this.sendConsoleMessage = new SendConsoleMessage(this);
-      this.sendConsoleMessage.info("Enabling.");
       this.fileManager = new FileManager(this);
       this.setupYMLs();
       this.checkForUpdates();
       this.submitStats();
       this.duelManager = new DuelManager(this);
-
       getCommand("duel").setExecutor(new DuelExecutor(this));
-      this.sendConsoleMessage.info("Enabled!");
+      SendConsoleMessage.info("Enabled!");
     }
 
 
     @Override
     public void onDisable() {
-
+      SendConsoleMessage.info("Disabling.");
     }
 
     public void checkForUpdates() {
@@ -85,15 +78,21 @@ public class DuelMe extends JavaPlugin {
             MetricsLite metrics = new MetricsLite(this);
             metrics.start();
         } catch (IOException e) {
-            this.sendConsoleMessage.severe("Could not submit the stats! :(");
+            SendConsoleMessage.severe("Could not submit the stats! :(");
         }
     }
 
     public void setupYMLs() {
         if (!(new File(getDataFolder(), "config.yml")).exists()) {
+            SendConsoleMessage.info("saving default config.yml.");
             saveDefaultConfig();
         }
         if (!(new File(getDataFolder(), "locations.yml")).exists()) {
+            SendConsoleMessage.info("saving default locations.yml.");
+            this.fileManager.saveDefaultLocations();
+        }
+        if (!(new File(getDataFolder(), "arenas.yml")).exists()) {
+            SendConsoleMessage.info("saving default arenas.yml.");
             this.fileManager.saveDefaultLocations();
         }
     }
@@ -104,10 +103,6 @@ public class DuelMe extends JavaPlugin {
 
     public FileManager getFileManager(){
         return this.fileManager;
-    }
-
-    public SendConsoleMessage getConsoleMessageSender(){
-        return this.sendConsoleMessage;
     }
 
     public String getVersion(){

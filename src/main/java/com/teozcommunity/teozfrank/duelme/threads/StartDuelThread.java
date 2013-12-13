@@ -1,6 +1,9 @@
 package com.teozcommunity.teozfrank.duelme.threads;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
+import com.teozcommunity.teozfrank.duelme.util.DuelArena;
+import com.teozcommunity.teozfrank.duelme.util.DuelManager;
+import com.teozcommunity.teozfrank.duelme.util.DuelState;
 import com.teozcommunity.teozfrank.duelme.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -24,38 +27,39 @@ public class StartDuelThread extends BukkitRunnable {
     private DuelMe plugin;
     private Player sender;
     private Player target;
+    private DuelArena duelArena;
     private int countDown;
 
-    public StartDuelThread(DuelMe plugin, Player sender, Player target) {
+    public StartDuelThread(DuelMe plugin, Player sender, Player target,DuelArena duelArena) {
         this.plugin = plugin;
         this.sender = sender;
         this.target = target;
         this.countDown = 15;
+        this.duelArena = duelArena;
     }
 
     @Override
     public void run() {
+        DuelManager dm = plugin.getDuelManager();
+        String senderName = sender.getName();
+        String targetName = target.getName();
 
-        /* plugin.frozenPlayers.add(sender);
-        plugin.frozenPlayers.add(target);
+        dm.addFrozenPlayer(senderName, targetName); // stop the players from moving
 
         if (this.countDown > 0) {
             switch (this.countDown) {
                 case 15:
-                    Util.sendMsg(sender,ChatColor.YELLOW + "Starting duel in: " + ChatColor.GOLD + this.countDown);
-                    target.sendMessage(plugin.pluginPrefix + ChatColor.YELLOW + "Starting duel in: " + ChatColor.GOLD + this.countDown);
+                    Util.sendMsg(sender, target, ChatColor.YELLOW + "Starting duel in: " + ChatColor.GOLD + this.countDown);
                     break;
                 case 10:
-                    sender.sendMessage(plugin.pluginPrefix + ChatColor.YELLOW + "Starting duel in: " + ChatColor.GOLD + this.countDown);
-                    target.sendMessage(plugin.pluginPrefix + ChatColor.YELLOW + "Starting duel in: " + ChatColor.GOLD + this.countDown);
+                    Util.sendMsg(sender, target, ChatColor.YELLOW + "Starting duel in: " + ChatColor.GOLD + this.countDown);
                     break;
                 case 5:
                 case 4:
                 case 3:
                 case 2:
                 case 1:
-                    sender.sendMessage(plugin.pluginPrefix + ChatColor.YELLOW + "Starting duel in: " + ChatColor.GOLD + this.countDown);
-                    target.sendMessage(plugin.pluginPrefix + ChatColor.YELLOW + "Starting duel in: " + ChatColor.GOLD + this.countDown);
+                    Util.sendMsg(sender, target, ChatColor.YELLOW + "Starting duel in: " + ChatColor.GOLD + this.countDown);
                     break;
                 default:
                     break;
@@ -63,13 +67,10 @@ public class StartDuelThread extends BukkitRunnable {
             this.countDown--;
         } else {
 
-            plugin.frozenPlayers.clear();//let them move
-            plugin.duelingPlayers.add(sender);
-            plugin.duelingPlayers.add(target);
-            sender.sendMessage(plugin.pluginPrefix + ChatColor.YELLOW + "Duel!");
-            target.sendMessage(plugin.pluginPrefix + ChatColor.YELLOW + "Duel!");
-            plugin.duelStatus = "IN PROGRESS";
+
+            Util.sendMsg(sender, target, ChatColor.YELLOW + "Duel!");
+            duelArena.setDuelState(DuelState.STARTED);
             this.cancel();
-        }*/
+        }
     }
 }

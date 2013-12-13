@@ -1,6 +1,7 @@
 package com.teozcommunity.teozfrank.duelme.util;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 
@@ -18,25 +19,30 @@ public class SendConsoleMessage {
 
     private DuelMe plugin;
     private ConsoleCommandSender _cs;
-    private final String prefix = ChatColor.GREEN + "[DuelMe] ";
-    private final String info = "[Info] ";
-    private final String severe = ChatColor.YELLOW + "[Severe] ";
-    private final String warning = ChatColor.RED + "[Warning] ";
+    private static final String prefix = ChatColor.GREEN + "[DuelMe] ";
+    private static final String info = "[Info] ";
+    private static final String severe = ChatColor.YELLOW + "[Severe] ";
+    private static final String warning = ChatColor.RED + "[Warning] ";
+    private static final String debug = ChatColor.AQUA + "[Debug] ";
 
     public SendConsoleMessage(DuelMe plugin) {
         this.plugin = plugin;
         _cs = plugin.getServer().getConsoleSender();
     }
 
-    public void info(String message) {
-        _cs.sendMessage(prefix + info + message);
+    public static void info(String message) {
+        Bukkit.getConsoleSender().sendMessage(prefix + info + message);
     }
 
-    public void severe(String message) {
-        _cs.sendMessage(prefix + severe + message);
+    public static void severe(String message) {
+        Bukkit.getConsoleSender().sendMessage(prefix + severe + message);
     }
 
-    public void warning(String message) {
-        _cs.sendMessage(prefix + warning + message);
+    public static void warning(String message) {
+        Bukkit.getConsoleSender().sendMessage(prefix + warning + message);
+    }
+
+    public static void debug(String message){
+        Bukkit.getConsoleSender().sendMessage(prefix + debug + message);
     }
 }

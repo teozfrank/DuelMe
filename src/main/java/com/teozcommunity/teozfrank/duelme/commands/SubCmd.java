@@ -22,7 +22,7 @@ public class SubCmd {
     public final String NO_CONSOLE = "This command cannot be used by the console!";
     public final String NO_OBJECT = ChatColor.RED + "That object doesn't exist.";
     public final String NO_PERM = ChatColor.RED + "You do not have permission to use this command!";
-    public final String NOT_CMD = ChatColor.RED + "That is not a command for VCTournaments";
+    public final String NOT_CMD = ChatColor.RED + "That is not a command for DuelMe";
     public final String NOT_FLOAT = ChatColor.RED + "You must input a float for the amount.";
     public final String NOT_INT = ChatColor.RED + "You must input an integer for the amount. e.g. 1,3,6,7";
 

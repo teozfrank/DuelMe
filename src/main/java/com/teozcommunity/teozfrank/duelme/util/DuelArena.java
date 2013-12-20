@@ -20,13 +20,6 @@ public class DuelArena {
     private List<String> players;
     private DuelState duelState;
 
-    public DuelArena(String name, Location pos1, Location pos2, List<String> players){
-        this.name = name;
-        this.pos1 = pos1;
-        this.pos2 = pos2;
-        this.players = players;
-    }
-
     public DuelArena(String name, Location pos1, Location pos2){
         this.name = name;
         this.pos1 = pos1;

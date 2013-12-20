@@ -1,5 +1,6 @@
 package com.teozcommunity.teozfrank.duelme.commands;
 
+import com.teozcommunity.teozfrank.duelme.commands.admin.DuelAdminCmd;
 import com.teozcommunity.teozfrank.duelme.commands.duel.AcceptCmd;
 import com.teozcommunity.teozfrank.duelme.commands.duel.DuelCmd;
 import com.teozcommunity.teozfrank.duelme.commands.duel.SendCmd;

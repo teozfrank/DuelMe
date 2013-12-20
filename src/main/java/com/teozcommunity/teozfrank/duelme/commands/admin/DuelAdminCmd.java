@@ -1,4 +1,4 @@
-package com.teozcommunity.teozfrank.duelme.commands.dueladmin;
+package com.teozcommunity.teozfrank.duelme.commands.admin;
 
 import com.teozcommunity.teozfrank.duelme.commands.SubCmd;
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;

@@ -64,6 +64,15 @@ public class DuelManager {
     }
 
     /**
+     * add a duel arena
+     * @param da the duel arena
+     */
+    public void addDuelArena(DuelArena da){
+        this.duelArenas.add(da);
+    }
+
+
+    /**
      * if a player is in a duel
      * @param playerName the players name
      * @return true if is in a duel, false if not

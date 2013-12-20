@@ -1,5 +1,6 @@
 package com.teozcommunity.teozfrank.duelme.main;
 
+import com.sk89q.worldedit.WorldEdit;
 import com.teozcommunity.teozfrank.MetricsLite;
 import com.teozcommunity.teozfrank.duelme.commands.DuelExecutor;
 import com.teozcommunity.teozfrank.duelme.events.*;
@@ -43,6 +44,11 @@ public class DuelMe extends JavaPlugin {
     private FileManager fileManager;
 
     /**
+     * worldedit plugin
+     */
+    public WorldEdit worldEdit;
+
+    /**
      * string to hold the plugin version
      */
     private String version;
@@ -56,6 +62,7 @@ public class DuelMe extends JavaPlugin {
       this.setupYMLs();
       this.checkForUpdates();
       this.submitStats();
+      this.setupDependencies();
       this.duelManager = new DuelManager(this);
       getCommand("duel").setExecutor(new DuelExecutor(this));
       SendConsoleMessage.info("Enabled!");
@@ -94,6 +101,21 @@ public class DuelMe extends JavaPlugin {
         if (!(new File(getDataFolder(), "arenas.yml")).exists()) {
             SendConsoleMessage.info("saving default arenas.yml.");
             this.fileManager.saveDefaultLocations();
+        }
+    }
+
+    /**
+     * sets up the plugin main dependencies such as WorldEdit
+     * disables the plugin if the required dependency is not present
+     */
+    private void setupDependencies() {
+        if (this.getServer().getPluginManager().getPlugin("WorldEdit") != null) {
+            this.worldEdit = WorldEdit.getInstance();
+            SendConsoleMessage.info("WorldEdit found! hooking into plugin!");
+        } else {
+            SendConsoleMessage.warning("WorldEdit dependency not found, plugin disabled!");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
         }
     }
 

@@ -3,10 +3,12 @@ package com.teozcommunity.teozfrank.duelme.commands.admin;
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.LocalWorld;
+import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.regions.Region;
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import com.teozcommunity.teozfrank.duelme.util.DuelArena;
 import com.teozcommunity.teozfrank.duelme.util.DuelManager;
+import com.teozcommunity.teozfrank.duelme.util.SendConsoleMessage;
 import com.teozcommunity.teozfrank.duelme.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -34,16 +36,14 @@ public class CreateCmd extends DuelAdminCmd {
     }
 
     @Override
-    public void run(CommandSender sender, String subCmd, String[] args) {
+    public void run(DuelArena duelArena, CommandSender sender, String subCmd, String[] args) {
         if (!(sender instanceof Player)) {
             Util.sendMsg(sender, NO_CONSOLE);
             return;
         }
 
         if (args.length < 1) {
-            String message = "()-x-x-x-( DuelMe Admin - Create duel arena )-x-x-x()\n\n" +
-                    "usage " + ChatColor.AQUA + " /dueladmin create <duelarenaname>\n";
-            Util.sendEmptyMsg(sender, message);
+            Util.sendMsg(sender, ChatColor.GREEN + "Usage: /dueladmin create <arenaname>");
             return;
         }
 
@@ -52,7 +52,7 @@ public class CreateCmd extends DuelAdminCmd {
 
         try {
 
-            LocalSession session = plugin.worldEdit.getSession(p.getName());
+            LocalSession session = WorldEdit.getInstance().getSession(p.getName());
             LocalWorld world = session.getSelectionWorld();
 
             Region region = session.getSelection(world);
@@ -74,6 +74,7 @@ public class CreateCmd extends DuelAdminCmd {
             Util.sendMsg(sender, ChatColor.YELLOW + "You have not selected a full region, please make sure you have selected two points!");
             return;
         } catch (NullPointerException e) {
+            e.printStackTrace();
             Util.sendMsg(sender, ChatColor.RED + "You have not selected a region, please select one first!");
             return;
         }

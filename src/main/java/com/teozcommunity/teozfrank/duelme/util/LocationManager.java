@@ -98,52 +98,6 @@ public class LocationManager {
     }
 
     /**
-     * sets the senders spawn location to disk and reloads configuration file
-     * @param p the player thats setting the duel sender spawn location
-     */
-    public void setSenderSpawnLocation(Player p) {
-        FileManager fm = plugin.getFileManager();
-        Location loc = p.getLocation();
-        String world = p.getWorld().getName();
-
-        double senderxIn = loc.getX();
-        double senderyIn = loc.getY();
-        double senderzIn = loc.getZ();
-
-        fm.getLocations().set("locations.duelsender.world", world);
-        fm.getLocations().set("locations.duelsender.x", senderxIn);
-        fm.getLocations().set("locations.duelsender.y", senderyIn);
-        fm.getLocations().set("locations.duelsender.z", senderzIn);
-        fm.saveLocations();
-        fm.reloadLocations();
-        Util.sendMsg(p,ChatColor.GREEN + "Sender Spawn Location set!");
-
-    }
-
-    /**
-     * sets the targets spawn location to disk and reloads configuration file
-     * @param p the player thats setting the duel target spawn location
-     */
-    public void setTargetSpawnLocation(Player p) {
-        FileManager fm = plugin.getFileManager();
-        Location loc = p.getLocation();
-        String world = p.getWorld().getName();
-
-        double senderxIn = loc.getX();
-        double senderyIn = loc.getY();
-        double senderzIn = loc.getZ();
-
-        fm.getLocations().set("locations.dueltarget.world", world);
-        fm.getLocations().set("locations.dueltarget.x", senderxIn);
-        fm.getLocations().set("locations.dueltarget.y", senderyIn);
-        fm.getLocations().set("locations.dueltarget.z", senderzIn);
-        fm.saveLocations();
-        fm.reloadLocations();
-        Util.sendMsg(p,ChatColor.GREEN + "Target Spawn Location set!");
-
-    }
-
-    /**
      * sets the lobby spawn location to disk and reloads configuration file
      * @param p the player thats setting the lobby spawn location
      */

@@ -44,7 +44,7 @@ public class StartDuelThread extends BukkitRunnable {
         String senderName = sender.getName();
         String targetName = target.getName();
 
-        dm.addFrozenPlayer(senderName, targetName); // stop the players from moving
+
 
         if (this.countDown > 0) {
             switch (this.countDown) {
@@ -67,7 +67,8 @@ public class StartDuelThread extends BukkitRunnable {
             this.countDown--;
         } else {
 
-
+            dm.removeFrozenPlayer(senderName);
+            dm.removeFrozenPlayer(targetName);
             Util.sendMsg(sender, target, ChatColor.YELLOW + "Duel!");
             duelArena.setDuelState(DuelState.STARTED);
             this.cancel();

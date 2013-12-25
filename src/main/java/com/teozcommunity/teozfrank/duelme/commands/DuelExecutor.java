@@ -43,16 +43,17 @@ public class DuelExecutor extends CmdExecutor implements CommandExecutor {
             if (args.length < 1) {
 
 
-                Util.sendEmptyMsg(sender,
-                        ChatColor.translateAlternateColorCodes('&',"&a0o----------= &6DuelMe: PVP for fun &a=----------o0"));
-                Util.sendEmptyMsg(sender, "");
+                Util.sendEmptyMsg(sender,Util.LINE_BREAK);
+                Util.sendEmptyMsg(sender, ChatColor.GOLD + "                            DuelMe - PVP for fun!");
+                Util.sendEmptyMsg(sender,Util.LINE_BREAK);
+                Util.sendEmptyMsg(sender,"");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel - "+ ChatColor.GOLD + "brings up this message");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel send <player> - "+ ChatColor.GOLD + "send a duel request to a player");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel accept <player> - "+ ChatColor.GOLD + "accept a duel request");
                 Util.sendEmptyMsg(sender,"");
-                Util.sendEmptyMsg(sender,ChatColor.translateAlternateColorCodes('&',"&a0o-----------= &6V"+plugin.getVersion()+" by TeOzFrAnK &a=-----------o0"));
-                Util.sendEmptyMsg(sender,ChatColor.translateAlternateColorCodes('&',"&a0o---=&6 http://dev.bukkit.org/bukkit-plugins/duelme/ &a=---o0"));
-                //TODO finish implementing the list of commands for plugin
+                Util.sendEmptyMsg(sender,Util.LINE_BREAK);
+                Util.sendCredits(sender);
+                Util.sendEmptyMsg(sender,Util.LINE_BREAK);
                 return true;
             }
 

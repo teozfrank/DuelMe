@@ -71,6 +71,20 @@ public class DuelManager {
         this.duelArenas.add(da);
     }
 
+    /**
+     * get a duel arena by name
+     * @param duelArenaName the duel arena name
+     * @return the duel arena , null if it does not exist
+     */
+    public DuelArena getDuelArenaByName(String duelArenaName){
+        for(DuelArena da: duelArenas){
+            if(da.getName().equalsIgnoreCase(duelArenaName)){
+                return da;
+            }
+        }
+        return null;
+    }
+
 
     /**
      * if a player is in a duel

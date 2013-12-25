@@ -26,6 +26,7 @@ public class SubCmd {
     public final String NOT_FLOAT = ChatColor.RED + "You must input a float for the amount.";
     public final String NOT_INT = ChatColor.RED + "You must input an integer for the amount. e.g. 1,3,6,7";
 
+
     public FileConfiguration config;
     public DuelMe plugin;
     public boolean needsObject;

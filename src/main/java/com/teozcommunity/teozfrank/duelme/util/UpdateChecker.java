@@ -119,12 +119,12 @@ public class UpdateChecker {
 
                 if(!versionName.equals(plugin.getDescription().getVersion())){
                     this.updateAvailable = true;
-                    plugin.getConsoleMessageSender().info("There is a new update available! download it on bukkit dev "+
+                    SendConsoleMessage.info("There is a new update available! download it on bukkit dev "+
                             ChatColor.YELLOW+"http://dev.bukkit.org/bukkit-plugins/duelme/");
                 }
                 else {
                     this.updateAvailable = false;
-                    plugin.getConsoleMessageSender().info("plugin is up to date!");
+                    SendConsoleMessage.info("plugin is up to date!");
                 }
 
             } else {

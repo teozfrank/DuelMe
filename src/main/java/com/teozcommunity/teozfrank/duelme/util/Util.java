@@ -51,6 +51,7 @@ public class Util {
     public static String UNKNOWN_CMD = ChatColor.RED+"Unknown Command!";
     public static String NO_PERMS = ChatColor.RED+"You do not have permission!";
     public static String NO_ARENAS = ChatColor.RED + "There are no arenas to start the duel! Please notify a member of staff!";
+    public static final String LINE_BREAK = ChatColor.LIGHT_PURPLE + "=====================================================";
 
 
     public Util(DuelMe plugin) {
@@ -148,6 +149,15 @@ public class Util {
     }
 
     /**
+     * sends plugin credits to sender of command
+     * @param sender the command sender
+     */
+    public static void sendCredits(CommandSender sender){
+        Util.sendEmptyMsg(sender,ChatColor.GOLD + "                              V"+DuelMe.getVersion()+" by TeOzFrAnK ");
+        Util.sendEmptyMsg(sender,ChatColor.GOLD + "             http://dev.bukkit.org/bukkit-plugins/duelme/");
+    }
+
+    /**
      * send a plugin message to a player
      * @param player the player to send the message to
      * @param message the message to send the player
@@ -189,6 +199,7 @@ public class Util {
             p.sendMessage(message);
         }
     }
+
 
 
 

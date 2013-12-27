@@ -1,6 +1,10 @@
 package com.teozcommunity.teozfrank.duelme.util;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -8,6 +12,9 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -29,8 +36,10 @@ public class FileManager {
 
     private FileConfiguration locations = null;
     private FileConfiguration messages = null;
+    private FileConfiguration duelArenas = null;
     private File locationsFile = null;
     private File messagesFile = null;
+    private File duelArenasFile = null;
 
 
     public void reloadLocations() {
@@ -122,6 +131,113 @@ public class FileManager {
 
     public void giveDuelItems(Player player){
        //TODO finish implementing duel items from items.yml
+    }
+
+    public void reloadDuelArenas() {
+        if (duelArenasFile == null) {
+            duelArenasFile = new File(plugin.getDataFolder(), "duelarenas.yml");
+        }
+        duelArenas = YamlConfiguration.loadConfiguration(duelArenasFile);
+
+        InputStream defConfigStream = plugin.getResource("duelarenas.yml");
+        if (defConfigStream != null) {
+            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+            duelArenas.setDefaults(defConfig);
+        }
+
+    }
+
+    public FileConfiguration getDuelArenas() {
+        if (duelArenas == null) {
+            this.reloadDuelArenas();
+        }
+        return duelArenas;
+    }
+
+    public void saveDefaultDuelArenas() {
+        if (duelArenasFile == null) {
+            duelArenasFile = new File(plugin.getDataFolder(), "duelarenas.yml");
+        }
+        if (!locationsFile.exists()) {
+            plugin.saveResource("duelarenas.yml", false);
+        }
+    }
+
+    /**
+     * save the admin to admin config
+     */
+    public void saveDuelArenas() {
+        if (duelArenas == null) {
+            reloadDuelArenas();
+        }
+        int savedArenas = 0;
+        DuelManager dm = plugin.getDuelManager();
+
+        if (dm.getDuelArenas().size() == 0) {
+            SendConsoleMessage.info("There are no arenas to save.");
+            return;
+        }
+
+        for (DuelArena a : dm.getDuelArenas()) {
+            String path = "duelarenas." + a.getName() + ".";
+            duelArenas.set(path + "pos1.world", a.getPos1().getWorld().getName());
+            duelArenas.set(path + "pos1.x", a.getPos1().getBlockX());
+            duelArenas.set(path + "pos1.y", a.getPos1().getBlockY());
+            duelArenas.set(path + "pos1.z", a.getPos1().getBlockZ());
+            duelArenas.set(path + "pos2.world", a.getPos2().getWorld().getName());
+            duelArenas.set(path + "pos2.x", a.getPos2().getBlockX());
+            duelArenas.set(path + "pos2.y", a.getPos2().getBlockY());
+            duelArenas.set(path + "pos2.z", a.getPos2().getBlockZ());
+            savedArenas++;
+        }
+
+        try {
+            duelArenas.save(duelArenasFile);
+            SendConsoleMessage.info("Successfully saved " + ChatColor.AQUA + savedArenas + ChatColor.GREEN + " Duel Arena(s).");
+        } catch (Exception e) {
+            SendConsoleMessage.severe("Error while saving Duel Arena(s)!");
+        }
+
+    }
+
+    public void loadDuelArenas() {
+        if (duelArenas == null) {
+            reloadDuelArenas();
+        }
+
+        DuelManager dm = plugin.getDuelManager();
+
+        ConfigurationSection sec = duelArenas.getConfigurationSection("duelarenas");
+
+        if (sec == null)
+            return;
+        int loadedArenas = 0;
+
+        Set<String> arenaSet = sec.getKeys(false);
+        if (arenaSet != null) {
+            for (String aArena : arenaSet) {
+                String path = "duelarenas." + aArena + ".";
+                String aName = ChatColor.translateAlternateColorCodes('&', aArena);
+                String pos1w = duelArenas.getString(path + "pos1.world");
+                int pos1x = duelArenas.getInt(path + "pos1.x");
+                int pos1y = duelArenas.getInt(path + "pos1.y");
+                int pos1z = duelArenas.getInt(path + "pos1.z");
+                String pos2w = duelArenas.getString(path + "pos2.world");
+                int pos2x = duelArenas.getInt(path + "pos2.x");
+                int pos2y = duelArenas.getInt(path + "pos2.y");
+                int pos2z = duelArenas.getInt(path + "pos2.z");
+
+                Location pos1 = new Location(Bukkit.getWorld(pos1w), pos1x, pos1y, pos1z);
+                Location pos2 = new Location(Bukkit.getWorld(pos2w), pos2x, pos2y, pos2z);
+
+                DuelArena arena = new DuelArena(aName, pos1, pos2);
+
+
+                dm.addDuelArena(arena);
+                loadedArenas++;
+                SendConsoleMessage.info("Successfully loaded " + ChatColor.AQUA + loadedArenas + ChatColor.GREEN + " Duel Arena(s).");
+            }
+        }
     }
 
 

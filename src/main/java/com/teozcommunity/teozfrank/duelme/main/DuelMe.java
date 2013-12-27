@@ -1,21 +1,14 @@
 package com.teozcommunity.teozfrank.duelme.main;
 
-import com.sk89q.worldedit.WorldEdit;
 import com.teozcommunity.teozfrank.MetricsLite;
 import com.teozcommunity.teozfrank.duelme.commands.DuelAdminExecutor;
 import com.teozcommunity.teozfrank.duelme.commands.DuelExecutor;
 import com.teozcommunity.teozfrank.duelme.events.*;
 import com.teozcommunity.teozfrank.duelme.util.*;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -76,6 +69,7 @@ public class DuelMe extends JavaPlugin {
     @Override
     public void onDisable() {
       SendConsoleMessage.info("Disabling.");
+      this.fileManager.saveDuelArenas();
     }
 
     public void checkForUpdates() {
@@ -102,9 +96,9 @@ public class DuelMe extends JavaPlugin {
             SendConsoleMessage.info("saving default locations.yml.");
             this.fileManager.saveDefaultLocations();
         }
-        if (!(new File(getDataFolder(), "arenas.yml")).exists()) {
-            SendConsoleMessage.info("saving default arenas.yml.");
-            this.fileManager.saveDefaultLocations();
+        if (!(new File(getDataFolder(), "duelarenas.yml")).exists()) {
+            SendConsoleMessage.info("saving default duelarenas.yml.");
+            this.fileManager.saveDefaultDuelArenas();
         }
     }
 

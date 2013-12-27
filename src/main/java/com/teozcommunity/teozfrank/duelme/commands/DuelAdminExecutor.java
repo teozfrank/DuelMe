@@ -2,6 +2,7 @@ package com.teozcommunity.teozfrank.duelme.commands;
 
 import com.teozcommunity.teozfrank.duelme.commands.admin.CreateCmd;
 import com.teozcommunity.teozfrank.duelme.commands.admin.DuelAdminCmd;
+import com.teozcommunity.teozfrank.duelme.commands.admin.SetCmd;
 import com.teozcommunity.teozfrank.duelme.commands.duel.AcceptCmd;
 import com.teozcommunity.teozfrank.duelme.commands.duel.DuelCmd;
 import com.teozcommunity.teozfrank.duelme.commands.duel.SendCmd;
@@ -24,12 +25,18 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
         super(plugin);
 
         DuelAdminCmd create = new CreateCmd(plugin, "duelme.admin.create");
+        DuelAdminCmd set = new SetCmd(plugin, "duelme.admin.set");
 
         addCmd("create", create, new String[] {
             "c,new"
         });
 
+        addCmd("set", create, new String[]{
+                "s"
+        });
+
         create.needsObject = false;
+        set.needsObject = false;
     }
 
     @Override

@@ -1,0 +1,31 @@
+name: DuelMe
+version: 0.8
+author: teozfrank
+main: com.teozcommunity.teozfrank.duelme.main.DuelMe
+commands:
+    duel:
+        description: Access to duel commands
+        permission: duelme.duel
+        permission-message: You do not have permission for this command!
+        usage: /<command>
+    dueladmin:
+        description: Access to dueladmin commands
+        permission: duelme.admin
+        permission-message: You do not have permission for this command!
+        useage: /<command>
+permissions:
+    duelme.*:
+        description: Gives access to all duelme commands
+        children:
+            duelme.duel: true
+            duelme.admin: true
+            duelme.update.notify: true
+    duelme.duel:
+        description: Gives access to duel commands
+        default: op
+    duelme.admin:
+        description: Gives access to duel admin commands
+        default: op
+    duelme.update.notify:
+        description: Notifys players of plugin updates
+        default: op

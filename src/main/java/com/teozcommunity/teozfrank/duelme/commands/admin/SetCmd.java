@@ -31,6 +31,9 @@ public class SetCmd extends DuelAdminCmd {
            Util.sendEmptyMsg(sender, Util.LINE_BREAK);
            return;
         }
+
+        String args0 = getValue(args, 0,"");
+        System.out.println(args0);
     }
 
 }

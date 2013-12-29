@@ -1,0 +1,15 @@
+# messages for the plugin when events occur
+# you may use the following variables, but only where messages would apply
+# for example there would be no loser or winner when a duel starts, etc..
+# %sender% the sender of the duel request
+# %target% the target player which the duel has been sent to
+# %loser% the duel loser
+# %winner% the duel winner
+messages:
+  duel:
+    senderMessage: 'you have sent a duel request to %target%'
+    targetMessage: '%sender% has sent you a duel request use /duel accept to accept the request!'
+    start: 'A new duel is beginning! %sender% VS %target%'
+    end: ''
+    death: ''
+

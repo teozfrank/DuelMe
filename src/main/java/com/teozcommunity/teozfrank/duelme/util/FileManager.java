@@ -158,7 +158,7 @@ public class FileManager {
         if (duelArenasFile == null) {
             duelArenasFile = new File(plugin.getDataFolder(), "duelarenas.yml");
         }
-        if (!locationsFile.exists()) {
+        if (!duelArenasFile.exists()) {
             plugin.saveResource("duelarenas.yml", false);
         }
     }

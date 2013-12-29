@@ -240,5 +240,20 @@ public class FileManager {
         }
     }
 
+    public double getConfigVersion(){
+        double version = plugin.getConfig().getDouble("configversion");
+        return version;
+    }
+
+    public double getLocationsVersion(){
+        double version = this.getLocations().getDouble("configversion");
+        return version;
+    }
+
+    public boolean isRightClickToDuelEnabled(){
+        boolean usingRighClick = plugin.getConfig().getBoolean("duel.rightclicktoduel");
+        return usingRighClick;
+    }
+
 
 }

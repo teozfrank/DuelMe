@@ -6,6 +6,7 @@ import com.teozcommunity.teozfrank.duelme.commands.DuelExecutor;
 import com.teozcommunity.teozfrank.duelme.events.*;
 import com.teozcommunity.teozfrank.duelme.util.*;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
@@ -48,6 +49,12 @@ public class DuelMe extends JavaPlugin {
      */
     private static String version;
 
+    private int errorCount;
+
+    public DuelMe(){
+        this.errorCount = 0;
+    }
+
 
     @Override
     public void onEnable() {
@@ -62,7 +69,19 @@ public class DuelMe extends JavaPlugin {
       this.playerEvents = new PlayerEvents(this);
       getCommand("duel").setExecutor(new DuelExecutor(this));
       getCommand("dueladmin").setExecutor(new DuelAdminExecutor(this));
-      SendConsoleMessage.info("Enabled!");
+      this.checkErrors();
+    }
+
+    private void checkErrors() {
+        this.checkConfigVersions();
+        if(this.errorCount != 0){
+            SendConsoleMessage.warning(ChatColor.RED + "There were " + ChatColor.AQUA + errorCount +
+                    ChatColor.RED + " startup error(s), plugin DISABLED!");
+            this.getPluginLoader().disablePlugin(this);
+            return;
+        } else {
+            SendConsoleMessage.info("Successfully Enabled!");
+        }
     }
 
 
@@ -99,6 +118,19 @@ public class DuelMe extends JavaPlugin {
         if (!(new File(getDataFolder(), "duelarenas.yml")).exists()) {
             SendConsoleMessage.info("saving default duelarenas.yml.");
             this.fileManager.saveDefaultDuelArenas();
+        }
+    }
+
+    public void checkConfigVersions(){
+        if(new File(getDataFolder(),"config.yml").exists()){
+           if(fileManager.getConfigVersion() != 1.1){
+               SendConsoleMessage.info("Your config.yml is out of date! please remove or back it up before using the plugin!");
+               errorCount++;
+           }
+           if(fileManager.getLocationsVersion() != 1.1){
+               SendConsoleMessage.info("Your locations.yml is out of date! please remove or back it up before using the plugin!");
+               errorCount++;
+           }
         }
     }
 

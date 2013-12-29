@@ -2,18 +2,19 @@ package com.teozcommunity.teozfrank.duelme.events;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import com.teozcommunity.teozfrank.duelme.util.DuelManager;
+import com.teozcommunity.teozfrank.duelme.util.FileManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.*;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import java.util.HashMap;
@@ -33,6 +34,27 @@ public class PlayerEvents implements Listener {
     public PlayerEvents(DuelMe plugin) {
         this.plugin = plugin;
         Bukkit.getPluginManager().registerEvents(this, plugin);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPlayerRightClickToDuel(PlayerInteractEntityEvent e) {
+
+        Player player = e.getPlayer();
+        Entity entity = e.getRightClicked();
+        DuelManager dm = plugin.getDuelManager();
+        FileManager fm = plugin.getFileManager();
+
+        if(!fm.isRightClickToDuelEnabled()){
+            return;
+        }
+
+        if(entity instanceof Player){
+            Player target = (Player) entity;
+            if(player.isSneaking() && player.getItemInHand().equals(new ItemStack(Material.DIAMOND_SWORD))){//if the player is sneaking and has a diamond sword
+              dm.sendRequest(player , target.getName());//send a duel request
+              return;
+            }
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

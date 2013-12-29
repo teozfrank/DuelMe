@@ -17,17 +17,14 @@ import org.bukkit.command.ConsoleCommandSender;
  */
 public class SendConsoleMessage {
 
-    private DuelMe plugin;
-    private ConsoleCommandSender _cs;
     private static final String prefix = ChatColor.GREEN + "[DuelMe] ";
     private static final String info = "[Info] ";
     private static final String severe = ChatColor.YELLOW + "[Severe] ";
     private static final String warning = ChatColor.RED + "[Warning] ";
     private static final String debug = ChatColor.AQUA + "[Debug] ";
 
-    public SendConsoleMessage(DuelMe plugin) {
-        this.plugin = plugin;
-        _cs = plugin.getServer().getConsoleSender();
+    public SendConsoleMessage() {
+
     }
 
     public static void info(String message) {

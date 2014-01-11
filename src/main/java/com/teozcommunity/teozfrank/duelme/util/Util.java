@@ -38,16 +38,6 @@ public class Util {
      */
     Random rand;
 
-    /**
-     * hashmap to store players inventories
-     */
-    private static HashMap<String, ItemStack[]> inventories;
-
-    /**
-     * hashmap to store players armour
-     */
-    private static HashMap<String, ItemStack[]> armour;
-
     public static String UNKNOWN_CMD = ChatColor.RED+"Unknown Command!";
     public static String NO_PERMS = ChatColor.RED+"You do not have permission!";
     public static String NO_ARENAS = ChatColor.RED + "There are no arenas to start the duel! Please notify a member of staff!";
@@ -56,39 +46,7 @@ public class Util {
 
     public Util(DuelMe plugin) {
         this.plugin = plugin;
-        this.inventories = new HashMap<String, ItemStack[]>();
-        this.armour = new HashMap<String, ItemStack[]>();
         this.rand = new Random();
-    }
-
-    /**
-    * Method to store a players inventory
-    * @param p the player to store the inventory of
-    */
-    public static void storeInventory(Player p) {
-        ItemStack[] inv = p.getInventory().getContents();
-        ItemStack[] arm = p.getInventory().getArmorContents();
-        inventories.put(p.getName(), inv);
-        armour.put(p.getName(), arm);
-        p.getInventory().clear(-1, -1);
-        Util.sendMsg(p,ChatColor.GREEN + "Your inventory has been stored and will be restored after the Duel.");
-    }
-
-    /**
-    * Method to restore a players inventory
-    * @param p the player to restore the inventory to
-    */
-    public static void restoreInventory(Player p) {
-        p.getInventory().clear(-1, -1);// clear their inventory completely
-        if (inventories.containsKey(p.getName()) && armour.containsKey(p.getName())) {
-            p.getInventory().setContents(inventories.get(p.getName()));
-            p.getInventory().setArmorContents(armour.get(p.getName()));
-            inventories.remove(p.getName());
-            armour.remove(p.getName());
-            Util.sendMsg(p,ChatColor.GREEN + "Your inventory has been restored.");
-        } else {
-            Util.sendMsg(p,ChatColor.RED + "There was an error restoring your inventory!");
-        }
     }
 
 

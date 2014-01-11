@@ -1,9 +1,12 @@
 package com.teozcommunity.teozfrank.duelme.events;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
+import com.teozcommunity.teozfrank.duelme.util.DuelArena;
 import com.teozcommunity.teozfrank.duelme.util.DuelManager;
 import com.teozcommunity.teozfrank.duelme.util.FileManager;
+import com.teozcommunity.teozfrank.duelme.util.ItemManager;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -69,17 +72,71 @@ public class PlayerEvents implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerDeath(PlayerDeathEvent e) {
-        //TODO implement this method according to the event
+       Player player = e.getEntity();
+       String playerName = player.getName();
+
+       DuelManager dm = plugin.getDuelManager();
+       FileManager fm = plugin.getFileManager();
+       ItemManager im = plugin.getItemManager();
+
+       if(dm.isInDuel(playerName)){
+           DuelArena arena = dm.getPlayersArena(playerName);//get the duel arena the player is in
+           arena.removePlayer(playerName);//remove the player from the arena
+           dm.addDeadPlayer(playerName);//add the player as a dead player
+
+
+           im.rewardPlayer(arena);
+
+           if(!fm.isDeathMessagesEnabled()){
+             e.setDeathMessage("");
+             return;
+           }
+           if(e.getEntity().getKiller() instanceof Player){
+               Player killer = e.getEntity().getKiller();
+               e.setDeathMessage(ChatColor.GOLD + "[DuelMe] " + ChatColor.AQUA + player.getName() + ChatColor.RED + " was killed in a duel by "
+                       + ChatColor.AQUA + killer.getName());
+              return;
+           }  else {
+               e.setDeathMessage(ChatColor.GOLD + "[DuelMe] " + ChatColor.AQUA + player.getName() + ChatColor.RED + " was killed in a duel!");
+           }
+
+       }
+
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerRespawn(PlayerRespawnEvent e) {
-        //TODO implement this method according to the event
+        Player player = e.getPlayer();
+        String playerName = player.getName();
+        DuelManager dm = plugin.getDuelManager();
+        FileManager fm = plugin.getFileManager();
+
+        if(dm.isDeadPlayer(playerName)){
+            e.setRespawnLocation(fm.getLobbySpawnLocation());
+            dm.restoreInventory(player);
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerQuit(PlayerQuitEvent e) {
-        //TODO implement this method according to the event
+        Player player = e.getPlayer();
+        String playerName = player.getName();
+
+        DuelManager dm = plugin.getDuelManager();
+        FileManager fm = plugin.getFileManager();
+        ItemManager im = plugin.getItemManager();
+
+        if(dm.isInDuel(playerName)){
+           DuelArena arena = dm.getPlayersArena(playerName);
+           arena.removePlayer(playerName);
+           player.teleport(fm.getLobbySpawnLocation());
+           dm.restoreInventory(player);
+
+
+           im.rewardPlayer(arena);
+
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

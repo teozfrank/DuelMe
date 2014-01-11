@@ -1,6 +1,6 @@
 # do not touch the config version below, it will break the plugin!
+configversion: 1.1
 duelme:
-    configversion: 1.1
     checkforupdates: true
     duel:
        seperateinventories: true
@@ -8,3 +8,11 @@ duelme:
     announce:
        duelstart: true
        deaths: true
+    commands:
+       duelstart:
+          - 'example command'
+          - 'example command 2'
+       duelwinner:
+          - 'winner command 1'
+          - 'winner command 2'
+

@@ -4,6 +4,7 @@ import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -97,6 +98,10 @@ public class FileManager {
 
     }
 
+    /**
+     * get the messages config object
+     * @return the fileconfuration instance of the messages.yml file
+     */
     public FileConfiguration getMessages() {
         if (messages == null) {
             this.reloadMessages();
@@ -104,6 +109,9 @@ public class FileManager {
         return messages;
     }
 
+    /**
+     * save the messages.yml config file
+     */
     public void saveMessages() {
         if (messages == null || messagesFile == null) {
             return;
@@ -115,6 +123,9 @@ public class FileManager {
         }
     }
 
+    /**
+     * save default messages.yml config
+     */
     public void saveDefaultMessages() {
         if (messagesFile == null) {
             messagesFile = new File(plugin.getDataFolder(), "messages.yml");
@@ -124,15 +135,45 @@ public class FileManager {
         }
     }
 
+    /**
+     * boolean to check if the duel is using seperated inventories
+     * @return true if using them false if not
+     */
     public boolean isUsingSeperateInventories(){
        boolean isUsingSeperateInventories = plugin.getConfig().getBoolean("duelme.duel.separateinventories");
        return isUsingSeperateInventories;
     }
 
-    public void giveDuelItems(Player player){
-       //TODO finish implementing duel items from items.yml
+    /**
+     * get the commands that are run on duel start
+     * @return list of commands that are to be run
+     */
+    public List<String> getDuelStartCommands(){
+        List<String> commands = plugin.getConfig().getStringList("duelme.commands.duelstart");
+        return commands;
     }
 
+    /**
+     * get the commands that are run on a duel ending
+     * @return list of commands to be run
+     */
+    public List<String> getDuelWinnderCommands(){
+        List<String> commands = plugin.getConfig().getStringList("duelme.commands.duelwinner");
+        return commands;
+    }
+
+    /**
+     * check to see if death messages are enabled
+     * @return true if they are, false if not
+     */
+    public boolean isDeathMessagesEnabled(){
+        boolean isDeathMessagesEnabled = plugin.getConfig().getBoolean("duelme.announce.deaths");
+        return isDeathMessagesEnabled;
+    }
+
+    /**
+     * reload the duel areas from arenas.yml
+     */
     public void reloadDuelArenas() {
         if (duelArenasFile == null) {
             duelArenasFile = new File(plugin.getDataFolder(), "duelarenas.yml");
@@ -164,7 +205,7 @@ public class FileManager {
     }
 
     /**
-     * save the admin to admin config
+     * save the duel areas to disk
      */
     public void saveDuelArenas() {
         if (duelArenas == null) {
@@ -200,6 +241,9 @@ public class FileManager {
 
     }
 
+    /**
+     * load the duel arenas from disk
+     */
     public void loadDuelArenas() {
         if (duelArenas == null) {
             reloadDuelArenas();
@@ -240,20 +284,74 @@ public class FileManager {
         }
     }
 
+    /**
+     * get the main config version
+     * @return the version of the config
+     */
     public double getConfigVersion(){
         double version = plugin.getConfig().getDouble("configversion");
         return version;
     }
 
+    /**
+     * get the locations.yml config version
+     * @return the version of the config
+     */
     public double getLocationsVersion(){
         double version = this.getLocations().getDouble("configversion");
         return version;
     }
 
+    /**
+     * is the plugin using right clicking a player
+     * to send a duel request
+     * @return true if enabled, false if not
+     */
     public boolean isRightClickToDuelEnabled(){
-        boolean usingRighClick = plugin.getConfig().getBoolean("duel.rightclicktoduel");
-        return usingRighClick;
+        boolean usingRightClickToDuel = plugin.getConfig().getBoolean("duelme.duel.rightclicktoduel");
+        return usingRightClickToDuel;
     }
 
+    /**
+     * gets the lobby spawn location from locations configuration file
+     * @return lobby spawn location
+     */
+    public Location getLobbySpawnLocation() {
+        FileManager fm = plugin.getFileManager();
+        String WorldIn = fm.getLocations().getString("locations.lobbyspawn.world");
+        double targetxIn = fm.getLocations().getDouble("locations.lobbyspawn.x");
+        double targetyIn = fm.getLocations().getDouble("locations.lobbyspawn.y");
+        double targetzIn = fm.getLocations().getDouble("locations.lobbyspawn.z");
+
+        World targetWorld = Bukkit.getWorld(WorldIn);
+
+        Location lobbySpawnLoc = new Location(targetWorld, targetxIn, targetyIn + 0.5, targetzIn);
+
+        return lobbySpawnLoc;
+    }
+
+
+    /**
+     * sets the lobby spawn location to disk and reloads configuration file
+     * @param p the player thats setting the lobby spawn location
+     */
+    public void setLobbySpawnLocation(Player p) {
+        FileManager fm = plugin.getFileManager();
+        Location loc = p.getLocation();
+        String world = p.getWorld().getName();
+
+        double senderxIn = loc.getX();
+        double senderyIn = loc.getY();
+        double senderzIn = loc.getZ();
+
+        fm.getLocations().set("locations.lobbyspawn.world", world);
+        fm.getLocations().set("locations.lobbyspawn.x", senderxIn);
+        fm.getLocations().set("locations.lobbyspawn.y", senderyIn);
+        fm.getLocations().set("locations.lobbyspawn.z", senderzIn);
+        fm.saveLocations();
+        fm.reloadLocations();
+        Util.sendMsg(p, ChatColor.GREEN + "Lobby Spawn Location set to: "
+                + ChatColor.GOLD +"(X: " + loc.getBlockX() + ") (Y: "+ loc.getBlockY() + ") (Z: " + loc.getBlockZ() + ")");
+    }
 
 }

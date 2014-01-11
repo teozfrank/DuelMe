@@ -70,7 +70,6 @@ public class CreateCmd extends DuelAdminCmd {
             Util.sendMsg(sender, ChatColor.YELLOW + "You have not selected a full region, please make sure you have selected two points!");
             return;
         } catch (NullPointerException e) {
-            e.printStackTrace();
             Util.sendMsg(sender, ChatColor.RED + "You have not selected a region, please select one first!");
             return;
         }

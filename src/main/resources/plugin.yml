@@ -5,27 +5,55 @@ main: com.teozcommunity.teozfrank.duelme.main.DuelMe
 commands:
     duel:
         description: Access to duel commands
-        permission: duelme.duel
+        permission: duelme.duel.info
         permission-message: You do not have permission for this command!
         usage: /<command>
     dueladmin:
         description: Access to dueladmin commands
-        permission: duelme.admin
+        permission: duelme.admin.info
         permission-message: You do not have permission for this command!
         useage: /<command>
 permissions:
     duelme.*:
-        description: Gives access to all duelme commands
+        description: Gives access to all toolkit permissions
         children:
-            duelme.duel: true
-            duelme.admin: true
-            duelme.update.notify: true
-    duelme.duel:
-        description: Gives access to duel commands
+            duelme.player.*: true
+            duelme.admin.*: true
+    duelme.admin.*:
+        description: Gives access to all toolkit staff commands
+        children:
+            duelme.admin.info: true
+            duelme.admin.create: true
+            duelme.admin.set: true
+            duelme.admin.remove: true
+    duelme.player.*:
+        description: Gives access to all toolkit staff commands
+        children:
+            duelme.player.info: true		
+            duelme.player.accept: true
+            duelme.player.send: true
+            duelme.player.leave: true
+    duelme.player.info:
+        description: allows a player to read the info about the duel command
         default: op
-    duelme.admin:
-        description: Gives access to duel admin commands
+    duelme.player.accept:
+        description: allows a player to accept a duel request
         default: op
-    duelme.update.notify:
-        description: Notifys players of plugin updates
+    duelme.player.send:
+        description: allows a player to send a duel request
+        default: op
+    duelme.player.leave:
+        description: allows a player to leave a duel
+        default: op
+    duelme.admin.info:
+        description: allows an admin to see the information about the dueladmin command
+        default: op
+    duelme.admin.create:
+        description: allows an admin to create a duel arena
+        default: op
+    duelme.admin.set:
+        description: allows an admin to set the lobby spawn
+        default: op
+    duelme.admin.remove:
+        description: allows an admin to remove a duel arena
         default: op

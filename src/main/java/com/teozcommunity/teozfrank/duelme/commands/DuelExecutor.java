@@ -1,6 +1,6 @@
 package com.teozcommunity.teozfrank.duelme.commands;
 
-import com.teozcommunity.teozfrank.duelme.commands.admin.DuelAdminCmd;
+import com.teozcommunity.teozfrank.duelme.commands.duel.LeaveCmd;
 import com.teozcommunity.teozfrank.duelme.commands.duel.AcceptCmd;
 import com.teozcommunity.teozfrank.duelme.commands.duel.DuelCmd;
 import com.teozcommunity.teozfrank.duelme.commands.duel.SendCmd;
@@ -25,6 +25,7 @@ public class DuelExecutor extends CmdExecutor implements CommandExecutor {
         super(plugin);
         DuelCmd accept = new AcceptCmd(plugin, "duelme.player.accept");
         DuelCmd send = new SendCmd(plugin, "duelme.player.send");
+        DuelCmd leave = new LeaveCmd(plugin, "duelme.player.leave");
 
         addCmd("accept", accept, new String[]{
                 "a"
@@ -32,6 +33,10 @@ public class DuelExecutor extends CmdExecutor implements CommandExecutor {
 
         addCmd("send", send, new String[]{
                 "s"
+        });
+
+        addCmd("leave", leave, new String[]{
+                "l"
         });
     }
 
@@ -50,6 +55,7 @@ public class DuelExecutor extends CmdExecutor implements CommandExecutor {
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel - "+ ChatColor.GOLD + "brings up this message");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel send <player> - "+ ChatColor.GOLD + "send a duel request to a player");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel accept <player> - "+ ChatColor.GOLD + "accept a duel request");
+                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel leave - "+ ChatColor.GOLD + "leave a duel");
                 Util.sendEmptyMsg(sender,"");
                 Util.sendEmptyMsg(sender,Util.LINE_BREAK);
                 Util.sendCredits(sender);

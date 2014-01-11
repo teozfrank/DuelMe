@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,9 +44,24 @@ public class DuelManager {
     public List<String> frozenPlayers;
 
     /**
+     * list to hold the dead players
+     */
+    public List<String> deadPlayers;
+
+    /**
      * list to hold arena objects
      */
     public List<DuelArena> duelArenas;
+
+    /**
+     * hashmap to store players inventories
+     */
+    private static HashMap<String, ItemStack[]> inventories;
+
+    /**
+     * hashmap to store players armour
+     */
+    private static HashMap<String, ItemStack[]> armour;
 
     public DuelManager(DuelMe plugin){
         this.plugin = plugin;
@@ -53,6 +69,9 @@ public class DuelManager {
         this.spectatingPlayers = new ArrayList<String>();
         this.frozenPlayers = new ArrayList<String>();
         this.duelArenas = new ArrayList<DuelArena>();
+        this.deadPlayers = new ArrayList<String>();
+        this.inventories = new HashMap<String, ItemStack[]>();
+        this.armour = new HashMap<String, ItemStack[]>();
     }
 
     /**
@@ -276,8 +295,8 @@ public class DuelManager {
               a.addPlayer(senderName);
 
               if(fm.isUsingSeperateInventories()){//store the players inventories
-                  Util.storeInventory(accepter);
-                  Util.storeInventory(sender);
+                  this.storeInventory(accepter);
+                  this.storeInventory(sender);
               }
 
               accepter.teleport(this.generateRandomLocation(a));//teleport the players to a random location in the duel arena
@@ -286,8 +305,8 @@ public class DuelManager {
               frozenPlayers.add(accepter.getName());//freeze the players
               frozenPlayers.add(sender.getName());
 
-              fm.giveDuelItems(accepter);//give them items
-              fm.giveDuelItems(sender);
+              this.giveDuelItems(accepter);//give them items
+              this.giveDuelItems(sender);
 
                 /**
                  * start the duel with the two players and the arena they are in
@@ -298,6 +317,9 @@ public class DuelManager {
         }
         Util.sendMsg(accepter,ChatColor.YELLOW+"There are no free duel arenas, please try again later!");
         Util.sendMsg(sender,ChatColor.YELLOW+"There are no free duel arenas, please try again later!");
+    }
+
+    private void giveDuelItems(Player player) {
     }
 
     /**
@@ -329,5 +351,80 @@ public class DuelManager {
         z = randomGenRange(a.getPos1().getZ(), a.getPos2().getZ());
 
         return new Location(w, x, y + 0.5, z);
+    }
+
+    /**
+     * remove a duel areana
+     * @param daIn the duel arena
+     */
+    public void removeDuelArena(DuelArena daIn){
+        for(DuelArena da: this.getDuelArenas() ){
+            if(da == daIn){
+                this.duelArenas.remove(daIn);
+                return;
+            }
+        }
+    }
+
+    /**
+     * add a dead player
+     * @param playerName the players name
+     */
+    public void addDeadPlayer(String playerName){
+        this.deadPlayers.add(playerName);
+    }
+
+    public List<String> getDeadPlayers(){
+        return this.deadPlayers;
+    }
+
+    /**
+     * remove a dead player
+     * @param playerName the players name
+     */
+    public void removedDeadPlayer(String playerName){
+        this.deadPlayers.remove(playerName);
+    }
+
+    /**
+     * check to see if a player is dead (after being killed in a duel)
+     * @param playerName the players name
+     * @return true if they are a dead player, false if not
+     */
+    public boolean isDeadPlayer(String playerName){
+        if(this.getDeadPlayers().contains(playerName)){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Method to store a players inventory
+     * @param p the player to store the inventory of
+     */
+    public static void storeInventory(Player p) {
+        ItemStack[] inv = p.getInventory().getContents();
+        ItemStack[] arm = p.getInventory().getArmorContents();
+        inventories.put(p.getName(), inv);
+        armour.put(p.getName(), arm);
+        p.getInventory().clear(-1, -1);
+        Util.sendMsg(p,ChatColor.GREEN + "Your inventory has been stored and will be restored after the Duel.");
+    }
+
+    /**
+     * Method to restore a players inventory
+     * @param p the player to restore the inventory to
+     */
+    public static void restoreInventory(Player p) {
+        p.getInventory().clear(-1, -1);// clear their inventory completely
+        if (inventories.containsKey(p.getName()) && armour.containsKey(p.getName())) {
+            p.getInventory().setContents(inventories.get(p.getName()));
+            p.getInventory().setArmorContents(armour.get(p.getName()));
+            inventories.remove(p.getName());
+            armour.remove(p.getName());
+            Util.sendMsg(p,ChatColor.GREEN + "Your inventory has been restored.");
+        } else {
+            Util.sendMsg(p,ChatColor.RED + "There was an error restoring your inventory!");
+        }
     }
 }

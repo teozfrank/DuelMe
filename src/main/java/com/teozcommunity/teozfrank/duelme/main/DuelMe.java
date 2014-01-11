@@ -43,6 +43,11 @@ public class DuelMe extends JavaPlugin {
      */
     private PlayerEvents playerEvents;
 
+    /**
+     * item manager class
+     */
+    private ItemManager itemManager;
+
 
     /**
      * string to hold the plugin version
@@ -67,6 +72,7 @@ public class DuelMe extends JavaPlugin {
       this.setupDependencies();
       this.duelManager = new DuelManager(this);
       this.playerEvents = new PlayerEvents(this);
+      this.itemManager = new ItemManager(this);
       getCommand("duel").setExecutor(new DuelExecutor(this));
       getCommand("dueladmin").setExecutor(new DuelAdminExecutor(this));
       this.checkErrors();
@@ -121,6 +127,7 @@ public class DuelMe extends JavaPlugin {
         }
     }
 
+
     public void checkConfigVersions(){
         if(new File(getDataFolder(),"config.yml").exists()){
            if(fileManager.getConfigVersion() != 1.1){
@@ -155,6 +162,8 @@ public class DuelMe extends JavaPlugin {
     public FileManager getFileManager(){
         return this.fileManager;
     }
+
+    public ItemManager getItemManager() { return itemManager; }
 
     public static String getVersion(){
         return version;

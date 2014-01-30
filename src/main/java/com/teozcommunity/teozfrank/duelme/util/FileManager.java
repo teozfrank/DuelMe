@@ -157,7 +157,7 @@ public class FileManager {
      * get the commands that are run on a duel ending
      * @return list of commands to be run
      */
-    public List<String> getDuelWinnderCommands(){
+    public List<String> getDuelWinnerCommands(){
         List<String> commands = plugin.getConfig().getStringList("duelme.commands.duelwinner");
         return commands;
     }

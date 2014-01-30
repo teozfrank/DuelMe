@@ -134,7 +134,7 @@ public class PlayerEvents implements Listener {
            dm.restoreInventory(player);
 
 
-           im.rewardPlayer(arena);
+           //im.rewardPlayer(arena);
 
         }
     }

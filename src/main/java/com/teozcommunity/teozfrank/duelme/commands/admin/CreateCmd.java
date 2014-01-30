@@ -84,11 +84,6 @@ public class CreateCmd extends DuelAdminCmd {
             }
         }
 
-        if (dm.getDuelArenas().size() >= 1) {
-            Util.sendMsg(sender, ChatColor.RED + "This plugin does not yet have support for multiple duel arenas, coming soon! ");
-            return;
-        }
-
         DuelArena newArena = new DuelArena(arenaName, pos1, pos2);
 
         dm.addDuelArena(newArena);

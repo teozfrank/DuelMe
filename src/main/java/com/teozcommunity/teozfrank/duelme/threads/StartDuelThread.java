@@ -49,7 +49,8 @@ public class StartDuelThread extends BukkitRunnable {
         if (this.countDown > 0) {
             switch (this.countDown) {
                 case 15:
-                    Util.sendMsg(sender, target, ChatColor.YELLOW + "Starting duel in: " + ChatColor.GOLD + this.countDown);
+                    Util.sendMsg(sender, target, ChatColor.YELLOW + "Starting duel in: " + ChatColor.GOLD + this.countDown
+                    + "Get ready!!");
                     break;
                 case 10:
                     Util.sendMsg(sender, target, ChatColor.YELLOW + "Starting duel in: " + ChatColor.GOLD + this.countDown);

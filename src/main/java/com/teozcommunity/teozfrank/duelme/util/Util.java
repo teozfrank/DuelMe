@@ -111,7 +111,7 @@ public class Util {
      * @param sender the command sender
      */
     public static void sendCredits(CommandSender sender){
-        Util.sendEmptyMsg(sender,ChatColor.GOLD + "                              V"+DuelMe.getVersion()+" by TeOzFrAnK ");
+        Util.sendEmptyMsg(sender,ChatColor.GOLD + "                             V"+DuelMe.getVersion()+" by TeOzFrAnK ");
         Util.sendEmptyMsg(sender,ChatColor.GOLD + "             http://dev.bukkit.org/bukkit-plugins/duelme/");
     }
 

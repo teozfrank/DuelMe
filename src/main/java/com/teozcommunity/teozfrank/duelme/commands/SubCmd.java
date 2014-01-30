@@ -25,7 +25,7 @@ public class SubCmd {
     public final String NOT_CMD = ChatColor.RED + "That is not a command for DuelMe";
     public final String NOT_FLOAT = ChatColor.RED + "You must input a float for the amount.";
     public final String NOT_INT = ChatColor.RED + "You must input an integer for the amount. e.g. 1,3,6,7";
-
+    public final String NO_DUEL_ARENAS = ChatColor.RED + "There are no duel arenas!";
 
     public FileConfiguration config;
     public DuelMe plugin;

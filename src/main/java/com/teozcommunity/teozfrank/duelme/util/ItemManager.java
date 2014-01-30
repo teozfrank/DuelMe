@@ -27,7 +27,7 @@ public class ItemManager {
         FileManager fm = plugin.getFileManager();
         List<String> commands = fm.getDuelStartCommands();
         for(String commandIn : commands){
-            commandIn.replaceAll("%player%", player.getName());
+            commandIn = commandIn.replaceAll("%player%", player.getName());
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(),commandIn);
         }
     }
@@ -38,9 +38,9 @@ public class ItemManager {
      */
     public void giveWinningPlayerRewards(Player player){
         FileManager fm = plugin.getFileManager();
-        List<String> commands = fm.getDuelWinnderCommands();
+        List<String> commands = fm.getDuelWinnerCommands();
         for(String commandIn : commands){
-            commandIn.replaceAll("%player%", player.getName());
+            commandIn = commandIn.replaceAll("%player%", player.getName());
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(),commandIn);
         }
     }

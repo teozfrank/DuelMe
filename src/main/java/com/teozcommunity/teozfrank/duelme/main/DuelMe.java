@@ -75,6 +75,7 @@ public class DuelMe extends JavaPlugin {
       this.itemManager = new ItemManager(this);
       getCommand("duel").setExecutor(new DuelExecutor(this));
       getCommand("dueladmin").setExecutor(new DuelAdminExecutor(this));
+      this.getFileManager().loadDuelArenas();
       this.checkErrors();
     }
 
@@ -94,7 +95,7 @@ public class DuelMe extends JavaPlugin {
     @Override
     public void onDisable() {
       SendConsoleMessage.info("Disabling.");
-      this.fileManager.saveDuelArenas();
+      this.getFileManager().saveDuelArenas();
     }
 
     public void checkForUpdates() {
@@ -114,15 +115,15 @@ public class DuelMe extends JavaPlugin {
 
     public void setupYMLs() {
         if (!(new File(getDataFolder(), "config.yml")).exists()) {
-            SendConsoleMessage.info("saving default config.yml.");
+            SendConsoleMessage.info("Saving default config.yml.");
             saveDefaultConfig();
         }
         if (!(new File(getDataFolder(), "locations.yml")).exists()) {
-            SendConsoleMessage.info("saving default locations.yml.");
+            SendConsoleMessage.info("Saving default locations.yml.");
             this.fileManager.saveDefaultLocations();
         }
         if (!(new File(getDataFolder(), "duelarenas.yml")).exists()) {
-            SendConsoleMessage.info("saving default duelarenas.yml.");
+            SendConsoleMessage.info("Saving default duelarenas.yml.");
             this.fileManager.saveDefaultDuelArenas();
         }
     }

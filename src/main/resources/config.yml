@@ -8,11 +8,14 @@ duelme:
     announce:
        duelstart: true
        deaths: true
+       leavejoin: true
     commands:
        duelstart:
-          - 'example command'
-          - 'example command 2'
+          - 'give %player% 298 1'
+          - 'give %player% 299 1'
+          - 'give %player% 300 1'
+          - 'give %player% 301 1'
+          - 'give %player% 268 1'
        duelwinner:
-          - 'winner command 1'
-          - 'winner command 2'
+          - 'give %player% 267 1'
 

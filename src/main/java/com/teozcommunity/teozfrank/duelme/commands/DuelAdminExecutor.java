@@ -1,9 +1,6 @@
 package com.teozcommunity.teozfrank.duelme.commands;
 
-import com.teozcommunity.teozfrank.duelme.commands.admin.CreateCmd;
-import com.teozcommunity.teozfrank.duelme.commands.admin.DuelAdminCmd;
-import com.teozcommunity.teozfrank.duelme.commands.admin.RemoveCmd;
-import com.teozcommunity.teozfrank.duelme.commands.admin.SetCmd;
+import com.teozcommunity.teozfrank.duelme.commands.admin.*;
 import com.teozcommunity.teozfrank.duelme.commands.duel.AcceptCmd;
 import com.teozcommunity.teozfrank.duelme.commands.duel.DuelCmd;
 import com.teozcommunity.teozfrank.duelme.commands.duel.SendCmd;
@@ -29,6 +26,7 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
         DuelAdminCmd create = new CreateCmd(plugin, "duelme.admin.create");
         DuelAdminCmd set = new SetCmd(plugin, "duelme.admin.set");
         DuelAdminCmd remove = new RemoveCmd(plugin,"duelme.admin.remove");
+        DuelAdminCmd list = new ListCmd(plugin,"duelme.admin.list");
 
         addCmd("create", create, new String[] {
             "c,new"
@@ -42,9 +40,14 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
                 "r","delete"
         });
 
+        addCmd("list", list, new String[]{
+                "l"
+        });
+
         create.needsObject = false;
         set.needsObject = false;
         remove.needsObject = true;
+        list.needsObject = false;
     }
 
     @Override
@@ -63,6 +66,7 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
                 Util.sendEmptyMsg(sender, Util.LINE_BREAK);
                 Util.sendEmptyMsg(sender, "");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin create <arenaname> - "+ ChatColor.GOLD + "create a duel arena with the given name");
+                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin list - "+ ChatColor.GOLD + "list the duel arenas");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin remove <arenaname> - "+ ChatColor.GOLD + "removes a duel arena with the given name");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin set lobbyspawn - "+ ChatColor.GOLD + "set the lobby spawn");
                 Util.sendEmptyMsg(sender, "");

@@ -1,10 +1,7 @@
 package com.teozcommunity.teozfrank.duelme.events;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
-import com.teozcommunity.teozfrank.duelme.util.DuelArena;
-import com.teozcommunity.teozfrank.duelme.util.DuelManager;
-import com.teozcommunity.teozfrank.duelme.util.FileManager;
-import com.teozcommunity.teozfrank.duelme.util.ItemManager;
+import com.teozcommunity.teozfrank.duelme.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -21,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -33,11 +31,18 @@ public class PlayerEvents implements Listener {
 
     private DuelMe plugin;
     private static HashMap<Player, Vector> locations = new HashMap<Player, Vector>();
+    private List<String> allowedCommands;
 
     public PlayerEvents(DuelMe plugin) {
         this.plugin = plugin;
         Bukkit.getPluginManager().registerEvents(this, plugin);
+        this.setupAllowedCommands();
     }
+
+    private void setupAllowedCommands() {
+        this.allowedCommands.add("/duel leave");
+    }
+
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerRightClickToDuel(PlayerInteractEntityEvent e) {
@@ -141,7 +146,22 @@ public class PlayerEvents implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerUseCommand(PlayerCommandPreprocessEvent e) {
-        //TODO implement this method according to the event
+
+        Player player = e.getPlayer();
+        String playerName = player.getName();
+        DuelManager dm = plugin.getDuelManager();
+
+        if (dm.isInDuel(playerName)) {
+            for (String allowedCommands : this.allowedCommands) {
+                if (!(e.getMessage().equalsIgnoreCase(allowedCommands))) {
+                    e.setCancelled(true);
+                    Util.sendMsg(player, ChatColor.RED + "You may not use this command during a duel, use " +
+                            ChatColor.AQUA + "/duel leave" + ChatColor.RED + " to leave.");
+                    return;
+                }
+            }
+        }
+
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

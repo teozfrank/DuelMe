@@ -17,6 +17,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class PlayerEvents implements Listener {
     public PlayerEvents(DuelMe plugin) {
         this.plugin = plugin;
         Bukkit.getPluginManager().registerEvents(this, plugin);
+        this.allowedCommands = new ArrayList<String>();
         this.setupAllowedCommands();
     }
 

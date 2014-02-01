@@ -34,6 +34,7 @@ permissions:
             duelme.player.accept: true
             duelme.player.send: true
             duelme.player.leave: true
+            duelme.player.list: true
     duelme.player.info:
         description: allows a player to read the info about the duel command
         default: op
@@ -45,6 +46,9 @@ permissions:
         default: op
     duelme.player.leave:
         description: allows a player to leave a duel
+        default: op
+    duelme.player.list:
+        description: allows a player to list the duels and there status
         default: op
     duelme.admin.info:
         description: allows an admin to see the information about the dueladmin command

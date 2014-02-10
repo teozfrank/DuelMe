@@ -56,7 +56,7 @@ public class DuelExecutor extends CmdExecutor implements CommandExecutor {
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel send <player> - "+ ChatColor.GOLD + "send a duel request to a player");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel accept <player> - "+ ChatColor.GOLD + "accept a duel request");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel leave - "+ ChatColor.GOLD + "leave a duel");
-                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel list - "+ ChatColor.GOLD + "lists duel arenas with their status");
+                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel list - "+ ChatColor.GOLD + "lists duel arenas with their status(es)");
                 Util.sendEmptyMsg(sender,"");
                 Util.sendEmptyMsg(sender,Util.LINE_BREAK);
                 Util.sendCredits(sender);

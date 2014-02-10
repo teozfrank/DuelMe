@@ -25,8 +25,9 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
 
         DuelAdminCmd create = new CreateCmd(plugin, "duelme.admin.create");
         DuelAdminCmd set = new SetCmd(plugin, "duelme.admin.set");
-        DuelAdminCmd remove = new RemoveCmd(plugin,"duelme.admin.remove");
-        DuelAdminCmd list = new ListCmd(plugin,"duelme.admin.list");
+        DuelAdminCmd remove = new RemoveCmd(plugin, "duelme.admin.remove");
+        DuelAdminCmd list = new ListCmd(plugin, "duelme.admin.list");
+        DuelAdminCmd reload = new ReloadCmd(plugin, "duelme.admin.reload");
 
         addCmd("create", create, new String[] {
             "c,new"
@@ -44,10 +45,13 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
                 "l"
         });
 
+        addCmd("reload", reload);
+
         create.needsObject = false;
         set.needsObject = false;
         remove.needsObject = true;
         list.needsObject = false;
+        reload.needsObject = false;
     }
 
     @Override
@@ -69,6 +73,7 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin list - "+ ChatColor.GOLD + "list the duel arenas");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin remove <arenaname> - "+ ChatColor.GOLD + "removes a duel arena with the given name");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin set lobbyspawn - "+ ChatColor.GOLD + "set the lobby spawn");
+                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin reload - "+ ChatColor.GOLD + "reload the plugin configs");
                 Util.sendEmptyMsg(sender, "");
                 Util.sendEmptyMsg(sender, Util.LINE_BREAK);
                 Util.sendCredits(sender);

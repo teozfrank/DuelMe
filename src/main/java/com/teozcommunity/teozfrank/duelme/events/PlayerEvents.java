@@ -45,6 +45,21 @@ public class PlayerEvents implements Listener {
         this.allowedCommands.add("/duel leave");
     }
 
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPlayerJoin(PlayerJoinEvent e) {
+        Player player = e.getPlayer();
+        String playerName = player.getName();
+
+        if(player.hasPermission("duelme.admin.update.notify")) {
+            if(UpdateChecker.isUpdateAvailable() && plugin.getConfig().getBoolean("duelme.checkforupdates")) {
+                Util.sendMsg(player, ChatColor.GREEN + "There is an update available for" +
+                        " for this plugin get it on bukkit dev page: " +
+                        ChatColor.AQUA + "http://dev.bukkit.org/bukkit-plugins/duelme/");
+              }
+        }
+        
+    }
+
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerRightClickToDuel(PlayerInteractEntityEvent e) {

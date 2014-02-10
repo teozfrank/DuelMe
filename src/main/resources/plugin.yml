@@ -1,5 +1,5 @@
 name: DuelMe
-version: 0.8
+version: 0.8.1
 author: teozfrank
 main: com.teozcommunity.teozfrank.duelme.main.DuelMe
 commands:
@@ -27,8 +27,10 @@ permissions:
             duelme.admin.set: true
             duelme.admin.remove: true
             duelme.admin.list: true
+            duelme.admin.update.notify: true
+            duelme.admin.reload: true
     duelme.player.*:
-        description: Gives access to all toolkit staff commands
+        description: Gives access to all player commands
         children:
             duelme.player.info: true		
             duelme.player.accept: true
@@ -64,4 +66,10 @@ permissions:
         default: op
     duelme.admin.list:
         description: allows an admin to list all the duel arenas
+        default: op
+    duelme.admin.update.notify:
+        description: notifys admins of plugin updates
+        default: op
+    duelme.admin.reload:
+        description: reloads the plugin configs from disk
         default: op

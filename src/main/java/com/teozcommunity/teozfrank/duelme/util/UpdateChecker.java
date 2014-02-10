@@ -46,7 +46,7 @@ public class UpdateChecker {
     // Static information for querying the API
     private static final String API_QUERY = "/servermods/files?projectIds=";
     private static final String API_HOST = "https://api.curseforge.com";
-    public boolean updateAvailable;
+    public static boolean updateAvailable;
 
     /**
      * Check for updates anonymously (keyless)
@@ -138,8 +138,8 @@ public class UpdateChecker {
         }
     }
 
-    public boolean isUpdateAvailable(){
-        return this.updateAvailable;
+    public static boolean isUpdateAvailable(){
+        return updateAvailable;
     }
 
 }

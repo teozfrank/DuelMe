@@ -4,6 +4,7 @@ import com.teozcommunity.teozfrank.MetricsLite;
 import com.teozcommunity.teozfrank.duelme.commands.DuelAdminExecutor;
 import com.teozcommunity.teozfrank.duelme.commands.DuelExecutor;
 import com.teozcommunity.teozfrank.duelme.events.*;
+import com.teozcommunity.teozfrank.duelme.mysql.MySql;
 import com.teozcommunity.teozfrank.duelme.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -48,6 +49,11 @@ public class DuelMe extends JavaPlugin {
      */
     private ItemManager itemManager;
 
+    /**
+     * mysql class
+     */
+    private MySql mySql;
+
 
     /**
      * string to hold the plugin version
@@ -73,6 +79,11 @@ public class DuelMe extends JavaPlugin {
       this.duelManager = new DuelManager(this);
       this.playerEvents = new PlayerEvents(this);
       this.itemManager = new ItemManager(this);
+
+      this.mySql = new MySql(this);
+      if(getFileManager().isMySqlEnabled()) {
+          getMySql().setupTables();
+      }
       getCommand("duel").setExecutor(new DuelExecutor(this));
       getCommand("dueladmin").setExecutor(new DuelAdminExecutor(this));
       this.getFileManager().loadDuelArenas();
@@ -131,7 +142,7 @@ public class DuelMe extends JavaPlugin {
 
     public void checkConfigVersions(){
         if(new File(getDataFolder(),"config.yml").exists()){
-           if(fileManager.getConfigVersion() != 1.1){
+           if(fileManager.getConfigVersion() != 1.2){
                SendConsoleMessage.info("Your config.yml is out of date! please remove or back it up before using the plugin!");
                errorCount++;
            }
@@ -169,5 +180,7 @@ public class DuelMe extends JavaPlugin {
     public static String getVersion(){
         return version;
     }
+
+    public MySql getMySql() { return this.mySql; }
 
 }

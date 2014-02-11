@@ -145,6 +145,15 @@ public class FileManager {
     }
 
     /**
+     * check and see if mysql stats are enabled
+     * @return true if enabled, false if not
+     */
+    public boolean isMySqlEnabled() {
+        boolean isMySqlEnabled = plugin.getConfig().getBoolean("duelme.mysql.enabled");
+        return isMySqlEnabled;
+    }
+
+    /**
      * get the commands that are run on duel start
      * @return list of commands that are to be run
      */

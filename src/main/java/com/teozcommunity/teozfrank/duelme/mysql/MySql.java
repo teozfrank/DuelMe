@@ -16,6 +16,11 @@ public class MySql {
 
     public MySql(DuelMe plugin) {
         this.plugin = plugin;
+        FileManager fm = plugin.getFileManager();
+
+        if(fm.isMySqlEnabled()) {
+            this.setupTables();
+        }
     }
 
     /**

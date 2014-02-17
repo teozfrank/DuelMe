@@ -172,6 +172,15 @@ public class FileManager {
     }
 
     /**
+     * duelme debug mode
+     * @return true if enabled, false if not
+     */
+    public boolean isDebugEnabled() {
+        boolean isDebugEnabled = plugin.getConfig().getBoolean("duelme.debug.enabled");
+        return isDebugEnabled;
+    }
+
+    /**
      * check to see if death messages are enabled
      * @return true if they are, false if not
      */
@@ -320,6 +329,7 @@ public class FileManager {
         boolean usingRightClickToDuel = plugin.getConfig().getBoolean("duelme.duel.rightclicktoduel");
         return usingRightClickToDuel;
     }
+
 
     /**
      * gets the lobby spawn location from locations configuration file

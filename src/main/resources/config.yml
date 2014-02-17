@@ -25,3 +25,5 @@ duelme:
           - 'give %player% 268 1'
        duelwinner:
           - 'give %player% 267 1'
+    debug:
+       enabled: false

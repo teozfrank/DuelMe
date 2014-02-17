@@ -50,7 +50,9 @@ public class ItemManager {
         FileManager fm = plugin.getFileManager();
 
         if(arena.getPlayers().size() == 1){ //if there is only one player left in the arena
-
+        if(plugin.isDebugEnabled()){
+            SendConsoleMessage.debug("1 player left, now rewarding.");
+        }
             for(String playerIn: arena.getPlayers()){
                 Player winningPlayer = Bukkit.getPlayer(playerIn);
                 if(winningPlayer != null){
@@ -62,7 +64,6 @@ public class ItemManager {
                     arena.removePlayer(playerIn);
                 }
             }
-
         }
     }
 

@@ -115,9 +115,9 @@ public class PlayerEvents implements Listener {
            }
            if(e.getEntity().getKiller() instanceof Player){
                Player killer = e.getEntity().getKiller();
+               String killerName = killer.getName();
                e.setDeathMessage(ChatColor.GOLD + "[DuelMe] " + ChatColor.AQUA + player.getName() + ChatColor.RED + " was killed in a duel by "
                        + ChatColor.AQUA + killer.getName());
-              return;
            }  else {
                e.setDeathMessage(ChatColor.GOLD + "[DuelMe] " + ChatColor.AQUA + player.getName() + ChatColor.RED + " was killed in a duel!");
            }

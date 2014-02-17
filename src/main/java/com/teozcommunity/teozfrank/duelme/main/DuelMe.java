@@ -143,11 +143,11 @@ public class DuelMe extends JavaPlugin {
     public void checkConfigVersions(){
         if(new File(getDataFolder(),"config.yml").exists()){
            if(fileManager.getConfigVersion() != 1.2){
-               SendConsoleMessage.info("Your config.yml is out of date! please remove or back it up before using the plugin!");
+               SendConsoleMessage.warning("Your config.yml is out of date! please remove or back it up before using the plugin!");
                errorCount++;
            }
            if(fileManager.getLocationsVersion() != 1.1){
-               SendConsoleMessage.info("Your locations.yml is out of date! please remove or back it up before using the plugin!");
+               SendConsoleMessage.warning("Your locations.yml is out of date! please remove or back it up before using the plugin!");
                errorCount++;
            }
         }
@@ -182,5 +182,13 @@ public class DuelMe extends JavaPlugin {
     }
 
     public MySql getMySql() { return this.mySql; }
+
+    /**
+     * is debug mode enabled
+     * @return true if enabled, false if not
+     */
+    public boolean isDebugEnabled(){
+        return getFileManager().isDebugEnabled();
+    }
 
 }

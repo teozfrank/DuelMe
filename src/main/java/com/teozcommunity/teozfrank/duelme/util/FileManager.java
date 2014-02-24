@@ -140,7 +140,7 @@ public class FileManager {
      * @return true if using them false if not
      */
     public boolean isUsingSeperateInventories(){
-       boolean isUsingSeperateInventories = plugin.getConfig().getBoolean("duelme.duel.separateinventories");
+       boolean isUsingSeperateInventories = plugin.getConfig().getBoolean("duelme.duel.seperateinventories");
        return isUsingSeperateInventories;
     }
 
@@ -328,6 +328,11 @@ public class FileManager {
     public boolean isRightClickToDuelEnabled(){
         boolean usingRightClickToDuel = plugin.getConfig().getBoolean("duelme.duel.rightclicktoduel");
         return usingRightClickToDuel;
+    }
+
+    public boolean isDuelStartAnnouncementEnabled(){
+        boolean isDuelStartAnnouncementEnabled = plugin.getConfig().getBoolean("duelme.announce.duelstart");
+        return isDuelStartAnnouncementEnabled;
     }
 
 

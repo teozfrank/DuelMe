@@ -54,7 +54,7 @@ public class Util {
     * Method to broadcast a plugin message to all online players
     * @param message message to send to all players
     */
-    public void broadcastMessage(String message) {
+    public static void broadcastMessage(String message) {
         for (Player p : Bukkit.getOnlinePlayers()) {
             Util.sendMsg(p, message);
         }
@@ -128,6 +128,7 @@ public class Util {
     public static void sendMsg(Player player, String message){
         player.sendMessage(ChatColor.GOLD+"[DuelMe] " + message);
     }
+
 
     /**
      * send the same message to two players

@@ -108,6 +108,8 @@ public class PlayerEvents implements Listener {
 
 
            im.rewardPlayer(arena);
+           arena.getPlayers().clear();
+           arena.setDuelState(DuelState.WAITING);
 
            if(!fm.isDeathMessagesEnabled()){
              e.setDeathMessage("");
@@ -136,7 +138,9 @@ public class PlayerEvents implements Listener {
 
         if(dm.isDeadPlayer(playerName)){
             e.setRespawnLocation(fm.getLobbySpawnLocation());
-            dm.restoreInventory(player);
+            if(plugin.isUsingSeperatedInventories()) {
+                dm.restoreInventory(player);
+            }
         }
     }
 
@@ -153,10 +157,14 @@ public class PlayerEvents implements Listener {
            DuelArena arena = dm.getPlayersArena(playerName);
            arena.removePlayer(playerName);
            player.teleport(fm.getLobbySpawnLocation());
-           dm.restoreInventory(player);
+           if(plugin.isUsingSeperatedInventories()) {
+                dm.restoreInventory(player);
+           }
 
 
-           //im.rewardPlayer(arena);
+           im.rewardPlayer(arena);
+           arena.getPlayers().clear();
+           arena.setDuelState(DuelState.WAITING);
 
         }
     }

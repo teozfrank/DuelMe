@@ -256,7 +256,7 @@ public class DuelManager {
           Player sender = Bukkit.getPlayer(senderIn);
           if(sender != null){
             this.duelRequests.remove(senderIn);
-            SendConsoleMessage.info("starting duel with " + accepter + " and " + sender);
+
             this.startDuel(accepter,sender);
             return;
           } else {
@@ -281,6 +281,7 @@ public class DuelManager {
         String senderName = sender.getName();//the duel request sender name
         List<DuelArena> arenas = this.getDuelArenas();//list of arenas
         FileManager fm = plugin.getFileManager();//file manager instance
+        ItemManager im = plugin.getItemManager();//item manager instance
 
        if(arenas.size() <= 0){//if there are no arenas stop the duel
          Util.sendMsg(sender , Util.NO_ARENAS);
@@ -290,11 +291,16 @@ public class DuelManager {
         for(DuelArena a: arenas){
             if(a.getDuelState() == DuelState.WAITING){
               a.setDuelState(DuelState.STARTING);//set the duel state to starting
-
+              if(fm.isDuelStartAnnouncementEnabled()) {
+                    Util.broadcastMessage("A duel is Starting between " + accepterName + " and " + senderName);
+              }
               a.addPlayer(accepterName);//add the players to the arena
               a.addPlayer(senderName);
 
-              if(fm.isUsingSeperateInventories()){//store the players inventories
+              if(fm.isUsingSeperateInventories()) {//store the players inventories
+                  if(plugin.isDebugEnabled()){
+                      SendConsoleMessage.debug("Storing inventories enabled. storing player inventories");
+                  }
                   this.storeInventory(accepter);
                   this.storeInventory(sender);
               }
@@ -305,8 +311,13 @@ public class DuelManager {
               frozenPlayers.add(accepter.getName());//freeze the players
               frozenPlayers.add(sender.getName());
 
-              this.giveDuelItems(accepter);//give them items
-              this.giveDuelItems(sender);
+              if(fm.isUsingSeperateInventories()) {
+                  if(plugin.isDebugEnabled()){
+                      SendConsoleMessage.debug("Storing inventories enabled, giving duel items.");
+                  }
+                    im.givePlayerDuelItems(accepter);
+                    im.givePlayerDuelItems(sender);
+              }
 
                 /**
                  * start the duel with the two players and the arena they are in
@@ -317,9 +328,6 @@ public class DuelManager {
         }
         Util.sendMsg(accepter,ChatColor.YELLOW+"There are no free duel arenas, please try again later!");
         Util.sendMsg(sender,ChatColor.YELLOW+"There are no free duel arenas, please try again later!");
-    }
-
-    private void giveDuelItems(Player player) {
     }
 
     /**
@@ -354,7 +362,7 @@ public class DuelManager {
     }
 
     /**
-     * remove a duel areana
+     * remove a duel arena
      * @param daIn the duel arena
      */
     public void removeDuelArena(DuelArena daIn){

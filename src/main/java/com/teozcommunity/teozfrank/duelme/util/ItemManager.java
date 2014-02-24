@@ -56,15 +56,15 @@ public class ItemManager {
             for(String playerIn: arena.getPlayers()){
                 Player winningPlayer = Bukkit.getPlayer(playerIn);
                 if(winningPlayer != null){
-                    arena.removePlayer(winningPlayer.getName());
                     winningPlayer.teleport(fm.getLobbySpawnLocation());//teleport them to the lobby spawn
-                    dm.restoreInventory(winningPlayer);//restore their inventory
+                    if(plugin.isUsingSeperatedInventories()) {
+                        dm.restoreInventory(winningPlayer);//restore their inventory
+                    }
                     this.giveWinningPlayerRewards(winningPlayer);//give them a reward
-                } else {
-                    arena.removePlayer(playerIn);
                 }
             }
         }
+
     }
 
 }

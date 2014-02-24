@@ -1,6 +1,7 @@
 name: DuelMe
-version: 0.8.2
+version: 0.8.2.1
 author: teozfrank
+description: allows players to duel each other in a controlled environment
 main: com.teozcommunity.teozfrank.duelme.main.DuelMe
 commands:
     duel:

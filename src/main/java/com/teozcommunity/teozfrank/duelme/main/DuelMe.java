@@ -191,4 +191,8 @@ public class DuelMe extends JavaPlugin {
         return getFileManager().isDebugEnabled();
     }
 
+    public boolean isUsingSeperatedInventories() {
+        return this.getFileManager().isUsingSeperateInventories();
+    }
+
 }

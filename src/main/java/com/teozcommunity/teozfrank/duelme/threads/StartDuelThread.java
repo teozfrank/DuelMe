@@ -34,7 +34,7 @@ public class StartDuelThread extends BukkitRunnable {
         this.plugin = plugin;
         this.sender = sender;
         this.target = target;
-        this.countDown = 15;
+        this.countDown = 30;
         this.duelArena = duelArena;
     }
 
@@ -48,9 +48,12 @@ public class StartDuelThread extends BukkitRunnable {
 
         if (this.countDown > 0) {
             switch (this.countDown) {
-                case 15:
+                case 30:
                     Util.sendMsg(sender, target, ChatColor.YELLOW + "Starting duel in: " + ChatColor.GOLD + this.countDown
-                    + "Get ready!!");
+                    + ChatColor.GREEN + " Now is the time to Get ready!!");
+                    break;
+                case 15:
+                    Util.sendMsg(sender, target, ChatColor.YELLOW + "Starting duel in: " + ChatColor.GOLD + this.countDown);
                     break;
                 case 10:
                     Util.sendMsg(sender, target, ChatColor.YELLOW + "Starting duel in: " + ChatColor.GOLD + this.countDown);

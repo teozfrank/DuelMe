@@ -43,6 +43,7 @@ public class PlayerEvents implements Listener {
 
     private void setupAllowedCommands() {
         this.allowedCommands.add("/duel leave");
+        this.allowedCommands.add("/duel list");
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -141,6 +142,7 @@ public class PlayerEvents implements Listener {
             if(plugin.isUsingSeperatedInventories()) {
                 dm.restoreInventory(player);
             }
+            dm.removedDeadPlayer(playerName);
         }
     }
 

@@ -1,5 +1,5 @@
 name: DuelMe
-version: 0.8.2.1
+version: 0.8.2.2
 author: teozfrank
 description: allows players to duel each other in a controlled environment
 main: com.teozcommunity.teozfrank.duelme.main.DuelMe
@@ -7,7 +7,7 @@ commands:
     duel:
         description: Access to duel commands
         permission: duelme.player.info
-        permission-message: You do not have permission for this command!
+        permissyion-message: You do not have permission for this command!
         usage: /<command>
     dueladmin:
         description: Access to dueladmin commands

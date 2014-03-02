@@ -19,7 +19,7 @@ public class MySql {
         FileManager fm = plugin.getFileManager();
 
         if(fm.isMySqlEnabled()) {
-            this.setupTables();
+            //this.setupTables();
         }
     }
 

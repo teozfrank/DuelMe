@@ -292,7 +292,10 @@ public class DuelManager {
             if(a.getDuelState() == DuelState.WAITING){
               a.setDuelState(DuelState.STARTING);//set the duel state to starting
               if(fm.isDuelStartAnnouncementEnabled()) {
-                    Util.broadcastMessage("A duel is Starting between " + accepterName + " and " + senderName);
+                    Util.broadcastMessage(ChatColor.GREEN + "A duel is Starting between " +
+                            ChatColor.AQUA + accepterName +
+                            ChatColor.GREEN + " and " +
+                            ChatColor.AQUA + senderName);
               }
               a.addPlayer(accepterName);//add the players to the arena
               a.addPlayer(senderName);

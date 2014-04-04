@@ -43,7 +43,6 @@ public class PlayerEvents implements Listener {
 
     private void setupAllowedCommands() {
         this.allowedCommands.add("/duel leave");
-        this.allowedCommands.add("/duel list");
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -83,7 +82,7 @@ public class PlayerEvents implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerBreakBlock(BlockBreakEvent e) {
         Player dueler = e.getPlayer();
         DuelManager dm = plugin.getDuelManager();

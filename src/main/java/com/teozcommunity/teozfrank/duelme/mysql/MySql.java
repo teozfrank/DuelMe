@@ -19,7 +19,8 @@ public class MySql {
         FileManager fm = plugin.getFileManager();
 
         if(fm.isMySqlEnabled()) {
-            //this.setupTables();
+            SendConsoleMessage.info("MySql Enabled, connecting to database.");
+            this.setupTables();
         }
     }
 
@@ -52,6 +53,7 @@ public class MySql {
 
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = this.getConnection();
+            SendConsoleMessage.info("Successfully connected to MySql.");
             String query = "SHOW TABLES LIKE 'STATS'";
             PreparedStatement statement = connection.prepareStatement(query);
             int i;
@@ -91,9 +93,9 @@ public class MySql {
     public void addPlayerKillDeath(String player, FieldName fieldNameIn) {
         String fieldName = null;
 
-        if(fieldNameIn == FieldName.DEATHS){
+        if(fieldNameIn == FieldName.DEATH){
             fieldName = "DEATHS";
-        } else if(fieldNameIn == FieldName.KILLS) {
+        } else if(fieldNameIn == FieldName.KILL) {
             fieldName = "KILLS";
         } else {
             //do nothing
@@ -121,7 +123,7 @@ public class MySql {
             result.close();
             connection.close();
         } catch (SQLException e) {
-            SendConsoleMessage.severe("error adding all time player vote!!" + e);
+            SendConsoleMessage.severe("error adding all time player " + fieldName + "\n" + e);
         }
     }
 
@@ -149,7 +151,7 @@ public class MySql {
             statement.close();
             if (!(rows > 1)) {
                 int newKillDeathValue = killDeathCount + 1;
-                String sql = "UPDATE STATS SET " + fieldName + " ='" + newKillDeathValue + " WHERE `PLAYER`='" + player + "'";
+                String sql = "UPDATE STATS SET " + fieldName + " ='" + newKillDeathValue + "' WHERE PLAYER='" + player + "'";
                 Statement statement2 = this.getConnection().createStatement();
                 statement2.executeUpdate(sql);
                 statement2.close();
@@ -169,8 +171,14 @@ public class MySql {
      * @param fieldName the string field name
      */
     private void addNewPlayerKillDeath(String player, String fieldName) {
+        String sql = null;
+        if(fieldName.equals("KILLS")) {
+            sql = "INSERT INTO STATS VALUES (null,'" + player + "','" + 1 + "','" + 0 + "')";
+        } else if(fieldName.equals("DEATHS")) {
+            sql = "INSERT INTO STATS VALUES (null,'" + player + "','" + 0 + "','" + 1 + "')";
+        } else {
 
-        String sql = "UPDATE STATS SET " + fieldName + " ='1' WHERE `PLAYER`='" + player + "'";
+        }
         try {
             Statement statement = this.getConnection().createStatement();
             statement.executeUpdate(sql);

@@ -81,9 +81,6 @@ public class DuelMe extends JavaPlugin {
       this.itemManager = new ItemManager(this);
 
       this.mySql = new MySql(this);
-      if(getFileManager().isMySqlEnabled()) {
-          getMySql().setupTables();
-      }
       getCommand("duel").setExecutor(new DuelExecutor(this));
       getCommand("dueladmin").setExecutor(new DuelAdminExecutor(this));
       this.getFileManager().loadDuelArenas();

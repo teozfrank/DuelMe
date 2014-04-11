@@ -111,12 +111,7 @@ public class Util {
      * @param sender the command sender
      */
     public static void sendCredits(CommandSender sender){
-        sendEmptyMsg(sender,ChatColor.RED + "Please note that this version of the plugin has" +
-                " NOT been thoroughly tested and may contain bugs that can cause unexpected results" +
-                " and should not be used on production servers, only to test!");
-        sendEmptyMsg(sender,ChatColor.YELLOW + "Please report any bugs you find to the developer on" +
-                " the page below by using the TICKET SYSTEM so they can be resolved asap :)");
-        sendEmptyMsg(sender,ChatColor.GOLD + "                             V"+DuelMe.getVersion()+" Alpha by TeOzFrAnK ");
+        sendEmptyMsg(sender,ChatColor.GOLD + "                             V"+DuelMe.getVersion()+" by TeOzFrAnK");
         sendEmptyMsg(sender,ChatColor.GOLD + "             http://dev.bukkit.org/bukkit-plugins/duelme/");
     }
 

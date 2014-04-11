@@ -1,6 +1,8 @@
 package com.teozcommunity.teozfrank.duelme.events;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
+import com.teozcommunity.teozfrank.duelme.mysql.FieldName;
+import com.teozcommunity.teozfrank.duelme.mysql.MySql;
 import com.teozcommunity.teozfrank.duelme.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -100,8 +102,12 @@ public class PlayerEvents implements Listener {
        DuelManager dm = plugin.getDuelManager();
        FileManager fm = plugin.getFileManager();
        ItemManager im = plugin.getItemManager();
+       MySql mySql = plugin.getMySql();
 
        if(dm.isInDuel(playerName)){
+           if(fm.isMySqlEnabled()) {
+               mySql.addPlayerKillDeath(playerName, FieldName.DEATH);
+           }
            DuelArena arena = dm.getPlayersArena(playerName);//get the duel arena the player is in
            arena.removePlayer(playerName);//remove the player from the arena
            dm.addDeadPlayer(playerName);//add the player as a dead player
@@ -111,16 +117,25 @@ public class PlayerEvents implements Listener {
            arena.getPlayers().clear();
            arena.setDuelState(DuelState.WAITING);
 
-           if(!fm.isDeathMessagesEnabled()){
-             e.setDeathMessage("");
-             return;
-           }
+
            if(e.getEntity().getKiller() instanceof Player){
                Player killer = e.getEntity().getKiller();
                String killerName = killer.getName();
+               if(fm.isMySqlEnabled()) {
+                   mySql.addPlayerKillDeath(killerName, FieldName.KILL);
+               }
+
+               if(!fm.isDeathMessagesEnabled()){
+                   e.setDeathMessage("");
+                   return;
+               }
                e.setDeathMessage(ChatColor.GOLD + "[DuelMe] " + ChatColor.AQUA + player.getName() + ChatColor.RED + " was killed in a duel by "
                        + ChatColor.AQUA + killer.getName());
            }  else {
+               if(!fm.isDeathMessagesEnabled()){
+                   e.setDeathMessage("");
+                   return;
+               }
                e.setDeathMessage(ChatColor.GOLD + "[DuelMe] " + ChatColor.AQUA + player.getName() + ChatColor.RED + " was killed in a duel!");
            }
 

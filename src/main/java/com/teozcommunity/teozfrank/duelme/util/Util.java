@@ -9,8 +9,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
-import pgDev.bukkit.DisguiseCraft.DisguiseCraft;
-import pgDev.bukkit.DisguiseCraft.api.DisguiseCraftAPI;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,29 +55,6 @@ public class Util {
     public static void broadcastMessage(String message) {
         for (Player p : Bukkit.getOnlinePlayers()) {
             Util.sendMsg(p, message);
-        }
-    }
-
-    /**
-     * method to handle mob disguises if server is using it
-     * @param sender the duel sender
-     * @param target the duel acceptor
-     */
-    public void handleDisguise(Player sender, Player target) {
-        try {
-            if (plugin.getServer().getPluginManager().getPlugin("DisguiseCraft") != null) {
-                DisguiseCraftAPI dcAPI = DisguiseCraft.getAPI();
-
-                if (dcAPI.isDisguised(sender)) {
-                    dcAPI.undisguisePlayer(sender);
-                }
-                if (dcAPI.isDisguised(target)) {
-                    dcAPI.undisguisePlayer(target);
-                }
-            }
-
-        } catch (Exception e) {
-            //server must not be using disguisecraft so we wont output an error
         }
     }
 

@@ -117,7 +117,14 @@ public class UpdateChecker {
                 versionName = versionName.replaceAll("[a-zA-Z]", "");
                 versionName = versionName.replaceAll(" ","");
 
-                if(!versionName.equals(plugin.getDescription().getVersion())){
+                String pluginVersion = plugin.getDescription().getVersion();
+
+                pluginVersion = pluginVersion.replaceAll("Alpha", "");
+                pluginVersion = pluginVersion.replaceAll("Beta", "");
+                pluginVersion = pluginVersion.replaceAll("Release", "");
+                pluginVersion = pluginVersion.replaceAll(" ", "");
+
+                if(!versionName.equals(pluginVersion)) {
                     this.updateAvailable = true;
                     SendConsoleMessage.info("There is a new update available! download it on bukkit dev "+
                             ChatColor.YELLOW+"http://dev.bukkit.org/bukkit-plugins/duelme/");

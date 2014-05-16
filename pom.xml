@@ -11,13 +11,22 @@
 
     <properties>
         <bukkit.version>1.7.9-R0.1-SNAPSHOT</bukkit.version>
-        <worldedit.version>5.5.8-SNAPSHOT</worldedit.version>
+        <worldedit.version>5.6.1</worldedit.version>
+        <libsdisguises.version>8.0.9-SNAPSHOT</libsdisguises.version>
     </properties>
 
     <repositories>
         <repository>
             <id>bukkit-repo</id>
             <url>http://repo.bukkit.org/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>sk89q-repo</id>
+            <url>http://maven.sk89q.com/repo/</url>
+        </repository>
+        <repository>
+            <id>md-5-repo</id>
+            <url>http://repo.md-5.net/content/groups/public/</url>
         </repository>
     </repositories>
 
@@ -33,6 +42,12 @@
             <artifactId>worldedit</artifactId>
             <version>${worldedit.version}</version>
             <scope>compile</scope>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>LibsDisguises</groupId>
+            <artifactId>LibsDisguises</artifactId>
+            <version>${libsdisguises.version}</version>
             <type>jar</type>
         </dependency>
     </dependencies>

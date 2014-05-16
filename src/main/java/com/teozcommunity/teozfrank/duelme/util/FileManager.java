@@ -154,6 +154,16 @@ public class FileManager {
     }
 
     /**
+     * are drops when players die in a duel enabled
+     * @return true if enabled, false if not
+     */
+    public boolean isDropsOnDeathEnabled() {
+        boolean isDropsOnDeathEnabled = plugin.getConfig().getBoolean("duelme.duel.dropitemsondeath");
+        return isDropsOnDeathEnabled;
+    }
+
+
+    /**
      * get the commands that are run on duel start
      * @return list of commands that are to be run
      */

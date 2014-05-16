@@ -94,7 +94,7 @@ public class PlayerEvents implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerDeath(PlayerDeathEvent e) {
        Player player = e.getEntity();
        String playerName = player.getName();
@@ -123,6 +123,10 @@ public class PlayerEvents implements Listener {
                String killerName = killer.getName();
                if(fm.isMySqlEnabled()) {
                    mySql.addPlayerKillDeath(killerName, FieldName.KILL);
+               }
+
+               if(!fm.isDropsOnDeathEnabled()) {
+                    e.getDrops().clear();
                }
 
                if(!fm.isDeathMessagesEnabled()){

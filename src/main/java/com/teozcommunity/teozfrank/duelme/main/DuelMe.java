@@ -106,12 +106,19 @@ public class DuelMe extends JavaPlugin {
       this.getFileManager().saveDuelArenas();
     }
 
+    /**
+     * check for updates to the plugin
+     */
     public void checkForUpdates() {
         if(this.getConfig().getBoolean("duelme.checkforupdates")){
             this.updateChecker = new UpdateChecker(this,60044);
         }
     }
 
+    /**
+     * attempt to submit the plugin stats
+     * to mcstats.org
+     */
     public void submitStats() {
         try {
             MetricsLite metrics = new MetricsLite(this);
@@ -121,6 +128,9 @@ public class DuelMe extends JavaPlugin {
         }
     }
 
+    /**
+     * setup the yml files used in the plugin
+     */
     public void setupYMLs() {
         if (!(new File(getDataFolder(), "config.yml")).exists()) {
             SendConsoleMessage.info("Saving default config.yml.");
@@ -136,10 +146,13 @@ public class DuelMe extends JavaPlugin {
         }
     }
 
-
+    /**
+     * check the config file versions and see
+     * do they match the latest version
+     */
     public void checkConfigVersions(){
         if(new File(getDataFolder(),"config.yml").exists()){
-           if(fileManager.getConfigVersion() != 1.2){
+           if(fileManager.getConfigVersion() != 1.3){
                SendConsoleMessage.warning("Your config.yml is out of date! please remove or back it up before using the plugin!");
                errorCount++;
            }
@@ -164,20 +177,40 @@ public class DuelMe extends JavaPlugin {
         }
     }
 
+    /**
+     * get the duel manager object
+     * @return duel manager object
+     */
     public DuelManager getDuelManager(){
         return this.duelManager;
     }
 
+    /**
+     * get the file manager object
+     * @return file manager object
+     */
     public FileManager getFileManager(){
         return this.fileManager;
     }
 
+    /**
+     * get the item manager object
+     * @return item manager object
+     */
     public ItemManager getItemManager() { return itemManager; }
 
+    /**
+     * get the plugin version
+     * @return the plugin version
+     */
     public static String getVersion(){
         return version;
     }
 
+    /**
+     * get MySql object
+     * @return the MySql object
+     */
     public MySql getMySql() { return this.mySql; }
 
     /**

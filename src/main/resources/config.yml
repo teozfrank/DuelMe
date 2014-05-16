@@ -1,5 +1,5 @@
 # do not touch the config version below, it will break the plugin!
-configversion: 1.2
+configversion: 1.3
 duelme:
     checkforupdates: true
     mysql:
@@ -12,6 +12,7 @@ duelme:
     duel:
        seperateinventories: true
        rightclicktoduel: false
+       dropitemsondeath: false
     announce:
        duelstart: true
        deaths: true

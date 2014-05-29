@@ -43,7 +43,10 @@ public class StartDuelThread extends BukkitRunnable {
         DuelManager dm = plugin.getDuelManager();
         String senderName = sender.getName();
         String targetName = target.getName();
-
+        if(duelArena.getPlayers().size() == 1) {
+            dm.endDuel(duelArena);
+            this.cancel();
+        }
 
 
         if (this.countDown > 0) {

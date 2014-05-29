@@ -101,23 +101,13 @@ public class PlayerEvents implements Listener {
 
        DuelManager dm = plugin.getDuelManager();
        FileManager fm = plugin.getFileManager();
-       ItemManager im = plugin.getItemManager();
        MySql mySql = plugin.getMySql();
 
        if(dm.isInDuel(playerName)){
            if(fm.isMySqlEnabled()) {
                mySql.addPlayerKillDeath(playerName, FieldName.DEATH);
            }
-           DuelArena arena = dm.getPlayersArena(playerName);//get the duel arena the player is in
-           arena.removePlayer(playerName);//remove the player from the arena
-           dm.addDeadPlayer(playerName);//add the player as a dead player
-
-
-           im.rewardPlayer(arena);
-           arena.getPlayers().clear();
-           arena.setDuelState(DuelState.WAITING);
-
-
+           dm.endDuel(player);
            if(e.getEntity().getKiller() instanceof Player){
                Player killer = e.getEntity().getKiller();
                String killerName = killer.getName();
@@ -170,22 +160,9 @@ public class PlayerEvents implements Listener {
         String playerName = player.getName();
 
         DuelManager dm = plugin.getDuelManager();
-        FileManager fm = plugin.getFileManager();
-        ItemManager im = plugin.getItemManager();
 
         if(dm.isInDuel(playerName)){
-           DuelArena arena = dm.getPlayersArena(playerName);
-           arena.removePlayer(playerName);
-           player.teleport(fm.getLobbySpawnLocation());
-           if(plugin.isUsingSeperatedInventories()) {
-                dm.restoreInventory(player);
-           }
-
-
-           im.rewardPlayer(arena);
-           arena.getPlayers().clear();
-           arena.setDuelState(DuelState.WAITING);
-
+            dm.endDuel(player);
         }
     }
 

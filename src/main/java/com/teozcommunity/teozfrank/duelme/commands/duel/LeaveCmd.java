@@ -29,20 +29,7 @@ public class LeaveCmd extends DuelCmd {
         ItemManager im = plugin.getItemManager();
 
         if(dm.isInDuel(playerName)){
-
-
-            DuelArena arena = dm.getPlayersArena(playerName);
-            arena.removePlayer(playerName);
-            player.teleport(fm.getLobbySpawnLocation());
-            if(plugin.isUsingSeperatedInventories()) {
-                dm.restoreInventory(player);
-            }
-
-            if(arena.getPlayers().size() == 1){
-                im.rewardPlayer(arena);
-            }
-            arena.getPlayers().clear();
-            arena.setDuelState(DuelState.WAITING);
+            dm.endDuel(player);
         } else {
             Util.sendMsg(sender, ChatColor.RED + "You cannot leave duel if you are not in one!");
         }

@@ -45,6 +45,10 @@ public class ItemManager {
         }
     }
 
+    /**
+     * reward a player
+     * @param arena the arena which the player is in
+     */
     public void rewardPlayer(DuelArena arena) {
         DuelManager dm = plugin.getDuelManager();
         FileManager fm = plugin.getFileManager();
@@ -63,6 +67,8 @@ public class ItemManager {
                     this.giveWinningPlayerRewards(winningPlayer);//give them a reward
                 }
             }
+            arena.getPlayers().clear();
+            arena.setDuelState(DuelState.WAITING);
         }
 
     }

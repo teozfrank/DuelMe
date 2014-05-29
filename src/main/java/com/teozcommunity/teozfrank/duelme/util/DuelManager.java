@@ -438,4 +438,62 @@ public class DuelManager {
             Util.sendMsg(p,ChatColor.RED + "There was an error restoring your inventory!");
         }
     }
+
+    /**
+     * end a duel by passing in a player.
+     * this would be used for if a player dies,
+     * leaves the game or leaves a duel by command
+     * @param player the player
+     */
+    public void endDuel(Player player) {
+        FileManager fm = plugin.getFileManager();
+        ItemManager im = plugin.getItemManager();
+        String playerName = player.getName();
+
+        DuelArena arena = this.getPlayersArena(playerName);
+        arena.removePlayer(playerName);
+        player.teleport(fm.getLobbySpawnLocation());
+        if(plugin.isUsingSeperatedInventories()) {
+            this.restoreInventory(player);
+        }
+
+        if(arena.getPlayers().size() == 1){
+            im.rewardPlayer(arena);
+        }
+
+    }
+
+    /**
+     * end a duel by duelarena
+     * player is rewarded only if there is one left
+     * otherwise both players get nothing
+     * @param arena the arena to be ended
+     */
+    public void endDuel(DuelArena arena) {
+        ItemManager im = plugin.getItemManager();
+        DuelManager dm = plugin.getDuelManager();
+        FileManager fm = plugin.getFileManager();
+
+        if(arena.getPlayers().size() == 1){
+            im.rewardPlayer(arena);
+            return;
+        }
+
+        for(String player: arena.getPlayers()) {
+            if(isFrozen(player)) {// if player is frozen
+                removeFrozenPlayer(player);//remove frozen player
+            }
+            Player playerOut = Bukkit.getPlayer(player);
+            if(playerOut != null) {
+                playerOut.teleport(fm.getLobbySpawnLocation());//teleport them to the lobby spawn
+                if(plugin.isUsingSeperatedInventories()) {
+                    dm.restoreInventory(playerOut);//restore their inventory
+                }
+                Util.sendMsg(playerOut,ChatColor.RED + "Duel was forcefully cancelled!");
+            }
+            arena.getPlayers().remove(player);//remove the player
+        }
+        arena.getPlayers().clear();
+        arena.setDuelState(DuelState.WAITING);
+    }
 }

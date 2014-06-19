@@ -7,6 +7,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.UUID;
+
 /**
  * Created by frank on 11/01/14.
  */
@@ -23,12 +25,10 @@ public class LeaveCmd extends DuelCmd {
         }
 
         Player player = (Player) sender;
-        String playerName = player.getName();
+        UUID playerUUID = player.getUniqueId();
         DuelManager dm = plugin.getDuelManager();
-        FileManager fm = plugin.getFileManager();
-        ItemManager im = plugin.getItemManager();
 
-        if(dm.isInDuel(playerName)){
+        if(dm.isInDuel(playerUUID)){
             dm.endDuel(player);
         } else {
             Util.sendMsg(sender, ChatColor.RED + "You cannot leave duel if you are not in one!");

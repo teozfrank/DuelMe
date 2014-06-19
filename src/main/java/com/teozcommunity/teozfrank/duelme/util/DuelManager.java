@@ -10,10 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -31,47 +28,38 @@ public class DuelManager {
      * the key is the duel sender
      * the value is the player who has been sent a request
      */
-    public Map<String, String> duelRequests;
+    public Map<UUID, UUID> duelRequests;
 
     /**
-     * list to hold the current spectating players
+     * list to hold the current spectating player uuids
      */
-    public List<String> spectatingPlayers;
+    public List<UUID> spectatingPlayerUUIDs;
 
     /**
-     * list to hold the frozen players (before a duel starts)
+     * list to hold the frozen player uuids (before a duel starts)
      */
-    public List<String> frozenPlayers;
+    public List<UUID> frozenPlayerUUIDs;
 
     /**
      * list to hold the dead players
      */
-    public List<String> deadPlayers;
+    public List<UUID> deadPlayerUUIDs;
 
     /**
      * list to hold arena objects
      */
     public List<DuelArena> duelArenas;
 
-    /**
-     * hashmap to store players inventories
-     */
-    private static HashMap<String, ItemStack[]> inventories;
-
-    /**
-     * hashmap to store players armour
-     */
-    private static HashMap<String, ItemStack[]> armour;
+    private List<PlayerData> playerData;
 
     public DuelManager(DuelMe plugin){
         this.plugin = plugin;
-        this.duelRequests = new HashMap<String, String>();
-        this.spectatingPlayers = new ArrayList<String>();
-        this.frozenPlayers = new ArrayList<String>();
+        this.duelRequests = new HashMap<UUID, UUID>();
+        this.spectatingPlayerUUIDs = new ArrayList<UUID>();
+        this.frozenPlayerUUIDs = new ArrayList<UUID>();
         this.duelArenas = new ArrayList<DuelArena>();
-        this.deadPlayers = new ArrayList<String>();
-        this.inventories = new HashMap<String, ItemStack[]>();
-        this.armour = new HashMap<String, ItemStack[]>();
+        this.deadPlayerUUIDs = new ArrayList<UUID>();
+        this.playerData = new ArrayList<PlayerData>();
     }
 
     /**
@@ -107,12 +95,12 @@ public class DuelManager {
 
     /**
      * if a player is in a duel
-     * @param playerName the players name
+     * @param playerUUIDIn the players UUID
      * @return true if is in a duel, false if not
      */
-    public boolean isInDuel(String playerName){
+    public boolean isInDuel(UUID playerUUIDIn){
         for(DuelArena a: this.getDuelArenas()){
-            if(a.getPlayers().contains(playerName)){
+            if(a.getPlayers().contains(playerUUIDIn)){
                 return true;
             }
         }
@@ -121,13 +109,13 @@ public class DuelManager {
 
     /**
      * get the arena name that a player is in
-     * @param playerName the players name
+     * @param playerUUIDIn the players name
      * @return the arena name that the plater is in,
      * returns null if the player is not in an arena
      */
-    public String getPlayersArenaName(String playerName){
+    public String getPlayersArenaName(UUID playerUUIDIn){
         for(DuelArena a: this.getDuelArenas()){
-            if(a.getPlayers().contains(playerName)){
+            if(a.getPlayers().contains(playerUUIDIn)){
                 return a.getName();
             }
         }
@@ -136,24 +124,24 @@ public class DuelManager {
 
     /**
      * gets the arena of two players
-     * @param player1 the first player
-     * @param player2 the second player
+     * @param player1UUID the first player
+     * @param player2UUID the second player
      * @return the arena that the players are in
      * , null if both players are not in the same arena.
      */
-    public DuelArena getPlayersArena(String player1,String player2) {
+    public DuelArena getPlayersArena(UUID player1UUID,UUID player2UUID) {
 
         for(DuelArena a: this.getDuelArenas()){
-            List<String> players = a.getPlayers();
-            if(players.contains(player1) && players.contains(player2)){
+            List<UUID> players = a.getPlayers();
+            if(players.contains(player1UUID) && players.contains(player2UUID)){
                 return a;
             }
         }
         return null;
     }
 
-    public boolean isFrozen(String playerIn){
-        if(this.getFrozenPlayers().contains(playerIn)){
+    public boolean isFrozen(UUID playerUUIDIn){
+        if(this.getFrozenPlayerUUIDs().contains(playerUUIDIn)){
             return true;
         }
         return false;
@@ -163,47 +151,55 @@ public class DuelManager {
      * get a list of the frozen players
      * @return list of frozen players
      */
-    public List<String> getFrozenPlayers(){
-        return this.frozenPlayers;
+    public List<UUID> getFrozenPlayerUUIDs(){
+        return this.frozenPlayerUUIDs;
     }
 
     /**
      * add a frozen player to stop them from moving
-     * @param playerName the players name
+     * @param playerUUID the players name
      */
-    public void addFrozenPlayer(String playerName){
-        this.frozenPlayers.add(playerName);
+    public void addFrozenPlayer(UUID playerUUID){
+        this.frozenPlayerUUIDs.add(playerUUID);
     }
 
     /**
      * add a frozen players to stop them from moving
-     * @param senderName the duel sender
-     * @param targetName the duel target
+     * @param senderUUID the duel sender
+     * @param targetUUID the duel target
      */
-    public void addFrozenPlayer(String senderName, String targetName){
-        this.frozenPlayers.add(senderName);
-        this.frozenPlayers.add(targetName);
+    public void addFrozenPlayer(UUID senderUUID, UUID targetUUID){
+        this.frozenPlayerUUIDs.add(senderUUID);
+        this.frozenPlayerUUIDs.add(targetUUID);
+    }
+
+    public List<PlayerData> getPlayerData() {
+        return playerData;
+    }
+
+    public void setPlayerData(List<PlayerData> playerData) {
+        this.playerData = playerData;
     }
 
     /**
      * remove a frozen player allowing them to move
-     * @param playerName the players name
+     * @param playerUUIDIn the players name
      */
-    public void removeFrozenPlayer(String playerName){
-        this.frozenPlayers.remove(playerName);
+    public void removeFrozenPlayer(UUID playerUUIDIn){
+        this.frozenPlayerUUIDs.remove(playerUUIDIn);
     }
 
     /**
      * gets the arena of a player
-     * @param player the players name
+     * @param playerUUID the players UUID
      * @return the arena of the player, null if the player
      * is not in a arena
      */
-    public DuelArena getPlayersArena(String player) {
+    public DuelArena getPlayersArenaByUUID(UUID playerUUID) {
 
         for(DuelArena a: this.getDuelArenas()){
-            List<String> players = a.getPlayers();
-            if(players.contains(player)){
+            List<UUID> players = a.getPlayers();
+            if(players.contains(playerUUID)){
                 return a;
             }
         }
@@ -211,23 +207,25 @@ public class DuelManager {
     }
 
     /**
-     * handle duel requests
+     * handle normal duel requests
      * @param duelSender the sender of the request
      * @param duelTargetIn the string player of the target player
      */
-    public void sendRequest(Player duelSender,String duelTargetIn){
+    public void sendNormalDuelRequest(Player duelSender,String duelTargetIn){
 
         String duelSenderName = duelSender.getName();
-
-        if(this.duelRequests.containsKey(duelSenderName) && this.duelRequests.containsValue(duelTargetIn)){
-            Util.sendMsg(duelSender,ChatColor.YELLOW+"You have already sent a request to " +
-                    ChatColor.AQUA + duelTargetIn + ".");
-            return;
-        }
-
+        UUID duelSenderUUID = duelSender.getUniqueId();
         Player duelTarget = Bukkit.getPlayer(duelTargetIn);
 
         if(duelTarget != null){
+
+            UUID duelTargetUUID = duelTarget.getUniqueId();
+
+            if(this.duelRequests.containsKey(duelSenderUUID) && this.duelRequests.containsValue(duelTargetUUID)){
+                Util.sendMsg(duelSender,ChatColor.YELLOW+"You have already sent a request to " +
+                        ChatColor.AQUA + duelTargetIn + ".");
+                return;
+            }
 
             String duelTargetName = duelTarget.getName();
             if(duelSenderName == duelTargetName){
@@ -238,12 +236,56 @@ public class DuelManager {
             Util.sendMsg(duelSender,ChatColor.GREEN + "You have sent a duel request to " + ChatColor.AQUA + duelTargetName + ".");
             Util.sendMsg(duelTarget,ChatColor.translateAlternateColorCodes('&',"&aYou have been sent a duel request from &b" + duelSenderName));
             Util.sendEmptyMsg(duelTarget,ChatColor.translateAlternateColorCodes('&',"&ause &b/duel accept "+duelSenderName+"&a, to accept the request."));
-            this.duelRequests.put(duelSenderName,duelTargetName);
+            this.duelRequests.put(duelSenderUUID, duelTargetUUID);
         } else {
             Util.sendMsg(duelSender, ChatColor.AQUA+ duelTargetIn + ChatColor.RED + " is not online! Did you type it correctly?");
         }
 
     }
+
+    /**
+     * handle duel requests
+     * @param duelSender the sender of the request
+     * @param duelTargetIn the string player of the target player
+     * @param amount the duel bet amount
+     */
+    public void sendBetDuelRequest(Player duelSender,String duelTargetIn, int amount){
+
+        String duelSenderName = duelSender.getName();
+        UUID duelSenderUUID = duelSender.getUniqueId();
+
+        Player duelTarget = Bukkit.getPlayer(duelTargetIn);
+
+        if(duelTarget != null){
+
+            UUID duelTargetUUID = duelTarget.getUniqueId();
+
+            if(this.duelRequests.containsKey(duelSenderUUID) && this.duelRequests.containsValue(duelTargetUUID)){
+                Util.sendMsg(duelSender,ChatColor.YELLOW+"You have already sent a request to " +
+                        ChatColor.AQUA + duelTargetIn + ".");
+                return;
+            }
+
+            String duelTargetName = duelTarget.getName();
+            if(duelSenderName == duelTargetName){
+                Util.sendMsg(duelSender,ChatColor.RED+"You cannot duel yourself!");
+                return;
+            }
+            //TODO check does player have enough to duel for amount and add amount to duel arena etc..
+
+            Util.sendMsg(duelSender,ChatColor.GREEN + "You have sent a duel request to " + ChatColor.AQUA +
+                    duelTargetName + ChatColor.GREEN + " for a bet amount of " + ChatColor.GREEN + amount);
+            Util.sendMsg(duelTarget,ChatColor.translateAlternateColorCodes('&',"&aYou have been sent a duel request from &b" + duelSenderName +
+                    " &afor a bet amount of &b" + amount));
+            Util.sendEmptyMsg(duelTarget,ChatColor.translateAlternateColorCodes('&',"&ause &b/duel accept "+duelSenderName+"&a, to accept the request."));
+            this.duelRequests.put(duelSenderUUID, duelTargetUUID);
+        } else {
+            Util.sendMsg(duelSender, ChatColor.AQUA+ duelTargetIn + ChatColor.RED + " is not online! Did you type it correctly?");
+        }
+
+    }
+
+
 
     /**
      * handles accepting the request with the specified player to accept the duel request
@@ -277,8 +319,13 @@ public class DuelManager {
      * @param sender the player that sent the reqest
      */
     public void startDuel(Player accepter, Player sender) {
+
         String accepterName = accepter.getName();//the duel accepter name
         String senderName = sender.getName();//the duel request sender name
+
+        UUID accepterUUID = accepter.getUniqueId();
+        UUID senderUUID = sender.getUniqueId();
+
         List<DuelArena> arenas = this.getDuelArenas();//list of arenas
         FileManager fm = plugin.getFileManager();//file manager instance
         ItemManager im = plugin.getItemManager();//item manager instance
@@ -297,22 +344,22 @@ public class DuelManager {
                             ChatColor.GREEN + " and " +
                             ChatColor.AQUA + senderName);
               }
-              a.addPlayer(accepterName);//add the players to the arena
-              a.addPlayer(senderName);
+              a.addPlayerUUID(accepterUUID);//add the players to the arena
+              a.addPlayerUUID(senderUUID);
 
               if(fm.isUsingSeperateInventories()) {//store the players inventories
                   if(plugin.isDebugEnabled()){
                       SendConsoleMessage.debug("Storing inventories enabled. storing player inventories");
                   }
-                  this.storeInventory(accepter);
-                  this.storeInventory(sender);
+                  this.storePlayerData(accepter);
+                  this.storePlayerData(sender);
               }
 
               accepter.teleport(this.generateRandomLocation(a));//teleport the players to a random location in the duel arena
               sender.teleport(this.generateRandomLocation(a));
 
-              frozenPlayers.add(accepter.getName());//freeze the players
-              frozenPlayers.add(sender.getName());
+              frozenPlayerUUIDs.add(accepterUUID);//freeze the players
+              frozenPlayerUUIDs.add(senderUUID);
 
               if(fm.isUsingSeperateInventories()) {
                   if(plugin.isDebugEnabled()){
@@ -379,14 +426,14 @@ public class DuelManager {
 
     /**
      * add a dead player
-     * @param playerName the players name
+     * @param playerUUID the players name
      */
-    public void addDeadPlayer(String playerName){
-        this.deadPlayers.add(playerName);
+    public void addDeadPlayer(UUID playerUUID){
+        this.deadPlayerUUIDs.add(playerUUID);
     }
 
-    public List<String> getDeadPlayers(){
-        return this.deadPlayers;
+    public List<UUID> getDeadPlayers(){
+        return this.deadPlayerUUIDs;
     }
 
     /**
@@ -394,49 +441,91 @@ public class DuelManager {
      * @param playerName the players name
      */
     public void removedDeadPlayer(String playerName){
-        this.deadPlayers.remove(playerName);
+        this.deadPlayerUUIDs.remove(playerName);
     }
 
     /**
      * check to see if a player is dead (after being killed in a duel)
-     * @param playerName the players name
+     * @param playerUUID the players unique ID
      * @return true if they are a dead player, false if not
      */
-    public boolean isDeadPlayer(String playerName){
-        if(this.getDeadPlayers().contains(playerName)){
+    public boolean isDeadPlayer(UUID playerUUID){
+        if(this.getDeadPlayers().contains(playerUUID)){
             return true;
         }
         return false;
     }
 
     /**
-     * Method to store a players inventory
-     * @param p the player to store the inventory of
+     * get a players data by UUID
+     * @param playerUUIDIn the players UUID
+     * @return the player data
      */
-    public static void storeInventory(Player p) {
-        ItemStack[] inv = p.getInventory().getContents();
-        ItemStack[] arm = p.getInventory().getArmorContents();
-        inventories.put(p.getName(), inv);
-        armour.put(p.getName(), arm);
-        p.getInventory().clear(-1, -1);
-        Util.sendMsg(p,ChatColor.GREEN + "Your inventory has been stored and will be restored after the Duel.");
+    public PlayerData getPlayerDataByUUID(UUID playerUUIDIn) {
+        for(PlayerData playerDataIn: this.getPlayerData()) {
+            if(playerDataIn.getUUID() == playerUUIDIn) {
+                return playerDataIn;
+            }
+        }
+        return null;
     }
 
     /**
-     * Method to restore a players inventory
-     * @param p the player to restore the inventory to
+     * Method to store a players data
+     * @param player the player to store data of
      */
-    public static void restoreInventory(Player p) {
-        p.getInventory().clear(-1, -1);// clear their inventory completely
-        if (inventories.containsKey(p.getName()) && armour.containsKey(p.getName())) {
-            p.getInventory().setContents(inventories.get(p.getName()));
-            p.getInventory().setArmorContents(armour.get(p.getName()));
-            inventories.remove(p.getName());
-            armour.remove(p.getName());
-            Util.sendMsg(p,ChatColor.GREEN + "Your inventory has been restored.");
-        } else {
-            Util.sendMsg(p,ChatColor.RED + "There was an error restoring your inventory!");
+    public void storePlayerData(Player player) {
+        UUID playerUUID = player.getUniqueId();
+        ItemStack[] arm = player.getInventory().getArmorContents();
+        ItemStack[] inv = player.getInventory().getContents();
+        Location loc = player.getLocation();
+        Float saturation = player.getSaturation();
+        int foodLevel = player.getFoodLevel();
+        int expLevel = player.getLevel();
+        double health = player.getHealth();
+
+        this.playerData.add(new PlayerData(playerUUID, arm, inv, loc, saturation, foodLevel, expLevel, health));
+
+        player.getInventory().clear(-1, -1);
+        Util.sendMsg(player, ChatColor.GREEN + "Your player data has been stored and will be restored after the Duel.");
+    }
+
+    /**
+     * Method to restore a players data
+     * @param player the player to restore the data to
+     */
+    public void restorePlayerData(Player player) {
+        UUID playerUUID = player.getUniqueId();
+        PlayerData playerData = this.getPlayerDataByUUID(playerUUID);
+
+        player.getInventory().clear(-1, -1);// clear their inventory completely
+
+        try {
+            ItemStack[] arm = playerData.getArmour();
+            ItemStack[] inv = playerData.getInventory();
+            Location loc = playerData.getLocaton();
+            Float saturation = playerData.getSaturation();
+            int foodLevel = playerData.getFoodLevel();
+            int expLevel = playerData.getEXPLevel();
+            double health = playerData.getHealth();
+
+            if(!this.isDeadPlayer(playerUUID)) {
+                player.teleport(loc);
+            }
+            player.getInventory().setArmorContents(arm);
+            if(plugin.isUsingSeperatedInventories()) {
+                player.getInventory().setContents(inv);
+            }
+            player.setSaturation(saturation);
+            player.setFoodLevel(foodLevel);
+            player.setLevel(expLevel);
+            player.setHealth(health);
+            Util.sendMsg(player, ChatColor.GREEN + "Your player data has been restored!");
+        } catch (Exception e) {
+            Util.sendMsg(player, ChatColor.RED + "There was an error restoring your player data!");
         }
+
+
     }
 
     /**
@@ -449,13 +538,11 @@ public class DuelManager {
         FileManager fm = plugin.getFileManager();
         ItemManager im = plugin.getItemManager();
         String playerName = player.getName();
+        UUID playerUUID = player.getUniqueId();
 
-        DuelArena arena = this.getPlayersArena(playerName);
+        DuelArena arena = this.getPlayersArenaByUUID(playerUUID);
         arena.removePlayer(playerName);
-        player.teleport(fm.getLobbySpawnLocation());
-        if(plugin.isUsingSeperatedInventories()) {
-            this.restoreInventory(player);
-        }
+        this.restorePlayerData(player);
 
         if(arena.getPlayers().size() == 1){
             im.rewardPlayer(arena);
@@ -479,19 +566,16 @@ public class DuelManager {
             return;
         }
 
-        for(String player: arena.getPlayers()) {
-            if(isFrozen(player)) {// if player is frozen
-                removeFrozenPlayer(player);//remove frozen player
+        for(UUID playerUUID: arena.getPlayers()) {
+            if(isFrozen(playerUUID)) {// if player is frozen
+                removeFrozenPlayer(playerUUID);//remove frozen player
             }
-            Player playerOut = Bukkit.getPlayer(player);
+            Player playerOut = Bukkit.getPlayer(playerUUID);
             if(playerOut != null) {
-                playerOut.teleport(fm.getLobbySpawnLocation());//teleport them to the lobby spawn
-                if(plugin.isUsingSeperatedInventories()) {
-                    dm.restoreInventory(playerOut);//restore their inventory
-                }
+                this.restorePlayerData(playerOut);
                 Util.sendMsg(playerOut,ChatColor.RED + "Duel was forcefully cancelled!");
             }
-            arena.getPlayers().remove(player);//remove the player
+            arena.getPlayers().remove(playerUUID);//remove the player
         }
         arena.getPlayers().clear();
         arena.setDuelState(DuelState.WAITING);

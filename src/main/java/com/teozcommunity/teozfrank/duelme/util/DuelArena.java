@@ -4,6 +4,7 @@ import org.bukkit.Location;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,15 +18,35 @@ public class DuelArena {
     private String name;
     private Location pos1;
     private Location pos2;
-    private List<String> players;
+    private List<UUID> players;
     private DuelState duelState;
+    private boolean hasBet;
+    private double betAmount;
+
+    public boolean hasBet() {
+        return hasBet;
+    }
+
+    public void setHasBet(boolean hasBet) {
+        this.hasBet = hasBet;
+    }
+
+    public double getBetAmount() {
+        return betAmount;
+    }
+
+    public void setBetAmount(double betAmount) {
+        this.betAmount = betAmount;
+    }
 
     public DuelArena(String name, Location pos1, Location pos2){
         this.name = name;
         this.pos1 = pos1;
         this.pos2 = pos2;
-        this.players = new ArrayList<String>();
+        this.players = new ArrayList<UUID>();
         this.duelState = DuelState.WAITING;
+        this.hasBet = false;
+        this.betAmount = 0;
     }
 
     public String getName(){
@@ -44,7 +65,7 @@ public class DuelArena {
         return duelState;
     }
 
-    public List<String> getPlayers(){
+    public List<UUID> getPlayers(){
         return players;
     }
 
@@ -64,11 +85,11 @@ public class DuelArena {
         this.players.remove(playerName);
     }
 
-    public void addPlayer(String playerName){
-        this.players.add(playerName);
+    public void addPlayerUUID(UUID playerUUID){
+        this.players.add(playerUUID);
     }
 
-    public void setPlayers(List<String> players){
+    public void setPlayers(List<UUID> players){
         this.players = players;
     }
 

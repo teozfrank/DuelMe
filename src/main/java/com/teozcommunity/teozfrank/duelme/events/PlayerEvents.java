@@ -22,6 +22,7 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created with IntelliJ IDEA.
@@ -78,7 +79,7 @@ public class PlayerEvents implements Listener {
         if(entity instanceof Player){
             Player target = (Player) entity;
             if(player.isSneaking() && player.getItemInHand().equals(new ItemStack(Material.DIAMOND_SWORD))){//if the player is sneaking and has a diamond sword
-              dm.sendRequest(player , target.getName());//send a duel request
+              dm.sendNormalDuelRequest(player , target.getName());//send a duel request
               return;
             }
         }
@@ -89,7 +90,7 @@ public class PlayerEvents implements Listener {
         Player dueler = e.getPlayer();
         DuelManager dm = plugin.getDuelManager();
 
-        if(dm.isInDuel(dueler.getName())){
+        if(dm.isInDuel(dueler.getUniqueId())){
             e.setCancelled(true);
         }
     }
@@ -98,12 +99,13 @@ public class PlayerEvents implements Listener {
     public void onPlayerDeath(PlayerDeathEvent e) {
        Player player = e.getEntity();
        String playerName = player.getName();
+       UUID playerUUID = player.getUniqueId();
 
        DuelManager dm = plugin.getDuelManager();
        FileManager fm = plugin.getFileManager();
        MySql mySql = plugin.getMySql();
 
-       if(dm.isInDuel(playerName)){
+       if(dm.isInDuel(playerUUID)){
            if(fm.isMySqlEnabled()) {
                mySql.addPlayerKillDeath(playerName, FieldName.DEATH);
            }
@@ -142,14 +144,15 @@ public class PlayerEvents implements Listener {
     public void onPlayerRespawn(PlayerRespawnEvent e) {
         Player player = e.getPlayer();
         String playerName = player.getName();
+        UUID playerUUID = player.getUniqueId();
         DuelManager dm = plugin.getDuelManager();
         FileManager fm = plugin.getFileManager();
 
-        if(dm.isDeadPlayer(playerName)){
-            e.setRespawnLocation(fm.getLobbySpawnLocation());
-            if(plugin.isUsingSeperatedInventories()) {
-                dm.restoreInventory(player);
-            }
+        if(dm.isDeadPlayer(playerUUID)){
+            PlayerData playerData = dm.getPlayerDataByUUID(playerUUID);
+
+            e.setRespawnLocation(playerData.getLocaton());
+            dm.restorePlayerData(player);
             dm.removedDeadPlayer(playerName);
         }
     }
@@ -158,10 +161,11 @@ public class PlayerEvents implements Listener {
     public void onPlayerQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
         String playerName = player.getName();
+        UUID playerUUID = player.getUniqueId();
 
         DuelManager dm = plugin.getDuelManager();
 
-        if(dm.isInDuel(playerName)){
+        if(dm.isInDuel(playerUUID)){
             dm.endDuel(player);
         }
     }
@@ -171,9 +175,10 @@ public class PlayerEvents implements Listener {
 
         Player player = e.getPlayer();
         String playerName = player.getName();
+        UUID playerUUID = player.getUniqueId();
         DuelManager dm = plugin.getDuelManager();
 
-        if (dm.isInDuel(playerName)) {
+        if (dm.isInDuel(playerUUID)) {
             for (String allowedCommands : this.allowedCommands) {
                 if (!(e.getMessage().equalsIgnoreCase(allowedCommands))) {
                     e.setCancelled(true);
@@ -188,24 +193,25 @@ public class PlayerEvents implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerMove(PlayerMoveEvent e) {
-        Player p = e.getPlayer();
+        Player player = e.getPlayer();
+        UUID playerUUID = player.getUniqueId();
         DuelManager dm = plugin.getDuelManager();
-        if (dm.isFrozen(p.getName())) {
+        if (dm.isFrozen(playerUUID)) {
 
-            Location loc = p.getLocation();
-            if (locations.get(p) == null) {
-                locations.put(p, loc.toVector());
+            Location loc = player.getLocation();
+            if (locations.get(player) == null) {
+                locations.put(player, loc.toVector());
             }
 
-            if (loc.getBlockX() != locations.get(p).getBlockX() || loc.getBlockZ() != locations.get(p).getBlockZ()) {
+            if (loc.getBlockX() != locations.get(player).getBlockX() || loc.getBlockZ() != locations.get(player).getBlockZ()) {
 
-                loc.setX(locations.get(p).getBlockX());
-                loc.setZ(locations.get(p).getBlockZ());
+                loc.setX(locations.get(player).getBlockX());
+                loc.setZ(locations.get(player).getBlockZ());
                 loc.setPitch(loc.getPitch());
 
                 loc.setYaw(loc.getYaw());
 
-                p.teleport(loc);
+                player.teleport(loc);
             }
         }
     }

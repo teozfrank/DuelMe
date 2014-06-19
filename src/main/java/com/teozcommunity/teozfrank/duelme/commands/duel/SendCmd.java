@@ -29,13 +29,20 @@ public class SendCmd extends DuelCmd {
 
         if(args.length < 1){
             Util.sendMsg(sender, ChatColor.GREEN + "Usage: /duel send <player>");
+            Util.sendMsg(sender, ChatColor.GREEN + "Or");
+            Util.sendMsg(sender, ChatColor.GREEN + "Usage: /duel send <player> <amount>");
             return;
         }
 
         Player duelSender = (Player) sender;
         String duelTarget = getValue(args, 0, "");
-
         DuelManager dm = plugin.getDuelManager();
-        dm.sendRequest(duelSender , duelTarget);
+
+        if(args.length == 1) {
+            dm.sendNormalDuelRequest(duelSender , duelTarget);
+        }
+
+
+
     }
 }

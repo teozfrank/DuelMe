@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by frank on 11/01/14.
@@ -57,13 +58,10 @@ public class ItemManager {
         if(plugin.isDebugEnabled()){
             SendConsoleMessage.debug("1 player left, now rewarding.");
         }
-            for(String playerIn: arena.getPlayers()){
+            for(UUID playerIn: arena.getPlayers()){
                 Player winningPlayer = Bukkit.getPlayer(playerIn);
                 if(winningPlayer != null){
-                    winningPlayer.teleport(fm.getLobbySpawnLocation());//teleport them to the lobby spawn
-                    if(plugin.isUsingSeperatedInventories()) {
-                        dm.restoreInventory(winningPlayer);//restore their inventory
-                    }
+                    dm.restorePlayerData(winningPlayer);
                     this.giveWinningPlayerRewards(winningPlayer);//give them a reward
                 }
             }

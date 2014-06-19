@@ -12,6 +12,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.UUID;
+
 /**
  * Created with IntelliJ IDEA.
  * Original Author: teozfrank
@@ -43,6 +45,9 @@ public class StartDuelThread extends BukkitRunnable {
         DuelManager dm = plugin.getDuelManager();
         String senderName = sender.getName();
         String targetName = target.getName();
+        UUID senderUUID = sender.getUniqueId();
+        UUID targetUUID = target.getUniqueId();
+
         if(duelArena.getPlayers().size() == 1) {
             dm.endDuel(duelArena);
             this.cancel();
@@ -74,8 +79,8 @@ public class StartDuelThread extends BukkitRunnable {
             this.countDown--;
         } else {
 
-            dm.removeFrozenPlayer(senderName);
-            dm.removeFrozenPlayer(targetName);
+            dm.removeFrozenPlayer(senderUUID);
+            dm.removeFrozenPlayer(targetUUID);
             Util.sendMsg(sender, target, ChatColor.YELLOW + "Duel!");
             duelArena.setDuelState(DuelState.STARTED);
             this.cancel();

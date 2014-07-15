@@ -173,6 +173,14 @@ public class FileManager {
     }
 
     /**
+     * get the minimum amount required to duel a player
+     * @return the minimum amount
+     */
+    public int getMinDuelBetAmount() {
+        return plugin.getConfig().getInt("duelme.duel.minbetamount");
+    }
+
+    /**
      * get the commands that are run on a duel ending
      * @return list of commands to be run
      */
@@ -386,6 +394,14 @@ public class FileManager {
         fm.reloadLocations();
         Util.sendMsg(p, ChatColor.GREEN + "Lobby Spawn Location set to: "
                 + ChatColor.GOLD +"(X: " + loc.getBlockX() + ") (Y: "+ loc.getBlockY() + ") (Z: " + loc.getBlockZ() + ")");
+    }
+
+    /**
+     * get the min bet amount needed to send a bet duel request
+     * @return the min bet amount
+     */
+    public double getMinBetAmount() {
+        return plugin.getConfig().getDouble("duelme.duel.minbetamount");
     }
 
 }

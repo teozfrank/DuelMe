@@ -87,7 +87,6 @@ public class Util {
      */
     public static void sendCredits(CommandSender sender){
         sendEmptyMsg(sender,ChatColor.GOLD + "                             V"+DuelMe.getVersion()+" by TeOzFrAnK");
-        sendEmptyMsg(sender,ChatColor.GOLD + "             http://dev.bukkit.org/bukkit-plugins/duelme/");
     }
 
     /**
@@ -133,8 +132,6 @@ public class Util {
             p.sendMessage(message);
         }
     }
-
-
 
 
 }

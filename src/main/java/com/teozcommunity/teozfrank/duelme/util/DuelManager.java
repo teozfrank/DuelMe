@@ -2,6 +2,7 @@ package com.teozcommunity.teozfrank.duelme.util;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import com.teozcommunity.teozfrank.duelme.threads.StartDuelThread;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -249,16 +250,19 @@ public class DuelManager {
      * @param duelTargetIn the string player of the target player
      * @param amount the duel bet amount
      */
-    public void sendBetDuelRequest(Player duelSender,String duelTargetIn, int amount){
+    public void sendBetDuelRequest(Player duelSender,String duelTargetIn, double amount){
 
         String duelSenderName = duelSender.getName();
         UUID duelSenderUUID = duelSender.getUniqueId();
+        FileManager fm = plugin.getFileManager();
+        double minBetAmount = fm.getMinBetAmount();
 
         Player duelTarget = Bukkit.getPlayer(duelTargetIn);
 
         if(duelTarget != null){
 
             UUID duelTargetUUID = duelTarget.getUniqueId();
+
 
             if(this.duelRequests.containsKey(duelSenderUUID) && this.duelRequests.containsValue(duelTargetUUID)){
                 Util.sendMsg(duelSender,ChatColor.YELLOW+"You have already sent a request to " +
@@ -267,11 +271,20 @@ public class DuelManager {
             }
 
             String duelTargetName = duelTarget.getName();
-            if(duelSenderName == duelTargetName){
+            /*if(duelSenderName == duelTargetName){
                 Util.sendMsg(duelSender,ChatColor.RED+"You cannot duel yourself!");
                 return;
+            }*/
+
+            if(fm.getMinBetAmount() <= amount) {
+                Util.sendMsg(duelSender, "You must provide a bet amount that is greater than " + fm.getMinBetAmount() );
+                return;
             }
-            //TODO check does player have enough to duel for amount and add amount to duel arena etc..
+
+            if(!this.hasEnoughMoney(duelSenderName, amount)) {
+                Util.sendMsg(duelSender,ChatColor.RED+"You do not have enough money to duel for this bet amount!");
+                return;
+            }
 
             Util.sendMsg(duelSender,ChatColor.GREEN + "You have sent a duel request to " + ChatColor.AQUA +
                     duelTargetName + ChatColor.GREEN + " for a bet amount of " + ChatColor.GREEN + amount);
@@ -294,18 +307,20 @@ public class DuelManager {
      */
     public void acceptRequest(Player accepter,String senderIn){
 
-        if(this.duelRequests.containsKey(senderIn) && this.duelRequests.containsValue(accepter.getName())){
-          Player sender = Bukkit.getPlayer(senderIn);
-          if(sender != null){
-            this.duelRequests.remove(senderIn);
+        UUID accepterUUID = accepter.getUniqueId();
+        Player sender = Bukkit.getPlayer(senderIn);
 
+        if(sender == null) {
+            Util.sendMsg(accepter,ChatColor.AQUA + senderIn + ChatColor.RED + " is not online! Did you type it correctly?");
+            return;
+        }
+
+        UUID senderUUID = sender.getUniqueId();
+
+        if(this.duelRequests.containsKey(senderUUID) && this.duelRequests.containsValue(accepterUUID)){
+            this.duelRequests.remove(senderUUID);
             this.startDuel(accepter,sender);
             return;
-          } else {
-            Util.sendMsg(accepter,ChatColor.YELLOW+"Duel sender "+ senderIn +" has gone offline!, duel cancelled!");
-          }
-          this.duelRequests.remove(senderIn);
-          return;
         } else {
             Util.sendMsg(accepter,ChatColor.RED+"You do not have any duel requests from "+ ChatColor.AQUA + senderIn +".");
             return;
@@ -579,5 +594,18 @@ public class DuelManager {
         }
         arena.getPlayers().clear();
         arena.setDuelState(DuelState.WAITING);
+    }
+
+    /**
+     * check to see if the player has enough money
+     * @param player the player
+     * @param amount the amount being withdrawn
+     * @return true if they have enough, false if not
+     */
+    public boolean hasEnoughMoney(String player, double amount) {
+        if(plugin.getEconomy().getBalance(player) >= amount) {
+            return true;
+        }
+        return false;
     }
 }

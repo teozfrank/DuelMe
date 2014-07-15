@@ -139,8 +139,7 @@ public class UpdateChecker {
             }
         } catch (IOException e) {
             // There was an error reading the query
-
-            e.printStackTrace();
+            SendConsoleMessage.severe("There was an error checking for updates!");
             return;
         }
     }

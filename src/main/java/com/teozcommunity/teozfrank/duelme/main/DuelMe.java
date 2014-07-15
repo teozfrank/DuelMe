@@ -5,9 +5,12 @@ import com.teozcommunity.teozfrank.duelme.commands.DuelAdminExecutor;
 import com.teozcommunity.teozfrank.duelme.commands.DuelExecutor;
 import com.teozcommunity.teozfrank.duelme.events.*;
 import com.teozcommunity.teozfrank.duelme.mysql.MySql;
+import com.teozcommunity.teozfrank.duelme.threads.UpdateCheckerThread;
 import com.teozcommunity.teozfrank.duelme.util.*;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
@@ -54,6 +57,8 @@ public class DuelMe extends JavaPlugin {
      */
     private MySql mySql;
 
+    private Economy economy = null;
+
 
     /**
      * string to hold the plugin version
@@ -76,10 +81,10 @@ public class DuelMe extends JavaPlugin {
       this.checkForUpdates();
       this.submitStats();
       this.setupDependencies();
+      this.setupEconomy();
       this.duelManager = new DuelManager(this);
       this.playerEvents = new PlayerEvents(this);
       this.itemManager = new ItemManager(this);
-
       this.mySql = new MySql(this);
       getCommand("duel").setExecutor(new DuelExecutor(this));
       getCommand("dueladmin").setExecutor(new DuelAdminExecutor(this));
@@ -87,6 +92,9 @@ public class DuelMe extends JavaPlugin {
       this.checkErrors();
     }
 
+    /**
+     * Check for startup errors for outdated plugin configs
+     */
     private void checkErrors() {
         this.checkConfigVersions();
         if(this.errorCount != 0){
@@ -110,8 +118,8 @@ public class DuelMe extends JavaPlugin {
      * check for updates to the plugin
      */
     public void checkForUpdates() {
-        if(this.getConfig().getBoolean("duelme.checkforupdates")){
-            this.updateChecker = new UpdateChecker(this,60044);
+        if(this.getConfig().getBoolean("duelme.checkforupdates")) {
+            getServer().getScheduler().runTask(this, new UpdateCheckerThread(this));
         }
     }
 
@@ -152,7 +160,7 @@ public class DuelMe extends JavaPlugin {
      */
     public void checkConfigVersions(){
         if(new File(getDataFolder(),"config.yml").exists()){
-           if(fileManager.getConfigVersion() != 1.3){
+           if(fileManager.getConfigVersion() != 1.4){
                SendConsoleMessage.warning("Your config.yml is out of date! please remove or back it up before using the plugin!");
                errorCount++;
            }
@@ -161,6 +169,20 @@ public class DuelMe extends JavaPlugin {
                errorCount++;
            }
         }
+    }
+
+    /**
+     * setup economy
+     * @return economy object
+     */
+    private boolean setupEconomy()
+    {
+        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+        if (economyProvider != null) {
+            economy = economyProvider.getProvider();
+        }
+
+        return (economy != null);
     }
 
     /**
@@ -223,6 +245,10 @@ public class DuelMe extends JavaPlugin {
 
     public boolean isUsingSeperatedInventories() {
         return this.getFileManager().isUsingSeperateInventories();
+    }
+
+    public Economy getEconomy() {
+        return economy;
     }
 
 }

@@ -39,10 +39,16 @@ public class SendCmd extends DuelCmd {
         DuelManager dm = plugin.getDuelManager();
 
         if(args.length == 1) {
-            dm.sendNormalDuelRequest(duelSender , duelTarget);
+            dm.sendNormalDuelRequest(duelSender, duelTarget);
+        } else if( args.length == 2) {
+            String betAmountIn = getValue(args, 1, "");
+            try {
+                double betAmount = Double.parseDouble(betAmountIn);
+                dm.sendBetDuelRequest(duelSender, duelTarget, betAmount);
+            } catch (NumberFormatException e) {
+                Util.sendMsg(sender, ChatColor.RED + "The bet amount must be a number!");
+                return;
+            }
         }
-
-
-
     }
 }

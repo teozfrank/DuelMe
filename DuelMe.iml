@@ -12,7 +12,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Vault" level="project" />
-    <orderEntry type="library" name="Maven: org.bukkit:bukkit:1.7.9-R0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.bukkit:bukkit:1.7.10-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.sk89q:worldedit:5.6.1" level="project" />
     <orderEntry type="library" name="Maven: de.schlichtherle:truezip:6.8.3" level="project" />
     <orderEntry type="library" name="Maven: rhino:js:1.7R2" level="project" />

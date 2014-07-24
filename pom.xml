@@ -10,7 +10,7 @@
     <description>duelme a plugin to allow players to pvp, in a controlled area</description>
 
     <properties>
-        <bukkit.version>1.7.9-R0.1-SNAPSHOT</bukkit.version>
+        <bukkit.version>1.7.10-R0.1-SNAPSHOT</bukkit.version>
         <worldedit.version>5.6.1</worldedit.version>
         <libsdisguises.version>8.0.9-SNAPSHOT</libsdisguises.version>
     </properties>

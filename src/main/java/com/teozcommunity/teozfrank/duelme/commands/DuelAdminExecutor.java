@@ -30,6 +30,8 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
         DuelAdminCmd reload = new ReloadCmd(plugin, "duelme.admin.reload");
         DuelAdminCmd addKill = new AddKillCmd(plugin, "duelme.admin.addkill");
         DuelAdminCmd addDeath = new AddDeathCmd(plugin, "duelme.admin.adddeath");
+        DuelAdminCmd setSpawnPoint1 = new SetSpawnPoint1Cmd(plugin, "duelme.admin.setspawnpoint1");
+        DuelAdminCmd setSpawnPoint2 = new SetSpawnPoint2Cmd(plugin, "duelme.admin.setspawnpoint2");
 
         addCmd("create", create, new String[] {
             "c,new"
@@ -57,6 +59,14 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
 
         addCmd("reload", reload);
 
+        addCmd("setspawnpoint1", setSpawnPoint1, new String[] {
+                "ss1"
+        });
+
+        addCmd("setspawnpoint2", setSpawnPoint2, new String[] {
+                "ss2"
+        });
+
         create.needsObject = false;
         set.needsObject = false;
         remove.needsObject = true;
@@ -64,6 +74,8 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
         reload.needsObject = false;
         addKill.needsObject = false;
         addDeath.needsObject = false;
+        setSpawnPoint1.needsObject = true;
+        setSpawnPoint2.needsObject = true;
     }
 
     @Override
@@ -79,14 +91,15 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
 
                 Util.sendEmptyMsg(sender, Util.LINE_BREAK);
                 Util.sendEmptyMsg(sender, ChatColor.GOLD + "                           DuelMe - Admin Commands");
-                Util.sendEmptyMsg(sender, Util.LINE_BREAK);
+                Util.sendEmptyMsg(sender, "");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin create <arenaname> - "+ ChatColor.GOLD + "create a duel arena with the given name.");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin list - "+ ChatColor.GOLD + "list the duel arenas.");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin remove <arenaname> - "+ ChatColor.GOLD + "removes a duel arena with the given name.");
-                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin set lobbyspawn - "+ ChatColor.GOLD + "set the lobby spawn.");
+                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin setspawnpoint1 <arenaname> - "+ ChatColor.GOLD + "set the first spawnpoint for a duel arena.");
+                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin setspawnpoint2 <arenaname> - "+ ChatColor.GOLD + "set the second spawnpoint for a duel arena.");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin reload - "+ ChatColor.GOLD + "reload the plugin configs.");
                 Util.sendEmptyMsg(sender,Util.LINE_BREAK);
-                Util.sendEmptyMsg(sender, ChatColor.GOLD + "              Below commands only work if MySql is enabled.");
+                Util.sendEmptyMsg(sender, ChatColor.GOLD + "          Below commands only work if MySql is setup and enabled.");
                 Util.sendEmptyMsg(sender,Util.LINE_BREAK);
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin addkill <playername> - "+ ChatColor.GOLD + "add a kill for a player.");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin adddeath <playername> - "+ ChatColor.GOLD + "add a death for a player.");

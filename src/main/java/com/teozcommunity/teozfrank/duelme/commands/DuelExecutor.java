@@ -46,12 +46,9 @@ public class DuelExecutor extends CmdExecutor implements CommandExecutor {
         if (command.getName().equalsIgnoreCase("duel")) {
 
             if (args.length < 1) {
-
-
                 Util.sendEmptyMsg(sender,Util.LINE_BREAK);
                 Util.sendEmptyMsg(sender, ChatColor.GOLD + "                            DuelMe - PVP for fun!");
-                Util.sendEmptyMsg(sender,Util.LINE_BREAK);
-                Util.sendEmptyMsg(sender,"");
+                Util.sendEmptyMsg(sender, "");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel - "+ ChatColor.GOLD + "brings up this message");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel send <player> - "+ ChatColor.GOLD + "send a duel request to a player");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel send <player> <amount> - "+ ChatColor.GOLD +
@@ -60,7 +57,6 @@ public class DuelExecutor extends CmdExecutor implements CommandExecutor {
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel leave - "+ ChatColor.GOLD + "leave a duel");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel list - "+ ChatColor.GOLD + "lists duel arenas with their status(es)");
                 Util.sendEmptyMsg(sender,"");
-                Util.sendEmptyMsg(sender,Util.LINE_BREAK);
                 Util.sendCredits(sender);
                 Util.sendEmptyMsg(sender,Util.LINE_BREAK);
                 return true;

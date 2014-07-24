@@ -265,6 +265,18 @@ public class FileManager {
             duelArenas.set(path + "pos2.x", a.getPos2().getBlockX());
             duelArenas.set(path + "pos2.y", a.getPos2().getBlockY());
             duelArenas.set(path + "pos2.z", a.getPos2().getBlockZ());
+            if(a.getSpawnpoint1() != null) {
+                duelArenas.set(path + "spawnpoint1.world", a.getSpawnpoint1().getWorld().getName());
+                duelArenas.set(path + "spawnpoint1.x", a.getSpawnpoint1().getBlockX());
+                duelArenas.set(path + "spawnpoint1.y", a.getSpawnpoint1().getBlockY());
+                duelArenas.set(path + "spawnpoint1.z", a.getSpawnpoint1().getBlockZ());
+            }
+            if(a.getSpawnpoint2() != null) {
+                duelArenas.set(path + "spawnpoint2.world", a.getSpawnpoint2().getWorld().getName());
+                duelArenas.set(path + "spawnpoint2.x", a.getSpawnpoint2().getBlockX());
+                duelArenas.set(path + "spawnpoint2.y", a.getSpawnpoint2().getBlockY());
+                duelArenas.set(path + "spawnpoint2.z", a.getSpawnpoint2().getBlockZ());
+            }
             savedArenas++;
         }
 
@@ -307,16 +319,38 @@ public class FileManager {
                 int pos2y = duelArenas.getInt(path + "pos2.y");
                 int pos2z = duelArenas.getInt(path + "pos2.z");
 
-                Location pos1 = new Location(Bukkit.getWorld(pos1w), pos1x, pos1y, pos1z);
-                Location pos2 = new Location(Bukkit.getWorld(pos2w), pos2x, pos2y, pos2z);
+                if(duelArenas.isSet(path + "spawnpoint1") && duelArenas.isSet(path + "spawnpoint2")) {
+                    String spawnpoint1w = duelArenas.getString(path + "spawnpoint1.world");
+                    int spawnpoint1x = duelArenas.getInt(path + "spawnpoint1.x");
+                    int spawnpoint1y = duelArenas.getInt(path + "spawnpoint1.y");
+                    int spawnpoint1z = duelArenas.getInt(path + "spawnpoint1.z");
 
-                DuelArena arena = new DuelArena(aName, pos1, pos2);
+                    String spawnpoint2w = duelArenas.getString(path + "spawnpoint2.world");
+                    int spawnpoint2x = duelArenas.getInt(path + "spawnpoint2.x");
+                    int spawnpoint2y = duelArenas.getInt(path + "spawnpoint2.y");
+                    int spawnpoint2z = duelArenas.getInt(path + "spawnpoint2.z");
 
+                    Location spawnpoint1 = new Location(Bukkit.getWorld(spawnpoint1w), spawnpoint1x, spawnpoint1y, spawnpoint1z);
+                    Location spawnpoint2 = new Location(Bukkit.getWorld(spawnpoint2w), spawnpoint2x, spawnpoint2y, spawnpoint2z);
 
-                dm.addDuelArena(arena);
-                loadedArenas++;
-                SendConsoleMessage.info("Successfully loaded " + ChatColor.AQUA + loadedArenas + ChatColor.GREEN + " Duel Arena(s).");
+                    Location pos1 = new Location(Bukkit.getWorld(pos1w), pos1x, pos1y, pos1z);
+                    Location pos2 = new Location(Bukkit.getWorld(pos2w), pos2x, pos2y, pos2z);
+
+                    DuelArena arena = new DuelArena(aName, pos1, pos2, spawnpoint1, spawnpoint2);
+
+                    dm.addDuelArena(arena);
+                    loadedArenas++;
+                } else {
+                    Location pos1 = new Location(Bukkit.getWorld(pos1w), pos1x, pos1y, pos1z);
+                    Location pos2 = new Location(Bukkit.getWorld(pos2w), pos2x, pos2y, pos2z);
+
+                    DuelArena arena = new DuelArena(aName, pos1, pos2);
+
+                    dm.addDuelArena(arena);
+                    loadedArenas++;
+                }
             }
+            SendConsoleMessage.info("Successfully loaded " + ChatColor.AQUA + loadedArenas + ChatColor.GREEN + " Duel Arena(s).");
         }
     }
 

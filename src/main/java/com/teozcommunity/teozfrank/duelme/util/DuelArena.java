@@ -18,26 +18,13 @@ public class DuelArena {
     private String name;
     private Location pos1;
     private Location pos2;
+    private Location spawnpoint1;
+    private Location spawnpoint2;
+
     private List<UUID> players;
     private DuelState duelState;
     private boolean hasBet;
     private double betAmount;
-
-    public boolean hasBet() {
-        return hasBet;
-    }
-
-    public void setHasBet(boolean hasBet) {
-        this.hasBet = hasBet;
-    }
-
-    public double getBetAmount() {
-        return betAmount;
-    }
-
-    public void setBetAmount(double betAmount) {
-        this.betAmount = betAmount;
-    }
 
     public DuelArena(String name, Location pos1, Location pos2){
         this.name = name;
@@ -47,6 +34,20 @@ public class DuelArena {
         this.duelState = DuelState.WAITING;
         this.hasBet = false;
         this.betAmount = 0;
+        this.spawnpoint1 = null;
+        this.spawnpoint2 = null;
+    }
+
+    public DuelArena(String name, Location pos1, Location pos2, Location spawnpoint1, Location spawnpoint2){
+        this.name = name;
+        this.pos1 = pos1;
+        this.pos2 = pos2;
+        this.players = new ArrayList<UUID>();
+        this.duelState = DuelState.WAITING;
+        this.hasBet = false;
+        this.betAmount = 0;
+        this.spawnpoint1 = spawnpoint1;
+        this.spawnpoint2 = spawnpoint2;
     }
 
     public String getName(){
@@ -81,8 +82,8 @@ public class DuelArena {
         this.pos2 = pos2;
     }
 
-    public void removePlayer(String playerName){
-        this.players.remove(playerName);
+    public void removePlayer(UUID playerUUID){
+        this.players.remove(playerUUID);
     }
 
     public void addPlayerUUID(UUID playerUUID){
@@ -95,5 +96,37 @@ public class DuelArena {
 
     public void setDuelState(DuelState duelState){
         this.duelState = duelState;
+    }
+
+    public boolean hasBet() {
+        return hasBet;
+    }
+
+    public void setHasBet(boolean hasBet) {
+        this.hasBet = hasBet;
+    }
+
+    public double getBetAmount() {
+        return betAmount;
+    }
+
+    public void setBetAmount(double betAmount) {
+        this.betAmount = betAmount;
+    }
+
+    public Location getSpawnpoint1() {
+        return spawnpoint1;
+    }
+
+    public void setSpawnpoint1(Location spawnpoint1) {
+        this.spawnpoint1 = spawnpoint1;
+    }
+
+    public Location getSpawnpoint2() {
+        return spawnpoint2;
+    }
+
+    public void setSpawnpoint2(Location spawnpoint2) {
+        this.spawnpoint2 = spawnpoint2;
     }
 }

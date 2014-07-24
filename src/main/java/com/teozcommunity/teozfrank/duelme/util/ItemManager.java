@@ -3,6 +3,7 @@ package com.teozcommunity.teozfrank.duelme.util;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -60,11 +61,21 @@ public class ItemManager {
         }
             for(UUID playerIn: arena.getPlayers()){
                 Player winningPlayer = Bukkit.getPlayer(playerIn);
+                String winningPlayerName = winningPlayer.getName();
                 if(winningPlayer != null){
                     dm.restorePlayerData(winningPlayer);
                     this.giveWinningPlayerRewards(winningPlayer);//give them a reward
                 }
+                if(arena.hasBet()) {
+                    double betAmount = arena.getBetAmount();
+                    plugin.getEconomy().depositPlayer(winningPlayerName, betAmount);
+                    Util.sendMsg(winningPlayer , ChatColor.GREEN + "You have been rewarded the amount of "
+                            + ChatColor.AQUA + betAmount + ChatColor.GREEN + " for winning a duel!" );
+                }
             }
+
+            arena.setHasBet(false);
+            arena.setBetAmount(0);
             arena.getPlayers().clear();
             arena.setDuelState(DuelState.WAITING);
         }

@@ -26,8 +26,13 @@ public class ListCmd extends DuelCmd {
         Util.sendEmptyMsg(sender, "");
         if(dm.getDuelArenas().size() > 0) {
             for(DuelArena duelArena: dm.getDuelArenas()) {
-                Util.sendEmptyMsg(sender, ChatColor.GOLD + "Name: " + ChatColor.AQUA + duelArena.getName() +
-                ChatColor.GOLD + " Status: " + ChatColor.AQUA + duelArena.getDuelState().name());
+                Util.sendEmptyMsg(sender, ChatColor.GREEN + "Name: " + ChatColor.AQUA + duelArena.getName());
+                Util.sendEmptyMsg(sender, ChatColor.GREEN + "Status: " + ChatColor.AQUA + duelArena.getDuelState());
+                Util.sendEmptyMsg(sender, ChatColor.GREEN + "Has Stake: " + ChatColor.AQUA + duelArena.hasBet());
+                if(duelArena.hasBet()) {
+                    Util.sendEmptyMsg(sender, ChatColor.GREEN + "Stake Amount: " + ChatColor.AQUA + duelArena.getBetAmount());
+                }
+                Util.sendEmptyMsg(sender, "");
             }
         } else {
             Util.sendEmptyMsg(sender, NO_DUEL_ARENAS);

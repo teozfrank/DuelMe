@@ -1,0 +1,11 @@
+0.9:
+
+- UUID conversion, MySQL database still needs to be changed over.
+- Runs update checker on a separate thread to prevent stalls on startup.
+- Store and restore player data, no need for lobby spawn anymore.
+- Add option to duel for a bet amount.
+- Min bet amount can be set in config.
+- Two spawnpoints can be set for each duel arena (optional for now).
+- Use normal event priorty instead of monitor for handling disallowed commands
+- The time before a duel starts can now be set
+- A time can now be set before a duel forcefully ends if its set to 0 then the timeout is not used

@@ -106,10 +106,12 @@ public class PlayerEvents implements Listener {
        MySql mySql = plugin.getMySql();
 
        if(dm.isInDuel(playerUUID)){
+           dm.addDeadPlayer(playerUUID);
+
            if(fm.isMySqlEnabled()) {
                mySql.addPlayerKillDeath(playerName, FieldName.DEATH);
            }
-           dm.endDuel(player);
+
            if(e.getEntity().getKiller() instanceof Player){
                Player killer = e.getEntity().getKiller();
                String killerName = killer.getName();
@@ -134,6 +136,7 @@ public class PlayerEvents implements Listener {
                }
                e.setDeathMessage(ChatColor.GOLD + "[DuelMe] " + ChatColor.AQUA + player.getName() + ChatColor.RED + " was killed in a duel!");
            }
+           dm.endDuel(player);
 
        }
 
@@ -153,7 +156,7 @@ public class PlayerEvents implements Listener {
 
             e.setRespawnLocation(playerData.getLocaton());
             dm.restorePlayerData(player);
-            dm.removedDeadPlayer(playerName);
+            dm.removedDeadPlayer(playerUUID);
         }
     }
 
@@ -170,7 +173,7 @@ public class PlayerEvents implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerUseCommand(PlayerCommandPreprocessEvent e) {
 
         Player player = e.getPlayer();

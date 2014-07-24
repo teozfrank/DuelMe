@@ -92,6 +92,24 @@ public class DuelMe extends JavaPlugin {
       this.checkErrors();
     }
 
+    @Override
+    public void onDisable() {
+      SendConsoleMessage.info("Disabling.");
+      this.endAllRunningDuels();
+      this.getFileManager().saveDuelArenas();
+    }
+
+    private void endAllRunningDuels() {
+        DuelManager dm = this.getDuelManager();
+        if(!(dm.getDuelArenas().size() == 0)) {//if there are no duel arenas
+            return;
+        }
+        for(DuelArena duelArena: dm.getDuelArenas()) {
+            dm.endDuel(duelArena);
+        }
+
+    }
+
     /**
      * Check for startup errors for outdated plugin configs
      */
@@ -105,13 +123,6 @@ public class DuelMe extends JavaPlugin {
         } else {
             SendConsoleMessage.info("Successfully Enabled!");
         }
-    }
-
-
-    @Override
-    public void onDisable() {
-      SendConsoleMessage.info("Disabling.");
-      this.getFileManager().saveDuelArenas();
     }
 
     /**

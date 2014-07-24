@@ -1,10 +1,7 @@
 package com.teozcommunity.teozfrank.duelme.threads;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
-import com.teozcommunity.teozfrank.duelme.util.DuelArena;
-import com.teozcommunity.teozfrank.duelme.util.DuelManager;
-import com.teozcommunity.teozfrank.duelme.util.DuelState;
-import com.teozcommunity.teozfrank.duelme.util.Util;
+import com.teozcommunity.teozfrank.duelme.util.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -36,13 +33,15 @@ public class StartDuelThread extends BukkitRunnable {
         this.plugin = plugin;
         this.sender = sender;
         this.target = target;
-        this.countDown = 30;
+        this.countDown = plugin.getFileManager().getDuelCountdownTime();
         this.duelArena = duelArena;
     }
 
     @Override
     public void run() {
         DuelManager dm = plugin.getDuelManager();
+        FileManager fm = plugin.getFileManager();
+        int duelTime = fm.getDuelTime();
         String senderName = sender.getName();
         String targetName = target.getName();
         UUID senderUUID = sender.getUniqueId();
@@ -55,34 +54,21 @@ public class StartDuelThread extends BukkitRunnable {
 
 
         if (this.countDown > 0) {
-            switch (this.countDown) {
-                case 30:
-                    Util.sendMsg(sender, target, ChatColor.YELLOW + "Starting duel in: " + ChatColor.GOLD + this.countDown
-                    + ChatColor.GREEN + " Now is the time to Get ready!!");
-                    break;
-                case 15:
-                    Util.sendMsg(sender, target, ChatColor.YELLOW + "Starting duel in: " + ChatColor.GOLD + this.countDown);
-                    break;
-                case 10:
-                    Util.sendMsg(sender, target, ChatColor.YELLOW + "Starting duel in: " + ChatColor.GOLD + this.countDown);
-                    break;
-                case 5:
-                case 4:
-                case 3:
-                case 2:
-                case 1:
-                    Util.sendMsg(sender, target, ChatColor.YELLOW + "Starting duel in: " + ChatColor.GOLD + this.countDown);
-                    break;
-                default:
-                    break;
-            }
+            Util.setTime(sender, target, this.countDown);
             this.countDown--;
         } else {
-
+            Util.setTime(sender, target, this.countDown);
             dm.removeFrozenPlayer(senderUUID);
             dm.removeFrozenPlayer(targetUUID);
             Util.sendMsg(sender, target, ChatColor.YELLOW + "Duel!");
             duelArena.setDuelState(DuelState.STARTED);
+
+            if(duelTime != 0) {
+                if(plugin.isDebugEnabled()) {
+                    SendConsoleMessage.debug("Duel timer is set, starting countdown task.");
+                }
+                new DuelTimeThread(plugin, sender, target, duelArena, duelTime).runTaskTimer(plugin, 20L, 20L);
+            }
             this.cancel();
         }
     }

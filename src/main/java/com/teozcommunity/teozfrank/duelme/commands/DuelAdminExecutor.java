@@ -98,12 +98,12 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin setspawnpoint1 <arenaname> - "+ ChatColor.GOLD + "set the first spawnpoint for a duel arena.");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin setspawnpoint2 <arenaname> - "+ ChatColor.GOLD + "set the second spawnpoint for a duel arena.");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin reload - "+ ChatColor.GOLD + "reload the plugin configs.");
-                Util.sendEmptyMsg(sender,Util.LINE_BREAK);
-                Util.sendEmptyMsg(sender, ChatColor.GOLD + "          Below commands only work if MySql is setup and enabled.");
-                Util.sendEmptyMsg(sender,Util.LINE_BREAK);
+                Util.sendEmptyMsg(sender, "");
+                Util.sendEmptyMsg(sender, ChatColor.GOLD + "Below commands only work if MySql is setup and enabled.");
+                Util.sendEmptyMsg(sender, "");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin addkill <playername> - "+ ChatColor.GOLD + "add a kill for a player.");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin adddeath <playername> - "+ ChatColor.GOLD + "add a death for a player.");
-                Util.sendEmptyMsg(sender, Util.LINE_BREAK);
+                Util.sendEmptyMsg(sender, "");
                 Util.sendCredits(sender);
                 Util.sendEmptyMsg(sender, Util.LINE_BREAK);
                 return true;

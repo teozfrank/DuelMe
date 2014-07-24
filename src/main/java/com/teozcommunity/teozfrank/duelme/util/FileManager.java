@@ -438,4 +438,20 @@ public class FileManager {
         return plugin.getConfig().getDouble("duelme.duel.minbetamount");
     }
 
+    /**
+     * the time in seconds to countdown before duel starts
+     * @return the time in seconds
+     */
+    public int getDuelCountdownTime() {
+        return plugin.getConfig().getInt("duelme.duel.countdowntime");
+    }
+
+    /**
+     * the time in seconds to how long a duel will last
+     * @return the time in seconds
+     */
+    public int getDuelTime() {
+        return plugin.getConfig().getInt("duelme.duel.dueltime");
+    }
+
 }

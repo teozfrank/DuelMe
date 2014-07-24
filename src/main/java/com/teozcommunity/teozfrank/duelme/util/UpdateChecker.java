@@ -126,7 +126,8 @@ public class UpdateChecker {
 
                 if(!versionName.equals(pluginVersion)) {
                     this.updateAvailable = true;
-                    SendConsoleMessage.info("There is a new update available! download it on bukkit dev "+
+                    SendConsoleMessage.info("There is a new update available!");
+                    SendConsoleMessage.info("download it on bukkit dev "+
                             ChatColor.YELLOW+"http://dev.bukkit.org/bukkit-plugins/duelme/");
                 }
                 else {

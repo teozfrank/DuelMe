@@ -22,7 +22,6 @@ public class ListCmd extends DuelAdminCmd {
 
         Util.sendEmptyMsg(sender, Util.LINE_BREAK);
         Util.sendEmptyMsg(sender, ChatColor.GOLD + "                        DuelMe - List Duel Arenas");
-        Util.sendEmptyMsg(sender, Util.LINE_BREAK);
         Util.sendEmptyMsg(sender, "");
         int amount = 1;
         if(dm.getDuelArenas().size() > 0) {
@@ -56,7 +55,6 @@ public class ListCmd extends DuelAdminCmd {
         }
 
         Util.sendEmptyMsg(sender, "");
-        Util.sendEmptyMsg(sender, Util.LINE_BREAK);
         Util.sendCredits(sender);
         Util.sendEmptyMsg(sender, Util.LINE_BREAK);
     }

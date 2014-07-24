@@ -65,6 +65,7 @@ public class ItemManager {
                 if(winningPlayer != null){
                     dm.restorePlayerData(winningPlayer);
                     this.giveWinningPlayerRewards(winningPlayer);//give them a reward
+                    Util.sendMsg(winningPlayer, "You have won the duel! here is your prize!");
                 }
                 if(arena.hasBet()) {
                     double betAmount = arena.getBetAmount();

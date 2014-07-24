@@ -134,6 +134,13 @@ public class Util {
         }
     }
 
+    /**
+     * check to see if a given location with within a given region
+     * @param playerLoc player or entity location
+     * @param loc1 position 1 of the region
+     * @param loc2 position 2 of the region
+     * @return return true if the location is within the region, false if not
+     */
     public static boolean isInRegion(Location playerLoc, Location loc1, Location loc2) {
         double[] dim = new double[2];
 
@@ -152,6 +159,26 @@ public class Util {
         }
 
         return true;
+    }
+
+    /**
+     * set the time for countdown by setting the players level
+     * @param player the player to set the level (time) to
+     * @param time the time in seconds
+     */
+    public static void setTime(Player player, int time) {
+        player.setLevel(time);
+    }
+
+    /**
+     * set the time for countdown for both players by setting the players level
+     * @param sender the duel sender
+     * @param target the duel acceptor
+     * @param time the time in seconds
+     */
+    public static void setTime(Player sender, Player target, int time) {
+        sender.setLevel(time);
+        target.setLevel(time);
     }
 
 

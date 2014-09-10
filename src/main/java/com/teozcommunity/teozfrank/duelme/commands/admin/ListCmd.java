@@ -28,20 +28,20 @@ public class ListCmd extends DuelAdminCmd {
             for(DuelArena da: dm.getDuelArenas()){
                 Util.sendEmptyMsg(sender, ChatColor.GREEN + "Name: " + ChatColor.AQUA + da.getName());
                 Util.sendEmptyMsg(sender, ChatColor.GREEN + "Status: " + ChatColor.AQUA + da.getDuelState());
-                Util.sendEmptyMsg(sender, ChatColor.GREEN + "Has Stake: " + ChatColor.AQUA + da.hasBet());
-                if(duelArena.hasBet()) {
-                    Util.sendEmptyMsg(sender, ChatColor.GREEN + "Stake Amount: " + ChatColor.AQUA + da.getBetAmount());
+                Util.sendEmptyMsg(sender, ChatColor.GREEN + "Has Bet: " + ChatColor.AQUA + da.hasBet());
+                if(da.hasBet()) {
+                    Util.sendEmptyMsg(sender, ChatColor.GREEN + "Bet Amount: " + ChatColor.AQUA + da.getBetAmount());
                 }
                 Util.sendEmptyMsg(sender, ChatColor.GREEN + "Pos1:" + ChatColor.AQUA + da.getPos1());
                 Util.sendEmptyMsg(sender, ChatColor.GREEN + "Pos2:" + ChatColor.AQUA + da.getPos2());
 
-                if(duelArena.getSpawnpoint1() != null) {
+                if(da.getSpawnpoint1() != null) {
                     Util.sendEmptyMsg(sender, ChatColor.GREEN + "Spawnpoint1:" + ChatColor.AQUA + da.getSpawnpoint1());
                 } else {
                     Util.sendEmptyMsg(sender, ChatColor.GREEN + "Spawnpoint1:" + ChatColor.AQUA + "Not Set");
                 }
 
-                if(duelArena.getSpawnpoint2() != null) {
+                if(da.getSpawnpoint2() != null) {
                     Util.sendEmptyMsg(sender, ChatColor.GREEN + "Spawnpoint2:" + ChatColor.AQUA + da.getSpawnpoint2());
                 } else {
                     Util.sendEmptyMsg(sender, ChatColor.GREEN + "Spawnpoint2:" + ChatColor.AQUA + "Not Set");

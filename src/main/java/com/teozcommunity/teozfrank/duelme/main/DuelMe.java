@@ -59,7 +59,6 @@ public class DuelMe extends JavaPlugin {
 
     private Economy economy = null;
 
-
     /**
      * string to hold the plugin version
      */

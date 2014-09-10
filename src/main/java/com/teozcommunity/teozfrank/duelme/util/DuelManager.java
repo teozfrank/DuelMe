@@ -303,7 +303,7 @@ public class DuelManager {
                 }
             }
 
-            if (fm.getMinBetAmount() <= amount) {
+            if (fm.getMinBetAmount() >= amount) {
                 Util.sendMsg(duelSender, "You must provide a bet amount that is greater than " + fm.getMinBetAmount());
                 return;
             }

@@ -109,14 +109,14 @@ public class PlayerEvents implements Listener {
            dm.addDeadPlayer(playerUUID);
 
            if(fm.isMySqlEnabled()) {
-               mySql.addPlayerKillDeath(playerName, FieldName.DEATH);
+               mySql.addPlayerKillDeath(playerUUID, playerName, FieldName.DEATH);
            }
 
            if(e.getEntity().getKiller() instanceof Player){
                Player killer = e.getEntity().getKiller();
                String killerName = killer.getName();
                if(fm.isMySqlEnabled()) {
-                   mySql.addPlayerKillDeath(killerName, FieldName.KILL);
+                   mySql.addPlayerKillDeath(playerUUID, killerName, FieldName.KILL);
                }
 
                if(!fm.isDropsOnDeathEnabled()) {

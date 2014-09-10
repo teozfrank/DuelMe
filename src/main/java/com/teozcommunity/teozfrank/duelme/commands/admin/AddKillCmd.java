@@ -10,6 +10,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.UUID;
+
 /**
  * Created by frank on 11/04/14.
  */
@@ -35,11 +37,12 @@ public class AddKillCmd extends DuelAdminCmd {
             }
             String playerNameIn = args[0];
             Player player = plugin.getServer().getPlayer(playerNameIn);
+            UUID playerUUID = player.getUniqueId();
 
             if(player != null) {
                 String playerName = player.getName();
                 Util.sendMsg(sender, "Adding kill for player: " + ChatColor.AQUA + playerName);
-                mySql.addPlayerKillDeath(playerName, FieldName.KILL);
+                mySql.addPlayerKillDeath(playerUUID, playerName, FieldName.KILL);
             } else {
                 Util.sendMsg(sender, ChatColor.RED + "Player " + playerNameIn + " is not online, did you type the name correctly?");
             }

@@ -6,6 +6,7 @@ import com.teozcommunity.teozfrank.duelme.util.SendConsoleMessage;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.sql.*;
+import java.util.UUID;
 
 /**
  * Created by frank on 11/02/14.
@@ -68,6 +69,7 @@ public class MySql {
                 SendConsoleMessage.info("Table STATS does not exist creating it for you!");
                 String sql = "CREATE TABLE STATS "
                         + "(ID MEDIUMINT NOT NULL AUTO_INCREMENT,"
+                        + " UUID VARCHAR(50), "
                         + " PLAYER VARCHAR(50), "
                         + " KILLS MEDIUMINT ,"
                         + " DEATHS MEDIUMINT,"
@@ -87,10 +89,10 @@ public class MySql {
     /**
      * method to add a kill or death depending on what field name
      * is passed in
-     * @param player the players name
+     * @param playerUUID the players unique id
      * @param fieldNameIn the enum field name
      */
-    public void addPlayerKillDeath(String player, FieldName fieldNameIn) {
+    public void addPlayerKillDeath(UUID playerUUID, String playerName, FieldName fieldNameIn) {
         String fieldName = null;
 
         if(fieldNameIn == FieldName.DEATH){
@@ -101,7 +103,7 @@ public class MySql {
             //do nothing
         }
         Connection connection = this.getConnection();
-        String query = "SELECT * from STATS WHERE PLAYER='" + player + "'";
+        String query = "SELECT * from STATS WHERE UUID='" + playerUUID + "'";
         int p = 0;
 
         try {
@@ -113,9 +115,9 @@ public class MySql {
             }
 
             if (p == 0) {
-                this.addNewPlayerKillDeath(player,fieldName);
+                this.addNewPlayerKillDeath(playerUUID, playerName, fieldName);
             } else if (p == 1) {
-                this.addExistingPlayerKillDeath(player, fieldName);
+                this.addExistingPlayerKillDeath(playerUUID, playerName, fieldName);
             } else {
                 SendConsoleMessage.severe("more than one record was found for a player!! failed to add "
                         + fieldName + " record!");
@@ -130,14 +132,15 @@ public class MySql {
     /**
      * add a player kill or death depending on the
      * field name passed in
-     * @param player the players name
+     * @param playerName the players name
      * @param fieldName the string field name
      */
-    private void addExistingPlayerKillDeath(String player,String fieldName) {
+    private void addExistingPlayerKillDeath(UUID playerUUID, String playerName,String fieldName) {
         Connection connection = this.getConnection();
-        String query = "SELECT * FROM STATS WHERE PLAYER ='" + player + "'";
+        String query = "SELECT * FROM STATS WHERE UUID ='" + playerUUID + "'";
         int killDeathCount = 0;
         int rows = 0;
+        String playerNameSQL = "";
 
         try {
             Statement statement = connection.createStatement();
@@ -145,16 +148,25 @@ public class MySql {
 
             while (result.next()) {
                 killDeathCount = result.getInt(fieldName);
+                playerNameSQL = result.getString("PLAYER");
                 rows++;
             }
             result.close();
             statement.close();
             if (!(rows > 1)) {
                 int newKillDeathValue = killDeathCount + 1;
-                String sql = "UPDATE STATS SET " + fieldName + " ='" + newKillDeathValue + "' WHERE PLAYER='" + player + "'";
+                String sql = "UPDATE STATS SET " + fieldName + " ='" + newKillDeathValue + "' WHERE UUID='" + playerUUID + "'";
                 Statement statement2 = this.getConnection().createStatement();
                 statement2.executeUpdate(sql);
                 statement2.close();
+
+                if(playerName != playerNameSQL) { //if the players name differs from the name returned from the database
+                    String sql2 = "UPDATE STATS SET " + fieldName + " ='" + playerName + "' WHERE PLAYER='" + playerNameSQL + "'";
+                    Statement statement3 = this.getConnection().createStatement();
+                    statement3.executeUpdate(sql2);//update the database with the new players name.
+                    statement3.close();
+                }
+
             } else {
                 SendConsoleMessage.severe("Duplicate player names please check database!");
             }
@@ -167,15 +179,15 @@ public class MySql {
     /**
      * adds a new player kill or death record to the database
      * depending on the field name passed in
-     * @param player the players name
+     * @param playerName the players name
      * @param fieldName the string field name
      */
-    private void addNewPlayerKillDeath(String player, String fieldName) {
+    private void addNewPlayerKillDeath(UUID playerUUID, String playerName, String fieldName) {
         String sql = null;
         if(fieldName.equals("KILLS")) {
-            sql = "INSERT INTO STATS VALUES (null,'" + player + "','" + 1 + "','" + 0 + "')";
+            sql = "INSERT INTO STATS VALUES (null,'" + playerUUID  +"', '" + playerName + "','" + 1 + "','" + 0 + "')";
         } else if(fieldName.equals("DEATHS")) {
-            sql = "INSERT INTO STATS VALUES (null,'" + player + "','" + 0 + "','" + 1 + "')";
+            sql = "INSERT INTO STATS VALUES (null,'" + playerUUID  +"', '" + playerName + "','" + 0 + "','" + 1 + "')";
         } else {
 
         }

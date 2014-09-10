@@ -33,19 +33,9 @@ public class DuelMe extends JavaPlugin {
     private DuelManager duelManager;
 
     /**
-     * update checker class
-     */
-    private UpdateChecker updateChecker;
-
-    /**
      * filemanager class
      */
     private FileManager fileManager;
-
-    /**
-     * player events class
-     */
-    private PlayerEvents playerEvents;
 
     /**
      * item manager class
@@ -74,7 +64,7 @@ public class DuelMe extends JavaPlugin {
     @Override
     public void onEnable() {
       SendConsoleMessage.info("Enabling.");
-      this.version = this.getDescription().getVersion();
+      version = this.getDescription().getVersion();
       this.fileManager = new FileManager(this);
       this.setupYMLs();
       this.checkForUpdates();
@@ -82,7 +72,7 @@ public class DuelMe extends JavaPlugin {
       this.setupDependencies();
       this.setupEconomy();
       this.duelManager = new DuelManager(this);
-      this.playerEvents = new PlayerEvents(this);
+      new PlayerEvents(this);
       this.itemManager = new ItemManager(this);
       this.mySql = new MySql(this);
       getCommand("duel").setExecutor(new DuelExecutor(this));
@@ -118,7 +108,6 @@ public class DuelMe extends JavaPlugin {
             SendConsoleMessage.warning(ChatColor.RED + "There were " + ChatColor.AQUA + errorCount +
                     ChatColor.RED + " startup error(s), plugin DISABLED!");
             this.getPluginLoader().disablePlugin(this);
-            return;
         } else {
             SendConsoleMessage.info("Successfully Enabled!");
         }
@@ -205,7 +194,6 @@ public class DuelMe extends JavaPlugin {
         } else {
             SendConsoleMessage.warning("WorldEdit dependency not found, plugin disabled!");
             Bukkit.getPluginManager().disablePlugin(this);
-            return;
         }
     }
 

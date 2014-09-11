@@ -90,7 +90,7 @@ public class DuelMe extends JavaPlugin {
 
     private void endAllRunningDuels() {
         DuelManager dm = this.getDuelManager();
-        if(!(dm.getDuelArenas().size() == 0)) {//if there are no duel arenas
+        if(dm.getDuelArenas().size() == 0) {//if there are no duel arenas
             return;
         }
         for(DuelArena duelArena: dm.getDuelArenas()) {

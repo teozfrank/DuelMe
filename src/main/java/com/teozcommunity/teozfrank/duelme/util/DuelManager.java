@@ -627,6 +627,7 @@ public class DuelManager {
 
         DuelArena arena = this.getPlayersArenaByUUID(playerUUID);
         arena.removePlayer(playerUUID);
+        this.restorePlayerData(player);
 
         if (arena.getPlayers().size() == 1) {
             im.rewardPlayer(arena);

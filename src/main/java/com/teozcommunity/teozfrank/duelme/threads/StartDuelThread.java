@@ -29,7 +29,7 @@ public class StartDuelThread extends BukkitRunnable {
     private DuelArena duelArena;
     private int countDown;
 
-    public StartDuelThread(DuelMe plugin, Player sender, Player target,DuelArena duelArena) {
+    public StartDuelThread(DuelMe plugin, Player sender, Player target, DuelArena duelArena) {
         this.plugin = plugin;
         this.sender = sender;
         this.target = target;
@@ -46,30 +46,39 @@ public class StartDuelThread extends BukkitRunnable {
         String targetName = target.getName();
         UUID senderUUID = sender.getUniqueId();
         UUID targetUUID = target.getUniqueId();
+        int duelSize = duelArena.getPlayers().size();
 
-        if(duelArena.getPlayers().size() == 1) {
+        if (plugin.isDebugEnabled()) {
+            SendConsoleMessage.debug("Duel size: " + duelSize);
+        }
+
+        if (duelSize == 0) {
             dm.endDuel(duelArena);
             this.cancel();
         }
 
 
-        if (this.countDown > 0) {
+        if (this.countDown > 0 && duelSize == 2) {
             Util.setTime(sender, target, this.countDown);
             this.countDown--;
         } else {
-            Util.setTime(sender, target, this.countDown);
+            if(duelSize == 2) {
+               Util.setTime(sender, target, this.countDown);
+               Util.sendMsg(sender, target, ChatColor.YELLOW + "Duel!");
+            }
+
             dm.removeFrozenPlayer(senderUUID);
             dm.removeFrozenPlayer(targetUUID);
-            Util.sendMsg(sender, target, ChatColor.YELLOW + "Duel!");
+
             duelArena.setDuelState(DuelState.STARTED);
 
-            if(plugin.isDebugEnabled()) {
+            if (plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("Stopping duel start thread.");
             }
             this.cancel();
 
-            if(duelTime != 0) {
-                if(plugin.isDebugEnabled()) {
+            if (duelTime != 0 && duelSize == 2) {
+                if (plugin.isDebugEnabled()) {
                     SendConsoleMessage.debug("Duel time limit is set, starting countdown task.");
                 }
                 new DuelTimeThread(plugin, sender, target, duelArena, duelTime).runTaskTimer(plugin, 20L, 20L);

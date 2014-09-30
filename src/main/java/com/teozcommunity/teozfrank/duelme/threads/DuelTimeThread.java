@@ -34,6 +34,7 @@ public class DuelTimeThread extends BukkitRunnable {
         String targetName = target.getName();
         UUID senderUUID = sender.getUniqueId();
         UUID targetUUID = target.getUniqueId();
+        int duelSize = duelArena.getPlayers().size();
 
         if(duelArena.getPlayers().size() == 1) {
             if(plugin.isDebugEnabled()) {
@@ -42,14 +43,17 @@ public class DuelTimeThread extends BukkitRunnable {
             this.cancel();// just need to cancel if arena size gets to 1, start duel thread will handle the rewards.
         }
 
-        if (this.duelTime > 0) {
+        if (this.duelTime > 0 && duelSize == 2) {
             Util.setTime(sender, target, this.duelTime);
             this.duelTime--;
         } else {
             if(plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("Ending duel time thread, time is up!");
             }
-            Util.setTime(sender, target, this.duelTime);
+            if(duelSize == 2) {
+                Util.setTime(sender, target, this.duelTime);
+            }
+
             dm.endDuel(duelArena);
             this.cancel();
         }

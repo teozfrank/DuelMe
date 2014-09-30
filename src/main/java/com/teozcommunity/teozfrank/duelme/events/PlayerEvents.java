@@ -14,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
@@ -93,6 +94,33 @@ public class PlayerEvents implements Listener {
         if(dm.isInDuel(dueler.getUniqueId())){
             e.setCancelled(true);
         }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onPlayerDamageByFall(EntityDamageEvent e) {
+        Entity entity = e.getEntity();
+
+        if(!(entity instanceof Player)) {
+            return;
+        }
+
+        if(e.getCause() != EntityDamageEvent.DamageCause.FALL) {
+            return;
+        }
+
+        DuelManager dm = plugin.getDuelManager();
+        Player player = (Player) entity;
+        String playerName = player.getName();
+        UUID playerUUID = player.getUniqueId();
+
+        if(dm.isInDuel(playerUUID)) {//if the player is in a duel
+            DuelArena playersArena = dm.getPlayersArenaByUUID(playerUUID);
+            if(playersArena.getDuelState() == DuelState.STARTING) {//if the duel state is starting
+                e.setCancelled(true); //cancel the event
+            }
+        }
+
+
     }
 
     @EventHandler(priority = EventPriority.HIGH)

@@ -119,8 +119,11 @@ public class PlayerEvents implements Listener {
                    mySql.addPlayerKillDeath(playerUUID, killerName, FieldName.KILL);
                }
 
-               if(!fm.isDropsOnDeathEnabled()) {
-                    e.getDrops().clear();
+               if(!fm.isDropItemsOnDeathEnabled()) {
+                   if(plugin.isDebugEnabled()) {
+                       SendConsoleMessage.debug("Item drops disabled, clearing.");
+                   }
+                   e.getDrops().clear();
                }
 
                if(!fm.isDeathMessagesEnabled()){
@@ -201,12 +204,16 @@ public class PlayerEvents implements Listener {
         DuelManager dm = plugin.getDuelManager();
         if (dm.isFrozen(playerUUID)) {
 
+
             Location loc = player.getLocation();
             if (locations.get(player) == null) {
                 locations.put(player, loc.toVector());
             }
 
             if (loc.getBlockX() != locations.get(player).getBlockX() || loc.getBlockZ() != locations.get(player).getBlockZ()) {
+                if(plugin.isDebugEnabled()) {
+                    SendConsoleMessage.debug("Frozen player in duel moved, teleporting back!");
+                }
 
                 loc.setX(locations.get(player).getBlockX());
                 loc.setZ(locations.get(player).getBlockZ());

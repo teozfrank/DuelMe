@@ -47,7 +47,7 @@ public class DuelTimeThread extends BukkitRunnable {
             this.duelTime--;
         } else {
             if(plugin.isDebugEnabled()) {
-                SendConsoleMessage.debug("Ending duel, time is up!");
+                SendConsoleMessage.debug("Ending duel time thread, time is up!");
             }
             Util.setTime(sender, target, this.duelTime);
             dm.endDuel(duelArena);

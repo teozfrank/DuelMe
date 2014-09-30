@@ -157,7 +157,7 @@ public class FileManager {
      * are drops when players die in a duel enabled
      * @return true if enabled, false if not
      */
-    public boolean isDropsOnDeathEnabled() {
+    public boolean isDropItemsOnDeathEnabled() {
         boolean isDropsOnDeathEnabled = plugin.getConfig().getBoolean("duelme.duel.dropitemsondeath");
         return isDropsOnDeathEnabled;
     }

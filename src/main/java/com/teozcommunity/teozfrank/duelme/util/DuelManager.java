@@ -172,6 +172,9 @@ public class DuelManager {
      * @param playerUUID the players name
      */
     public void addFrozenPlayer(UUID playerUUID) {
+        if(plugin.isDebugEnabled()) {
+            SendConsoleMessage.debug("frozen player added: " + playerUUID);
+        }
         this.frozenPlayerUUIDs.add(playerUUID);
     }
 
@@ -182,6 +185,10 @@ public class DuelManager {
      * @param targetUUID the duel target
      */
     public void addFrozenPlayer(UUID senderUUID, UUID targetUUID) {
+        if(plugin.isDebugEnabled()) {
+            SendConsoleMessage.debug("frozen sender added: " + senderUUID);
+            SendConsoleMessage.debug("frozen target added: " + targetUUID);
+        }
         this.frozenPlayerUUIDs.add(senderUUID);
         this.frozenPlayerUUIDs.add(targetUUID);
     }

@@ -63,13 +63,17 @@ public class StartDuelThread extends BukkitRunnable {
             Util.sendMsg(sender, target, ChatColor.YELLOW + "Duel!");
             duelArena.setDuelState(DuelState.STARTED);
 
+            if(plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug("Stopping duel start thread.");
+            }
+            this.cancel();
+
             if(duelTime != 0) {
                 if(plugin.isDebugEnabled()) {
-                    SendConsoleMessage.debug("Duel timer is set, starting countdown task.");
+                    SendConsoleMessage.debug("Duel time limit is set, starting countdown task.");
                 }
                 new DuelTimeThread(plugin, sender, target, duelArena, duelTime).runTaskTimer(plugin, 20L, 20L);
             }
-            this.cancel();
         }
     }
 }

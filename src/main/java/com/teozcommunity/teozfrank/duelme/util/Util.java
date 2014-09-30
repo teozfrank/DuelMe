@@ -40,7 +40,7 @@ public class Util {
     public static String UNKNOWN_CMD = ChatColor.RED+"Unknown Command!";
     public static String NO_PERMS = ChatColor.RED+"You do not have permission!";
     public static String NO_ARENAS = ChatColor.RED + "There are no arenas to start the duel! Please notify a member of staff!";
-    public static final String LINE_BREAK = ChatColor.LIGHT_PURPLE + "=====================================================";
+    public static final String LINE_BREAK = ChatColor.LIGHT_PURPLE + "-----------------------------------------------------";
 
 
     public Util(DuelMe plugin) {
@@ -87,7 +87,7 @@ public class Util {
      * @param sender the command sender
      */
     public static void sendCredits(CommandSender sender){
-        sendEmptyMsg(sender,ChatColor.GOLD + "                             V"+DuelMe.getVersion()+" by TeOzFrAnK");
+        sendEmptyMsg(sender,ChatColor.GOLD + "                               V"+DuelMe.getVersion());
     }
 
     /**

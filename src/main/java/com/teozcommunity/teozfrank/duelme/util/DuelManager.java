@@ -1,5 +1,6 @@
 package com.teozcommunity.teozfrank.duelme.util;
 
+import com.sun.xml.internal.ws.resources.SenderMessages;
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import com.teozcommunity.teozfrank.duelme.threads.StartDuelThread;
 import net.milkbowl.vault.economy.Economy;
@@ -288,6 +289,7 @@ public class DuelManager {
         UUID duelSenderUUID = duelSender.getUniqueId();
         FileManager fm = plugin.getFileManager();
         double minBetAmount = fm.getMinBetAmount();
+        amount = amount;
 
         Player duelTarget = Bukkit.getPlayer(duelTargetIn);
 
@@ -309,9 +311,12 @@ public class DuelManager {
                     return;
                 }
             }
-
-            if (fm.getMinBetAmount() >= amount) {
-                Util.sendMsg(duelSender, "You must provide a bet amount that is greater than " + fm.getMinBetAmount());
+            if(plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug("Min bet amount: " + minBetAmount);
+                SendConsoleMessage.debug("Amount: " + amount);
+            }
+            if (amount <= minBetAmount-1) {
+                Util.sendMsg(duelSender, ChatColor.RED + "You must provide a bet amount that is a minimum of " + minBetAmount);
                 return;
             }
 

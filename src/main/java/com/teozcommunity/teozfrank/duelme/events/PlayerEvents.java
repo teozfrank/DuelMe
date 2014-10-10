@@ -184,7 +184,6 @@ public class PlayerEvents implements Listener {
 
         if(dm.isDeadPlayer(playerUUID)){
             PlayerData playerData = dm.getPlayerDataByUUID(playerUUID);
-
             e.setRespawnLocation(playerData.getLocaton());
             dm.restorePlayerData(player);
             dm.removedDeadPlayer(playerUUID);

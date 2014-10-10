@@ -28,6 +28,10 @@
             <id>md-5-repo</id>
             <url>http://repo.md-5.net/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>vault-repo</id>
+            <url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -49,6 +53,13 @@
             <artifactId>LibsDisguises</artifactId>
             <version>${libsdisguises.version}</version>
             <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>net.milkbowl.vault</groupId>
+            <artifactId>Vault</artifactId>
+            <version>1.4.1</version>
+            <type>jar</type>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

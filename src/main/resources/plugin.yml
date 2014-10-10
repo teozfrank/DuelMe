@@ -3,6 +3,7 @@ version: 0.9.5 Beta
 author: teozfrank
 description: allows players to duel each other in a controlled environment
 main: com.teozcommunity.teozfrank.duelme.main.DuelMe
+depend: [WorldEdit, Vault]
 commands:
     duel:
         description: Access to duel commands

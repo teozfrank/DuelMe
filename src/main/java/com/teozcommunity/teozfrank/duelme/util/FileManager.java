@@ -43,47 +43,6 @@ public class FileManager {
     private File duelArenasFile = null;
 
 
-    public void reloadLocations() {
-        if (locationsFile == null) {
-            locationsFile = new File(plugin.getDataFolder(), "locations.yml");
-        }
-        locations = YamlConfiguration.loadConfiguration(locationsFile);
-
-        InputStream defConfigStream = plugin.getResource("locations.yml");
-        if (defConfigStream != null) {
-            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
-            locations.setDefaults(defConfig);
-        }
-
-    }
-
-    public FileConfiguration getLocations() {
-        if (locations == null) {
-            this.reloadLocations();
-        }
-        return locations;
-    }
-
-    public void saveLocations() {
-        if (locations == null || locationsFile == null) {
-            return;
-        }
-        try {
-            this.getLocations().save(locationsFile);
-        } catch (IOException e) {
-           SendConsoleMessage.severe("Error saving locations config!");
-        }
-    }
-
-    public void saveDefaultLocations() {
-        if (locationsFile == null) {
-            locationsFile = new File(plugin.getDataFolder(), "locations.yml");
-        }
-        if (!locationsFile.exists()) {
-            plugin.saveResource("locations.yml", false);
-        }
-    }
-
     public void reloadMessages() {
         if (messagesFile == null) {
             messagesFile = new File(plugin.getDataFolder(), "messages.yml");
@@ -117,7 +76,7 @@ public class FileManager {
             return;
         }
         try {
-            this.getLocations().save(messagesFile);
+            this.getMessages().save(messagesFile);
         } catch (IOException e) {
             SendConsoleMessage.severe("Error saving messages config!");
         }
@@ -364,15 +323,6 @@ public class FileManager {
     }
 
     /**
-     * get the locations.yml config version
-     * @return the version of the config
-     */
-    public double getLocationsVersion(){
-        double version = this.getLocations().getDouble("configversion");
-        return version;
-    }
-
-    /**
      * is the plugin using right clicking a player
      * to send a duel request
      * @return true if enabled, false if not
@@ -385,49 +335,6 @@ public class FileManager {
     public boolean isDuelStartAnnouncementEnabled(){
         boolean isDuelStartAnnouncementEnabled = plugin.getConfig().getBoolean("duelme.announce.duelstart");
         return isDuelStartAnnouncementEnabled;
-    }
-
-
-    /**
-     * gets the lobby spawn location from locations configuration file
-     * @return lobby spawn location
-     */
-    public Location getLobbySpawnLocation() {
-        FileManager fm = plugin.getFileManager();
-        String WorldIn = fm.getLocations().getString("locations.lobbyspawn.world");
-        double targetxIn = fm.getLocations().getDouble("locations.lobbyspawn.x");
-        double targetyIn = fm.getLocations().getDouble("locations.lobbyspawn.y");
-        double targetzIn = fm.getLocations().getDouble("locations.lobbyspawn.z");
-
-        World targetWorld = Bukkit.getWorld(WorldIn);
-
-        Location lobbySpawnLoc = new Location(targetWorld, targetxIn, targetyIn + 0.5, targetzIn);
-
-        return lobbySpawnLoc;
-    }
-
-
-    /**
-     * sets the lobby spawn location to disk and reloads configuration file
-     * @param p the player thats setting the lobby spawn location
-     */
-    public void setLobbySpawnLocation(Player p) {
-        FileManager fm = plugin.getFileManager();
-        Location loc = p.getLocation();
-        String world = p.getWorld().getName();
-
-        double senderxIn = loc.getX();
-        double senderyIn = loc.getY();
-        double senderzIn = loc.getZ();
-
-        fm.getLocations().set("locations.lobbyspawn.world", world);
-        fm.getLocations().set("locations.lobbyspawn.x", senderxIn);
-        fm.getLocations().set("locations.lobbyspawn.y", senderyIn);
-        fm.getLocations().set("locations.lobbyspawn.z", senderzIn);
-        fm.saveLocations();
-        fm.reloadLocations();
-        Util.sendMsg(p, ChatColor.GREEN + "Lobby Spawn Location set to: "
-                + ChatColor.GOLD +"(X: " + loc.getBlockX() + ") (Y: "+ loc.getBlockY() + ") (Z: " + loc.getBlockZ() + ")");
     }
 
     /**

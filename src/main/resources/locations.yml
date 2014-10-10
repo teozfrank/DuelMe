@@ -1,8 +1,0 @@
-# do not touch this below, it will break the plugin!
-configversion: 1.1
-locations:
-    lobbyspawn:
-        world:
-        x:
-        y:
-        z:

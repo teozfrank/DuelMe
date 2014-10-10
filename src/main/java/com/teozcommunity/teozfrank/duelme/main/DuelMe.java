@@ -143,10 +143,6 @@ public class DuelMe extends JavaPlugin {
             SendConsoleMessage.info("Saving default config.yml.");
             saveDefaultConfig();
         }
-        if (!(new File(getDataFolder(), "locations.yml")).exists()) {
-            SendConsoleMessage.info("Saving default locations.yml.");
-            this.fileManager.saveDefaultLocations();
-        }
         if (!(new File(getDataFolder(), "duelarenas.yml")).exists()) {
             SendConsoleMessage.info("Saving default duelarenas.yml.");
             this.fileManager.saveDefaultDuelArenas();
@@ -161,10 +157,6 @@ public class DuelMe extends JavaPlugin {
         if(new File(getDataFolder(),"config.yml").exists()){
            if(fileManager.getConfigVersion() != 1.4){
                SendConsoleMessage.warning("Your config.yml is out of date! please remove or back it up before using the plugin!");
-               errorCount++;
-           }
-           if(fileManager.getLocationsVersion() != 1.1){
-               SendConsoleMessage.warning("Your locations.yml is out of date! please remove or back it up before using the plugin!");
                errorCount++;
            }
         }

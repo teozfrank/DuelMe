@@ -22,8 +22,6 @@ public class ReloadCmd extends DuelAdminCmd {
         Util.sendMsg(sender, ChatColor.YELLOW + "Reloading.");
         fm.reloadDuelArenas();
         Util.sendMsg(sender, ChatColor.YELLOW + "Reloaded duelarenas.yml!");
-        fm.reloadLocations();
-        Util.sendMsg(sender, ChatColor.YELLOW + "Reloaded locations.yml!");
         plugin.reloadConfig();
         Util.sendMsg(sender, ChatColor.YELLOW + "Reloaded config.yml!");
         Util.sendMsg(sender, ChatColor.YELLOW + "Saving Duel arenas!");

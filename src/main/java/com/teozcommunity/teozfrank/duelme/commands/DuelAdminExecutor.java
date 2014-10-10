@@ -24,7 +24,6 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
         super(plugin);
 
         DuelAdminCmd create = new CreateCmd(plugin, "duelme.admin.create");
-        DuelAdminCmd set = new SetCmd(plugin, "duelme.admin.set");
         DuelAdminCmd remove = new RemoveCmd(plugin, "duelme.admin.remove");
         DuelAdminCmd list = new ListCmd(plugin, "duelme.admin.list");
         DuelAdminCmd reload = new ReloadCmd(plugin, "duelme.admin.reload");
@@ -35,10 +34,6 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
 
         addCmd("create", create, new String[] {
             "c,new"
-        });
-
-        addCmd("set", set, new String[]{
-                "s"
         });
 
         addCmd("remove", remove, new String[]{
@@ -68,7 +63,6 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
         });
 
         create.needsObject = false;
-        set.needsObject = false;
         remove.needsObject = true;
         list.needsObject = false;
         reload.needsObject = false;

@@ -1,0 +1,5 @@
+# do not touch the config version below, it will break the plugin!
+configversion: 1.0
+messages:
+    general:
+        prefix: '&6[DuelMe]'

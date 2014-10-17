@@ -1,5 +1,29 @@
 package com.teozcommunity.teozfrank.duelme.util;
 
+/**
+        The MIT License (MIT)
+
+        Copyright (c) 2014 teozfrank
+
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+
+        The above copyright notice and this permission notice shall be included in
+        all copies or substantial portions of the Software.
+
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+        THE SOFTWARE.
+*/
+
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import com.teozcommunity.teozfrank.duelme.threads.StartDuelThread;
 import org.bukkit.*;
@@ -15,16 +39,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-/**
- * Created with IntelliJ IDEA.
- * Original Author: teozfrank
- * Date: 08/08/13
- * Time: 15:51
- * -----------------------------
- * Removing this header is in breach of the license agreement,
- * please do not remove, move or edit it in any way.
- * -----------------------------
- */
 public class Util {
 
     /**
@@ -76,9 +90,9 @@ public class Util {
         }
 
         if (p == null) {
-            Bukkit.getLogger().info(ChatColor.GOLD+"[DuelMe] " + ChatColor.stripColor(message));
+            Bukkit.getLogger().info(DuelMe.getPrefix() + " " + ChatColor.stripColor(message));
         } else {
-            p.sendMessage(ChatColor.GOLD+"[DuelMe] " + message);
+            p.sendMessage(DuelMe.getPrefix() + " " + message);
         }
     }
 
@@ -96,7 +110,7 @@ public class Util {
      * @param message the message to send the player
      */
     public static void sendMsg(Player player, String message){
-        player.sendMessage(ChatColor.GOLD+"[DuelMe] " + message);
+        player.sendMessage(DuelMe.getPrefix() + " " + message);
     }
 
 
@@ -107,8 +121,8 @@ public class Util {
      * @param message the message to send to the two players
      */
     public static void sendMsg(Player sender, Player target, String message){
-        sender.sendMessage(ChatColor.GOLD+"[DuelMe] " + message);
-        target.sendMessage(ChatColor.GOLD+"[DuelMe] " + message);
+        sender.sendMessage(DuelMe.getPrefix() + " " + message);
+        target.sendMessage(DuelMe.getPrefix() + " " + message);
     }
 
     /**

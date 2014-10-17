@@ -1,5 +1,29 @@
 package com.teozcommunity.teozfrank.duelme.commands;
 
+/**
+        The MIT License (MIT)
+
+        Copyright (c) 2014 teozfrank
+
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+
+        The above copyright notice and this permission notice shall be included in
+        all copies or substantial portions of the Software.
+
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+        THE SOFTWARE.
+*/
+
 import com.teozcommunity.teozfrank.duelme.commands.duel.*;
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import com.teozcommunity.teozfrank.duelme.util.Util;
@@ -9,13 +33,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-/**
- * Created with IntelliJ IDEA.
- * User: teoz
- * Date: 06/11/13
- * Time: 16:17
- * To change this template use File | Settings | File Templates.
- */
 public class DuelExecutor extends CmdExecutor implements CommandExecutor {
 
     public DuelExecutor(DuelMe plugin) {
@@ -24,6 +41,7 @@ public class DuelExecutor extends CmdExecutor implements CommandExecutor {
         DuelCmd send = new SendCmd(plugin, "duelme.player.send");
         DuelCmd leave = new LeaveCmd(plugin, "duelme.player.leave");
         DuelCmd list = new ListCmd(plugin , "duelme.player.list");
+        DuelCmd about = new AboutCmd(plugin , "duelme.player.info");
 
         addCmd("accept", accept, new String[]{
                 "a"
@@ -38,6 +56,8 @@ public class DuelExecutor extends CmdExecutor implements CommandExecutor {
         });
 
         addCmd("list", list);
+
+        addCmd("about", about);
     }
 
     @Override
@@ -49,13 +69,14 @@ public class DuelExecutor extends CmdExecutor implements CommandExecutor {
                 Util.sendEmptyMsg(sender,Util.LINE_BREAK);
                 Util.sendEmptyMsg(sender, ChatColor.GOLD + "                            DuelMe - PVP for fun!");
                 Util.sendEmptyMsg(sender, "");
-                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel - "+ ChatColor.GOLD + "brings up this message");
-                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel send <player> - "+ ChatColor.GOLD + "send a duel request to a player");
+                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel - "+ ChatColor.GOLD + "brings up this message.");
+                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel send <player> - "+ ChatColor.GOLD + "send a duel request to a player.");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel send <player> <amount> - "+ ChatColor.GOLD +
-                        "send a duel request to a player with a given bet amount");
-                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel accept <player> - "+ ChatColor.GOLD + "accept a duel request");
-                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel leave - "+ ChatColor.GOLD + "leave a duel");
-                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel list - "+ ChatColor.GOLD + "lists duel arenas with their status(es)");
+                        "send a duel request to a player with a given bet amount.");
+                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel accept <player> - "+ ChatColor.GOLD + "accept a duel request.");
+                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel leave - "+ ChatColor.GOLD + "leave a duel.");
+                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel list - "+ ChatColor.GOLD + "lists duel arenas with their status(es).");
+                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/duel about - "+ ChatColor.GOLD + "more about this plugin.");
                 Util.sendEmptyMsg(sender,"");
                 Util.sendCredits(sender);
                 Util.sendEmptyMsg(sender,Util.LINE_BREAK);

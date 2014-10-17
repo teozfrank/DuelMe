@@ -24,15 +24,22 @@ package com.teozcommunity.teozfrank.duelme.commands.duel;
  THE SOFTWARE.
  */
 
-import com.teozcommunity.teozfrank.duelme.commands.SubCmd;
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
+import com.teozcommunity.teozfrank.duelme.util.Util;
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-public abstract class DuelCmd extends SubCmd {
+public class AboutCmd extends DuelCmd {
 
-    public DuelCmd(DuelMe plugin, String mainPerm) {
+    public AboutCmd(DuelMe plugin, String mainPerm) {
         super(plugin, mainPerm);
     }
 
-    public abstract void run(CommandSender sender, String subCmd, String[] args);
+
+    @Override
+    public void run(CommandSender sender, String subCmd, String[] args) {
+        Util.sendMsg(sender, ChatColor.GREEN + "DuelMe: "+ ChatColor.AQUA + "V" + plugin.getDescription().getVersion());
+        Util.sendMsg(sender, ChatColor.GREEN + "Original Author:" +ChatColor.AQUA +" teozfrank."); // please do not remove or modify this. I put countless hours into this project all free of charge, return the favour by leaving me credit.
+        Util.sendMsg(sender, ChatColor.GREEN + "Licensed under the" + ChatColor.AQUA + " MIT License.");
+    }
 }

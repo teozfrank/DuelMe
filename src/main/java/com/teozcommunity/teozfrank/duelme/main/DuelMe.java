@@ -1,5 +1,29 @@
 package com.teozcommunity.teozfrank.duelme.main;
 
+/**
+        The MIT License (MIT)
+
+        Copyright (c) 2014 teozfrank
+
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+
+        The above copyright notice and this permission notice shall be included in
+        all copies or substantial portions of the Software.
+
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+        THE SOFTWARE.
+*/
+
 import com.teozcommunity.teozfrank.MetricsLite;
 import com.teozcommunity.teozfrank.duelme.commands.DuelAdminExecutor;
 import com.teozcommunity.teozfrank.duelme.commands.DuelExecutor;
@@ -15,16 +39,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * Created with IntelliJ IDEA.
- * Original Author: teozfrank
- * Date: 19/07/13
- * Time: 21:53
- * -----------------------------
- * Removing this header is in breach of the license agreement,
- * please do not remove, move or edit it in any way.
- * -----------------------------
- */
 public class DuelMe extends JavaPlugin {
 
     /**
@@ -56,6 +70,8 @@ public class DuelMe extends JavaPlugin {
 
     private int errorCount;
 
+    public static String prefix;
+
     public DuelMe(){
         this.errorCount = 0;
     }
@@ -66,6 +82,7 @@ public class DuelMe extends JavaPlugin {
       SendConsoleMessage.info("Enabling.");
       version = this.getDescription().getVersion();
       this.fileManager = new FileManager(this);
+      prefix = getFileManager().getPrefix();
       this.setupYMLs();
       this.checkForUpdates();
       this.submitStats();
@@ -145,7 +162,12 @@ public class DuelMe extends JavaPlugin {
         }
         if (!(new File(getDataFolder(), "duelarenas.yml")).exists()) {
             SendConsoleMessage.info("Saving default duelarenas.yml.");
-            this.fileManager.saveDefaultDuelArenas();
+            this.getFileManager().saveDefaultDuelArenas();
+        }
+
+        if (!(new File(getDataFolder(), "messages.yml")).exists()) {
+            SendConsoleMessage.info("Saving default messages.yml.");
+            this.getFileManager().saveDefaultMessages();
         }
     }
 
@@ -239,6 +261,10 @@ public class DuelMe extends JavaPlugin {
 
     public Economy getEconomy() {
         return economy;
+    }
+
+    public static String getPrefix() {
+        return prefix;
     }
 
 }

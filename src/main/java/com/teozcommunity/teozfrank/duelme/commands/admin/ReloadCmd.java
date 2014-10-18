@@ -26,6 +26,7 @@ package com.teozcommunity.teozfrank.duelme.commands.admin;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import com.teozcommunity.teozfrank.duelme.util.DuelArena;
+import com.teozcommunity.teozfrank.duelme.util.DuelManager;
 import com.teozcommunity.teozfrank.duelme.util.FileManager;
 import com.teozcommunity.teozfrank.duelme.util.Util;
 import org.bukkit.ChatColor;
@@ -38,11 +39,11 @@ public class ReloadCmd extends DuelAdminCmd {
 
     @Override
     public void run(DuelArena duelArena, CommandSender sender, String subCmd, String[] args) {
-
+        DuelManager dm = plugin.getDuelManager();
         FileManager fm = plugin.getFileManager();
-        Util.sendMsg(sender, ChatColor.YELLOW + "Reloading.");
+        dm.getDuelArenas().clear();
         fm.reloadDuelArenas();
-        Util.sendMsg(sender, ChatColor.YELLOW + "Reloaded duelarenas.yml!");
+        Util.sendMsg(sender, ChatColor.YELLOW + "Reloaded duel arenas.");
         plugin.reloadConfig();
         Util.sendMsg(sender, ChatColor.YELLOW + "Reloaded config.yml!");
         Util.sendMsg(sender, ChatColor.YELLOW + "Saving Duel arenas!");

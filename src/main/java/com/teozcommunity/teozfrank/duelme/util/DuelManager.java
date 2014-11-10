@@ -383,7 +383,6 @@ public class DuelManager {
         } else {
             Util.sendMsg(accepter, ChatColor.RED +
                     "You do not have any duel requests from " + ChatColor.AQUA + senderIn + ".");
-            return;
         }
 
     }
@@ -638,6 +637,9 @@ public class DuelManager {
      * @param player the player
      */
     public void endDuel(Player player) {
+        if(plugin.isDebugEnabled()) {
+            SendConsoleMessage.debug("End duel.");
+        }
         ItemManager im = plugin.getItemManager();
         String playerName = player.getName();
         UUID playerUUID = player.getUniqueId();
@@ -667,6 +669,9 @@ public class DuelManager {
      * @param arena the arena to be ended
      */
     public void endDuel(DuelArena arena) {
+        if(plugin.isDebugEnabled()) {
+            SendConsoleMessage.debug("End duel by duel arena.");
+        }
         ItemManager im = plugin.getItemManager();
         DuelManager dm = plugin.getDuelManager();
         FileManager fm = plugin.getFileManager();
@@ -695,10 +700,7 @@ public class DuelManager {
             arena.getPlayers().remove(playerUUID);//remove the player
         }
 
-        arena.setHasBet(false);
-        arena.setBetAmount(0);
-        arena.getPlayers().clear();
-        arena.setDuelState(DuelState.WAITING);
+        this.resetArena(arena);
     }
 
     /**
@@ -713,5 +715,19 @@ public class DuelManager {
             return true;
         }
         return false;
+    }
+
+    /**
+     * reset a duel arena to initial state
+     * @param arena the duel arena
+     */
+    public void resetArena(DuelArena arena) {
+        if(plugin.isDebugEnabled()) {
+            SendConsoleMessage.debug("resetting arena.");
+        }
+        arena.setHasBet(false);
+        arena.setBetAmount(0);
+        arena.getPlayers().clear();
+        arena.setDuelState(DuelState.WAITING);
     }
 }

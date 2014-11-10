@@ -95,10 +95,7 @@ public class ItemManager {
                 }
             }
 
-            arena.setHasBet(false);
-            arena.setBetAmount(0);
-            arena.getPlayers().clear();
-            arena.setDuelState(DuelState.WAITING);
+            dm.resetArena(arena);
         }
 
     }

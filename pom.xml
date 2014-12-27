@@ -10,16 +10,12 @@
     <description>duelme a plugin to allow players to pvp, in a controlled area</description>
 
     <properties>
-        <bukkit.version>1.7.10-R0.1-SNAPSHOT</bukkit.version>
+        <bukkit.version>1.8.0-R0.1-SNAPSHOT</bukkit.version>
         <worldedit.version>5.6.3</worldedit.version>
         <libsdisguises.version>8.0.9-SNAPSHOT</libsdisguises.version>
     </properties>
 
     <repositories>
-        <repository>
-            <id>bukkit-repo</id>
-            <url>http://repo.bukkit.org/content/groups/public/</url>
-        </repository>
         <repository>
             <id>sk89q-repo</id>
             <url>http://maven.sk89q.com/repo/</url>
@@ -35,12 +31,6 @@
     </repositories>
 
     <dependencies>
-        <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>${bukkit.version}</version>
-            <type>jar</type>
-        </dependency>
         <dependency>
             <groupId>com.sk89q</groupId>
             <artifactId>worldedit</artifactId>

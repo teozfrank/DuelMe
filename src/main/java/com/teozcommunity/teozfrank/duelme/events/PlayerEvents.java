@@ -140,6 +140,19 @@ public class PlayerEvents implements Listener {
 
     }
 
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerTelepor(PlayerTeleportEvent e) {
+        Player player = e.getPlayer();
+        UUID playerUUID = player.getUniqueId();
+        DuelManager dm = plugin.getDuelManager();
+
+        if(e.isCancelled()) {
+            if(dm.isInDuel(playerUUID)) {
+                e.setCancelled(false);
+            }
+        }
+    }
+
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerDeath(PlayerDeathEvent e) {
        Player player = e.getEntity();

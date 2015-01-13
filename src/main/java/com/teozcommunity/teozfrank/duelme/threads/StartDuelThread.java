@@ -85,6 +85,7 @@ public class StartDuelThread extends BukkitRunnable {
             dm.removeFrozenPlayer(targetUUID);
 
             duelArena.setDuelState(DuelState.STARTED);
+            dm.updateDuelStatusSign(duelArena);
 
             if (plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("Stopping duel start thread.");

@@ -52,9 +52,11 @@ public class FileManager {
     private FileConfiguration locations = null;
     private FileConfiguration messages = null;
     private FileConfiguration duelArenas = null;
+    private FileConfiguration signs;
     private File locationsFile = null;
     private File messagesFile = null;
     private File duelArenasFile = null;
+    private File signsFile = null;
 
 
     public void reloadMessages() {
@@ -383,6 +385,93 @@ public class FileManager {
         String prefix = getMessages().getString("messages.general.prefix");
         prefix = ChatColor.translateAlternateColorCodes('&', prefix);
         return prefix;
+    }
+
+    public void reloadSigns() {
+        if (signsFile == null) {
+            signsFile = new File(plugin.getDataFolder(), "signs.yml");
+        }
+        signs = YamlConfiguration.loadConfiguration(signsFile);
+
+        InputStream defConfigStream = plugin.getResource("signs.yml");
+        if (defConfigStream != null) {
+            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+            messages.setDefaults(defConfig);
+        }
+
+    }
+
+    /**
+     * get the signs config object
+     * @return the fileconfuration instance of the signs.yml file
+     */
+    public FileConfiguration getSigns() {
+        if (signs == null) {
+            this.reloadSigns();
+        }
+        return signs;
+    }
+
+    /**
+     * save the signs.yml config file
+     */
+    public void saveSigns() {
+        if (signs == null || signsFile == null) {
+            return;
+        }
+        try {
+            this.getSigns().save(signsFile);
+        } catch (IOException e) {
+            SendConsoleMessage.severe("Error saving signs config!");
+        }
+    }
+
+    /**
+     * save default messages.yml config
+     */
+    public void saveDefaultSigns() {
+        if (signsFile == null) {
+            signsFile = new File(plugin.getDataFolder(), "signs.yml");
+        }
+        if (!signsFile.exists()) {
+            plugin.saveResource("signs.yml", false);
+        }
+    }
+
+    /**
+     * save an arena status sign
+     * @param arenaName the arena name
+     * @param world the world name
+     * @param x the x coordinate of the sign location
+     * @param y the y coordinate of the sign location
+     * @param z the z coordinate of the sign location
+     */
+    public void saveArenaSign(String arenaName, String world, int x, int y, int z) {
+        String basePath = "signs." + arenaName + ".";
+        getSigns().set(basePath + "world" , world);
+        getSigns().set(basePath + "x" , x);
+        getSigns().set(basePath + "y", y);
+        getSigns().set(basePath + "z", z);
+        saveSigns();
+        reloadSigns();
+    }
+
+    /**
+     * get and arena status sign location
+     * @param arenaName the arena name
+     */
+    public Location getArenaStatusSignLocation(String arenaName) {
+        String basePath = "signs." + arenaName;
+        if(!getSigns().isSet(basePath)) {
+            return null;
+        }
+        String worldName = getSigns().getString(basePath + ".world");
+        int x = getSigns().getInt(basePath + ".x");
+        int y = getSigns().getInt(basePath + ".y");
+        int z = getSigns().getInt(basePath + ".z");
+
+        Location location = new Location(Bukkit.getWorld(worldName), x, y, z);
+        return location;
     }
 
 }

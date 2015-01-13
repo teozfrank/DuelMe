@@ -141,13 +141,16 @@ public class PlayerEvents implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerTelepor(PlayerTeleportEvent e) {
+    public void onPlayerTeleport(PlayerTeleportEvent e) {
         Player player = e.getPlayer();
         UUID playerUUID = player.getUniqueId();
         DuelManager dm = plugin.getDuelManager();
 
         if(e.isCancelled()) {
             if(dm.isInDuel(playerUUID)) {
+                if(plugin.isDebugEnabled()) {
+                    SendConsoleMessage.debug("player is being teleported and is in duel, uncancelling event.");
+                }
                 e.setCancelled(false);
             }
         }
@@ -188,14 +191,14 @@ public class PlayerEvents implements Listener {
                    e.setDeathMessage("");
                    return;
                }
-               e.setDeathMessage(ChatColor.GOLD + "[DuelMe] " + ChatColor.AQUA + player.getName() + ChatColor.RED + " was killed in a duel by "
+               e.setDeathMessage(fm.getPrefix() + ChatColor.AQUA + player.getName() + ChatColor.RED + " was killed in a duel by "
                        + ChatColor.AQUA + killer.getName());
            }  else {
                if(!fm.isDeathMessagesEnabled()){
                    e.setDeathMessage("");
                    return;
                }
-               e.setDeathMessage(ChatColor.GOLD + "[DuelMe] " + ChatColor.AQUA + player.getName() + ChatColor.RED + " was killed in a duel!");
+               e.setDeathMessage(fm.getPrefix() + ChatColor.AQUA + player.getName() + ChatColor.RED + " was killed in a duel!");
            }
            dm.endDuel(player);
 
@@ -204,7 +207,7 @@ public class PlayerEvents implements Listener {
     }
 
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerRespawn(PlayerRespawnEvent e) {
         Player player = e.getPlayer();
         String playerName = player.getName();
@@ -214,6 +217,9 @@ public class PlayerEvents implements Listener {
 
         if(dm.isDeadPlayer(playerUUID)){
             PlayerData playerData = dm.getPlayerDataByUUID(playerUUID);
+            if(plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug("Player respawn location for " + playerName + ": " + playerData.getLocaton());
+            }
             e.setRespawnLocation(playerData.getLocaton());
             dm.restorePlayerData(player);
             dm.removedDeadPlayer(playerUUID);

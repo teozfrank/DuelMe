@@ -11,8 +11,7 @@
 
     <properties>
         <bukkit.version>1.8.0-R0.1-SNAPSHOT</bukkit.version>
-        <worldedit.version>5.6.3</worldedit.version>
-        <libsdisguises.version>8.0.9-SNAPSHOT</libsdisguises.version>
+        <worldedit.version>6.0.0-SNAPSHOT</worldedit.version>
     </properties>
 
     <repositories>
@@ -36,12 +35,6 @@
             <artifactId>worldedit</artifactId>
             <version>${worldedit.version}</version>
             <scope>compile</scope>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>LibsDisguises</groupId>
-            <artifactId>LibsDisguises</artifactId>
-            <version>${libsdisguises.version}</version>
             <type>jar</type>
         </dependency>
         <dependency>

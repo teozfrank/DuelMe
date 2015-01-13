@@ -31,7 +31,7 @@ import java.util.UUID;
 
 public class PlayerData {
 
-    private UUID playerUUID;
+
     private ItemStack[] armour;
     private ItemStack[] inventory;
     private Location locaton;
@@ -40,9 +40,8 @@ public class PlayerData {
     private int expLevel;
     private double health;
 
-    public PlayerData(UUID playerUUIDIn, ItemStack[] armourIn, ItemStack[] inventoryIn, Location locationIn,
+    public PlayerData(ItemStack[] armourIn, ItemStack[] inventoryIn, Location locationIn,
                       Float saturationIn, int foodLevelIn, int expLevelIn, double healthIn) {
-     this.playerUUID = playerUUIDIn;
      this.armour = armourIn;
      this.inventory = inventoryIn;
      this.locaton = locationIn;
@@ -50,14 +49,6 @@ public class PlayerData {
      this.foodLevel = foodLevelIn;
      this.expLevel = expLevelIn;
      this.health = healthIn;
-    }
-
-    public UUID getUUID() {
-        return playerUUID;
-    }
-
-    public void setUUID(UUID playerUUIDIn) {
-        this.playerUUID = playerUUIDIn;
     }
 
     public ItemStack[] getArmour() {

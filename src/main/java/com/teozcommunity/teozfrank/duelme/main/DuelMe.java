@@ -1,28 +1,28 @@
 package com.teozcommunity.teozfrank.duelme.main;
 
 /**
-        The MIT License (MIT)
+ The MIT License (MIT)
 
-        Copyright (c) 2014 teozfrank
+ Copyright (c) 2014 teozfrank
 
-        Permission is hereby granted, free of charge, to any person obtaining a copy
-        of this software and associated documentation files (the "Software"), to deal
-        in the Software without restriction, including without limitation the rights
-        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-        copies of the Software, and to permit persons to whom the Software is
-        furnished to do so, subject to the following conditions:
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
 
-        The above copyright notice and this permission notice shall be included in
-        all copies or substantial portions of the Software.
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
 
-        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-        THE SOFTWARE.
-*/
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ */
 
 import com.teozcommunity.teozfrank.MetricsLite;
 import com.teozcommunity.teozfrank.duelme.commands.DuelAdminExecutor;
@@ -36,6 +36,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -72,45 +73,46 @@ public class DuelMe extends JavaPlugin {
 
     public static String prefix;
 
-    public DuelMe(){
+    public DuelMe() {
         this.errorCount = 0;
     }
 
 
     @Override
     public void onEnable() {
-      SendConsoleMessage.info("Enabling.");
-      version = this.getDescription().getVersion();
-      this.fileManager = new FileManager(this);
-      prefix = getFileManager().getPrefix();
-      this.setupYMLs();
-      this.checkForUpdates();
-      this.submitStats();
-      this.setupDependencies();
-      this.setupEconomy();
-      this.duelManager = new DuelManager(this);
-      new PlayerEvents(this);
-      this.itemManager = new ItemManager(this);
-      this.mySql = new MySql(this);
-      getCommand("duel").setExecutor(new DuelExecutor(this));
-      getCommand("dueladmin").setExecutor(new DuelAdminExecutor(this));
-      this.getFileManager().loadDuelArenas();
-      this.checkErrors();
+        SendConsoleMessage.info("Enabling.");
+        version = this.getDescription().getVersion();
+        this.fileManager = new FileManager(this);
+        prefix = getFileManager().getPrefix();
+        this.setupYMLs();
+        this.checkForUpdates();
+        this.submitStats();
+        this.setupDependencies();
+        this.setupEconomy();
+        this.duelManager = new DuelManager(this);
+        new PlayerEvents(this);
+        new SignEdit(this);
+        this.itemManager = new ItemManager(this);
+        this.mySql = new MySql(this);
+        getCommand("duel").setExecutor(new DuelExecutor(this));
+        getCommand("dueladmin").setExecutor(new DuelAdminExecutor(this));
+        this.getFileManager().loadDuelArenas();
+        this.checkErrors();
     }
 
     @Override
     public void onDisable() {
-      SendConsoleMessage.info("Disabling.");
-      this.endAllRunningDuels();
-      this.getFileManager().saveDuelArenas();
+        SendConsoleMessage.info("Disabling.");
+        this.endAllRunningDuels();
+        this.getFileManager().saveDuelArenas();
     }
 
     private void endAllRunningDuels() {
         DuelManager dm = this.getDuelManager();
-        if(dm.getDuelArenas().size() == 0) {//if there are no duel arenas
+        if (dm.getDuelArenas().size() == 0) {//if there are no duel arenas
             return;
         }
-        for(DuelArena duelArena: dm.getDuelArenas()) {
+        for (DuelArena duelArena : dm.getDuelArenas()) {
             dm.endDuel(duelArena);
         }
 
@@ -121,7 +123,7 @@ public class DuelMe extends JavaPlugin {
      */
     private void checkErrors() {
         this.checkConfigVersions();
-        if(this.errorCount != 0){
+        if (this.errorCount != 0) {
             SendConsoleMessage.warning(ChatColor.RED + "There were " + ChatColor.AQUA + errorCount +
                     ChatColor.RED + " startup error(s), plugin DISABLED!");
             this.getPluginLoader().disablePlugin(this);
@@ -134,7 +136,7 @@ public class DuelMe extends JavaPlugin {
      * check for updates to the plugin
      */
     public void checkForUpdates() {
-        if(this.getConfig().getBoolean("duelme.checkforupdates")) {
+        if (this.getConfig().getBoolean("duelme.checkforupdates")) {
             getServer().getScheduler().runTask(this, new UpdateCheckerThread(this));
         }
     }
@@ -169,27 +171,32 @@ public class DuelMe extends JavaPlugin {
             SendConsoleMessage.info("Saving default messages.yml.");
             this.getFileManager().saveDefaultMessages();
         }
+
+        if (!(new File(getDataFolder(), "signs.yml")).exists()) {
+            SendConsoleMessage.info("Saving default signs.yml.");
+            this.getFileManager().saveDefaultSigns();
+        }
     }
 
     /**
      * check the config file versions and see
      * do they match the latest version
      */
-    public void checkConfigVersions(){
-        if(new File(getDataFolder(),"config.yml").exists()){
-           if(fileManager.getConfigVersion() != 1.4){
-               SendConsoleMessage.warning("Your config.yml is out of date! please remove or back it up before using the plugin!");
-               errorCount++;
-           }
+    public void checkConfigVersions() {
+        if (new File(getDataFolder(), "config.yml").exists()) {
+            if (fileManager.getConfigVersion() != 1.4) {
+                SendConsoleMessage.warning("Your config.yml is out of date! please remove or back it up before using the plugin!");
+                errorCount++;
+            }
         }
     }
 
     /**
      * setup economy
+     *
      * @return economy object
      */
-    private boolean setupEconomy()
-    {
+    private boolean setupEconomy() {
         RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
         if (economyProvider != null) {
             economy = economyProvider.getProvider();
@@ -213,45 +220,55 @@ public class DuelMe extends JavaPlugin {
 
     /**
      * get the duel manager object
+     *
      * @return duel manager object
      */
-    public DuelManager getDuelManager(){
+    public DuelManager getDuelManager() {
         return this.duelManager;
     }
 
     /**
      * get the file manager object
+     *
      * @return file manager object
      */
-    public FileManager getFileManager(){
+    public FileManager getFileManager() {
         return this.fileManager;
     }
 
     /**
      * get the item manager object
+     *
      * @return item manager object
      */
-    public ItemManager getItemManager() { return itemManager; }
+    public ItemManager getItemManager() {
+        return itemManager;
+    }
 
     /**
      * get the plugin version
+     *
      * @return the plugin version
      */
-    public static String getVersion(){
+    public static String getVersion() {
         return version;
     }
 
     /**
      * get MySql object
+     *
      * @return the MySql object
      */
-    public MySql getMySql() { return this.mySql; }
+    public MySql getMySql() {
+        return this.mySql;
+    }
 
     /**
      * is debug mode enabled
+     *
      * @return true if enabled, false if not
      */
-    public boolean isDebugEnabled(){
+    public boolean isDebugEnabled() {
         return getFileManager().isDebugEnabled();
     }
 

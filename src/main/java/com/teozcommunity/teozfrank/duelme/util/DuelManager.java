@@ -27,10 +27,9 @@ package com.teozcommunity.teozfrank.duelme.util;
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import com.teozcommunity.teozfrank.duelme.threads.StartDuelThread;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
@@ -70,7 +69,7 @@ public class DuelManager {
      */
     public List<DuelArena> duelArenas;
 
-    private List<PlayerData> playerData;
+    private HashMap<UUID, PlayerData> playerData;
 
     public DuelManager(DuelMe plugin) {
         this.plugin = plugin;
@@ -79,7 +78,7 @@ public class DuelManager {
         this.frozenPlayerUUIDs = new ArrayList<UUID>();
         this.duelArenas = new ArrayList<DuelArena>();
         this.deadPlayerUUIDs = new ArrayList<UUID>();
-        this.playerData = new ArrayList<PlayerData>();
+        this.playerData = new HashMap<UUID, PlayerData>();
         this.betRequests = new HashMap<UUID, Double>();
     }
 
@@ -210,11 +209,11 @@ public class DuelManager {
         this.frozenPlayerUUIDs.add(targetUUID);
     }
 
-    public List<PlayerData> getPlayerData() {
+    public HashMap<UUID, PlayerData> getPlayerData() {
         return playerData;
     }
 
-    public void setPlayerData(List<PlayerData> playerData) {
+    public void setPlayerData(HashMap<UUID, PlayerData> playerData) {
         this.playerData = playerData;
     }
 
@@ -414,6 +413,7 @@ public class DuelManager {
         for (DuelArena a : arenas) {
             if (a.getDuelState() == DuelState.WAITING) {
                 a.setDuelState(DuelState.STARTING);//set the duel state to starting
+                this.updateDuelStatusSign(a);
                 if (fm.isDuelStartAnnouncementEnabled()) {
                     Util.broadcastMessage(ChatColor.GREEN + "A duel is Starting between " +
                             ChatColor.AQUA + accepterName +
@@ -560,12 +560,15 @@ public class DuelManager {
      * @return the player data
      */
     public PlayerData getPlayerDataByUUID(UUID playerUUIDIn) {
-        for (PlayerData playerDataIn : this.getPlayerData()) {
-            if (playerDataIn.getUUID() == playerUUIDIn) {
-                return playerDataIn;
-            }
-        }
-        return null;
+        return playerData.get(playerUUIDIn);
+    }
+
+    public void addPlayerData(UUID uuidIn, PlayerData playerData) {
+        this.getPlayerData().put(uuidIn, playerData);
+    }
+
+    public void removePlayerDataByUUID(UUID playerUUIDIn) {
+        this.getPlayerData().remove(playerUUIDIn);
     }
 
     /**
@@ -582,8 +585,10 @@ public class DuelManager {
         int foodLevel = player.getFoodLevel();
         int expLevel = player.getLevel();
         double health = player.getHealth();
-
-        this.playerData.add(new PlayerData(playerUUID, arm, inv, loc, saturation, foodLevel, expLevel, health));
+        if(plugin.isDebugEnabled()) {
+            SendConsoleMessage.info("Player location for player: " + player.getName() + ":" + loc);
+        }
+        this.addPlayerData(playerUUID, new PlayerData(arm, inv, loc, saturation, foodLevel, expLevel, health));
 
         player.getInventory().clear(-1, -1);
         Util.sendMsg(player, ChatColor.GREEN + "Your player data has been stored and will be restored after the Duel.");
@@ -609,7 +614,13 @@ public class DuelManager {
             int expLevel = playerData.getEXPLevel();
             double health = playerData.getHealth();
 
+            if(plugin.isDebugEnabled()) {
+                SendConsoleMessage.info("Player location for player: " + player.getName() + ":" + loc);
+            }
             if (!this.isDeadPlayer(playerUUID)) {
+                if(plugin.isDebugEnabled()) {
+                    SendConsoleMessage.debug("player is not dead, teleporting.");
+                }
                 player.teleport(loc);
             }
 
@@ -622,6 +633,7 @@ public class DuelManager {
             player.setLevel(expLevel);
             player.setHealth(health);
             Util.sendMsg(player, ChatColor.GREEN + "Your player data has been restored!");
+            this.removePlayerDataByUUID(playerUUID);
         } catch (Exception e) {
             Util.sendMsg(player, ChatColor.RED + "There was an error restoring your player data!");
         }
@@ -729,5 +741,33 @@ public class DuelManager {
         arena.setBetAmount(0);
         arena.getPlayers().clear();
         arena.setDuelState(DuelState.WAITING);
+        this.updateDuelStatusSign(arena);
+    }
+
+    /**
+     * update the state of a status sign if there is one for that arena
+     * @param arena the arena
+     */
+    public void updateDuelStatusSign(DuelArena arena) {
+        FileManager fm = plugin.getFileManager();
+        Location location = fm.getArenaStatusSignLocation(arena.getName());
+        Block block = location.getBlock();
+
+        if(location == null) {
+            return;
+        }
+
+        if(!(block.getType() == Material.WALL_SIGN) || !(block.getType() == Material.SIGN_POST)) {
+            return;
+        }
+
+        try {
+            Sign sign = (Sign) block.getState();
+            sign.setLine(2, arena.getDuelState().toString());
+            sign.update();
+        } catch (Exception e) {
+            //ignored
+        }
+
     }
 }

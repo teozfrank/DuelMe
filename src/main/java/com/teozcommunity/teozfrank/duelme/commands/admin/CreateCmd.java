@@ -28,6 +28,8 @@ import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.LocalWorld;
 import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.bukkit.WorldEditPlugin;
+import com.sk89q.worldedit.bukkit.selections.Selection;
 import com.sk89q.worldedit.regions.Region;
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import com.teozcommunity.teozfrank.duelme.util.DuelArena;
@@ -69,32 +71,18 @@ public class CreateCmd extends DuelAdminCmd {
 
         Player p = (Player) sender;
 
+        Location pos1 = null;
+        Location pos2 = null;
 
-        try {
+        WorldEditPlugin worldEdit = (WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit");
+        Selection selection = worldEdit.getSelection(p);
 
-            LocalSession session = WorldEdit.getInstance().getSession(p.getName());
-            LocalWorld world = session.getSelectionWorld();
-
-            Region region = session.getSelection(world);
-
-            this.worldName = region.getWorld().getName();
-            this.selWorld = Bukkit.getWorld(worldName);
-
-            this.pos1x = region.getMaximumPoint().getX();
-            this.pos1y = region.getMaximumPoint().getY();
-            this.pos1z = region.getMaximumPoint().getZ();
-            this.pos1 = new Location(selWorld, pos1x, pos1y, pos1z);
-
-            this.pos2x = region.getMinimumPoint().getX();
-            this.pos2y = region.getMinimumPoint().getY();
-            this.pos2z = region.getMinimumPoint().getZ();
-            this.pos2 = new Location(selWorld, pos2x, pos2y, pos2z);
-
-        } catch (IncompleteRegionException e) {
-            Util.sendMsg(sender, ChatColor.YELLOW + "You have not selected a full region, please make sure you have selected two points!");
-            return;
-        } catch (NullPointerException e) {
-            Util.sendMsg(sender, ChatColor.RED + "You have not selected a region, please select one first!");
+        if (selection != null) {
+            World world = selection.getWorld();
+            pos1 = selection.getMinimumPoint();
+            pos2 = selection.getMaximumPoint();
+        } else {
+            Util.sendMsg(p, ChatColor.RED + "You have not selected a region, please select one first!");
             return;
         }
         String arenaName = getValue(args, 0, "Arena");

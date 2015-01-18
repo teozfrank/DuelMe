@@ -52,6 +52,7 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
         DuelAdminCmd addDeath = new AddDeathCmd(plugin, "duelme.admin.adddeath");
         DuelAdminCmd setSpawnPoint1 = new SetSpawnPoint1Cmd(plugin, "duelme.admin.setspawnpoint1");
         DuelAdminCmd setSpawnPoint2 = new SetSpawnPoint2Cmd(plugin, "duelme.admin.setspawnpoint2");
+        DuelAdminCmd restore = new RestoreCmd(plugin, "duelme.admin.restore");
 
         addCmd("create", create, new String[] {
             "c,new"
@@ -83,6 +84,8 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
                 "ss2"
         });
 
+        addCmd("restore", restore);
+
         create.needsObject = false;
         remove.needsObject = true;
         list.needsObject = false;
@@ -91,6 +94,7 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
         addDeath.needsObject = false;
         setSpawnPoint1.needsObject = true;
         setSpawnPoint2.needsObject = true;
+        restore.needsObject = false;
     }
 
     @Override

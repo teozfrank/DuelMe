@@ -90,6 +90,7 @@ public class DuelMe extends JavaPlugin {
         this.setupDependencies();
         this.setupEconomy();
         this.duelManager = new DuelManager(this);
+        this.registerEvents();
         new PlayerEvents(this);
         new SignEdit(this);
         this.itemManager = new ItemManager(this);
@@ -100,6 +101,17 @@ public class DuelMe extends JavaPlugin {
         this.checkErrors();
     }
 
+    /**
+     * register the event classes
+     */
+    private void registerEvents() {
+        new EntityDamage(this);
+        new EntityDamageByEntity(this);
+        new PlayerEvents(this);
+        new PlayerKick(this);
+        new SignEdit(this);
+    }
+
     @Override
     public void onDisable() {
         SendConsoleMessage.info("Disabling.");
@@ -107,6 +119,9 @@ public class DuelMe extends JavaPlugin {
         this.getFileManager().saveDuelArenas();
     }
 
+    /**
+     * end all the currently running duels
+     */
     private void endAllRunningDuels() {
         DuelManager dm = this.getDuelManager();
         if (dm.getDuelArenas().size() == 0) {//if there are no duel arenas

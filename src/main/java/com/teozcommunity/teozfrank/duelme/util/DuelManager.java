@@ -60,11 +60,6 @@ public class DuelManager {
     public List<UUID> frozenPlayerUUIDs;
 
     /**
-     * list to hold the dead players
-     */
-    public List<UUID> deadPlayerUUIDs;
-
-    /**
      * list to hold arena objects
      */
     public List<DuelArena> duelArenas;
@@ -77,7 +72,6 @@ public class DuelManager {
         this.spectatingPlayerUUIDs = new ArrayList<UUID>();
         this.frozenPlayerUUIDs = new ArrayList<UUID>();
         this.duelArenas = new ArrayList<DuelArena>();
-        this.deadPlayerUUIDs = new ArrayList<UUID>();
         this.playerData = new HashMap<UUID, PlayerData>();
         this.betRequests = new HashMap<UUID, Double>();
     }
@@ -519,41 +513,6 @@ public class DuelManager {
     }
 
     /**
-     * add a dead player
-     *
-     * @param playerUUID the players name
-     */
-    public void addDeadPlayer(UUID playerUUID) {
-        this.deadPlayerUUIDs.add(playerUUID);
-    }
-
-    public List<UUID> getDeadPlayers() {
-        return this.deadPlayerUUIDs;
-    }
-
-    /**
-     * remove a dead player
-     *
-     * @param playerUUID the players unique ID
-     */
-    public void removedDeadPlayer(UUID playerUUID) {
-        this.deadPlayerUUIDs.remove(playerUUID);
-    }
-
-    /**
-     * check to see if a player is dead (after being killed in a duel)
-     *
-     * @param playerUUID the players unique ID
-     * @return true if they are a dead player, false if not
-     */
-    public boolean isDeadPlayer(UUID playerUUID) {
-        if (this.getDeadPlayers().contains(playerUUID)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * get a players data by UUID
      *
      * @param playerUUIDIn the players UUID
@@ -595,11 +554,11 @@ public class DuelManager {
     }
 
     /**
-     * Method to restore a players data
-     *
+     * attempt restore a players data with a player object
      * @param player the player to restore the data to
+     * @return true if successful, false if not
      */
-    public void restorePlayerData(Player player) {
+    public boolean restorePlayerData(Player player) {
         UUID playerUUID = player.getUniqueId();
         PlayerData playerData = this.getPlayerDataByUUID(playerUUID);
 
@@ -617,12 +576,9 @@ public class DuelManager {
             if(plugin.isDebugEnabled()) {
                 SendConsoleMessage.info("Player location for player: " + player.getName() + ":" + loc);
             }
-            if (!this.isDeadPlayer(playerUUID)) {
-                if(plugin.isDebugEnabled()) {
-                    SendConsoleMessage.debug("player is not dead, teleporting.");
-                }
-                player.teleport(loc);
-            }
+
+            player.teleport(loc);
+
 
             if (plugin.isUsingSeperatedInventories()) {
                 player.getInventory().setContents(inv);
@@ -634,8 +590,10 @@ public class DuelManager {
             player.setHealth(health);
             Util.sendMsg(player, ChatColor.GREEN + "Your player data has been restored!");
             this.removePlayerDataByUUID(playerUUID);
+            return true;
         } catch (Exception e) {
             Util.sendMsg(player, ChatColor.RED + "There was an error restoring your player data!");
+            return false;
         }
 
 
@@ -650,7 +608,7 @@ public class DuelManager {
      */
     public void endDuel(Player player) {
         if(plugin.isDebugEnabled()) {
-            SendConsoleMessage.debug("End duel.");
+            SendConsoleMessage.debug("End duel by player.");
         }
         ItemManager im = plugin.getItemManager();
         String playerName = player.getName();
@@ -659,12 +617,7 @@ public class DuelManager {
         DuelArena arena = this.getPlayersArenaByUUID(playerUUID);
         arena.removePlayer(playerUUID);
 
-        if(player.isDead()) {
-            this.addDeadPlayer(playerUUID);
-        } else {
-            this.restorePlayerData(player);
-        }
-
+        this.restorePlayerData(player);
 
         if (arena.getPlayers().size() == 1) {
             im.rewardPlayer(arena);
@@ -750,10 +703,13 @@ public class DuelManager {
      */
     public void updateDuelStatusSign(DuelArena arena) {
         FileManager fm = plugin.getFileManager();
-        Location location = fm.getArenaStatusSignLocation(arena.getName());
-        Block block = location.getBlock();
+        Location location = null;
+        Block block = null;
 
-        if(location == null) {
+        try {
+            location = fm.getArenaStatusSignLocation(arena.getName());
+            block = location.getBlock();
+        } catch (NullPointerException e) {
             return;
         }
 

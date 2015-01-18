@@ -113,33 +113,6 @@ public class PlayerEvents implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
-    public void onPlayerDamageByFall(EntityDamageEvent e) {
-        Entity entity = e.getEntity();
-
-        if(!(entity instanceof Player)) {
-            return;
-        }
-
-        if(e.getCause() != EntityDamageEvent.DamageCause.FALL) {
-            return;
-        }
-
-        DuelManager dm = plugin.getDuelManager();
-        Player player = (Player) entity;
-        String playerName = player.getName();
-        UUID playerUUID = player.getUniqueId();
-
-        if(dm.isInDuel(playerUUID)) {//if the player is in a duel
-            DuelArena playersArena = dm.getPlayersArenaByUUID(playerUUID);
-            if(playersArena.getDuelState() == DuelState.STARTING) {//if the duel state is starting
-                e.setCancelled(true); //cancel the event
-            }
-        }
-
-
-    }
-
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerTeleport(PlayerTeleportEvent e) {
         Player player = e.getPlayer();
@@ -156,7 +129,7 @@ public class PlayerEvents implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
+    /*@EventHandler(priority = EventPriority.HIGH)
     public void onPlayerDeath(PlayerDeathEvent e) {
        Player player = e.getEntity();
        String playerName = player.getName();
@@ -204,10 +177,10 @@ public class PlayerEvents implements Listener {
 
        }
 
-    }
+    }*/
 
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    /*@EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerRespawn(PlayerRespawnEvent e) {
         Player player = e.getPlayer();
         String playerName = player.getName();
@@ -224,7 +197,7 @@ public class PlayerEvents implements Listener {
             dm.restorePlayerData(player);
             dm.removedDeadPlayer(playerUUID);
         }
-    }
+    }*/
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerQuit(PlayerQuitEvent e) {

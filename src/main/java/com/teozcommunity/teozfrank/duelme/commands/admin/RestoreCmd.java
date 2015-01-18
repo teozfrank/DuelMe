@@ -30,9 +30,16 @@ public class RestoreCmd extends DuelAdminCmd {
 
         String playerName = getValue(args, 0, "");
 
-        Player player = Bukkit.getPlayer(playerName);
+        Player player = Bukkit.getPlayerExact(playerName);
         if(player != null) {
-            dm.restorePlayerData(player);
+            boolean success = dm.restorePlayerData(player);
+            if(success) {
+                Util.sendMsg(sender, ChatColor.GREEN + "Player data for " + playerName + " was successfully restored!");
+            } else {
+                Util.sendMsg(sender, ChatColor.RED + "There was an error trying to restore player data for player " + playerName);
+            }
+        } else {
+            Util.sendMsg(sender, ChatColor.RED + "The player " + playerName + " is not online! did you type it correctly?");
         }
     }
 }

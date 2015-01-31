@@ -24,6 +24,7 @@ package com.teozcommunity.teozfrank.duelme.util;
         THE SOFTWARE.
 */
 
+import com.google.common.collect.Lists;
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import com.teozcommunity.teozfrank.duelme.threads.StartDuelThread;
 import org.bukkit.*;
@@ -34,10 +35,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class Util {
 
@@ -51,8 +49,8 @@ public class Util {
      */
     Random rand;
 
-    public static String UNKNOWN_CMD = ChatColor.RED+"Unknown Command!";
-    public static String NO_PERMS = ChatColor.RED+"You do not have permission!";
+    public static String UNKNOWN_CMD = ChatColor.RED + "Unknown Command!";
+    public static String NO_PERMS = ChatColor.RED + "You do not have permission!";
     public static String NO_ARENAS = ChatColor.RED + "There are no arenas to start the duel! Please notify a member of staff!";
     public static final String LINE_BREAK = ChatColor.LIGHT_PURPLE + "-----------------------------------------------------";
 
@@ -68,9 +66,17 @@ public class Util {
     * @param message message to send to all players
     */
     public static void broadcastMessage(String message) {
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            Util.sendMsg(p, message);
+        for (Player p : Util.getOnlinePlayers()) {
+            Util.sendEmptyMsg(p, message);
         }
+    }
+
+    public static List<Player> getOnlinePlayers() {
+        List<Player> list = Lists.newArrayList();
+        for (World world : Bukkit.getWorlds()) {
+            list.addAll(world.getPlayers());
+        }
+        return Collections.unmodifiableList(list);
     }
 
     /**

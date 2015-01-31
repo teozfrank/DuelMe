@@ -55,7 +55,7 @@ public class EntityDamageByEntity implements Listener {
             return;
         }
 
-        if (e.getCause() != EntityDamageEvent.DamageCause.FALL) {
+        if (e.getCause() == EntityDamageEvent.DamageCause.FALL) {
             return;
         }
 
@@ -68,11 +68,22 @@ public class EntityDamageByEntity implements Listener {
 
         if (dm.isInDuel(playerUUID)) {// if the player is in a duel
             DuelArena playersArena = dm.getPlayersArenaByUUID(playerUUID);
+
+            if(plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug("Player Health: " + player.getHealth());
+                SendConsoleMessage.debug("Damage to player: " + e.getDamage());
+                SendConsoleMessage.debug("Health - damage: " + (player.getHealth() - e.getDamage()));
+            }
+
             if (playersArena.getDuelState() == DuelState.STARTING) {//if the duel state is starting
                 e.setCancelled(true); //cancel the event
                 return;
             } else if (playersArena.getDuelState() == DuelState.STARTED
                     && (player.getHealth() - e.getDamage()) < 1) {
+
+                if(plugin.isDebugEnabled()) {
+                    SendConsoleMessage.debug("player killed!");
+                }
 
                 if (fm.isMySqlEnabled()) {
                     mySql.addPlayerKillDeath(playerUUID, playerName, FieldName.DEATH);
@@ -88,9 +99,9 @@ public class EntityDamageByEntity implements Listener {
                     Util.broadcastMessage(fm.getPrefix() + ChatColor.AQUA + player.getName() + ChatColor.RED + " was killed in a duel by "
                             + ChatColor.AQUA + killer.getName());
                 }
+                dm.endDuel(player);
+                e.setCancelled(true);
             }
-            dm.endDuel(player);
-            e.setCancelled(true);
         }
     }
 }

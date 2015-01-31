@@ -26,6 +26,7 @@ package com.teozcommunity.teozfrank.duelme.util;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import com.teozcommunity.teozfrank.duelme.threads.StartDuelThread;
+import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -546,6 +547,10 @@ public class DuelManager {
         double health = player.getHealth();
         if(plugin.isDebugEnabled()) {
             SendConsoleMessage.info("Player location for player: " + player.getName() + ":" + loc);
+        }
+        if(player.getGameMode() != GameMode.SURVIVAL) {
+            Util.sendMsg(player, ChatColor.GREEN + "Your Gamemode has been changed to survival for the duel!");
+            player.setGameMode(GameMode.SURVIVAL);
         }
         this.addPlayerData(playerUUID, new PlayerData(arm, inv, loc, saturation, foodLevel, expLevel, health));
 

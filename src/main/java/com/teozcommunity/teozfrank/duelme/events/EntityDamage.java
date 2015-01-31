@@ -67,6 +67,11 @@ public class EntityDamage implements Listener {
         UUID playerUUID = player.getUniqueId();
 
         if (dm.isInDuel(playerUUID)) {// if the player is in a duel
+            if(plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug("Player Health: " + player.getHealth());
+                SendConsoleMessage.debug("Damage to player: " + e.getDamage());
+                SendConsoleMessage.debug("Health - damage: " + (player.getHealth() - e.getDamage()));
+            }
             DuelArena playersArena = dm.getPlayersArenaByUUID(playerUUID);
             if (playersArena.getDuelState() == DuelState.STARTING) {//if the duel state is starting
                 e.setCancelled(true); //cancel the event
@@ -74,13 +79,16 @@ public class EntityDamage implements Listener {
             } else if (playersArena.getDuelState() == DuelState.STARTED
                     && (player.getHealth() - e.getDamage()) < 1) {
 
+                if(plugin.isDebugEnabled()) {
+                    SendConsoleMessage.debug("player killed!");
+                }
                 if (fm.isMySqlEnabled()) {
                     mySql.addPlayerKillDeath(playerUUID, playerName, FieldName.DEATH);
                 }
                 Util.broadcastMessage(fm.getPrefix() + ChatColor.AQUA + player.getName() + ChatColor.RED + " was killed in a duel!");
+                dm.endDuel(player);
+                e.setCancelled(true);
             }
-            dm.endDuel(player);
-            e.setCancelled(true);
         }
     }
 }

@@ -77,14 +77,13 @@ public class StartDuelThread extends BukkitRunnable {
             this.countDown--;
         } else {
             if(duelSize == 2) {
-               Util.setTime(sender, target, this.countDown);
-               Util.sendMsg(sender, target, ChatColor.YELLOW + "Duel!");
+                Util.setTime(sender, target, this.countDown);
+                Util.sendMsg(sender, target, ChatColor.YELLOW + "Duel!");
+                duelArena.setDuelState(DuelState.STARTED);
             }
 
             dm.removeFrozenPlayer(senderUUID);
             dm.removeFrozenPlayer(targetUUID);
-
-            duelArena.setDuelState(DuelState.STARTED);
             dm.updateDuelStatusSign(duelArena);
 
             if (plugin.isDebugEnabled()) {

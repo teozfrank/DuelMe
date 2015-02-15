@@ -3,12 +3,12 @@ configversion: 1.4
 duelme:
     checkforupdates: true
     mysql:
-       enabled: false
+       enabled: true
        host: 'localhost'
        port: '3306'
        database: 'duelmestats'
-       user: 'user'
-       pass: 'pass'
+       user: 'root'
+       pass: ''
     duel:
        countdowntime: 30
        dueltime: 120

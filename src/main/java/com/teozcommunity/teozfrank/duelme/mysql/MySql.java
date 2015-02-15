@@ -181,18 +181,18 @@ public class MySql {
                 statement2.executeUpdate(sql);
                 statement2.close();
 
-                if(playerName != playerNameSQL) { //if the players name differs from the name returned from the database
-                    String sql2 = "UPDATE STATS SET " + fieldName + " ='" + playerName + "' WHERE PLAYER='" + playerNameSQL + "'";
+                if(!playerName.equals(playerNameSQL)) { //if the players name differs from the name returned from the database
+                    String sql2 = "UPDATE STATS SET PLAYER ='" + playerName + "' WHERE UUID='" + playerUUID + "'";
                     Statement statement3 = this.getConnection().createStatement();
                     statement3.executeUpdate(sql2);//update the database with the new players name.
                     statement3.close();
                 }
-
+                connection.close();
             } else {
                 SendConsoleMessage.severe("Duplicate player names please check database!");
             }
         } catch (SQLException e) {
-            SendConsoleMessage.severe("SQL Error!" + e);
+            SendConsoleMessage.severe("SQL Error adding existing player kill/death !" + e);
         }
 
     }

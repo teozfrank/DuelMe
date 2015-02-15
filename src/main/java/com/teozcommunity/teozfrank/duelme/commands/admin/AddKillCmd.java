@@ -29,6 +29,7 @@ import com.teozcommunity.teozfrank.duelme.mysql.FieldName;
 import com.teozcommunity.teozfrank.duelme.mysql.MySql;
 import com.teozcommunity.teozfrank.duelme.util.DuelArena;
 import com.teozcommunity.teozfrank.duelme.util.FileManager;
+import com.teozcommunity.teozfrank.duelme.util.SendConsoleMessage;
 import com.teozcommunity.teozfrank.duelme.util.Util;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -57,7 +58,8 @@ public class AddKillCmd extends DuelAdminCmd {
                 return;
             }
             String playerNameIn = args[0];
-            Player player = plugin.getServer().getPlayer(playerNameIn);
+            SendConsoleMessage.debug(playerNameIn);
+            Player player = plugin.getServer().getPlayerExact(playerNameIn);
             UUID playerUUID = player.getUniqueId();
 
             if(player != null) {

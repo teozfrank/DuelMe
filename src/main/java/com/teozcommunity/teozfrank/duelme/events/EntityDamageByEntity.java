@@ -47,7 +47,7 @@ public class EntityDamageByEntity implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerDamage(EntityDamageByEntityEvent e) {
         Entity entity = e.getEntity();
 

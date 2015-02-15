@@ -1,38 +1,35 @@
 package com.teozcommunity.teozfrank.duelme.util;
 
 /**
-        The MIT License (MIT)
+ The MIT License (MIT)
 
-        Copyright (c) 2014 teozfrank
+ Copyright (c) 2014 teozfrank
 
-        Permission is hereby granted, free of charge, to any person obtaining a copy
-        of this software and associated documentation files (the "Software"), to deal
-        in the Software without restriction, including without limitation the rights
-        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-        copies of the Software, and to permit persons to whom the Software is
-        furnished to do so, subject to the following conditions:
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
 
-        The above copyright notice and this permission notice shall be included in
-        all copies or substantial portions of the Software.
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
 
-        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-        THE SOFTWARE.
-*/
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ */
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import com.teozcommunity.teozfrank.duelme.threads.StartDuelThread;
-import net.milkbowl.vault.chat.Chat;
-import net.milkbowl.vault.economy.Economy;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -183,7 +180,7 @@ public class DuelManager {
      * @param playerUUID the players name
      */
     public void addFrozenPlayer(UUID playerUUID) {
-        if(plugin.isDebugEnabled()) {
+        if (plugin.isDebugEnabled()) {
             SendConsoleMessage.debug("frozen player added: " + playerUUID);
         }
         this.frozenPlayerUUIDs.add(playerUUID);
@@ -196,7 +193,7 @@ public class DuelManager {
      * @param targetUUID the duel target
      */
     public void addFrozenPlayer(UUID senderUUID, UUID targetUUID) {
-        if(plugin.isDebugEnabled()) {
+        if (plugin.isDebugEnabled()) {
             SendConsoleMessage.debug("frozen sender added: " + senderUUID);
             SendConsoleMessage.debug("frozen target added: " + targetUUID);
         }
@@ -269,11 +266,9 @@ public class DuelManager {
             }
 
             String duelTargetName = duelTarget.getName();
-            if (!plugin.isDebugEnabled()) {//to test plugin with one player
-                if (duelSenderName == duelTargetName) {
-                    Util.sendMsg(duelSender, ChatColor.RED + "You cannot duel yourself!");
-                    return;
-                }
+            if (duelSenderName == duelTargetName) {
+                Util.sendMsg(duelSender, ChatColor.RED + "You cannot duel yourself!");
+                return;
             }
 
             Util.sendMsg(duelSender, ChatColor.GREEN + "You have sent a duel request to " + ChatColor.AQUA + duelTargetName + ".");
@@ -314,13 +309,10 @@ public class DuelManager {
             }
 
             String duelTargetName = duelTarget.getName();
-            if (!plugin.isDebugEnabled()) {//to test plugin with one player
-                if (duelSenderName == duelTargetName) {
-                    Util.sendMsg(duelSender, ChatColor.RED + "You cannot duel yourself!");
-                    return;
-                }
+            if (duelSenderName == duelTargetName) {
+                Util.sendMsg(duelSender, ChatColor.RED + "You cannot duel yourself!");
+                return;
             }
-
             if (fm.getMinBetAmount() >= amount) {
                 Util.sendMsg(duelSender, "You must provide a bet amount that is greater than " + fm.getMinBetAmount());
                 return;
@@ -441,6 +433,10 @@ public class DuelManager {
                     }
                     accepter.teleport(a.getSpawnpoint1());//teleport the players to set spawn location in the duel arena
                     sender.teleport(a.getSpawnpoint2());
+                    if(plugin.isDebugEnabled()) {
+                        SendConsoleMessage.debug("Spawnpoint 1: " +  a.getSpawnpoint1());
+                        SendConsoleMessage.debug("Spawnpoint 2: " +  a.getSpawnpoint2());
+                    }
                 } else {
                     if (plugin.isDebugEnabled()) {
                         SendConsoleMessage.debug("Spawnpoints for arena not set falling back to random spawn locations.");
@@ -545,10 +541,10 @@ public class DuelManager {
         int foodLevel = player.getFoodLevel();
         int expLevel = player.getLevel();
         double health = player.getHealth();
-        if(plugin.isDebugEnabled()) {
+        if (plugin.isDebugEnabled()) {
             SendConsoleMessage.info("Player location for player: " + player.getName() + ":" + loc);
         }
-        if(player.getGameMode() != GameMode.SURVIVAL) {
+        if (player.getGameMode() != GameMode.SURVIVAL) {
             Util.sendMsg(player, ChatColor.GREEN + "Your Gamemode has been changed to survival for the duel!");
             player.setGameMode(GameMode.SURVIVAL);
         }
@@ -560,6 +556,7 @@ public class DuelManager {
 
     /**
      * attempt restore a players data with a player object
+     *
      * @param player the player to restore the data to
      * @return true if successful, false if not
      */
@@ -578,7 +575,7 @@ public class DuelManager {
             int expLevel = playerData.getEXPLevel();
             double health = playerData.getHealth();
 
-            if(plugin.isDebugEnabled()) {
+            if (plugin.isDebugEnabled()) {
                 SendConsoleMessage.info("Player location for player: " + player.getName() + ":" + loc);
             }
 
@@ -612,11 +609,10 @@ public class DuelManager {
      * @param player the player
      */
     public void endDuel(Player player) {
-        if(plugin.isDebugEnabled()) {
+        if (plugin.isDebugEnabled()) {
             SendConsoleMessage.debug("End duel by player.");
         }
         ItemManager im = plugin.getItemManager();
-        String playerName = player.getName();
         UUID playerUUID = player.getUniqueId();
 
         DuelArena arena = this.getPlayersArenaByUUID(playerUUID);
@@ -639,12 +635,10 @@ public class DuelManager {
      * @param arena the arena to be ended
      */
     public void endDuel(DuelArena arena) {
-        if(plugin.isDebugEnabled()) {
+        if (plugin.isDebugEnabled()) {
             SendConsoleMessage.debug("End duel by duel arena.");
         }
         ItemManager im = plugin.getItemManager();
-        DuelManager dm = plugin.getDuelManager();
-        FileManager fm = plugin.getFileManager();
 
         if (arena.getPlayers().size() == 1) {
             im.rewardPlayer(arena);
@@ -660,7 +654,7 @@ public class DuelManager {
                 String playerName = playerOut.getName();
                 this.restorePlayerData(playerOut);
                 Util.sendMsg(playerOut, ChatColor.RED + "Duel was forcefully cancelled!");
-                if(arena.hasBet()) {
+                if (arena.hasBet()) {
                     double betAmount = arena.getBetAmount();
                     double refundAmount = betAmount / 2;
                     plugin.getEconomy().depositPlayer(playerName, refundAmount);
@@ -692,7 +686,7 @@ public class DuelManager {
      * @param arena the duel arena
      */
     public void resetArena(DuelArena arena) {
-        if(plugin.isDebugEnabled()) {
+        if (plugin.isDebugEnabled()) {
             SendConsoleMessage.debug("resetting arena.");
         }
         arena.setHasBet(false);
@@ -708,8 +702,8 @@ public class DuelManager {
      */
     public void updateDuelStatusSign(DuelArena arena) {
         FileManager fm = plugin.getFileManager();
-        Location location = null;
-        Block block = null;
+        Location location;
+        Block block;
 
         try {
             location = fm.getArenaStatusSignLocation(arena.getName());
@@ -718,7 +712,7 @@ public class DuelManager {
             return;
         }
 
-        if(!(block.getType() == Material.WALL_SIGN) || !(block.getType() == Material.SIGN_POST)) {
+        if (!(block.getType() == Material.WALL_SIGN) || !(block.getType() == Material.SIGN_POST)) {
             return;
         }
 

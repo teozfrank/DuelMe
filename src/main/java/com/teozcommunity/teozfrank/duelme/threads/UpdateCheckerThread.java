@@ -28,7 +28,7 @@ import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import com.teozcommunity.teozfrank.duelme.util.UpdateChecker;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class UpdateCheckerThread extends BukkitRunnable {
+public class UpdateCheckerThread implements Runnable {
 
     private DuelMe plugin;
 

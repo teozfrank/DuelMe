@@ -91,8 +91,9 @@ public class EntityDamageByEntity implements Listener {
 
                 Player killer = (Player) e.getDamager();
                 String killerName = killer.getName();
+                UUID killerUUID = killer.getUniqueId();
                 if (fm.isMySqlEnabled()) {
-                    mySql.addPlayerKillDeath(playerUUID, killerName, FieldName.KILL);
+                    mySql.addPlayerKillDeath(killerUUID, killerName, FieldName.KILL);
                 }
 
                 if(fm.isDeathMessagesEnabled()) {

@@ -55,10 +55,6 @@ public class EntityDamage implements Listener {
             return;
         }
 
-        if (e.getCause() != EntityDamageEvent.DamageCause.FALL) {
-            return;
-        }
-
         DuelManager dm = plugin.getDuelManager();
         FileManager fm = plugin.getFileManager();
         MySql mySql = plugin.getMySql();

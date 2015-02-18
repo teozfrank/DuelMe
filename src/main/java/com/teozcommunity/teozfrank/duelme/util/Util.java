@@ -67,7 +67,7 @@ public class Util {
     */
     public static void broadcastMessage(String message) {
         for (Player p : Util.getOnlinePlayers()) {
-            Util.sendEmptyMsg(p, message);
+            Util.sendEmptyMsg(p,DuelMe.getPrefix() + " " +  message);
         }
     }
 

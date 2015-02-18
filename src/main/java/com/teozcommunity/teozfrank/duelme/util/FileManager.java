@@ -47,13 +47,10 @@ public class FileManager {
     public FileManager(DuelMe plugin) {
         this.plugin = plugin;
     }
-
-
-    private FileConfiguration locations = null;
+    
     private FileConfiguration messages = null;
     private FileConfiguration duelArenas = null;
     private FileConfiguration signs;
-    private File locationsFile = null;
     private File messagesFile = null;
     private File duelArenasFile = null;
     private File signsFile = null;

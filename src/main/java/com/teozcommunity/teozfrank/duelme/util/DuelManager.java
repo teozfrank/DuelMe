@@ -26,6 +26,7 @@ package com.teozcommunity.teozfrank.duelme.util;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import com.teozcommunity.teozfrank.duelme.threads.StartDuelThread;
+import net.milkbowl.vault.chat.Chat;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -314,7 +315,7 @@ public class DuelManager {
                 return;
             }
             if (fm.getMinBetAmount() >= amount) {
-                Util.sendMsg(duelSender, "You must provide a bet amount that is greater than " + fm.getMinBetAmount());
+                Util.sendMsg(duelSender, "You must provide a bet amount that is greater than " + minBetAmount);
                 return;
             }
 
@@ -358,17 +359,22 @@ public class DuelManager {
         if (this.duelRequests.containsKey(senderUUID) && this.duelRequests.containsValue(accepterUUID)) {
             this.duelRequests.remove(senderUUID);
             if (this.hasSentDuelWithBet(senderUUID)) {
-                double betAmount = this.betRequests.get(senderUUID);
-                this.startDuel(accepter, sender, betAmount);
                 this.betRequests.remove(senderUUID);
+                double betAmount = this.betRequests.get(senderUUID);
+                if (!this.hasEnoughMoney(accepter.getName(), betAmount)) {
+                    Util.sendMsg(sender, "You do not have enough money to start this duel!, Duel cancelled!");
+                    Util.sendMsg(sender, ChatColor.RED + "Your duel partner does not have enough money to start this duel, Duel cancelled!");
+                    return;
+                }
+                this.startDuel(accepter, sender, betAmount);
             } else {
                 this.startDuel(accepter, sender, 0);
             }
 
             return;
-        } else {
-            Util.sendMsg(accepter, ChatColor.RED +
-                    "You do not have any duel requests from " + ChatColor.AQUA + senderIn + ".");
+            } else {
+                Util.sendMsg(accepter, ChatColor.RED +
+                        "You do not have any duel requests from " + ChatColor.AQUA + senderIn + ".");
         }
 
     }

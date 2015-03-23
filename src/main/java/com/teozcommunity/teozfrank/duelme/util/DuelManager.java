@@ -422,10 +422,8 @@ public class DuelManager {
                 a.addPlayerUUID(accepterUUID);//add the players to the arena
                 a.addPlayerUUID(senderUUID);
 
-
                 this.storePlayerData(accepter);
                 this.storePlayerData(sender);
-
 
                 if (a.getSpawnpoint1() != null && a.getSpawnpoint2() != null) {
                     if (plugin.isDebugEnabled()) {
@@ -533,6 +531,7 @@ public class DuelManager {
      * @param player the player to store data of
      */
     public void storePlayerData(Player player) {
+        FileManager fm = plugin.getFileManager();
         UUID playerUUID = player.getUniqueId();
         ItemStack[] arm = player.getInventory().getArmorContents();
         ItemStack[] inv = player.getInventory().getContents();
@@ -550,8 +549,10 @@ public class DuelManager {
         }
         this.addPlayerData(playerUUID, new PlayerData(arm, inv, loc, saturation, foodLevel, expLevel, health));
 
-        player.getInventory().clear(-1, -1);
-        Util.sendMsg(player, ChatColor.GREEN + "Your player data has been stored and will be restored after the Duel.");
+        if(fm.isUsingSeperateInventories()) {
+            player.getInventory().clear(-1, -1);
+        }
+        Util.sendMsg(player, ChatColor.GREEN + "Your player data has been stored.");
     }
 
     /**
@@ -617,14 +618,11 @@ public class DuelManager {
 
         DuelArena arena = this.getPlayersArenaByUUID(playerUUID);
         arena.removePlayer(playerUUID);
-
         this.restorePlayerData(player);
 
         if (arena.getPlayers().size() == 1) {
             im.rewardPlayer(arena);
         }
-
-
     }
 
     /**

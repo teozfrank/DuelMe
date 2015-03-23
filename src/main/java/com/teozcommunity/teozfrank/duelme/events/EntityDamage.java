@@ -81,7 +81,7 @@ public class EntityDamage implements Listener {
                 if (fm.isMySqlEnabled()) {
                     mySql.addPlayerKillDeath(playerUUID, playerName, FieldName.DEATH);
                 }
-                Util.broadcastMessage(fm.getPrefix() + ChatColor.AQUA + player.getName() + ChatColor.RED + " was killed in a duel!");
+                Util.broadcastMessage(ChatColor.AQUA + player.getName() + ChatColor.RED + " was killed in a duel!");
                 dm.endDuel(player);
                 e.setCancelled(true);
             }

@@ -359,8 +359,8 @@ public class DuelManager {
         if (this.duelRequests.containsKey(senderUUID) && this.duelRequests.containsValue(accepterUUID)) {
             this.duelRequests.remove(senderUUID);
             if (this.hasSentDuelWithBet(senderUUID)) {
-                this.betRequests.remove(senderUUID);
                 double betAmount = this.betRequests.get(senderUUID);
+                this.betRequests.remove(senderUUID);
                 if (!this.hasEnoughMoney(accepter.getName(), betAmount)) {
                     Util.sendMsg(sender, "You do not have enough money to start this duel!, Duel cancelled!");
                     Util.sendMsg(sender, ChatColor.RED + "Your duel partner does not have enough money to start this duel, Duel cancelled!");

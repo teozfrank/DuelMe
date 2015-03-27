@@ -32,6 +32,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 
 import java.util.*;
 
@@ -435,6 +436,8 @@ public class DuelManager {
                     if (plugin.isDebugEnabled()) {
                         SendConsoleMessage.debug("Spawnpoints for arena set teleporting players to locations.");
                     }
+                    removePotionEffects(accepter);//remove players active potion effects
+                    removePotionEffects(sender);
                     accepter.teleport(a.getSpawnpoint1());//teleport the players to set spawn location in the duel arena
                     sender.teleport(a.getSpawnpoint2());
                     if(plugin.isDebugEnabled()) {
@@ -628,6 +631,17 @@ public class DuelManager {
 
         if (arena.getPlayers().size() == 1) {
             im.rewardPlayer(arena);
+        }
+    }
+
+    public void removePotionEffects(Player player) {
+        int activePotions = 0;
+        for (PotionEffect p : player.getActivePotionEffects()) {
+            player.removePotionEffect(p.getType());
+            activePotions++;
+        }
+        if(activePotions > 0) {
+            Util.sendMsg(player, ChatColor.YELLOW + "Your active potion effects have been disabled.");
         }
     }
 

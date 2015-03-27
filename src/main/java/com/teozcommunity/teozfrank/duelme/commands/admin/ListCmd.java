@@ -48,7 +48,7 @@ public class ListCmd extends DuelAdminCmd {
         if(dm.getDuelArenas().size() > 0) {
             for(DuelArena da: dm.getDuelArenas()){
                 Util.sendEmptyMsg(sender, ChatColor.GREEN + "Name: " + ChatColor.AQUA + da.getName());
-                Util.sendEmptyMsg(sender, ChatColor.GREEN + "Status: " + ChatColor.AQUA + da.getDuelState());
+                Util.sendEmptyMsg(sender, ChatColor.GREEN + "Status: " + ChatColor.AQUA + da.getDuelState().toString());
                 Util.sendEmptyMsg(sender, ChatColor.GREEN + "Has Bet: " + ChatColor.AQUA + da.hasBet());
                 if(da.hasBet()) {
                     Util.sendEmptyMsg(sender, ChatColor.GREEN + "Bet Amount: " + ChatColor.AQUA + da.getBetAmount());

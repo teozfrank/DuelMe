@@ -106,7 +106,6 @@ public class DuelMe extends JavaPlugin {
      */
     private void registerEvents() {
         new EntityDamage(this);
-        new EntityDamageByEntity(this);
         new PlayerEvents(this);
         new PlayerKick(this);
         new SignEdit(this);

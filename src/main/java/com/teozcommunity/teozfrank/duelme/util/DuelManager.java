@@ -25,6 +25,7 @@ package com.teozcommunity.teozfrank.duelme.util;
  */
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
+import com.teozcommunity.teozfrank.duelme.menus.AcceptMenu;
 import com.teozcommunity.teozfrank.duelme.threads.StartDuelThread;
 import net.milkbowl.vault.chat.Chat;
 import org.bukkit.*;
@@ -275,6 +276,7 @@ public class DuelManager {
 
             Util.sendMsg(duelSender, ChatColor.GREEN + "You have sent a duel request to " + ChatColor.AQUA + duelTargetName + ".");
             Util.sendMsg(duelTarget, ChatColor.translateAlternateColorCodes('&', "&aYou have been sent a duel request from &b" + duelSenderName));
+            new AcceptMenu(plugin).openNormalDuelAccept(duelSender, duelTarget);
             Util.sendEmptyMsg(duelTarget, ChatColor.translateAlternateColorCodes('&', "&ause &b/duel accept " + duelSenderName + "&a, to accept the request."));
             this.duelRequests.put(duelSenderUUID, duelTargetUUID);
         } else {
@@ -325,10 +327,17 @@ public class DuelManager {
                 return;
             }
 
+            if (!this.hasEnoughMoney(duelTargetName, amount)) {
+                Util.sendMsg(duelSender, ChatColor.RED + "The player who you wish to duel does not have enough money to duel!!");
+                Util.sendMsg(duelTarget, ChatColor.YELLOW + "Player " + duelSenderName + " tried to send you a duel request but you do not have enough money to accept the duel.");
+                return;
+            }
+
             Util.sendMsg(duelSender, ChatColor.GREEN + "You have sent a duel request to " + ChatColor.AQUA +
                     duelTargetName + ChatColor.GREEN + " for a bet amount of " + ChatColor.GREEN + amount);
             Util.sendMsg(duelTarget, ChatColor.translateAlternateColorCodes('&', "&aYou have been sent a duel request from &b" + duelSenderName +
                     " &afor a bet amount of &b" + amount));
+            new AcceptMenu(plugin).openDuelBetAccept(duelSender, duelTarget, amount);
             Util.sendEmptyMsg(duelTarget, ChatColor.translateAlternateColorCodes('&', "&ause &b/duel accept " + duelSenderName + "&a, to accept the request."));
             this.duelRequests.put(duelSenderUUID, duelTargetUUID);
             this.betRequests.put(duelSenderUUID, amount);
@@ -342,39 +351,39 @@ public class DuelManager {
     /**
      * handles accepting the request with the specified player to accept the duel request
      *
-     * @param accepter the player that is accepting the request
+     * @param acceptor the player that is accepting the request
      * @param senderIn the string player of whom they are accepting
      */
-    public void acceptRequest(Player accepter, String senderIn) {
+    public void acceptRequest(Player acceptor, String senderIn) {
 
-        UUID accepterUUID = accepter.getUniqueId();
+        UUID acceptorUUID = acceptor.getUniqueId();
         Player sender = Bukkit.getPlayer(senderIn);
 
         if (sender == null) {
-            Util.sendMsg(accepter, ChatColor.AQUA + senderIn + ChatColor.RED + " is not online! Did you type it correctly?");
+            Util.sendMsg(acceptor, ChatColor.AQUA + senderIn + ChatColor.RED + " is not online! Did you type it correctly?");
             return;
         }
 
         UUID senderUUID = sender.getUniqueId();
 
-        if (this.duelRequests.containsKey(senderUUID) && this.duelRequests.containsValue(accepterUUID)) {
+        if (this.duelRequests.containsKey(senderUUID) && this.duelRequests.containsValue(acceptorUUID)) {
             this.duelRequests.remove(senderUUID);
             if (this.hasSentDuelWithBet(senderUUID)) {
                 double betAmount = this.betRequests.get(senderUUID);
                 this.betRequests.remove(senderUUID);
-                if (!this.hasEnoughMoney(accepter.getName(), betAmount)) {
-                    Util.sendMsg(sender, "You do not have enough money to start this duel!, Duel cancelled!");
+                if (!this.hasEnoughMoney(acceptor.getName(), betAmount)) {
+                    Util.sendMsg(acceptor, ChatColor.RED + "You do not have enough money to start this duel!, Duel cancelled!");
                     Util.sendMsg(sender, ChatColor.RED + "Your duel partner does not have enough money to start this duel, Duel cancelled!");
                     return;
                 }
-                this.startDuel(accepter, sender, betAmount);
+                this.startDuel(acceptor, sender, betAmount);
             } else {
-                this.startDuel(accepter, sender, 0);
+                this.startDuel(acceptor, sender, 0);
             }
 
             return;
             } else {
-                Util.sendMsg(accepter, ChatColor.RED +
+                Util.sendMsg(acceptor, ChatColor.RED +
                         "You do not have any duel requests from " + ChatColor.AQUA + senderIn + ".");
         }
 
@@ -383,16 +392,16 @@ public class DuelManager {
     /**
      * attempt to start the duel with the two players
      *
-     * @param accepter the player that accepted the request
+     * @param acceptor the player that accepted the request
      * @param sender   the player that sent the reqest
      */
-    public void startDuel(Player accepter, Player sender, double betAmount) {
+    public void startDuel(Player acceptor, Player sender, double betAmount) {
 
-        String accepterName = accepter.getName();//the duel accepter name
+        String acceptorName = acceptor.getName();//the duel acceptor name
         String senderName = sender.getName();//the duel request sender name
         double totalBetAmount = betAmount * 2;
 
-        UUID accepterUUID = accepter.getUniqueId();
+        UUID acceptorUUID = acceptor.getUniqueId();
         UUID senderUUID = sender.getUniqueId();
 
         List<DuelArena> arenas = this.getDuelArenas();//list of arenas
@@ -401,7 +410,7 @@ public class DuelManager {
 
         if (arenas.size() <= 0) {//if there are no arenas stop the duel
             Util.sendMsg(sender, Util.NO_ARENAS);
-            Util.sendMsg(accepter, Util.NO_ARENAS);
+            Util.sendMsg(acceptor, Util.NO_ARENAS);
             return;
         }
         for (DuelArena a : arenas) {
@@ -410,7 +419,7 @@ public class DuelManager {
                 this.updateDuelStatusSign(a);
                 if (fm.isDuelStartAnnouncementEnabled()) {
                     Util.broadcastMessage(ChatColor.GREEN + "A duel is Starting between " +
-                            ChatColor.AQUA + accepterName +
+                            ChatColor.AQUA + acceptorName +
                             ChatColor.GREEN + " and " +
                             ChatColor.AQUA + senderName);
                 }
@@ -418,27 +427,27 @@ public class DuelManager {
                 if (betAmount > 0) {
                     a.setHasBet(true);
                     plugin.getEconomy().withdrawPlayer(senderName, betAmount);
-                    plugin.getEconomy().withdrawPlayer(accepterName, betAmount);
-                    Util.sendMsg(sender, accepter,
+                    plugin.getEconomy().withdrawPlayer(acceptorName, betAmount);
+                    Util.sendMsg(sender, acceptor,
                             ChatColor.GREEN + "You have been charged a bet amount of " + ChatColor.AQUA + betAmount);
-                    Util.sendMsg(sender, accepter, "The winner of this duel will win a total bet amount of " +
+                    Util.sendMsg(sender, acceptor, "The winner of this duel will win a total bet amount of " +
                             ChatColor.AQUA + totalBetAmount);
                     a.setBetAmount(totalBetAmount);
                 }
 
-                a.addPlayerUUID(accepterUUID);//add the players to the arena
+                a.addPlayerUUID(acceptorUUID);//add the players to the arena
                 a.addPlayerUUID(senderUUID);
 
-                this.storePlayerData(accepter);
+                this.storePlayerData(acceptor);
                 this.storePlayerData(sender);
 
                 if (a.getSpawnpoint1() != null && a.getSpawnpoint2() != null) {
                     if (plugin.isDebugEnabled()) {
                         SendConsoleMessage.debug("Spawnpoints for arena set teleporting players to locations.");
                     }
-                    removePotionEffects(accepter);//remove players active potion effects
+                    removePotionEffects(acceptor);//remove players active potion effects
                     removePotionEffects(sender);
-                    accepter.teleport(a.getSpawnpoint1());//teleport the players to set spawn location in the duel arena
+                    acceptor.teleport(a.getSpawnpoint1());//teleport the players to set spawn location in the duel arena
                     sender.teleport(a.getSpawnpoint2());
                     if(plugin.isDebugEnabled()) {
                         SendConsoleMessage.debug("Spawnpoint 1: " +  a.getSpawnpoint1());
@@ -448,26 +457,26 @@ public class DuelManager {
                     if (plugin.isDebugEnabled()) {
                         SendConsoleMessage.debug("Spawnpoints for arena not set falling back to random spawn locations.");
                     }
-                    accepter.teleport(this.generateRandomLocation(a));//teleport the players to a random location in the duel arena
+                    acceptor.teleport(this.generateRandomLocation(a));//teleport the players to a random location in the duel arena
                     sender.teleport(this.generateRandomLocation(a));
                 }
 
-                frozenPlayerUUIDs.add(accepterUUID);//freeze the players
+                frozenPlayerUUIDs.add(acceptorUUID);//freeze the players
                 frozenPlayerUUIDs.add(senderUUID);
 
                 if (fm.isUsingSeperateInventories()) {
                     if (plugin.isDebugEnabled()) {
                         SendConsoleMessage.debug("Storing inventories enabled, giving duel items.");
                     }
-                    im.givePlayerDuelItems(accepter);
+                    im.givePlayerDuelItems(acceptor);
                     im.givePlayerDuelItems(sender);
                 }
 
-                new StartDuelThread(plugin, sender, accepter, a).runTaskTimer(plugin, 20L, 20L);
+                new StartDuelThread(plugin, sender, acceptor, a).runTaskTimer(plugin, 20L, 20L);
                 return;
             }
         }
-        Util.sendMsg(accepter, ChatColor.YELLOW + "There are no free duel arenas, please try again later!");
+        Util.sendMsg(acceptor, ChatColor.YELLOW + "There are no free duel arenas, please try again later!");
         Util.sendMsg(sender, ChatColor.YELLOW + "There are no free duel arenas, please try again later!");
     }
 
@@ -574,7 +583,7 @@ public class DuelManager {
         UUID playerUUID = player.getUniqueId();
         PlayerData playerData = this.getPlayerDataByUUID(playerUUID);
 
-        player.getInventory().clear(-1, -1);// clear their inventory completely
+
 
         try {
             ItemStack[] arm = playerData.getArmour();
@@ -593,6 +602,7 @@ public class DuelManager {
 
 
             if (plugin.isUsingSeperatedInventories()) {
+                player.getInventory().clear(-1, -1);// clear their inventory completely
                 player.getInventory().setContents(inv);
                 player.getInventory().setArmorContents(arm);
             }

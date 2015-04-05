@@ -33,6 +33,8 @@ import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.Wool;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
@@ -199,6 +201,38 @@ public class Util {
     public static void setTime(Player sender, Player target, int time) {
         sender.setLevel(time);
         target.setLevel(time);
+    }
+
+    /**
+     * create menu item with a certain wool color
+     * @param color the color of the wool
+     * @param name the name of the item
+     * @param lore the lore of the item
+     * @return the item stack
+     */
+    public static ItemStack createMenuItem(DyeColor color, String name,String lore){
+        ItemStack wool = new Wool(color).toItemStack(1);
+        ItemMeta woolIm = wool.getItemMeta();
+        woolIm.setDisplayName(name);
+        woolIm.setLore(Arrays.asList(lore));
+        wool.setItemMeta(woolIm);
+        return wool;
+    }
+
+    /**
+     * create menu item with a certain wool color
+     * @param color the color of the wool
+     * @param name the name of the item
+     * @param lore the lore of the item
+     * @return the item stack
+     */
+    public static ItemStack createMenuItem(DyeColor color, String name,List<String> lore){
+        ItemStack wool = new Wool(color).toItemStack(1);
+        ItemMeta woolIm = wool.getItemMeta();
+        woolIm.setDisplayName(name);
+        woolIm.setLore(lore);
+        wool.setItemMeta(woolIm);
+        return wool;
     }
 
 

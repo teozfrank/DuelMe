@@ -93,7 +93,7 @@ public class EntityDamage implements Listener {
                             Util.broadcastMessage(ChatColor.AQUA + player.getName()
                                     + ChatColor.RED + " was killed in a duel by " + ChatColor.AQUA + playerName);
                         }
-                        Util.sendMsg(player, ChatColor.translateAlternateColorCodes('&', "&eYou were defeated by &c" + killerName + " &ewith &c" + killer.getHealth() + "♥"));
+                        Util.sendMsg(player, ChatColor.translateAlternateColorCodes('&', "&eYou were defeated by &c" + killerName + " &ewith &c" + Math.round(killer.getHealth()) + "♥"));
                     } else {
                         if (fm.isDeathMessagesEnabled()) {
                             Util.broadcastMessage(ChatColor.AQUA + player.getName() + ChatColor.RED + " was killed in a duel!");

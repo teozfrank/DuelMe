@@ -119,85 +119,15 @@ public class PlayerEvents implements Listener {
         UUID playerUUID = player.getUniqueId();
         DuelManager dm = plugin.getDuelManager();
 
-        if(e.isCancelled()) {
-            if(dm.isInDuel(playerUUID)) {
-                if(plugin.isDebugEnabled()) {
+        if (e.isCancelled()) {
+            if (dm.isInDuel(playerUUID)) {
+                if (plugin.isDebugEnabled()) {
                     SendConsoleMessage.debug("player is being teleported and is in duel, uncancelling event.");
                 }
                 e.setCancelled(false);
             }
         }
     }
-
-    /*@EventHandler(priority = EventPriority.HIGH)
-    public void onPlayerDeath(PlayerDeathEvent e) {
-       Player player = e.getEntity();
-       String playerName = player.getName();
-       UUID playerUUID = player.getUniqueId();
-
-       DuelManager dm = plugin.getDuelManager();
-       FileManager fm = plugin.getFileManager();
-       MySql mySql = plugin.getMySql();
-
-       if(dm.isInDuel(playerUUID)){
-           dm.addDeadPlayer(playerUUID);
-
-           if(fm.isMySqlEnabled()) {
-               mySql.addPlayerKillDeath(playerUUID, playerName, FieldName.DEATH);
-           }
-
-           if(e.getEntity().getKiller() instanceof Player){
-               Player killer = e.getEntity().getKiller();
-               String killerName = killer.getName();
-               if(fm.isMySqlEnabled()) {
-                   mySql.addPlayerKillDeath(playerUUID, killerName, FieldName.KILL);
-               }
-
-               if(!fm.isDropItemsOnDeathEnabled()) {
-                   if(plugin.isDebugEnabled()) {
-                       SendConsoleMessage.debug("Item drops disabled, clearing.");
-                   }
-                   e.getDrops().clear();
-               }
-
-               if(!fm.isDeathMessagesEnabled()){
-                   e.setDeathMessage("");
-                   return;
-               }
-               e.setDeathMessage(fm.getPrefix() + ChatColor.AQUA + player.getName() + ChatColor.RED + " was killed in a duel by "
-                       + ChatColor.AQUA + killer.getName());
-           }  else {
-               if(!fm.isDeathMessagesEnabled()){
-                   e.setDeathMessage("");
-                   return;
-               }
-               e.setDeathMessage(fm.getPrefix() + ChatColor.AQUA + player.getName() + ChatColor.RED + " was killed in a duel!");
-           }
-           dm.endDuel(player);
-
-       }
-
-    }*/
-
-
-    /*@EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerRespawn(PlayerRespawnEvent e) {
-        Player player = e.getPlayer();
-        String playerName = player.getName();
-        UUID playerUUID = player.getUniqueId();
-        DuelManager dm = plugin.getDuelManager();
-        FileManager fm = plugin.getFileManager();
-
-        if(dm.isDeadPlayer(playerUUID)){
-            PlayerData playerData = dm.getPlayerDataByUUID(playerUUID);
-            if(plugin.isDebugEnabled()) {
-                SendConsoleMessage.debug("Player respawn location for " + playerName + ": " + playerData.getLocaton());
-            }
-            e.setRespawnLocation(playerData.getLocaton());
-            dm.restorePlayerData(player);
-            dm.removedDeadPlayer(playerUUID);
-        }
-    }*/
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerQuit(PlayerQuitEvent e) {

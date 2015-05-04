@@ -46,24 +46,29 @@ public class DuelManager {
      * the key is the duel sender
      * the value is the player who has been sent a request
      */
-    public Map<UUID, UUID> duelRequests;
+    private Map<UUID, UUID> duelRequests;
 
-    public Map<UUID, Double> betRequests;
+    private Map<UUID, Double> betRequests;
 
     /**
      * list to hold the current spectating player uuids
      */
-    public List<UUID> spectatingPlayerUUIDs;
+    private List<UUID> spectatingPlayerUUIDs;
 
     /**
      * list to hold the frozen player uuids (before a duel starts)
      */
-    public List<UUID> frozenPlayerUUIDs;
+    private List<UUID> frozenPlayerUUIDs;
+
+    /**
+     * list of dead players
+     */
+    private List<UUID> deadPlayers;
 
     /**
      * list to hold arena objects
      */
-    public List<DuelArena> duelArenas;
+    private List<DuelArena> duelArenas;
 
     private HashMap<UUID, PlayerData> playerData;
 
@@ -75,6 +80,7 @@ public class DuelManager {
         this.duelArenas = new ArrayList<DuelArena>();
         this.playerData = new HashMap<UUID, PlayerData>();
         this.betRequests = new HashMap<UUID, Double>();
+        this.deadPlayers = new ArrayList<UUID>();
     }
 
     /**
@@ -140,6 +146,36 @@ public class DuelManager {
             }
         }
         return null;
+    }
+
+    /**
+     * add a dead player to the list of dead players
+     * @param uuid the uuid of the dead player
+     */
+    public void addDeadPlayer(UUID uuid) {
+        if(!this.deadPlayers.contains(uuid)) {
+            this.deadPlayers.add(uuid);
+        }
+    }
+
+    /**
+     * is a player a dead player
+     * @param uuid the uuid of the player
+     * @return true if dead, false if not
+     */
+    public boolean isDeadPlayer(UUID uuid) {
+        if(this.deadPlayers.contains(uuid)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * remove a dead player from the list of dead players
+     * @param uuid the uuid of the dead player to remove
+     */
+    public void removeDeadPlayer(UUID uuid) {
+        this.deadPlayers.remove(uuid);
     }
 
     /**

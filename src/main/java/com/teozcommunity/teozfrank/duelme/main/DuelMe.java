@@ -105,10 +105,11 @@ public class DuelMe extends JavaPlugin {
      * register the event classes
      */
     private void registerEvents() {
-        new EntityDamage(this);
         new PlayerEvents(this);
         new PlayerKick(this);
         new SignEdit(this);
+        new PlayerDeath(this);
+        new PlayerRespawn(this);
     }
 
     @Override

@@ -10,6 +10,7 @@
     <description>duelme a plugin to allow players to pvp, in a controlled area</description>
 
     <properties>
+        <spigot.version>1.8.3-R0.1-SNAPSHOT</spigot.version>
         <bukkit.version>1.8.3-R0.1-SNAPSHOT</bukkit.version>
         <worldedit.version>6.0.0-SNAPSHOT</worldedit.version>
     </properties>
@@ -20,12 +21,12 @@
             <url>http://maven.sk89q.com/repo/</url>
         </repository>
         <repository>
-            <id>md-5-repo</id>
-            <url>http://repo.md-5.net/content/groups/public/</url>
-        </repository>
-        <repository>
             <id>vault-repo</id>
             <url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
+        </repository>
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
         </repository>
     </repositories>
 
@@ -43,6 +44,16 @@
             <version>1.4.1</version>
             <type>jar</type>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>bukkit</artifactId>
+            <version>${bukkit.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>${spigot.version}</version>
         </dependency>
     </dependencies>
 

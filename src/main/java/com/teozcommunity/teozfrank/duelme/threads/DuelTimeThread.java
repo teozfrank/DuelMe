@@ -68,7 +68,8 @@ public class DuelTimeThread extends BukkitRunnable {
         }
 
         if (this.duelTime > 0 && duelSize == 2) {
-            Util.setTime(sender, target, this.duelTime);
+            //Util.setTime(sender, target, this.duelTime);
+            Util.sendActionBarMessage(sender, target, ChatColor.GOLD + "Duel Ends in: " + ChatColor.AQUA + this.duelTime);
             this.duelTime--;
         } else {
             if(plugin.isDebugEnabled()) {

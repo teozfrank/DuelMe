@@ -26,6 +26,7 @@ package com.teozcommunity.teozfrank.duelme.threads;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import com.teozcommunity.teozfrank.duelme.util.*;
+import net.milkbowl.vault.chat.Chat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -73,7 +74,8 @@ public class StartDuelThread extends BukkitRunnable {
 
 
         if (this.countDown > 0 && duelSize == 2) {
-            Util.setTime(sender, target, this.countDown);
+            //Util.setTime(sender, target, this.countDown);
+            Util.sendActionBarMessage(sender, target, ChatColor.GOLD + "Starting duel in: " + ChatColor.AQUA + this.countDown);
             this.countDown--;
         } else {
             if(duelSize == 2) {

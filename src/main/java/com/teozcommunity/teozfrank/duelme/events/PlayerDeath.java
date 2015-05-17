@@ -36,7 +36,6 @@ public class PlayerDeath implements Listener {
         DuelManager dm = plugin.getDuelManager();
         FileManager fm = plugin.getFileManager();
         MySql mySql = plugin.getMySql();
-
         if(dm.isInDuel(playerUUID)){
             dm.addDeadPlayer(playerUUID);
 
@@ -72,7 +71,7 @@ public class PlayerDeath implements Listener {
                 e.setDeathMessage(fm.getPrefix() + ChatColor.AQUA + player.getName() + ChatColor.RED + " was killed in a duel!");
             }
             dm.endDuel(player);
-
+            player.spigot().respawn();
         }
     }
 

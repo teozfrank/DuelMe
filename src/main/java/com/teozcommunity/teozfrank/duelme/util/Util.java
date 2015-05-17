@@ -27,10 +27,13 @@ package com.teozcommunity.teozfrank.duelme.util;
 import com.google.common.collect.Lists;
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import com.teozcommunity.teozfrank.duelme.threads.StartDuelThread;
+import net.minecraft.server.v1_8_R2.IChatBaseComponent;
+import net.minecraft.server.v1_8_R2.PacketPlayOutChat;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -233,6 +236,28 @@ public class Util {
         woolIm.setLore(lore);
         wool.setItemMeta(woolIm);
         return wool;
+    }
+
+    /**
+     * send a action bar message to a player
+     * @param player the player to send the message to
+     * @param message the message to send the player
+     */
+    public static void sendActionBarMessage(Player player, String message) {
+        PacketPlayOutChat packet = new PacketPlayOutChat(IChatBaseComponent.ChatSerializer.a("{ text: \"" + message + "\" }"), (byte) 2);
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+    }
+
+    /**
+     * send a action bar message to two players
+     * @param sender the sender player
+     * @param target the target player
+     * @param message the message to send both players
+     */
+    public static void sendActionBarMessage(Player sender, Player target, String message) {
+        PacketPlayOutChat packet = new PacketPlayOutChat(IChatBaseComponent.ChatSerializer.a("{ text: \"" + message + "\" }"), (byte) 2);
+        ((CraftPlayer) sender).getHandle().playerConnection.sendPacket(packet);
+        ((CraftPlayer) target).getHandle().playerConnection.sendPacket(packet);
     }
 
 

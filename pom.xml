@@ -12,6 +12,7 @@
     <properties>
         <spigot.version>1.8.3-R0.1-SNAPSHOT</spigot.version>
         <bukkit.version>1.8.3-R0.1-SNAPSHOT</bukkit.version>
+        <craftbukkit.version>1.8.3-R0.1-SNAPSHOT</craftbukkit.version>
         <worldedit.version>6.0.0-SNAPSHOT</worldedit.version>
     </properties>
 
@@ -46,14 +47,16 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>${bukkit.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>${spigot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>craftbukkit</artifactId>
+            <version>${craftbukkit.version}</version>
+            <scope>compile</scope>
+            <type>jar</type>
         </dependency>
     </dependencies>
 

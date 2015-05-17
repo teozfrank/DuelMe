@@ -298,6 +298,11 @@ public class DuelManager {
 
             UUID duelTargetUUID = duelTarget.getUniqueId();
 
+            if(isInDuel(duelTargetUUID)) {
+                Util.sendMsg(duelSender, ChatColor.RED + "This player is already in a duel!");
+                return;
+            }
+
             if (this.duelRequests.containsKey(duelSenderUUID) && this.duelRequests.containsValue(duelTargetUUID)) {
                 Util.sendMsg(duelSender, ChatColor.YELLOW + "You have already sent a request to " +
                         ChatColor.AQUA + duelTargetIn + ".");
@@ -341,6 +346,10 @@ public class DuelManager {
 
             UUID duelTargetUUID = duelTarget.getUniqueId();
 
+            if(isInDuel(duelTargetUUID)) {
+                Util.sendMsg(duelSender, ChatColor.RED + "This player is already in a duel!");
+                return;
+            }
 
             if (this.duelRequests.containsKey(duelSenderUUID) && this.duelRequests.containsValue(duelTargetUUID)) {
                 Util.sendMsg(duelSender, ChatColor.YELLOW + "You have already sent a request to " +

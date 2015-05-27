@@ -59,7 +59,7 @@ public class AcceptMenu implements Listener {
      */
     public void openNormalDuelAccept(Player sender, Player target){
         senderName = sender.getName();
-        acceptMenu = Bukkit.getServer().createInventory(null, 9 , ChatColor.translateAlternateColorCodes('&', "&cDuel Request from " + sender.getName()));
+        acceptMenu = Bukkit.getServer().createInventory(null, 9 , ChatColor.translateAlternateColorCodes('&', "&cDuel from " + sender.getName()));
         accept = Util.createMenuItem(DyeColor.GREEN, "Accept", "Click this item to accept a duel request.");
         ignore = Util.createMenuItem(DyeColor.RED, "Ignore", "Click this item to ignore this duel request.");
 
@@ -79,7 +79,7 @@ public class AcceptMenu implements Listener {
         acceptLore.add("Click this item to accept the");
         acceptLore.add("duel request for the amount of " + amount);
         senderName = sender.getName();
-        acceptMenu = Bukkit.getServer().createInventory(null, 9 , ChatColor.translateAlternateColorCodes('&', "&cBet Request from " + sender.getName()));
+        acceptMenu = Bukkit.getServer().createInventory(null, 9 , ChatColor.translateAlternateColorCodes('&', "&cBet from " + sender.getName()));
         accept = Util.createMenuItem(DyeColor.GREEN, "Accept", acceptLore);
         ignore = Util.createMenuItem(DyeColor.RED, "Ignore", "Click this item to ignore this duel request.");
 

@@ -26,19 +26,15 @@ package com.teozcommunity.teozfrank.duelme.util;
 
 import com.google.common.collect.Lists;
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
-import com.teozcommunity.teozfrank.duelme.threads.StartDuelThread;
-import net.minecraft.server.v1_8_R2.IChatBaseComponent;
-import net.minecraft.server.v1_8_R2.PacketPlayOutChat;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import org.bukkit.*;
-import org.bukkit.block.Block;
-import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Wool;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
 

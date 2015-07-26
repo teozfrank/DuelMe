@@ -1,5 +1,6 @@
 package com.teozcommunity.teozfrank.duelme.events;
 
+import com.sun.xml.internal.ws.api.server.WSEndpoint;
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import com.teozcommunity.teozfrank.duelme.util.DuelManager;
 import com.teozcommunity.teozfrank.duelme.util.FileManager;
@@ -27,10 +28,10 @@ public class PlayerRespawn implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerRespawn(PlayerRespawnEvent e) {
-        Player player = e.getPlayer();
+        final Player player = e.getPlayer();
         String playerName = player.getName();
         UUID playerUUID = player.getUniqueId();
-        DuelManager dm = plugin.getDuelManager();
+        final DuelManager dm = plugin.getDuelManager();
         FileManager fm = plugin.getFileManager();
 
         if(dm.isDeadPlayer(playerUUID)){
@@ -39,8 +40,21 @@ public class PlayerRespawn implements Listener {
                 SendConsoleMessage.debug("Player respawn location for " + playerName + ": " + playerData.getLocaton());
             }
             e.setRespawnLocation(playerData.getLocaton());
-            dm.restorePlayerData(player);
-            dm.removeDeadPlayer(playerUUID);
+            if(plugin.isDebugEnabled()) {
+                SendConsoleMessage.info("restoring playerdata for player " + playerName);
+            }
+
+            plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable() {//give the player a second to respawn, then restore the players data.
+                @Override
+                public void run() {
+                    dm.restorePlayerData(player);
+                }
+            }, 20L);
+
+            dm.removeDeadPlayer(playerUUID);// remove the player as a "dead" player
+            if(plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug(dm.getPlayerData().toString());
+            }
         }
     }
 

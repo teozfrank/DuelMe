@@ -28,6 +28,7 @@ import com.teozcommunity.teozfrank.MetricsLite;
 import com.teozcommunity.teozfrank.duelme.commands.DuelAdminExecutor;
 import com.teozcommunity.teozfrank.duelme.commands.DuelExecutor;
 import com.teozcommunity.teozfrank.duelme.events.*;
+import com.teozcommunity.teozfrank.duelme.menus.AcceptMenu;
 import com.teozcommunity.teozfrank.duelme.mysql.MySql;
 import com.teozcommunity.teozfrank.duelme.threads.UpdateCheckerThread;
 import com.teozcommunity.teozfrank.duelme.util.*;
@@ -71,6 +72,8 @@ public class DuelMe extends JavaPlugin {
 
     private int errorCount;
 
+    private AcceptMenu acceptMenu;
+
     public static String prefix;
 
     public DuelMe() {
@@ -110,6 +113,7 @@ public class DuelMe extends JavaPlugin {
         new SignEdit(this);
         new PlayerDeath(this);
         new PlayerRespawn(this);
+        this.acceptMenu = new AcceptMenu(this);
     }
 
     @Override
@@ -297,6 +301,10 @@ public class DuelMe extends JavaPlugin {
 
     public static String getPrefix() {
         return prefix;
+    }
+
+    public AcceptMenu getAcceptMenu() {
+        return acceptMenu;
     }
 
 }

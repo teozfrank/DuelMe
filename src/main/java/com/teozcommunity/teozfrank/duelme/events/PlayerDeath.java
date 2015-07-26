@@ -29,9 +29,9 @@ public class PlayerDeath implements Listener {
 
     @EventHandler (priority = EventPriority.NORMAL)
     public void onPlayerDeath(PlayerDeathEvent e) {
-        Player player = e.getEntity();
-        String playerName = player.getName();
-        UUID playerUUID = player.getUniqueId();
+        Player loser = e.getEntity();
+        String playerName = loser.getName();
+        UUID playerUUID = loser.getUniqueId();
 
         DuelManager dm = plugin.getDuelManager();
         FileManager fm = plugin.getFileManager();
@@ -61,17 +61,17 @@ public class PlayerDeath implements Listener {
                     e.setDeathMessage("");
                     return;
                 }
-                e.setDeathMessage(fm.getPrefix() + ChatColor.AQUA + player.getName() + ChatColor.RED + " was killed in a duel by "
+                e.setDeathMessage(fm.getPrefix() + ChatColor.AQUA + loser.getName() + ChatColor.RED + " was killed in a duel by "
                         + ChatColor.AQUA + killer.getName());
             }  else {
                 if(!fm.isDeathMessagesEnabled()){
                     e.setDeathMessage("");
                     return;
                 }
-                e.setDeathMessage(fm.getPrefix() + ChatColor.AQUA + player.getName() + ChatColor.RED + " was killed in a duel!");
+                e.setDeathMessage(fm.getPrefix() + ChatColor.AQUA + loser.getName() + ChatColor.RED + " was killed in a duel!");
             }
-            dm.endDuel(player);
-            player.spigot().respawn();
+            dm.endDuel(loser);
+            loser.spigot().respawn();
         }
     }
 

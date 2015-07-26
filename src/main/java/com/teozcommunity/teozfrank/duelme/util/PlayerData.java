@@ -1,29 +1,30 @@
 package com.teozcommunity.teozfrank.duelme.util;
 
 /**
-        The MIT License (MIT)
+ * The MIT License (MIT)
+ * <p/>
+ * Copyright (c) 2014 teozfrank
+ * <p/>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p/>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p/>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
-        Copyright (c) 2014 teozfrank
-
-        Permission is hereby granted, free of charge, to any person obtaining a copy
-        of this software and associated documentation files (the "Software"), to deal
-        in the Software without restriction, including without limitation the rights
-        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-        copies of the Software, and to permit persons to whom the Software is
-        furnished to do so, subject to the following conditions:
-
-        The above copyright notice and this permission notice shall be included in
-        all copies or substantial portions of the Software.
-
-        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-        THE SOFTWARE.
-*/
-
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
@@ -39,16 +40,18 @@ public class PlayerData {
     private int foodLevel;
     private int expLevel;
     private double health;
+    private GameMode gameMode;
 
     public PlayerData(ItemStack[] armourIn, ItemStack[] inventoryIn, Location locationIn,
-                      Float saturationIn, int foodLevelIn, int expLevelIn, double healthIn) {
-     this.armour = armourIn;
-     this.inventory = inventoryIn;
-     this.locaton = locationIn;
-     this.saturation = saturationIn;
-     this.foodLevel = foodLevelIn;
-     this.expLevel = expLevelIn;
-     this.health = healthIn;
+                      Float saturationIn, int foodLevelIn, int expLevelIn, double healthIn, GameMode gameModeIn) {
+        this.armour = armourIn;
+        this.inventory = inventoryIn;
+        this.locaton = locationIn;
+        this.saturation = saturationIn;
+        this.foodLevel = foodLevelIn;
+        this.expLevel = expLevelIn;
+        this.health = healthIn;
+        this.gameMode = gameModeIn;
     }
 
     public ItemStack[] getArmour() {
@@ -105,5 +108,13 @@ public class PlayerData {
 
     public void setHealth(double health) {
         this.health = health;
+    }
+
+    public GameMode getGameMode() {
+        return gameMode;
+    }
+
+    public void setGameMode(GameMode gameMode) {
+        this.gameMode = gameMode;
     }
 }

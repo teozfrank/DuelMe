@@ -164,10 +164,17 @@ public class DuelManager {
      * @return true if dead, false if not
      */
     public boolean isDeadPlayer(UUID uuid) {
-        if(this.deadPlayers.contains(uuid)) {
+        if(getDeadPlayers().contains(uuid)) {
+            if(plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug("UUID " + uuid + " is in dead player list");
+            }
             return true;
         }
         return false;
+    }
+
+    public List<UUID> getDeadPlayers() {
+        return this.deadPlayers;
     }
 
     /**
@@ -317,7 +324,7 @@ public class DuelManager {
 
             Util.sendMsg(duelSender, ChatColor.GREEN + "You have sent a duel request to " + ChatColor.AQUA + duelTargetName + ".");
             Util.sendMsg(duelTarget, ChatColor.translateAlternateColorCodes('&', "&aYou have been sent a duel request from &b" + duelSenderName));
-            new AcceptMenu(plugin).openNormalDuelAccept(duelSender, duelTarget);
+            plugin.getAcceptMenu().openNormalDuelAccept(duelSender, duelTarget);
             Util.sendEmptyMsg(duelTarget, ChatColor.translateAlternateColorCodes('&', "&ause &b/duel accept " + duelSenderName + "&a, to accept the request."));
             this.duelRequests.put(duelSenderUUID, duelTargetUUID);
         } else {
@@ -603,6 +610,7 @@ public class DuelManager {
         int foodLevel = player.getFoodLevel();
         int expLevel = player.getLevel();
         double health = player.getHealth();
+        GameMode gameMode = player.getGameMode();
         if (plugin.isDebugEnabled()) {
             SendConsoleMessage.info("Player location for player: " + player.getName() + ":" + loc);
         }
@@ -610,12 +618,11 @@ public class DuelManager {
             Util.sendMsg(player, ChatColor.GREEN + "Your Gamemode has been changed to survival for the duel!");
             player.setGameMode(GameMode.SURVIVAL);
         }
-        this.addPlayerData(playerUUID, new PlayerData(arm, inv, loc, saturation, foodLevel, expLevel, health));
+        this.addPlayerData(playerUUID, new PlayerData(arm, inv, loc, saturation, foodLevel, expLevel, health, gameMode));
 
         if(fm.isUsingSeperateInventories()) {
             player.getInventory().clear(-1, -1);
         }
-        Util.sendMsg(player, ChatColor.GREEN + "Your player data has been stored.");
     }
 
     /**
@@ -628,8 +635,6 @@ public class DuelManager {
         UUID playerUUID = player.getUniqueId();
         PlayerData playerData = this.getPlayerDataByUUID(playerUUID);
 
-
-
         try {
             ItemStack[] arm = playerData.getArmour();
             ItemStack[] inv = playerData.getInventory();
@@ -638,28 +643,32 @@ public class DuelManager {
             int foodLevel = playerData.getFoodLevel();
             int expLevel = playerData.getEXPLevel();
             double health = playerData.getHealth();
+            GameMode gameMode = playerData.getGameMode();
 
-            if (plugin.isDebugEnabled()) {
-                SendConsoleMessage.info("Player location for player: " + player.getName() + ":" + loc);
+            if(!isDeadPlayer(playerUUID)) {
+                if (plugin.isDebugEnabled()) {
+                    SendConsoleMessage.debug("Player is not dead, Teleporting: " + player.getName() + " to location:" + loc);
+                }
+                player.teleport(loc);
             }
-
-            player.teleport(loc);
-
 
             if (plugin.isUsingSeperatedInventories()) {
                 player.getInventory().clear(-1, -1);// clear their inventory completely
                 player.getInventory().setContents(inv);
                 player.getInventory().setArmorContents(arm);
             }
+            player.setGameMode(gameMode);
             player.setSaturation(saturation);
             player.setFoodLevel(foodLevel);
             player.setLevel(expLevel);
             player.setHealth(health);
-            Util.sendMsg(player, ChatColor.GREEN + "Your player data has been restored!");
             this.removePlayerDataByUUID(playerUUID);
             return true;
         } catch (Exception e) {
             Util.sendMsg(player, ChatColor.RED + "There was an error restoring your player data!");
+            if(plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug(e.getMessage());
+            }
             return false;
         }
 
@@ -682,7 +691,9 @@ public class DuelManager {
 
         DuelArena arena = this.getPlayersArenaByUUID(playerUUID);
         arena.removePlayer(playerUUID);
-        this.restorePlayerData(player);
+        if(!player.isDead()) {
+            this.restorePlayerData(player);
+        }
 
         if (arena.getPlayers().size() == 1) {
             im.rewardPlayer(arena);

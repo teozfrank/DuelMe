@@ -2,6 +2,7 @@ package com.teozcommunity.teozfrank.duelme.menus;
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
 import com.teozcommunity.teozfrank.duelme.util.DuelManager;
+import com.teozcommunity.teozfrank.duelme.util.SendConsoleMessage;
 import com.teozcommunity.teozfrank.duelme.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -96,6 +97,11 @@ public class AcceptMenu implements Listener {
         if(!e.getCurrentItem().hasItemMeta()){
             e.setCancelled(true);
         }
+
+        if(plugin.isDebugEnabled()) {
+            SendConsoleMessage.debug("Accept Duel Inventory Clicked.");
+        }
+
         if(e.getCurrentItem().hasItemMeta()){
             Player clicker = (Player) e.getWhoClicked();
             if(e.getCurrentItem().getItemMeta().getDisplayName().contains("Accept")){

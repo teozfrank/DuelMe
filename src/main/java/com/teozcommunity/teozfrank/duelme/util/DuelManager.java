@@ -724,7 +724,14 @@ public class DuelManager {
         }
         ItemManager im = plugin.getItemManager();
 
+        if(plugin.isDebugEnabled()) {
+            SendConsoleMessage.debug("Playercount: "+arena.getPlayers().size());
+        }
+
         if (arena.getPlayers().size() == 1) {
+            if(plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug("One player remains, rewarding.");
+            }
             im.rewardPlayer(arena);
             return;
         }
@@ -732,6 +739,9 @@ public class DuelManager {
         for (UUID playerUUID : arena.getPlayers()) {
             if (isFrozen(playerUUID)) {// if player is frozen
                 removeFrozenPlayer(playerUUID);//remove frozen player
+            }
+            if(plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug("Player UUID: " + playerUUID.toString());
             }
             Player playerOut = Bukkit.getPlayer(playerUUID);
             if (playerOut != null) {
@@ -745,7 +755,6 @@ public class DuelManager {
                     Util.sendMsg(playerOut, "You have been refunded the amount of " + refundAmount);
                 }
             }
-            arena.getPlayers().remove(playerUUID);//remove the player
         }
 
         this.resetArena(arena);
@@ -793,19 +802,25 @@ public class DuelManager {
             location = fm.getArenaStatusSignLocation(arena.getName());
             block = location.getBlock();
         } catch (NullPointerException e) {
+            if(plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug("No sign set for arena " + arena.getName());
+            }
             return;
         }
 
-        if (!(block.getType() == Material.WALL_SIGN) || !(block.getType() == Material.SIGN_POST)) {
+        if (!block.getType().equals(Material.WALL_SIGN)) {
             return;
         }
-
         try {
             Sign sign = (Sign) block.getState();
             sign.setLine(2, arena.getDuelState().toString());
+            sign.setLine(3, arena.getPlayers().size() + "/2");
             sign.update();
+            if(plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug("Update duel sign");
+            }
         } catch (Exception e) {
-            //ignored
+            SendConsoleMessage.debug(e.getMessage());
         }
 
     }

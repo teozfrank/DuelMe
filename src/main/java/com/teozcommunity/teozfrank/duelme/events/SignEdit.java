@@ -82,6 +82,7 @@ public class SignEdit implements Listener {
             e.setLine(0, ChatColor.GREEN + "[DuelMe]");
             e.setLine(1, arena.getName());
             e.setLine(2, ChatColor.AQUA + arena.getDuelState().toString());
+            e.setLine(3, arena.getPlayers().size() + "/2");
 
             fm.saveArenaSign(arena.getName(), block.getWorld().getName(), block.getX(), block.getY(), block.getZ());
 

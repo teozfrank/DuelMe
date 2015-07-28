@@ -453,8 +453,8 @@ public class DuelManager {
         String senderName = sender.getName();//the duel request sender name
         double totalBetAmount = betAmount * 2;
 
-        UUID acceptorUUID = acceptor.getUniqueId();
-        UUID senderUUID = sender.getUniqueId();
+        final UUID acceptorUUID = acceptor.getUniqueId();
+        final UUID senderUUID = sender.getUniqueId();
 
         List<DuelArena> arenas = this.getDuelArenas();//list of arenas
         FileManager fm = plugin.getFileManager();//file manager instance
@@ -513,8 +513,14 @@ public class DuelManager {
                     sender.teleport(this.generateRandomLocation(a));
                 }
 
-                frozenPlayerUUIDs.add(acceptorUUID);//freeze the players
-                frozenPlayerUUIDs.add(senderUUID);
+                plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable() {
+
+                    @Override
+                    public void run() {
+                        frozenPlayerUUIDs.add(acceptorUUID);
+                        frozenPlayerUUIDs.add(senderUUID);
+                    }
+                }, 15L);
 
                 if (fm.isUsingSeperateInventories()) {
                     if (plugin.isDebugEnabled()) {

@@ -93,15 +93,13 @@ public class DuelMe extends JavaPlugin {
         this.setupDependencies();
         this.setupEconomy();
         this.duelManager = new DuelManager(this);
-        this.registerEvents();
-        new PlayerEvents(this);
-        new SignEdit(this);
         this.itemManager = new ItemManager(this);
         this.mySql = new MySql(this);
         getCommand("duel").setExecutor(new DuelExecutor(this));
         getCommand("dueladmin").setExecutor(new DuelAdminExecutor(this));
         this.getFileManager().loadDuelArenas();
         this.checkErrors();
+        this.registerEvents();
     }
 
     /**
@@ -114,6 +112,8 @@ public class DuelMe extends JavaPlugin {
         new PlayerDeath(this);
         new PlayerRespawn(this);
         this.acceptMenu = new AcceptMenu(this);
+        new PlayerEvents(this);
+        new SignEdit(this);
     }
 
     @Override

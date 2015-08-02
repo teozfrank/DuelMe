@@ -452,6 +452,8 @@ public class DuelManager {
         String acceptorName = acceptor.getName();//the duel acceptor name
         String senderName = sender.getName();//the duel request sender name
         double totalBetAmount = betAmount * 2;
+        boolean acceptorTeleportSuccess = false;
+        boolean senderTeleportSuccess = false;
 
         final UUID acceptorUUID = acceptor.getUniqueId();
         final UUID senderUUID = sender.getUniqueId();
@@ -499,8 +501,8 @@ public class DuelManager {
                     }
                     removePotionEffects(acceptor);//remove players active potion effects
                     removePotionEffects(sender);
-                    acceptor.teleport(a.getSpawnpoint1());//teleport the players to set spawn location in the duel arena
-                    sender.teleport(a.getSpawnpoint2());
+                    acceptorTeleportSuccess = acceptor.teleport(a.getSpawnpoint1());//teleport the players to set spawn location in the duel arena
+                    senderTeleportSuccess = sender.teleport(a.getSpawnpoint2());
                     if(plugin.isDebugEnabled()) {
                         SendConsoleMessage.debug("Spawnpoint 1: " +  a.getSpawnpoint1());
                         SendConsoleMessage.debug("Spawnpoint 2: " +  a.getSpawnpoint2());
@@ -509,18 +511,16 @@ public class DuelManager {
                     if (plugin.isDebugEnabled()) {
                         SendConsoleMessage.debug("Spawnpoints for arena not set falling back to random spawn locations.");
                     }
-                    acceptor.teleport(this.generateRandomLocation(a));//teleport the players to a random location in the duel arena
-                    sender.teleport(this.generateRandomLocation(a));
+                    acceptorTeleportSuccess = acceptor.teleport(this.generateRandomLocation(a));//teleport the players to a random location in the duel arena
+                    senderTeleportSuccess = sender.teleport(this.generateRandomLocation(a));
                 }
 
-                plugin.getServer().getScheduler().runTaskLater(plugin, new Runnable() {
-
-                    @Override
-                    public void run() {
-                        frozenPlayerUUIDs.add(acceptorUUID);
-                        frozenPlayerUUIDs.add(senderUUID);
-                    }
-                }, 15L);
+                if(senderTeleportSuccess && acceptorTeleportSuccess) {
+                    addFrozenPlayer(senderUUID);//freeze the player
+                    addFrozenPlayer(acceptorUUID);//freeze the player
+                } else {
+                    endDuel(a);// end the duel if teleportation of both players is not a success
+                }
 
                 if (fm.isUsingSeperateInventories()) {
                     if (plugin.isDebugEnabled()) {

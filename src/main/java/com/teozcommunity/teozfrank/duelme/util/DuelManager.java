@@ -1,27 +1,27 @@
 package com.teozcommunity.teozfrank.duelme.util;
 
 /**
- The MIT License (MIT)
-
- Copyright (c) 2014 teozfrank
-
- Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
-
- The above copyright notice and this permission notice shall be included in
- all copies or substantial portions of the Software.
-
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- THE SOFTWARE.
+ * The MIT License (MIT)
+ * <p/>
+ * Copyright (c) 2014 teozfrank
+ * <p/>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p/>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p/>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
@@ -153,7 +153,7 @@ public class DuelManager {
      * @param uuid the uuid of the dead player
      */
     public void addDeadPlayer(UUID uuid) {
-        if(!this.deadPlayers.contains(uuid)) {
+        if (!this.deadPlayers.contains(uuid)) {
             this.deadPlayers.add(uuid);
         }
     }
@@ -164,8 +164,8 @@ public class DuelManager {
      * @return true if dead, false if not
      */
     public boolean isDeadPlayer(UUID uuid) {
-        if(getDeadPlayers().contains(uuid)) {
-            if(plugin.isDebugEnabled()) {
+        if (getDeadPlayers().contains(uuid)) {
+            if (plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("UUID " + uuid + " is in dead player list");
             }
             return true;
@@ -306,7 +306,7 @@ public class DuelManager {
 
             UUID duelTargetUUID = duelTarget.getUniqueId();
 
-            if(isInDuel(duelTargetUUID)) {
+            if (isInDuel(duelTargetUUID)) {
                 Util.sendMsg(duelSender, ChatColor.RED + "This player is already in a duel!");
                 return;
             }
@@ -324,7 +324,7 @@ public class DuelManager {
             }
 
             Util.sendMsg(duelSender, ChatColor.GREEN + "You have sent a duel request to " + ChatColor.AQUA + duelTargetName + ".");
-            if(fm.isGUIMenuEnabled()) {
+            if (fm.isGUIMenuEnabled()) {
                 plugin.getAcceptMenu().openNormalDuelAccept(duelSender, duelTarget);
             } else {
                 Util.sendMsg(duelTarget, ChatColor.translateAlternateColorCodes('&', "&aYou have been sent a duel request from &b" + duelSenderName));
@@ -358,7 +358,7 @@ public class DuelManager {
 
             UUID duelTargetUUID = duelTarget.getUniqueId();
 
-            if(isInDuel(duelTargetUUID)) {
+            if (isInDuel(duelTargetUUID)) {
                 Util.sendMsg(duelSender, ChatColor.RED + "This player is already in a duel!");
                 return;
             }
@@ -379,7 +379,7 @@ public class DuelManager {
                 return;
             }
 
-            if(fm.getMaxBetAmount() <= amount) {
+            if (fm.getMaxBetAmount() <= amount) {
                 Util.sendMsg(duelSender, "Your bet amount is too high! It cannot be higher than " + fm.getMaxBetAmount());
                 return;
             }
@@ -397,7 +397,7 @@ public class DuelManager {
 
             Util.sendMsg(duelSender, ChatColor.GREEN + "You have sent a duel request to " + ChatColor.AQUA +
                     duelTargetName + ChatColor.GREEN + " for a bet amount of " + ChatColor.GREEN + amount);
-            if(fm.isGUIMenuEnabled()) {
+            if (fm.isGUIMenuEnabled()) {
                 plugin.getAcceptMenu().openDuelBetAccept(duelSender, duelTarget, amount);
             } else {
                 Util.sendMsg(duelTarget, ChatColor.translateAlternateColorCodes('&', "&aYou have been sent a duel request from &b" + duelSenderName +
@@ -448,9 +448,9 @@ public class DuelManager {
             }
 
             return;
-            } else {
-                Util.sendMsg(acceptor, ChatColor.RED +
-                        "You do not have any duel requests from " + ChatColor.AQUA + senderIn + ".");
+        } else {
+            Util.sendMsg(acceptor, ChatColor.RED +
+                    "You do not have any duel requests from " + ChatColor.AQUA + senderIn + ".");
         }
 
     }
@@ -481,75 +481,79 @@ public class DuelManager {
             Util.sendMsg(acceptor, Util.NO_ARENAS);
             return;
         }
-        for (DuelArena a : arenas) {
-            if (a.getDuelState() == DuelState.WAITING) {
-                a.setDuelState(DuelState.STARTING);//set the duel state to starting
-                this.updateDuelStatusSign(a);
-                if (fm.isDuelStartAnnouncementEnabled()) {
-                    Util.broadcastMessage(ChatColor.GREEN + "A duel is Starting between " +
-                            ChatColor.AQUA + acceptorName +
-                            ChatColor.GREEN + " and " +
-                            ChatColor.AQUA + senderName);
-                }
 
-                if (betAmount > 0) {
-                    a.setHasBet(true);
-                    plugin.getEconomy().withdrawPlayer(senderName, betAmount);
-                    plugin.getEconomy().withdrawPlayer(acceptorName, betAmount);
-                    Util.sendMsg(sender, acceptor,
-                            ChatColor.GREEN + "You have been charged a bet amount of " + ChatColor.AQUA + betAmount);
-                    Util.sendMsg(sender, acceptor, "The winner of this duel will win a total bet amount of " +
-                            ChatColor.AQUA + totalBetAmount);
-                    a.setBetAmount(totalBetAmount);
-                }
+        DuelArena freeArena = this.getFreeArena();
 
-                a.addPlayerUUID(acceptorUUID);//add the players to the arena
-                a.addPlayerUUID(senderUUID);
-
-                this.storePlayerData(acceptor);
-                this.storePlayerData(sender);
-
-                if (a.getSpawnpoint1() != null && a.getSpawnpoint2() != null) {
-                    if (plugin.isDebugEnabled()) {
-                        SendConsoleMessage.debug("Spawnpoints for arena set teleporting players to locations.");
-                    }
-                    removePotionEffects(acceptor);//remove players active potion effects
-                    removePotionEffects(sender);
-                    acceptorTeleportSuccess = acceptor.teleport(a.getSpawnpoint1());//teleport the players to set spawn location in the duel arena
-                    senderTeleportSuccess = sender.teleport(a.getSpawnpoint2());
-                    if(plugin.isDebugEnabled()) {
-                        SendConsoleMessage.debug("Spawnpoint 1: " +  a.getSpawnpoint1());
-                        SendConsoleMessage.debug("Spawnpoint 2: " +  a.getSpawnpoint2());
-                    }
-                } else {
-                    if (plugin.isDebugEnabled()) {
-                        SendConsoleMessage.debug("Spawnpoints for arena not set falling back to random spawn locations.");
-                    }
-                    acceptorTeleportSuccess = acceptor.teleport(this.generateRandomLocation(a));//teleport the players to a random location in the duel arena
-                    senderTeleportSuccess = sender.teleport(this.generateRandomLocation(a));
-                }
-
-                if(senderTeleportSuccess && acceptorTeleportSuccess) {
-                    addFrozenPlayer(senderUUID);//freeze the player
-                    addFrozenPlayer(acceptorUUID);//freeze the player
-                } else {
-                    endDuel(a);// end the duel if teleportation of both players is not a success
-                }
-
-                if (fm.isUsingSeperateInventories()) {
-                    if (plugin.isDebugEnabled()) {
-                        SendConsoleMessage.debug("Storing inventories enabled, giving duel items.");
-                    }
-                    im.givePlayerDuelItems(acceptor);
-                    im.givePlayerDuelItems(sender);
-                }
-
-                new StartDuelThread(plugin, sender, acceptor, a).runTaskTimer(plugin, 20L, 20L);
-                return;
-            }
+        if (freeArena == null) {
+            Util.sendMsg(acceptor, ChatColor.YELLOW + "There are no free duel arenas, please try again later!");
+            Util.sendMsg(sender, ChatColor.YELLOW + "There are no free duel arenas, please try again later!");
+            return;
         }
-        Util.sendMsg(acceptor, ChatColor.YELLOW + "There are no free duel arenas, please try again later!");
-        Util.sendMsg(sender, ChatColor.YELLOW + "There are no free duel arenas, please try again later!");
+
+        freeArena.setDuelState(DuelState.STARTING);//set the duel state to starting
+        this.updateDuelStatusSign(freeArena);
+        if (fm.isDuelStartAnnouncementEnabled()) {
+            Util.broadcastMessage(ChatColor.GREEN + "A duel is Starting between " +
+                    ChatColor.AQUA + acceptorName +
+                    ChatColor.GREEN + " and " +
+                    ChatColor.AQUA + senderName);
+        }
+
+        if (betAmount > 0) {
+            freeArena.setHasBet(true);
+            plugin.getEconomy().withdrawPlayer(senderName, betAmount);
+            plugin.getEconomy().withdrawPlayer(acceptorName, betAmount);
+            Util.sendMsg(sender, acceptor,
+                    ChatColor.GREEN + "You have been charged a bet amount of " + ChatColor.AQUA + betAmount);
+            Util.sendMsg(sender, acceptor, "The winner of this duel will win a total bet amount of " +
+                    ChatColor.AQUA + totalBetAmount);
+            freeArena.setBetAmount(totalBetAmount);
+        }
+
+        freeArena.addPlayerUUID(acceptorUUID);//add the players to the arena
+        freeArena.addPlayerUUID(senderUUID);
+
+        this.storePlayerData(acceptor);
+        this.storePlayerData(sender);
+
+        if (freeArena.getSpawnpoint1() != null && freeArena.getSpawnpoint2() != null) {
+            if (plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug("Spawnpoints for arena set teleporting players to locations.");
+            }
+            removePotionEffects(acceptor);//remove players active potion effects
+            removePotionEffects(sender);
+            acceptorTeleportSuccess = acceptor.teleport(freeArena.getSpawnpoint1());//teleport the players to set spawn location in the duel arena
+            senderTeleportSuccess = sender.teleport(freeArena.getSpawnpoint2());
+            if (plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug("Spawnpoint 1: " + freeArena.getSpawnpoint1());
+                SendConsoleMessage.debug("Spawnpoint 2: " + freeArena.getSpawnpoint2());
+            }
+        } else {
+            if (plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug("Spawnpoints for arena not set falling back to random spawn locations.");
+            }
+            acceptorTeleportSuccess = acceptor.teleport(this.generateRandomLocation(freeArena));//teleport the players to a random location in the duel arena
+            senderTeleportSuccess = sender.teleport(this.generateRandomLocation(freeArena));
+        }
+
+        if (senderTeleportSuccess && acceptorTeleportSuccess) {
+            addFrozenPlayer(senderUUID);//freeze the player
+            addFrozenPlayer(acceptorUUID);//freeze the player
+        } else {
+            endDuel(freeArena);// end the duel if teleportation of both players is not a success
+        }
+
+        if (fm.isUsingSeperateInventories()) {
+            if (plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug("Storing inventories enabled, giving duel items.");
+            }
+            im.givePlayerDuelItems(acceptor);
+            im.givePlayerDuelItems(sender);
+        }
+
+        new StartDuelThread(plugin, sender, acceptor, freeArena).runTaskTimer(plugin, 20L, 20L);
+        return;
+
     }
 
     /**
@@ -640,7 +644,7 @@ public class DuelManager {
         }
         this.addPlayerData(playerUUID, new PlayerData(arm, inv, loc, saturation, foodLevel, expLevel, health, gameMode));
 
-        if(fm.isUsingSeperateInventories()) {
+        if (fm.isUsingSeperateInventories()) {
             player.getInventory().clear(-1, -1);
         }
     }
@@ -665,7 +669,7 @@ public class DuelManager {
             double health = playerData.getHealth();
             GameMode gameMode = playerData.getGameMode();
 
-            if(!isDeadPlayer(playerUUID)) {
+            if (!isDeadPlayer(playerUUID)) {
                 if (plugin.isDebugEnabled()) {
                     SendConsoleMessage.debug("Player is not dead, Teleporting: " + player.getName() + " to location:" + loc);
                 }
@@ -686,7 +690,7 @@ public class DuelManager {
             return true;
         } catch (Exception e) {
             Util.sendMsg(player, ChatColor.RED + "There was an error restoring your player data!");
-            if(plugin.isDebugEnabled()) {
+            if (plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug(e.getMessage());
             }
             return false;
@@ -711,7 +715,7 @@ public class DuelManager {
 
         DuelArena arena = this.getPlayersArenaByUUID(playerUUID);
         arena.removePlayer(playerUUID);
-        if(!player.isDead()) {
+        if (!player.isDead()) {
             this.restorePlayerData(player);
         }
 
@@ -726,7 +730,7 @@ public class DuelManager {
             player.removePotionEffect(p.getType());
             activePotions++;
         }
-        if(activePotions > 0) {
+        if (activePotions > 0) {
             Util.sendMsg(player, ChatColor.YELLOW + "Your active potion effects have been disabled.");
         }
     }
@@ -744,12 +748,12 @@ public class DuelManager {
         }
         ItemManager im = plugin.getItemManager();
 
-        if(plugin.isDebugEnabled()) {
-            SendConsoleMessage.debug("Playercount: "+arena.getPlayers().size());
+        if (plugin.isDebugEnabled()) {
+            SendConsoleMessage.debug("Playercount: " + arena.getPlayers().size());
         }
 
         if (arena.getPlayers().size() == 1) {
-            if(plugin.isDebugEnabled()) {
+            if (plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("One player remains, rewarding.");
             }
             im.rewardPlayer(arena);
@@ -760,7 +764,7 @@ public class DuelManager {
             if (isFrozen(playerUUID)) {// if player is frozen
                 removeFrozenPlayer(playerUUID);//remove frozen player
             }
-            if(plugin.isDebugEnabled()) {
+            if (plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("Player UUID: " + playerUUID.toString());
             }
             Player playerOut = Bukkit.getPlayer(playerUUID);
@@ -822,7 +826,7 @@ public class DuelManager {
             location = fm.getArenaStatusSignLocation(arena.getName());
             block = location.getBlock();
         } catch (NullPointerException e) {
-            if(plugin.isDebugEnabled()) {
+            if (plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("No sign set for arena " + arena.getName());
             }
             return;
@@ -836,7 +840,7 @@ public class DuelManager {
             sign.setLine(2, arena.getDuelState().toString());
             sign.setLine(3, arena.getPlayers().size() + "/2");
             sign.update();
-            if(plugin.isDebugEnabled()) {
+            if (plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("Update duel sign");
             }
         } catch (Exception e) {
@@ -844,4 +848,19 @@ public class DuelManager {
         }
 
     }
+
+    /**
+     * loop through the list of arenas and check if there is a free
+     * one to duel in.
+     * @return a free duel arena, null if none is available
+     */
+    public DuelArena getFreeArena() {
+        for (DuelArena duelArena : getDuelArenas()) {
+            if (duelArena.getDuelState().equals(DuelState.WAITING) && duelArena.getPlayers().size() == 0) {//if the duel arena state is waiting for players and there are no players in the arena.
+                return duelArena;//we can return that arena as it is free.
+            }
+        }
+        return null;//no free duel arenas
+    }
+
 }

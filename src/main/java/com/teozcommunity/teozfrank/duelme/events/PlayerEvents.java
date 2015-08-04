@@ -44,6 +44,8 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -81,7 +83,6 @@ public class PlayerEvents implements Listener {
         
     }
 
-
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerRightClickToDuel(PlayerInteractEntityEvent e) {
 
@@ -97,7 +98,7 @@ public class PlayerEvents implements Listener {
         if(entity instanceof Player){
             Player target = (Player) entity;
             if(player.isSneaking() && player.getItemInHand().equals(new ItemStack(Material.DIAMOND_SWORD))){//if the player is sneaking and has a diamond sword
-              dm.sendNormalDuelRequest(player , target.getName());//send a duel request
+              dm.sendNormalDuelRequest(player, target.getName());//send a duel request
               return;
             }
         }
@@ -110,22 +111,6 @@ public class PlayerEvents implements Listener {
 
         if(dm.isInDuel(dueler.getUniqueId())){
             e.setCancelled(true);
-        }
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerTeleport(PlayerTeleportEvent e) {
-        Player player = e.getPlayer();
-        UUID playerUUID = player.getUniqueId();
-        DuelManager dm = plugin.getDuelManager();
-
-        if (e.isCancelled()) {
-            if (dm.isInDuel(playerUUID)) {
-                if (plugin.isDebugEnabled()) {
-                    SendConsoleMessage.debug("player is being teleported and is in duel, uncancelling event.");
-                }
-                e.setCancelled(false);
-            }
         }
     }
 
@@ -142,22 +127,17 @@ public class PlayerEvents implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler (priority = EventPriority.NORMAL)
     public void onPlayerUseCommand(PlayerCommandPreprocessEvent e) {
-
         Player player = e.getPlayer();
-        String playerName = player.getName();
         UUID playerUUID = player.getUniqueId();
         DuelManager dm = plugin.getDuelManager();
+        FileManager fm = plugin.getFileManager();
 
-        if (dm.isInDuel(playerUUID)) {
-            for (String allowedCommands : this.allowedCommands) {
-                if (!(e.getMessage().equalsIgnoreCase(allowedCommands))) {
-                    e.setCancelled(true);
-                    Util.sendMsg(player, ChatColor.RED + "You may not use this command during a duel, use " +
-                            ChatColor.AQUA + "/duel leave" + ChatColor.RED + " to leave.");
-                    return;
-                }
+        if(dm.isInDuel(playerUUID)) {
+            if(!this.isAllowedCommand(e.getMessage())) {//if the command is not allowed
+                Util.sendMsg(player, ChatColor.RED + "You are not allowed to use this command in a duel!");
+                e.setCancelled(true);
             }
         }
 
@@ -190,6 +170,18 @@ public class PlayerEvents implements Listener {
                 player.teleport(loc);
             }
         }
+    }
+
+    /**
+     * is the command passed in allowed to be used
+     * @param command the command to test
+     * @return true if allowed, false if not
+     */
+    public boolean isAllowedCommand(String command) {
+        if(this.allowedCommands.contains(command)) {
+            return true;
+        }
+        return false;
     }
 }
 

@@ -471,4 +471,20 @@ public class FileManager {
         return location;
     }
 
+    /**
+     * is the gui menu sent to players when a duel request is sent?
+     * @return true if enabled false if not
+     */
+    public boolean isGUIMenuEnabled() {
+        return plugin.getConfig().getBoolean("duelme.duel.guimenuenabled");
+    }
+
+    /**
+     * get the max duel bet amount for a duel with bets
+     * @return the max duel bet amount
+     */
+    public int getMaxBetAmount() {
+        return plugin.getConfig().getInt("duelme.duel.maxbetamount");
+    }
+
 }

@@ -94,6 +94,11 @@ public class AcceptMenu implements Listener {
         if(!e.getInventory().getName().equalsIgnoreCase(acceptMenu.getName())){
             return;
         }
+
+        if(e.getCurrentItem() == null ) {
+            return;
+        }
+
         if(!e.getCurrentItem().hasItemMeta()){
             e.setCancelled(true);
         }

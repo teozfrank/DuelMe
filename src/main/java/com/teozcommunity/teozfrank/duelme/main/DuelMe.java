@@ -203,7 +203,7 @@ public class DuelMe extends JavaPlugin {
      */
     public void checkConfigVersions() {
         if (new File(getDataFolder(), "config.yml").exists()) {
-            if (fileManager.getConfigVersion() != 1.4) {
+            if (fileManager.getConfigVersion() != 1.5) {
                 SendConsoleMessage.warning("Your config.yml is out of date! please remove or back it up before using the plugin!");
                 errorCount++;
             }

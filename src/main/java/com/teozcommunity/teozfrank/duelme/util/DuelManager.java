@@ -297,6 +297,7 @@ public class DuelManager {
      */
     public void sendNormalDuelRequest(Player duelSender, String duelTargetIn) {
 
+        FileManager fm = plugin.getFileManager();
         String duelSenderName = duelSender.getName();
         UUID duelSenderUUID = duelSender.getUniqueId();
         Player duelTarget = Bukkit.getPlayer(duelTargetIn);
@@ -323,8 +324,12 @@ public class DuelManager {
             }
 
             Util.sendMsg(duelSender, ChatColor.GREEN + "You have sent a duel request to " + ChatColor.AQUA + duelTargetName + ".");
-            Util.sendMsg(duelTarget, ChatColor.translateAlternateColorCodes('&', "&aYou have been sent a duel request from &b" + duelSenderName));
-            plugin.getAcceptMenu().openNormalDuelAccept(duelSender, duelTarget);
+            if(fm.isGUIMenuEnabled()) {
+                plugin.getAcceptMenu().openNormalDuelAccept(duelSender, duelTarget);
+            } else {
+                Util.sendMsg(duelTarget, ChatColor.translateAlternateColorCodes('&', "&aYou have been sent a duel request from &b" + duelSenderName));
+            }
+
             Util.sendEmptyMsg(duelTarget, ChatColor.translateAlternateColorCodes('&', "&ause &b/duel accept " + duelSenderName + "&a, to accept the request."));
             this.duelRequests.put(duelSenderUUID, duelTargetUUID);
         } else {
@@ -374,6 +379,11 @@ public class DuelManager {
                 return;
             }
 
+            if(fm.getMaxBetAmount() <= amount) {
+                Util.sendMsg(duelSender, "Your bet amount is too high! It cannot be higher than " + fm.getMaxBetAmount());
+                return;
+            }
+
             if (!this.hasEnoughMoney(duelSenderName, amount)) {
                 Util.sendMsg(duelSender, ChatColor.RED + "You do not have enough money to duel for this bet amount!");
                 return;
@@ -387,9 +397,13 @@ public class DuelManager {
 
             Util.sendMsg(duelSender, ChatColor.GREEN + "You have sent a duel request to " + ChatColor.AQUA +
                     duelTargetName + ChatColor.GREEN + " for a bet amount of " + ChatColor.GREEN + amount);
-            Util.sendMsg(duelTarget, ChatColor.translateAlternateColorCodes('&', "&aYou have been sent a duel request from &b" + duelSenderName +
-                    " &afor a bet amount of &b" + amount));
-            new AcceptMenu(plugin).openDuelBetAccept(duelSender, duelTarget, amount);
+            if(fm.isGUIMenuEnabled()) {
+                plugin.getAcceptMenu().openDuelBetAccept(duelSender, duelTarget, amount);
+            } else {
+                Util.sendMsg(duelTarget, ChatColor.translateAlternateColorCodes('&', "&aYou have been sent a duel request from &b" + duelSenderName +
+                        " &afor a bet amount of &b" + amount));
+            }
+
             Util.sendEmptyMsg(duelTarget, ChatColor.translateAlternateColorCodes('&', "&ause &b/duel accept " + duelSenderName + "&a, to accept the request."));
             this.duelRequests.put(duelSenderUUID, duelTargetUUID);
             this.betRequests.put(duelSenderUUID, amount);

@@ -537,8 +537,8 @@ public class DuelManager {
         }
 
         if (senderTeleportSuccess && acceptorTeleportSuccess) {
-            addFrozenPlayer(senderUUID);//freeze the player
-            addFrozenPlayer(acceptorUUID);//freeze the player
+            //addFrozenPlayer(senderUUID);//freeze the player
+            //addFrozenPlayer(acceptorUUID);//freeze the player
         } else {
             endDuel(freeArena);// end the duel if teleportation of both players is not a success
         }

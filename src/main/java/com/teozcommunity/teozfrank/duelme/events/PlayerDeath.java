@@ -61,8 +61,8 @@ public class PlayerDeath implements Listener {
                     e.setDeathMessage("");
                     return;
                 }
-                e.setDeathMessage(fm.getPrefix() + ChatColor.AQUA + loser.getName() + ChatColor.RED + " was killed in a duel by "
-                        + ChatColor.AQUA + killer.getName()  + ChatColor.GOLD +" in arena " + ChatColor.AQUA + dm.getPlayersArenaName(playerUUID));
+                e.setDeathMessage(fm.getPrefix() + " " + ChatColor.AQUA + loser.getName() + ChatColor.RED + " was killed in a duel by "
+                        + ChatColor.AQUA + killer.getName()  + ChatColor.RED +" in arena " + ChatColor.GOLD + dm.getPlayersArenaName(playerUUID));
             }  else {
                 if(!fm.isDeathMessagesEnabled()){
                     e.setDeathMessage("");

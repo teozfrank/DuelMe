@@ -99,6 +99,9 @@ public class DuelMe extends JavaPlugin {
         getCommand("dueladmin").setExecutor(new DuelAdminExecutor(this));
         this.getFileManager().loadDuelArenas();
         this.checkErrors();
+        if(errorCount != 0) {
+            return;
+        }
         this.registerEvents();
     }
 
@@ -146,6 +149,7 @@ public class DuelMe extends JavaPlugin {
             SendConsoleMessage.warning(ChatColor.RED + "There were " + ChatColor.AQUA + errorCount +
                     ChatColor.RED + " startup error(s), plugin DISABLED!");
             this.getPluginLoader().disablePlugin(this);
+            return;
         } else {
             SendConsoleMessage.info("Successfully Enabled!");
         }

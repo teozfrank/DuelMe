@@ -132,11 +132,11 @@ public class PlayerEvents implements Listener {
         Player player = e.getPlayer();
         UUID playerUUID = player.getUniqueId();
         DuelManager dm = plugin.getDuelManager();
-        FileManager fm = plugin.getFileManager();
+        MessageManager mm = plugin.getMessageManager();
 
         if(dm.isInDuel(playerUUID)) {
             if(!this.isAllowedCommand(e.getMessage())) {//if the command is not allowed
-                Util.sendMsg(player, ChatColor.RED + "You are not allowed to use this command in a duel!");
+                Util.sendMsg(player, mm.getCommandNotAllowedMessage());
                 e.setCancelled(true);
             }
         }

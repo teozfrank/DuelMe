@@ -59,6 +59,11 @@ public class DuelMe extends JavaPlugin {
     private ItemManager itemManager;
 
     /**
+     * message manager class
+     */
+    private MessageManager messageManager;
+
+    /**
      * mysql class
      */
     private MySql mySql;
@@ -92,6 +97,7 @@ public class DuelMe extends JavaPlugin {
         this.submitStats();
         this.setupDependencies();
         this.setupEconomy();
+        this.messageManager = new MessageManager(this);
         this.duelManager = new DuelManager(this);
         this.itemManager = new ItemManager(this);
         this.mySql = new MySql(this);
@@ -212,6 +218,13 @@ public class DuelMe extends JavaPlugin {
                 errorCount++;
             }
         }
+
+        if (new File(getDataFolder(), "messages.yml").exists()) {
+            if (fileManager.getMessagesConfigVersion() != 1.1) {
+                SendConsoleMessage.warning("Your messages.yml is out of date! please remove or back it up before using the plugin!");
+                errorCount++;
+            }
+        }
     }
 
     /**
@@ -309,6 +322,10 @@ public class DuelMe extends JavaPlugin {
 
     public AcceptMenu getAcceptMenu() {
         return acceptMenu;
+    }
+
+    public MessageManager getMessageManager() {
+        return messageManager;
     }
 
 }

@@ -5,6 +5,7 @@ import com.teozcommunity.teozfrank.duelme.mysql.FieldName;
 import com.teozcommunity.teozfrank.duelme.mysql.MySql;
 import com.teozcommunity.teozfrank.duelme.util.DuelManager;
 import com.teozcommunity.teozfrank.duelme.util.FileManager;
+import com.teozcommunity.teozfrank.duelme.util.MessageManager;
 import com.teozcommunity.teozfrank.duelme.util.SendConsoleMessage;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -36,6 +37,7 @@ public class PlayerDeath implements Listener {
         DuelManager dm = plugin.getDuelManager();
         FileManager fm = plugin.getFileManager();
         MySql mySql = plugin.getMySql();
+        MessageManager mm = plugin.getMessageManager();
         if(dm.isInDuel(playerUUID)){
             dm.addDeadPlayer(playerUUID);
 
@@ -61,14 +63,18 @@ public class PlayerDeath implements Listener {
                     e.setDeathMessage("");
                     return;
                 }
-                e.setDeathMessage(fm.getPrefix() + " " + ChatColor.AQUA + loser.getName() + ChatColor.RED + " was killed in a duel by "
-                        + ChatColor.AQUA + killer.getName()  + ChatColor.RED +" in arena " + ChatColor.GOLD + dm.getPlayersArenaName(playerUUID));
+                String deathMessageByPlayer = mm.getKillMessageByPlayer();
+                deathMessageByPlayer = deathMessageByPlayer.replaceAll("%player%", playerName);
+                deathMessageByPlayer = deathMessageByPlayer.replaceAll("%killer%", killerName);
+                e.setDeathMessage(fm.getPrefix() + " " + deathMessageByPlayer);
             }  else {
                 if(!fm.isDeathMessagesEnabled()){
                     e.setDeathMessage("");
                     return;
                 }
-                e.setDeathMessage(fm.getPrefix() + ChatColor.AQUA + loser.getName() + ChatColor.RED + " was killed in a duel!");
+                String deathMessageByOther = mm.getKillOtherMessage();
+                deathMessageByOther = deathMessageByOther.replaceAll("%player%", deathMessageByOther);
+                e.setDeathMessage(fm.getPrefix() + deathMessageByOther);
             }
             dm.endDuel(loser);
             loser.spigot().respawn();

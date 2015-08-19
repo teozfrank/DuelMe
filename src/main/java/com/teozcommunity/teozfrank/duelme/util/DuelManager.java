@@ -34,6 +34,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
+import sun.plugin2.message.Message;
 
 import java.util.*;
 
@@ -72,6 +73,8 @@ public class DuelManager {
 
     private HashMap<UUID, PlayerData> playerData;
 
+    private MessageManager mm;
+
     public DuelManager(DuelMe plugin) {
         this.plugin = plugin;
         this.duelRequests = new HashMap<UUID, UUID>();
@@ -81,6 +84,7 @@ public class DuelManager {
         this.playerData = new HashMap<UUID, PlayerData>();
         this.betRequests = new HashMap<UUID, Double>();
         this.deadPlayers = new ArrayList<UUID>();
+        this.mm = plugin.getMessageManager();
     }
 
     /**
@@ -307,33 +311,40 @@ public class DuelManager {
             UUID duelTargetUUID = duelTarget.getUniqueId();
 
             if (isInDuel(duelTargetUUID)) {
-                Util.sendMsg(duelSender, ChatColor.RED + "This player is already in a duel!");
+                String playerAlreadyInDuel = mm.getPlayerAlreadyInDuelMessage();
+                playerAlreadyInDuel = playerAlreadyInDuel.replaceAll("%target%", duelTargetIn);
+                Util.sendMsg(duelSender, playerAlreadyInDuel);
                 return;
             }
 
             if (this.duelRequests.containsKey(duelSenderUUID) && this.duelRequests.containsValue(duelTargetUUID)) {
-                Util.sendMsg(duelSender, ChatColor.YELLOW + "You have already sent a request to " +
-                        ChatColor.AQUA + duelTargetIn + ".");
+                String requestAlreadySent = mm.getDuelRequestAlreadySentMessage();
+                requestAlreadySent = requestAlreadySent.replaceAll("%target%", duelTargetIn);
+                Util.sendMsg(duelSender, requestAlreadySent);
                 return;
             }
 
             String duelTargetName = duelTarget.getName();
-            if (duelSenderName == duelTargetName) {
-                Util.sendMsg(duelSender, ChatColor.RED + "You cannot duel yourself!");
+            if (duelSenderName.equals(duelTargetName)) {
+                Util.sendMsg(duelSender, mm.getCannotDuelSelfMessage());
                 return;
             }
 
-            Util.sendMsg(duelSender, ChatColor.GREEN + "You have sent a duel request to " + ChatColor.AQUA + duelTargetName + ".");
+            String duelRequestSentMessage = mm.getDuelRequestSentMessage();
+            duelRequestSentMessage = duelRequestSentMessage.replaceAll("%target%", duelTargetName);
+            Util.sendMsg(duelSender, duelRequestSentMessage);
             if (fm.isGUIMenuEnabled()) {
                 plugin.getAcceptMenu().openNormalDuelAccept(duelSender, duelTarget);
             } else {
-                Util.sendMsg(duelTarget, ChatColor.translateAlternateColorCodes('&', "&aYou have been sent a duel request from &b" + duelSenderName));
+                String duelRequestReceived = mm.getDuelRequestReceivedMessage();
+                duelRequestReceived = duelRequestReceived.replaceAll("%sender%", duelSenderName);
+                Util.sendMsg(duelTarget, ChatColor.translateAlternateColorCodes('&', duelRequestReceived));
             }
-
-            Util.sendEmptyMsg(duelTarget, ChatColor.translateAlternateColorCodes('&', "&ause &b/duel accept " + duelSenderName + "&a, to accept the request."));
             this.duelRequests.put(duelSenderUUID, duelTargetUUID);
         } else {
-            Util.sendMsg(duelSender, ChatColor.AQUA + duelTargetIn + ChatColor.RED + " is not online! Did you type it correctly?");
+            String targetNotOnline = mm.getTargetNotOnlineMessage();
+            targetNotOnline = targetNotOnline.replaceAll("%target%", duelTargetIn);
+            Util.sendMsg(duelSender, targetNotOnline);
         }
 
     }
@@ -359,19 +370,22 @@ public class DuelManager {
             UUID duelTargetUUID = duelTarget.getUniqueId();
 
             if (isInDuel(duelTargetUUID)) {
-                Util.sendMsg(duelSender, ChatColor.RED + "This player is already in a duel!");
+                String playerAlreadyInDuel = mm.getPlayerAlreadyInDuelMessage();
+                playerAlreadyInDuel = playerAlreadyInDuel.replaceAll("%target%", duelTargetIn);
+                Util.sendMsg(duelSender, playerAlreadyInDuel);
                 return;
             }
 
             if (this.duelRequests.containsKey(duelSenderUUID) && this.duelRequests.containsValue(duelTargetUUID)) {
-                Util.sendMsg(duelSender, ChatColor.YELLOW + "You have already sent a request to " +
-                        ChatColor.AQUA + duelTargetIn + ".");
+                String requestAlreadySent = mm.getDuelRequestAlreadySentMessage();
+                requestAlreadySent = requestAlreadySent.replaceAll("%target%", duelTargetIn);
+                Util.sendMsg(duelSender, requestAlreadySent);
                 return;
             }
 
             String duelTargetName = duelTarget.getName();
-            if (duelSenderName == duelTargetName) {
-                Util.sendMsg(duelSender, ChatColor.RED + "You cannot duel yourself!");
+            if (duelSenderName.equals(duelTargetName)) {
+                Util.sendMsg(duelSender, mm.getCannotDuelSelfMessage());
                 return;
             }
             if (fm.getMinBetAmount() >= amount) {
@@ -408,7 +422,9 @@ public class DuelManager {
             this.duelRequests.put(duelSenderUUID, duelTargetUUID);
             this.betRequests.put(duelSenderUUID, amount);
         } else {
-            Util.sendMsg(duelSender, ChatColor.AQUA + duelTargetIn + ChatColor.RED + " is not online! Did you type it correctly?");
+            String targetNotOnline = mm.getTargetNotOnlineMessage();
+            targetNotOnline = targetNotOnline.replaceAll("%target%", duelTargetIn);
+            Util.sendMsg(duelSender, targetNotOnline);
         }
 
     }
@@ -426,7 +442,9 @@ public class DuelManager {
         Player sender = Bukkit.getPlayer(senderIn);
 
         if (sender == null) {
-            Util.sendMsg(acceptor, ChatColor.AQUA + senderIn + ChatColor.RED + " is not online! Did you type it correctly?");
+            String targetNotOnline = mm.getTargetNotOnlineMessage();
+            targetNotOnline = targetNotOnline.replaceAll("%target%", senderIn);
+            Util.sendMsg(acceptor, targetNotOnline);
             return;
         }
 
@@ -477,8 +495,8 @@ public class DuelManager {
         ItemManager im = plugin.getItemManager();//item manager instance
 
         if (arenas.size() <= 0) {//if there are no arenas stop the duel
-            Util.sendMsg(sender, Util.NO_ARENAS);
-            Util.sendMsg(acceptor, Util.NO_ARENAS);
+            Util.sendMsg(sender, mm.getNoDuelArenasMessage());
+            Util.sendMsg(acceptor, mm.getNoDuelArenasMessage());
             return;
         }
 
@@ -493,10 +511,10 @@ public class DuelManager {
         freeArena.setDuelState(DuelState.STARTING);//set the duel state to starting
         this.updateDuelStatusSign(freeArena);
         if (fm.isDuelStartAnnouncementEnabled()) {
-            Util.broadcastMessage(ChatColor.GREEN + "A duel is Starting between " +
-                    ChatColor.AQUA + acceptorName +
-                    ChatColor.GREEN + " and " +
-                    ChatColor.AQUA + senderName);
+            String duelStartBroadcast = mm.getDuelStartMessage();
+            duelStartBroadcast = duelStartBroadcast.replaceAll("%sender%", senderName);
+            duelStartBroadcast = duelStartBroadcast.replaceAll("%target%", acceptorName);
+            Util.broadcastMessage(duelStartBroadcast);
         }
 
         if (betAmount > 0) {
@@ -537,8 +555,8 @@ public class DuelManager {
         }
 
         if (senderTeleportSuccess && acceptorTeleportSuccess) {
-            //addFrozenPlayer(senderUUID);//freeze the player
-            //addFrozenPlayer(acceptorUUID);//freeze the player
+            addFrozenPlayer(senderUUID);//freeze the player
+            addFrozenPlayer(acceptorUUID);//freeze the player
         } else {
             endDuel(freeArena);// end the duel if teleportation of both players is not a success
         }
@@ -635,14 +653,17 @@ public class DuelManager {
         int expLevel = player.getLevel();
         double health = player.getHealth();
         GameMode gameMode = player.getGameMode();
+        boolean allowedFlight = player.getAllowFlight();
+        if(allowedFlight) {
+            player.setAllowFlight(false);
+        }
         if (plugin.isDebugEnabled()) {
             SendConsoleMessage.info("Player location for player: " + player.getName() + ":" + loc);
         }
         if (player.getGameMode() != GameMode.SURVIVAL) {
-            Util.sendMsg(player, ChatColor.GREEN + "Your Gamemode has been changed to survival for the duel!");
             player.setGameMode(GameMode.SURVIVAL);
         }
-        this.addPlayerData(playerUUID, new PlayerData(arm, inv, loc, saturation, foodLevel, expLevel, health, gameMode));
+        this.addPlayerData(playerUUID, new PlayerData(arm, inv, loc, saturation, foodLevel, expLevel, health, gameMode, allowedFlight));
 
         if (fm.isUsingSeperateInventories()) {
             player.getInventory().clear(-1, -1);
@@ -668,6 +689,7 @@ public class DuelManager {
             int expLevel = playerData.getEXPLevel();
             double health = playerData.getHealth();
             GameMode gameMode = playerData.getGameMode();
+            boolean allowedFlight = playerData.getAllowedFight();
 
             if (!isDeadPlayer(playerUUID)) {
                 if (plugin.isDebugEnabled()) {
@@ -682,6 +704,7 @@ public class DuelManager {
                 player.getInventory().setArmorContents(arm);
             }
             player.setGameMode(gameMode);
+            player.setAllowFlight(allowedFlight);
             player.setSaturation(saturation);
             player.setFoodLevel(foodLevel);
             player.setLevel(expLevel);
@@ -730,9 +753,6 @@ public class DuelManager {
             player.removePotionEffect(p.getType());
             activePotions++;
         }
-        if (activePotions > 0) {
-            Util.sendMsg(player, ChatColor.YELLOW + "Your active potion effects have been disabled.");
-        }
     }
 
     /**
@@ -771,7 +791,7 @@ public class DuelManager {
             if (playerOut != null) {
                 String playerName = playerOut.getName();
                 this.restorePlayerData(playerOut);
-                Util.sendMsg(playerOut, ChatColor.RED + "Duel was forcefully cancelled!");
+                Util.sendMsg(playerOut, mm.getDuelForcefullyCancelledMessage());
                 if (arena.hasBet()) {
                     double betAmount = arena.getBetAmount();
                     double refundAmount = betAmount / 2;

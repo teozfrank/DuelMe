@@ -239,15 +239,19 @@ public class FileManager {
             duelArenas.set(path + "pos2.z", a.getPos2().getBlockZ());
             if(a.getSpawnpoint1() != null) {
                 duelArenas.set(path + "spawnpoint1.world", a.getSpawnpoint1().getWorld().getName());
-                duelArenas.set(path + "spawnpoint1.x", a.getSpawnpoint1().getBlockX());
-                duelArenas.set(path + "spawnpoint1.y", a.getSpawnpoint1().getBlockY());
-                duelArenas.set(path + "spawnpoint1.z", a.getSpawnpoint1().getBlockZ());
+                duelArenas.set(path + "spawnpoint1.x", a.getSpawnpoint1().getX());
+                duelArenas.set(path + "spawnpoint1.y", a.getSpawnpoint1().getY());
+                duelArenas.set(path + "spawnpoint1.z", a.getSpawnpoint1().getZ());
+                duelArenas.set(path + "spawnpoint1.yaw", Double.valueOf(a.getSpawnpoint1().getYaw()));
+                duelArenas.set(path + "spawnpoint1.pitch", Double.valueOf(a.getSpawnpoint1().getPitch()));
             }
             if(a.getSpawnpoint2() != null) {
                 duelArenas.set(path + "spawnpoint2.world", a.getSpawnpoint2().getWorld().getName());
-                duelArenas.set(path + "spawnpoint2.x", a.getSpawnpoint2().getBlockX());
-                duelArenas.set(path + "spawnpoint2.y", a.getSpawnpoint2().getBlockY());
-                duelArenas.set(path + "spawnpoint2.z", a.getSpawnpoint2().getBlockZ());
+                duelArenas.set(path + "spawnpoint2.x", a.getSpawnpoint2().getX());
+                duelArenas.set(path + "spawnpoint2.y", a.getSpawnpoint2().getY());
+                duelArenas.set(path + "spawnpoint2.z", a.getSpawnpoint2().getZ());
+                duelArenas.set(path + "spawnpoint2.yaw", Double.valueOf(a.getSpawnpoint2().getYaw()));
+                duelArenas.set(path + "spawnpoint2.pitch", Double.valueOf(a.getSpawnpoint2().getPitch()));
             }
             savedArenas++;
         }
@@ -293,17 +297,21 @@ public class FileManager {
 
                 if(duelArenas.isSet(path + "spawnpoint1") && duelArenas.isSet(path + "spawnpoint2")) {
                     String spawnpoint1w = duelArenas.getString(path + "spawnpoint1.world");
-                    int spawnpoint1x = duelArenas.getInt(path + "spawnpoint1.x");
-                    int spawnpoint1y = duelArenas.getInt(path + "spawnpoint1.y");
-                    int spawnpoint1z = duelArenas.getInt(path + "spawnpoint1.z");
+                    double spawnpoint1x = duelArenas.getDouble(path + "spawnpoint1.x");
+                    double spawnpoint1y = duelArenas.getDouble(path + "spawnpoint1.y");
+                    double spawnpoint1z = duelArenas.getDouble(path + "spawnpoint1.z");
+                    float spawnpoint1yaw = (float) duelArenas.getDouble(path + "spawnpoint1.yaw");
+                    float spawnpoint1pitch = (float) duelArenas.getDouble(path + "spawnpoint1.pitch");
 
                     String spawnpoint2w = duelArenas.getString(path + "spawnpoint2.world");
-                    int spawnpoint2x = duelArenas.getInt(path + "spawnpoint2.x");
-                    int spawnpoint2y = duelArenas.getInt(path + "spawnpoint2.y");
-                    int spawnpoint2z = duelArenas.getInt(path + "spawnpoint2.z");
+                    double spawnpoint2x = duelArenas.getDouble(path + "spawnpoint2.x");
+                    double spawnpoint2y = duelArenas.getDouble(path + "spawnpoint2.y");
+                    double spawnpoint2z = duelArenas.getDouble(path + "spawnpoint2.z");
+                    float spawnpoint2yaw = (float) duelArenas.getDouble(path + "spawnpoint2.yaw");
+                    float spawnpoint2pitch = (float) duelArenas.getDouble(path + "spawnpoint2.pitch");
 
-                    Location spawnpoint1 = new Location(Bukkit.getWorld(spawnpoint1w), spawnpoint1x, spawnpoint1y, spawnpoint1z);
-                    Location spawnpoint2 = new Location(Bukkit.getWorld(spawnpoint2w), spawnpoint2x, spawnpoint2y, spawnpoint2z);
+                    Location spawnpoint1 = new Location(Bukkit.getWorld(spawnpoint1w), spawnpoint1x, spawnpoint1y, spawnpoint1z, spawnpoint1yaw, spawnpoint1pitch);
+                    Location spawnpoint2 = new Location(Bukkit.getWorld(spawnpoint2w), spawnpoint2x, spawnpoint2y, spawnpoint2z, spawnpoint2yaw, spawnpoint2pitch);
 
                     Location pos1 = new Location(Bukkit.getWorld(pos1w), pos1x, pos1y, pos1z);
                     Location pos2 = new Location(Bukkit.getWorld(pos2w), pos2x, pos2y, pos2z);
@@ -485,6 +493,15 @@ public class FileManager {
      */
     public int getMaxBetAmount() {
         return plugin.getConfig().getInt("duelme.duel.maxbetamount");
+    }
+
+    /**
+     * get the config version of the messages config file
+     * @return the config version of the messages config file
+     */
+    public double getMessagesConfigVersion() {
+        double version = this.getMessages().getDouble("configversion");
+        return version;
     }
 
 }

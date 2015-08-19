@@ -1,5 +1,25 @@
 # do not touch the config version below, it will break the plugin!
-configversion: 1.0
+configversion: 1.1
 messages:
     general:
         prefix: '&6[DuelMe]'
+    request:
+        received: 'You have been sent a duel request from %sender% use /duel accept <%sender%> to accept.'
+        sent: '&aYou have sent a duel request to %target%'
+        alreadysent: 'You have already sent a duel request to %target%'
+        notonline: '&cThe player &b%target% &cis not online did you type it correctly?'
+        alreadyinduel: '&b%target% &cis already in a duel!'
+    deathcause:
+        player: '&b%player% &cwas killed in a duel by &b%killer%!'
+        other: '&b%player% &cwas killed in a duel!'
+    starting:
+        broadcast: '&aA duel is starting between &b%sender% &aand &b%acceptor%'
+        actionbar: '&aStarting duel in &b%seconds%'
+    started:
+        broadcast: '&6Duel!'
+        actionbar: '&cDuel ends in &b%seconds%'
+    error:
+        noduelarenas: '&cERROR, There are no duel arenas!, please contact a member of staff.'
+        forcefullycancelled: '&cDuel was forcefully cancelled'
+        commandnotallowed: '&cSorry but you cannot use this command during a duel.'
+        cannottduelself: '&cSorry but you cannot duel yourself.'

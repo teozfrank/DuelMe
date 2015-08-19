@@ -41,17 +41,26 @@ public class PlayerData {
     private int expLevel;
     private double health;
     private GameMode gameMode;
+    private boolean allowedFight;
 
-    public PlayerData(ItemStack[] armourIn, ItemStack[] inventoryIn, Location locationIn,
-                      Float saturationIn, int foodLevelIn, int expLevelIn, double healthIn, GameMode gameModeIn) {
-        this.armour = armourIn;
-        this.inventory = inventoryIn;
-        this.locaton = locationIn;
-        this.saturation = saturationIn;
-        this.foodLevel = foodLevelIn;
-        this.expLevel = expLevelIn;
-        this.health = healthIn;
-        this.gameMode = gameModeIn;
+    public PlayerData(ItemStack[] armour, ItemStack[] inventory, Location locaton, Float saturation, int foodLevel, int expLevel, double health, GameMode gameMode, boolean allowedFight) {
+        this.armour = armour;
+        this.inventory = inventory;
+        this.locaton = locaton;
+        this.saturation = saturation;
+        this.foodLevel = foodLevel;
+        this.expLevel = expLevel;
+        this.health = health;
+        this.gameMode = gameMode;
+        this.allowedFight = allowedFight;
+    }
+
+    public boolean getAllowedFight() {
+        return allowedFight;
+    }
+
+    public void setAllowedFight(boolean allowedFight) {
+        this.allowedFight = allowedFight;
     }
 
     public ItemStack[] getArmour() {

@@ -56,6 +56,7 @@ public class StartDuelThread extends BukkitRunnable {
     public void run() {
         DuelManager dm = plugin.getDuelManager();
         FileManager fm = plugin.getFileManager();
+        MessageManager mm = plugin.getMessageManager();
         int duelTime = fm.getDuelTime();
         String senderName = sender.getName();
         String targetName = target.getName();
@@ -74,8 +75,9 @@ public class StartDuelThread extends BukkitRunnable {
 
 
         if (this.countDown > 0 && duelSize == 2) {
-            //Util.setTime(sender, target, this.countDown);
-            Util.sendActionBarMessage(sender, target, ChatColor.GOLD + "Starting duel in: " + ChatColor.AQUA + this.countDown);
+            String duelStartActionBar = mm.getDuelStartingActionBarMessage();
+            duelStartActionBar = duelStartActionBar.replaceAll("%seconds%", String.valueOf(this.countDown));
+            Util.sendActionBarMessage(sender, target, duelStartActionBar);
             this.countDown--;
         } else {
             if(duelSize == 2) {

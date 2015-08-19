@@ -54,10 +54,7 @@ public class DuelTimeThread extends BukkitRunnable {
     @Override
     public void run() {
         DuelManager dm = plugin.getDuelManager();
-        String senderName = sender.getName();
-        String targetName = target.getName();
-        UUID senderUUID = sender.getUniqueId();
-        UUID targetUUID = target.getUniqueId();
+        MessageManager mm = plugin.getMessageManager();
         int duelSize = duelArena.getPlayers().size();
 
         if(duelArena.getPlayers().size() == 1) {
@@ -69,7 +66,9 @@ public class DuelTimeThread extends BukkitRunnable {
 
         if (this.duelTime > 0 && duelSize == 2) {
             //Util.setTime(sender, target, this.duelTime);
-            Util.sendActionBarMessage(sender, target, ChatColor.GOLD + "Duel Ends in: " + ChatColor.AQUA + this.duelTime);
+            String duelEndActionBar = mm.getDuelRemainingActionBarMessage();
+            duelEndActionBar = duelEndActionBar.replaceAll("%seconds%", String.valueOf(this.duelTime));
+            Util.sendActionBarMessage(sender, target, duelEndActionBar);
             this.duelTime--;
         } else {
             if(plugin.isDebugEnabled()) {

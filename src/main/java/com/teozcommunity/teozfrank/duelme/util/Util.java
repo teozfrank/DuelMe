@@ -256,5 +256,27 @@ public class Util {
         ((CraftPlayer) target).getHandle().playerConnection.sendPacket(packet);
     }
 
+    /**
+     * Check to see if a teleport is truly successful
+     * by checking if the player has reached the destination
+     * @param player the player
+     * @param location the location the player is being teleported to
+     * @return true if successful false if not
+     */
+    public static boolean isTeleportSuccessful(Player player, Location location) {
+
+        Location playerLocation = player.getLocation();
+        int playerLocX = playerLocation.getBlockX();
+        int playerLocZ = playerLocation.getBlockZ();
+        int teleportLocX = location.getBlockX();
+        int teleportLocZ = location.getBlockZ();
+
+        if(playerLocX == teleportLocX && playerLocZ == teleportLocZ) {
+            return true;
+        }
+        return false;
+
+    }
+
 
 }

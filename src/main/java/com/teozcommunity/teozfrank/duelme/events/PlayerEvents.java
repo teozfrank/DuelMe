@@ -137,6 +137,9 @@ public class PlayerEvents implements Listener {
         if(dm.isInDuel(playerUUID)) {
             if(!this.isAllowedCommand(e.getMessage())) {//if the command is not allowed
                 Util.sendMsg(player, mm.getCommandNotAllowedMessage());
+                if(plugin.isDebugEnabled()) {
+                    SendConsoleMessage.debug("send command not allowed message");
+                }
                 e.setCancelled(true);
             }
         }

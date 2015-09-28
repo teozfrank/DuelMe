@@ -513,7 +513,7 @@ public class DuelManager {
         if (fm.isDuelStartAnnouncementEnabled()) {
             String duelStartBroadcast = mm.getDuelStartMessage();
             duelStartBroadcast = duelStartBroadcast.replaceAll("%sender%", senderName);
-            duelStartBroadcast = duelStartBroadcast.replaceAll("%target%", acceptorName);
+            duelStartBroadcast = duelStartBroadcast.replaceAll("%acceptor%", acceptorName);
             Util.broadcastMessage(duelStartBroadcast);
         }
 
@@ -546,6 +546,20 @@ public class DuelManager {
                 SendConsoleMessage.debug("Spawnpoint 1: " + freeArena.getSpawnpoint1());
                 SendConsoleMessage.debug("Spawnpoint 2: " + freeArena.getSpawnpoint2());
             }
+
+            if(plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug("waiting for teleport success.");
+            }
+            while(!Util.isTeleportSuccessful(acceptor, freeArena.getSpawnpoint1()) && !Util.isTeleportSuccessful(sender, freeArena.getSpawnpoint2())) {
+               if(plugin.isDebugEnabled()) {
+                   SendConsoleMessage.debug("teleport in progress.");
+               }
+
+            }
+            if(plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug("teleport location confirmed, successfull!.");
+            }
+
         } else {
             if (plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("Spawnpoints for arena not set falling back to random spawn locations.");

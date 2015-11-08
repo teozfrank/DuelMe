@@ -530,6 +530,11 @@ public class DuelManager {
 
         freeArena.addPlayerUUID(acceptorUUID);//add the players to the arena
         freeArena.addPlayerUUID(senderUUID);
+        Location spawnpoint1 = freeArena.getSpawnpoint1();
+        Location spawnpoint2 = freeArena.getSpawnpoint2();
+
+        spawnpoint1.setY(spawnpoint1.getY() + 2);
+        spawnpoint2.setY(spawnpoint2.getY() + 2);
 
         this.storePlayerData(acceptor);
         this.storePlayerData(sender);
@@ -543,14 +548,14 @@ public class DuelManager {
             acceptorTeleportSuccess = acceptor.teleport(freeArena.getSpawnpoint1());//teleport the players to set spawn location in the duel arena
             senderTeleportSuccess = sender.teleport(freeArena.getSpawnpoint2());
             if (plugin.isDebugEnabled()) {
-                SendConsoleMessage.debug("Spawnpoint 1: " + freeArena.getSpawnpoint1());
-                SendConsoleMessage.debug("Spawnpoint 2: " + freeArena.getSpawnpoint2());
+                SendConsoleMessage.debug("Spawnpoint 1: " + spawnpoint1);
+                SendConsoleMessage.debug("Spawnpoint 2: " + spawnpoint2);
             }
 
             if(plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("waiting for teleport success.");
             }
-            while(!Util.isTeleportSuccessful(acceptor, freeArena.getSpawnpoint1()) && !Util.isTeleportSuccessful(sender, freeArena.getSpawnpoint2())) {
+            while(!Util.isTeleportSuccessful(acceptor, spawnpoint1) && !Util.isTeleportSuccessful(sender, spawnpoint2)) {
                if(plugin.isDebugEnabled()) {
                    SendConsoleMessage.debug("teleport in progress.");
                }

@@ -503,5 +503,4 @@ public class FileManager {
         double version = this.getMessages().getDouble("configversion");
         return version;
     }
-
 }

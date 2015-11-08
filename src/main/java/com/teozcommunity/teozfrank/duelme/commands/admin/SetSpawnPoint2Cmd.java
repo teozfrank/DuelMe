@@ -63,7 +63,6 @@ public class SetSpawnPoint2Cmd extends DuelAdminCmd {
             return;
         }
 
-        playerLocation.setY(y + 2.0);//offset so player does not spawn in the ground if the chunks are not loaded.
         duelArena.setSpawnpoint2(playerLocation);
         Util.sendMsg(sender, ChatColor.translateAlternateColorCodes('&',
                 "&aSpawnpoint2 set to: " + "&a(&b" + x + "&a)(&b" + y + "&a)(&b" + z + "&a)"

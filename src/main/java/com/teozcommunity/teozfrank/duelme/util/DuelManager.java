@@ -533,8 +533,8 @@ public class DuelManager {
         Location spawnpoint1 = freeArena.getSpawnpoint1();
         Location spawnpoint2 = freeArena.getSpawnpoint2();
 
-        spawnpoint1.setY(spawnpoint1.getY() + 2);
-        spawnpoint2.setY(spawnpoint2.getY() + 2);
+        surroundLocation(spawnpoint1, Material.valueOf(fm.getDuelSurroundMaterial()));
+        surroundLocation(spawnpoint2, Material.valueOf(fm.getDuelSurroundMaterial()));
 
         this.storePlayerData(acceptor);
         this.storePlayerData(sender);
@@ -543,27 +543,11 @@ public class DuelManager {
             if (plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("Spawnpoints for arena set teleporting players to locations.");
             }
+
             removePotionEffects(acceptor);//remove players active potion effects
             removePotionEffects(sender);
-            acceptorTeleportSuccess = acceptor.teleport(freeArena.getSpawnpoint1());//teleport the players to set spawn location in the duel arena
-            senderTeleportSuccess = sender.teleport(freeArena.getSpawnpoint2());
-            if (plugin.isDebugEnabled()) {
-                SendConsoleMessage.debug("Spawnpoint 1: " + spawnpoint1);
-                SendConsoleMessage.debug("Spawnpoint 2: " + spawnpoint2);
-            }
-
-            if(plugin.isDebugEnabled()) {
-                SendConsoleMessage.debug("waiting for teleport success.");
-            }
-            while(!Util.isTeleportSuccessful(acceptor, spawnpoint1) && !Util.isTeleportSuccessful(sender, spawnpoint2)) {
-               if(plugin.isDebugEnabled()) {
-                   SendConsoleMessage.debug("teleport in progress.");
-               }
-
-            }
-            if(plugin.isDebugEnabled()) {
-                SendConsoleMessage.debug("teleport location confirmed, successfull!.");
-            }
+            acceptor.teleport(freeArena.getSpawnpoint1());//teleport the players to set spawn location in the duel arena
+            sender.teleport(freeArena.getSpawnpoint2());
 
         } else {
             if (plugin.isDebugEnabled()) {
@@ -571,13 +555,6 @@ public class DuelManager {
             }
             acceptorTeleportSuccess = acceptor.teleport(this.generateRandomLocation(freeArena));//teleport the players to a random location in the duel arena
             senderTeleportSuccess = sender.teleport(this.generateRandomLocation(freeArena));
-        }
-
-        if (senderTeleportSuccess && acceptorTeleportSuccess) {
-            addFrozenPlayer(senderUUID);//freeze the player
-            addFrozenPlayer(acceptorUUID);//freeze the player
-        } else {
-            endDuel(freeArena);// end the duel if teleportation of both players is not a success
         }
 
         if (fm.isUsingSeperateInventories()) {
@@ -900,6 +877,51 @@ public class DuelManager {
             }
         }
         return null;//no free duel arenas
+    }
+
+    /**
+     * returns a list of locations based on the inputs given
+     * credits for origional source comes from bukkit forums, here:
+     * https://bukkit.org/threads/creating-a-3x3-square-dissapearing-after-time.140159/
+     * @param loc the location to surround
+     * @param r radius
+     * @param h height
+     * @param hollow true if hollow false if not
+     * @param sphere true of sphere false if not
+     * @param plus_y
+     * @return
+     */
+    public List<Location> surround(Location loc, Integer r, Integer h, Boolean hollow, Boolean sphere, int plus_y) {
+        List<Location> circleblocks = new ArrayList<Location>();
+        int cx = loc.getBlockX();
+        int cy = loc.getBlockY();
+        int cz = loc.getBlockZ();
+        for (int x = cx - r; x <= cx +r; x++)
+            for (int z = cz - r; z <= cz +r; z++)
+                for (int y = (sphere ? cy - r : cy); y < (sphere ? cy + r : cy + h); y++) {
+                    double dist = (cx - x) * (cx - x) + (cz - z) * (cz - z) + (sphere ? (cy - y) * (cy - y) : 0);
+                    if (dist < r*r && !(hollow && dist < (r-1)*(r-1))) {
+                        Location l = new Location(loc.getWorld(), x, y + plus_y, z);
+                        if(!(l.getBlockY() == cy)) {
+                            circleblocks.add(l);
+                        }
+
+                    }
+                }
+
+        return circleblocks;
+    }
+
+    /**
+     * surround a specific location with a given material
+     * @param location the location
+     * @param material the material to set it to
+     */
+    public void surroundLocation(Location location, Material material) {
+        final List<Location> circs =  surround(location, 2, 2, true, true, 1);
+        for (Location loc : circs) {
+            loc.getBlock().setType(material);
+        }
     }
 
 }

@@ -84,11 +84,13 @@ public class StartDuelThread extends BukkitRunnable {
                 Util.setTime(sender, target, this.countDown);
                 Util.sendMsg(sender, target, ChatColor.YELLOW + "Duel!");
                 duelArena.setDuelState(DuelState.STARTED);
+                dm.surroundLocation(duelArena.getSpawnpoint1(), Material.AIR);
+                dm.surroundLocation(duelArena.getSpawnpoint2(), Material.AIR);
                 dm.updateDuelStatusSign(duelArena);
             }
 
-            dm.removeFrozenPlayer(senderUUID);
-            dm.removeFrozenPlayer(targetUUID);
+            //dm.removeFrozenPlayer(senderUUID);
+            //dm.removeFrozenPlayer(targetUUID);
 
             if (plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("Stopping duel start thread.");

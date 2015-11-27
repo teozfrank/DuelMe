@@ -53,6 +53,7 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
         DuelAdminCmd setSpawnPoint1 = new SetSpawnPoint1Cmd(plugin, "duelme.admin.setspawnpoint1");
         DuelAdminCmd setSpawnPoint2 = new SetSpawnPoint2Cmd(plugin, "duelme.admin.setspawnpoint2");
         DuelAdminCmd restore = new RestoreCmd(plugin, "duelme.admin.restore");
+        DuelAdminCmd forceDuel = new ForceDuel(plugin, "duelme.admin.forceduel");
 
         addCmd("create", create, new String[] {
             "c,new"
@@ -86,6 +87,10 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
 
         addCmd("restore", restore);
 
+        addCmd("forceduel", forceDuel, new String[] {
+                "fd"
+        });
+
         create.needsObject = false;
         remove.needsObject = true;
         list.needsObject = false;
@@ -95,6 +100,7 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
         setSpawnPoint1.needsObject = true;
         setSpawnPoint2.needsObject = true;
         restore.needsObject = false;
+        forceDuel.needsObject = false;
     }
 
     @Override
@@ -117,6 +123,7 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin setspawnpoint1 <arenaname> - "+ ChatColor.GOLD + "set the first spawnpoint for a duel arena.");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin setspawnpoint2 <arenaname> - "+ ChatColor.GOLD + "set the second spawnpoint for a duel arena.");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin restore <player> - "+ ChatColor.GOLD + "attempt to restore a players data.");
+                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin forceduel <player1> <player2> - "+ ChatColor.GOLD + "attempt to force a duel between two players.");
                 Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin reload - "+ ChatColor.GOLD + "reload the plugin configs.");
                 Util.sendEmptyMsg(sender, "");
                 Util.sendEmptyMsg(sender, ChatColor.GOLD + "Below commands only work if MySql is setup and enabled.");

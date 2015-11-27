@@ -503,4 +503,12 @@ public class FileManager {
         double version = this.getMessages().getDouble("configversion");
         return version;
     }
+
+    /**
+     * get the surround material for the spawnpoints when a duel is starting
+     * @return the string material in bukkit material format
+     */
+    public String getDuelSurroundMaterial() {
+        return plugin.getConfig().getString("duelme.duel.surroundmaterial");
+    }
 }

@@ -70,8 +70,7 @@ public class PlayerEvents implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent e) {
-        Player player = e.getPlayer();
-        String playerName = player.getName();
+        final Player player = e.getPlayer();
 
         if(player.hasPermission("duelme.admin.update.notify")) {
             if(UpdateChecker.isUpdateAvailable() && plugin.getConfig().getBoolean("duelme.checkforupdates")) {

@@ -30,6 +30,7 @@ import com.teozcommunity.teozfrank.duelme.commands.DuelExecutor;
 import com.teozcommunity.teozfrank.duelme.events.*;
 import com.teozcommunity.teozfrank.duelme.menus.AcceptMenu;
 import com.teozcommunity.teozfrank.duelme.mysql.MySql;
+import com.teozcommunity.teozfrank.duelme.threads.RequestTimeoutThread;
 import com.teozcommunity.teozfrank.duelme.threads.UpdateCheckerThread;
 import com.teozcommunity.teozfrank.duelme.util.*;
 import net.milkbowl.vault.economy.Economy;
@@ -109,6 +110,11 @@ public class DuelMe extends JavaPlugin {
             return;
         }
         this.registerEvents();
+        this.startTasks();
+    }
+
+    private void startTasks() {
+        this.getServer().getScheduler().runTaskTimer(this, new RequestTimeoutThread(this), 20L, 120L);
     }
 
     /**

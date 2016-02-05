@@ -46,6 +46,6 @@ public class ForceDuel extends DuelAdminCmd {
         }
 
         Util.sendMsg(sender, ChatColor.GOLD + "Attempting to force a duel between " + player1Name + " and " + player2Name);
-        plugin.getDuelManager().startDuel(player1, player2, 0);
+        plugin.getDuelManager().startDuel(player1, player2, null);
     }
 }

@@ -97,7 +97,7 @@ public class PlayerEvents implements Listener {
         if(entity instanceof Player){
             Player target = (Player) entity;
             if(player.isSneaking() && player.getItemInHand().equals(new ItemStack(Material.DIAMOND_SWORD))){//if the player is sneaking and has a diamond sword
-              dm.sendNormalDuelRequest(player, target.getName());//send a duel request
+              //dm.sendNormalDuelRequest(player, target.getName());//send a duel request
               return;
             }
         }
@@ -150,7 +150,7 @@ public class PlayerEvents implements Listener {
         Player player = e.getPlayer();
         UUID playerUUID = player.getUniqueId();
         DuelManager dm = plugin.getDuelManager();
-        if (dm.isFrozen(playerUUID)) {
+        /*if (dm.isFrozen(playerUUID)) {
 
 
             Location loc = player.getLocation();
@@ -171,7 +171,7 @@ public class PlayerEvents implements Listener {
 
                 player.teleport(loc);
             }
-        }
+        }*/
     }
 
     /**

@@ -42,14 +42,7 @@ public class DuelManager {
 
     private DuelMe plugin;
 
-    /**
-     * map to keep track of the dueling requests
-     * the key is the duel sender
-     * the value is the player who has been sent a request
-     */
-    private Map<UUID, UUID> duelRequests;
-
-    private Map<UUID, Double> betRequests;
+    private List<DuelRequest> duelRequests;
 
     /**
      * list to hold the current spectating player uuids
@@ -77,12 +70,11 @@ public class DuelManager {
 
     public DuelManager(DuelMe plugin) {
         this.plugin = plugin;
-        this.duelRequests = new HashMap<UUID, UUID>();
+        this.duelRequests = new ArrayList<DuelRequest>();
         this.spectatingPlayerUUIDs = new ArrayList<UUID>();
         this.frozenPlayerUUIDs = new ArrayList<UUID>();
         this.duelArenas = new ArrayList<DuelArena>();
         this.playerData = new HashMap<UUID, PlayerData>();
-        this.betRequests = new HashMap<UUID, Double>();
         this.deadPlayers = new ArrayList<UUID>();
         this.mm = plugin.getMessageManager();
     }
@@ -208,13 +200,6 @@ public class DuelManager {
         return null;
     }
 
-    public boolean isFrozen(UUID playerUUIDIn) {
-        if (this.getFrozenPlayerUUIDs().contains(playerUUIDIn)) {
-            return true;
-        }
-        return false;
-    }
-
     /**
      * get a list of the frozen players
      *
@@ -286,11 +271,22 @@ public class DuelManager {
         return null;
     }
 
-    public boolean hasSentDuelWithBet(UUID senderUUID) {
-        if (this.betRequests.containsKey(senderUUID)) {
-            return true;
+    public boolean hasSentRequest(UUID sender, UUID target) {
+        for(DuelRequest duelRequest: duelRequests) {
+            if(duelRequest.getDuelSender() == sender && duelRequest.getDuelTarget() == target) {
+                return true;
+            }
         }
         return false;
+    }
+
+    public DuelRequest getDuelRequest(UUID sender, UUID target) {
+        for(DuelRequest duelRequest: duelRequests) {
+            if(duelRequest.getDuelSender() == sender && duelRequest.getDuelTarget() == target) {
+                return duelRequest;
+            }
+        }
+        return null;
     }
 
     /**
@@ -299,12 +295,24 @@ public class DuelManager {
      * @param duelSender   the sender of the request
      * @param duelTargetIn the string player of the target player
      */
-    public void sendNormalDuelRequest(Player duelSender, String duelTargetIn) {
+    public void sendDuelRequest(Player duelSender, String duelTargetIn, String arenaIn) {
 
         FileManager fm = plugin.getFileManager();
         String duelSenderName = duelSender.getName();
         UUID duelSenderUUID = duelSender.getUniqueId();
         Player duelTarget = Bukkit.getPlayer(duelTargetIn);
+
+        if(arenaIn != null) {
+            DuelArena arena = this.getDuelArenaByName(arenaIn);
+            if(arena == null) {
+                Util.sendMsg(duelSender, ChatColor.RED + "Sorry but that duel arena name you specified doesn't exist.");
+                return;
+            }
+            if(arena.getDuelState() != DuelState.WAITING) {
+                Util.sendMsg(duelSender, ChatColor. RED + "Sorry but that duel arena isn't available right now please try another one.");
+                return;
+            }
+        }
 
         if (duelTarget != null) {
 
@@ -317,7 +325,7 @@ public class DuelManager {
                 return;
             }
 
-            if (this.duelRequests.containsKey(duelSenderUUID) && this.duelRequests.containsValue(duelTargetUUID)) {
+            if (hasSentRequest(duelSenderUUID, duelTargetUUID)) {
                 String requestAlreadySent = mm.getDuelRequestAlreadySentMessage();
                 requestAlreadySent = requestAlreadySent.replaceAll("%target%", duelTargetIn);
                 Util.sendMsg(duelSender, requestAlreadySent);
@@ -340,7 +348,7 @@ public class DuelManager {
                 duelRequestReceived = duelRequestReceived.replaceAll("%sender%", duelSenderName);
                 Util.sendMsg(duelTarget, ChatColor.translateAlternateColorCodes('&', duelRequestReceived));
             }
-            this.duelRequests.put(duelSenderUUID, duelTargetUUID);
+            this.duelRequests.add(new DuelRequest(duelSenderUUID, duelTargetUUID, arenaIn, System.currentTimeMillis()));
         } else {
             String targetNotOnline = mm.getTargetNotOnlineMessage();
             targetNotOnline = targetNotOnline.replaceAll("%target%", duelTargetIn);
@@ -349,84 +357,8 @@ public class DuelManager {
 
     }
 
-    /**
-     * handle duel requests
-     *
-     * @param duelSender   the sender of the request
-     * @param duelTargetIn the string player of the target player
-     * @param amount       the duel bet amount
-     */
-    public void sendBetDuelRequest(Player duelSender, String duelTargetIn, double amount) {
-
-        String duelSenderName = duelSender.getName();
-        UUID duelSenderUUID = duelSender.getUniqueId();
-        FileManager fm = plugin.getFileManager();
-        double minBetAmount = fm.getMinBetAmount();
-
-        Player duelTarget = Bukkit.getPlayer(duelTargetIn);
-
-        if (duelTarget != null) {
-
-            UUID duelTargetUUID = duelTarget.getUniqueId();
-
-            if (isInDuel(duelTargetUUID)) {
-                String playerAlreadyInDuel = mm.getPlayerAlreadyInDuelMessage();
-                playerAlreadyInDuel = playerAlreadyInDuel.replaceAll("%target%", duelTargetIn);
-                Util.sendMsg(duelSender, playerAlreadyInDuel);
-                return;
-            }
-
-            if (this.duelRequests.containsKey(duelSenderUUID) && this.duelRequests.containsValue(duelTargetUUID)) {
-                String requestAlreadySent = mm.getDuelRequestAlreadySentMessage();
-                requestAlreadySent = requestAlreadySent.replaceAll("%target%", duelTargetIn);
-                Util.sendMsg(duelSender, requestAlreadySent);
-                return;
-            }
-
-            String duelTargetName = duelTarget.getName();
-            if (duelSenderName.equals(duelTargetName)) {
-                Util.sendMsg(duelSender, mm.getCannotDuelSelfMessage());
-                return;
-            }
-            if (fm.getMinBetAmount() >= amount) {
-                Util.sendMsg(duelSender, "You must provide a bet amount that is greater than " + minBetAmount);
-                return;
-            }
-
-            if (fm.getMaxBetAmount() <= amount) {
-                Util.sendMsg(duelSender, "Your bet amount is too high! It cannot be higher than " + fm.getMaxBetAmount());
-                return;
-            }
-
-            if (!this.hasEnoughMoney(duelSenderName, amount)) {
-                Util.sendMsg(duelSender, ChatColor.RED + "You do not have enough money to duel for this bet amount!");
-                return;
-            }
-
-            if (!this.hasEnoughMoney(duelTargetName, amount)) {
-                Util.sendMsg(duelSender, ChatColor.RED + "The player who you wish to duel does not have enough money to duel!!");
-                Util.sendMsg(duelTarget, ChatColor.YELLOW + "Player " + duelSenderName + " tried to send you a duel request but you do not have enough money to accept the duel.");
-                return;
-            }
-
-            Util.sendMsg(duelSender, ChatColor.GREEN + "You have sent a duel request to " + ChatColor.AQUA +
-                    duelTargetName + ChatColor.GREEN + " for a bet amount of " + ChatColor.GREEN + amount);
-            if (fm.isGUIMenuEnabled()) {
-                plugin.getAcceptMenu().openDuelBetAccept(duelSender, duelTarget, amount);
-            } else {
-                Util.sendMsg(duelTarget, ChatColor.translateAlternateColorCodes('&', "&aYou have been sent a duel request from &b" + duelSenderName +
-                        " &afor a bet amount of &b" + amount));
-            }
-
-            Util.sendEmptyMsg(duelTarget, ChatColor.translateAlternateColorCodes('&', "&ause &b/duel accept " + duelSenderName + "&a, to accept the request."));
-            this.duelRequests.put(duelSenderUUID, duelTargetUUID);
-            this.betRequests.put(duelSenderUUID, amount);
-        } else {
-            String targetNotOnline = mm.getTargetNotOnlineMessage();
-            targetNotOnline = targetNotOnline.replaceAll("%target%", duelTargetIn);
-            Util.sendMsg(duelSender, targetNotOnline);
-        }
-
+    public void removeDuelRequest(DuelRequest duelRequest) {
+        this.duelRequests.remove(duelRequest);
     }
 
 
@@ -450,21 +382,10 @@ public class DuelManager {
 
         UUID senderUUID = sender.getUniqueId();
 
-        if (this.duelRequests.containsKey(senderUUID) && this.duelRequests.containsValue(acceptorUUID)) {
-            this.duelRequests.remove(senderUUID);
-            if (this.hasSentDuelWithBet(senderUUID)) {
-                double betAmount = this.betRequests.get(senderUUID);
-                this.betRequests.remove(senderUUID);
-                if (!this.hasEnoughMoney(acceptor.getName(), betAmount)) {
-                    Util.sendMsg(acceptor, ChatColor.RED + "You do not have enough money to start this duel!, Duel cancelled!");
-                    Util.sendMsg(sender, ChatColor.RED + "Your duel partner does not have enough money to start this duel, Duel cancelled!");
-                    return;
-                }
-                this.startDuel(acceptor, sender, betAmount);
-            } else {
-                this.startDuel(acceptor, sender, 0);
-            }
-
+        if (hasSentRequest(senderUUID, acceptorUUID)) {
+            DuelRequest duelRequest = getDuelRequest(senderUUID, acceptorUUID);
+            this.startDuel(acceptor, sender, duelRequest.getDuelArena());
+            this.removeDuelRequest(duelRequest);
             return;
         } else {
             Util.sendMsg(acceptor, ChatColor.RED +
@@ -473,19 +394,26 @@ public class DuelManager {
 
     }
 
+
+    public boolean isArenaFree(DuelArena duelArena) {
+        if(duelArena.getDuelState() == DuelState.WAITING) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * attempt to start the duel with the two players
      *
      * @param acceptor the player that accepted the request
      * @param sender   the player that sent the reqest
      */
-    public void startDuel(Player acceptor, Player sender, double betAmount) {
+    public void startDuel(Player acceptor, Player sender, String arena) {
 
         String acceptorName = acceptor.getName();//the duel acceptor name
         String senderName = sender.getName();//the duel request sender name
-        double totalBetAmount = betAmount * 2;
-        boolean acceptorTeleportSuccess = false;
-        boolean senderTeleportSuccess = false;
+
+        DuelArena duelArena;
 
         final UUID acceptorUUID = acceptor.getUniqueId();
         final UUID senderUUID = sender.getUniqueId();
@@ -500,16 +428,29 @@ public class DuelManager {
             return;
         }
 
-        DuelArena freeArena = this.getFreeArena();
+        if(arena != null) {
+            duelArena = getDuelArenaByName(arena);
+            if(duelArena == null) {
+                Util.sendMsg(acceptor, ChatColor.RED + "The duel arena you requested to duel in does not exist!");
+                return;
+            }
+            if(isArenaFree(duelArena)) {
+                Util.sendMsg(acceptor, ChatColor.RED + "The duel arena you requested to duel in is not free!");
+                return;
+            }
+        }
 
-        if (freeArena == null) {
+
+        duelArena = this.getFreeArena();
+
+        if (duelArena == null) {
             Util.sendMsg(acceptor, ChatColor.YELLOW + "There are no free duel arenas, please try again later!");
             Util.sendMsg(sender, ChatColor.YELLOW + "There are no free duel arenas, please try again later!");
             return;
         }
 
-        freeArena.setDuelState(DuelState.STARTING);//set the duel state to starting
-        this.updateDuelStatusSign(freeArena);
+        duelArena.setDuelState(DuelState.STARTING);//set the duel state to starting
+        this.updateDuelStatusSign(duelArena);
         if (fm.isDuelStartAnnouncementEnabled()) {
             String duelStartBroadcast = mm.getDuelStartMessage();
             duelStartBroadcast = duelStartBroadcast.replaceAll("%sender%", senderName);
@@ -517,21 +458,10 @@ public class DuelManager {
             Util.broadcastMessage(duelStartBroadcast);
         }
 
-        if (betAmount > 0) {
-            freeArena.setHasBet(true);
-            plugin.getEconomy().withdrawPlayer(senderName, betAmount);
-            plugin.getEconomy().withdrawPlayer(acceptorName, betAmount);
-            Util.sendMsg(sender, acceptor,
-                    ChatColor.GREEN + "You have been charged a bet amount of " + ChatColor.AQUA + betAmount);
-            Util.sendMsg(sender, acceptor, "The winner of this duel will win a total bet amount of " +
-                    ChatColor.AQUA + totalBetAmount);
-            freeArena.setBetAmount(totalBetAmount);
-        }
-
-        freeArena.addPlayerUUID(acceptorUUID);//add the players to the arena
-        freeArena.addPlayerUUID(senderUUID);
-        Location spawnpoint1 = freeArena.getSpawnpoint1();
-        Location spawnpoint2 = freeArena.getSpawnpoint2();
+        duelArena.addPlayerUUID(acceptorUUID);//add the players to the arena
+        duelArena.addPlayerUUID(senderUUID);
+        Location spawnpoint1 = duelArena.getSpawnpoint1();
+        Location spawnpoint2 = duelArena.getSpawnpoint2();
 
         surroundLocation(spawnpoint1, Material.valueOf(fm.getDuelSurroundMaterial()));
         surroundLocation(spawnpoint2, Material.valueOf(fm.getDuelSurroundMaterial()));
@@ -539,22 +469,22 @@ public class DuelManager {
         this.storePlayerData(acceptor);
         this.storePlayerData(sender);
 
-        if (freeArena.getSpawnpoint1() != null && freeArena.getSpawnpoint2() != null) {
+        if (duelArena.getSpawnpoint1() != null && duelArena.getSpawnpoint2() != null) {
             if (plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("Spawnpoints for arena set teleporting players to locations.");
             }
 
             removePotionEffects(acceptor);//remove players active potion effects
             removePotionEffects(sender);
-            acceptor.teleport(freeArena.getSpawnpoint1());//teleport the players to set spawn location in the duel arena
-            sender.teleport(freeArena.getSpawnpoint2());
+            acceptor.teleport(duelArena.getSpawnpoint1());//teleport the players to set spawn location in the duel arena
+            sender.teleport(duelArena.getSpawnpoint2());
 
         } else {
             if (plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("Spawnpoints for arena not set falling back to random spawn locations.");
             }
-            acceptorTeleportSuccess = acceptor.teleport(this.generateRandomLocation(freeArena));//teleport the players to a random location in the duel arena
-            senderTeleportSuccess = sender.teleport(this.generateRandomLocation(freeArena));
+            acceptor.teleport(this.generateRandomLocation(duelArena));//teleport the players to a random location in the duel arena
+            sender.teleport(this.generateRandomLocation(duelArena));
         }
 
         if (fm.isUsingSeperateInventories()) {
@@ -565,8 +495,7 @@ public class DuelManager {
             im.givePlayerDuelItems(sender);
         }
 
-        new StartDuelThread(plugin, sender, acceptor, freeArena).runTaskTimer(plugin, 20L, 20L);
-        return;
+        new StartDuelThread(plugin, sender, acceptor, duelArena).runTaskTimer(plugin, 20L, 20L);
 
     }
 
@@ -777,9 +706,6 @@ public class DuelManager {
         }
 
         for (UUID playerUUID : arena.getPlayers()) {
-            if (isFrozen(playerUUID)) {// if player is frozen
-                removeFrozenPlayer(playerUUID);//remove frozen player
-            }
             if (plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("Player UUID: " + playerUUID.toString());
             }
@@ -788,12 +714,6 @@ public class DuelManager {
                 String playerName = playerOut.getName();
                 this.restorePlayerData(playerOut);
                 Util.sendMsg(playerOut, mm.getDuelForcefullyCancelledMessage());
-                if (arena.hasBet()) {
-                    double betAmount = arena.getBetAmount();
-                    double refundAmount = betAmount / 2;
-                    plugin.getEconomy().depositPlayer(playerName, refundAmount);
-                    Util.sendMsg(playerOut, "You have been refunded the amount of " + refundAmount);
-                }
             }
         }
 
@@ -822,8 +742,6 @@ public class DuelManager {
         if (plugin.isDebugEnabled()) {
             SendConsoleMessage.debug("resetting arena.");
         }
-        arena.setHasBet(false);
-        arena.setBetAmount(0);
         arena.getPlayers().clear();
         arena.setDuelState(DuelState.WAITING);
         this.updateDuelStatusSign(arena);
@@ -922,6 +840,10 @@ public class DuelManager {
         for (Location loc : circs) {
             loc.getBlock().setType(material);
         }
+    }
+
+    public List<DuelRequest> getDuelRequests() {
+        return duelRequests;
     }
 
 }

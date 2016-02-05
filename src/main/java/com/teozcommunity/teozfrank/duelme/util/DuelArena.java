@@ -41,8 +41,6 @@ public class DuelArena {
 
     private List<UUID> players;
     private DuelState duelState;
-    private boolean hasBet;
-    private double betAmount;
 
     public DuelArena(String name, Location pos1, Location pos2){
         this.name = name;
@@ -50,8 +48,6 @@ public class DuelArena {
         this.pos2 = pos2;
         this.players = new ArrayList<UUID>();
         this.duelState = DuelState.WAITING;
-        this.hasBet = false;
-        this.betAmount = 0;
         this.spawnpoint1 = null;
         this.spawnpoint2 = null;
     }
@@ -62,8 +58,6 @@ public class DuelArena {
         this.pos2 = pos2;
         this.players = new ArrayList<UUID>();
         this.duelState = DuelState.WAITING;
-        this.hasBet = false;
-        this.betAmount = 0;
         this.spawnpoint1 = spawnpoint1;
         this.spawnpoint2 = spawnpoint2;
     }
@@ -114,22 +108,6 @@ public class DuelArena {
 
     public void setDuelState(DuelState duelState){
         this.duelState = duelState;
-    }
-
-    public boolean hasBet() {
-        return hasBet;
-    }
-
-    public void setHasBet(boolean hasBet) {
-        this.hasBet = hasBet;
-    }
-
-    public double getBetAmount() {
-        return betAmount;
-    }
-
-    public void setBetAmount(double betAmount) {
-        this.betAmount = betAmount;
     }
 
     public Location getSpawnpoint1() {

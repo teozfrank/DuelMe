@@ -87,12 +87,6 @@ public class ItemManager {
                     this.giveWinningPlayerRewards(winningPlayer);//give them a reward
                     Util.sendMsg(winningPlayer, "You have won the duel! here is your prize!");
                 }
-                if(arena.hasBet()) {
-                    double betAmount = arena.getBetAmount();
-                    plugin.getEconomy().depositPlayer(winningPlayerName, betAmount);
-                    Util.sendMsg(winningPlayer , ChatColor.GREEN + "You have been rewarded the amount of "
-                            + ChatColor.AQUA + betAmount + ChatColor.GREEN + " for winning a duel!" );
-                }
             }
 
             dm.resetArena(arena);

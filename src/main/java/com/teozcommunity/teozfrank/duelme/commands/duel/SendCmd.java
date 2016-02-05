@@ -45,31 +45,26 @@ public class SendCmd extends DuelCmd {
         }
 
         if(args.length < 1){
-            Util.sendMsg(sender, ChatColor.GREEN + "Usage: /duel send <player>");
-            Util.sendMsg(sender, ChatColor.GREEN + "Or");
-            Util.sendMsg(sender, ChatColor.GREEN + "Usage: /duel send <player> <amount>");
+            Util.sendEmptyMsg(sender, ChatColor.GREEN + "Usage: /duel send <player>");
+            Util.sendEmptyMsg(sender, ChatColor.GREEN + "Or");
+            Util.sendEmptyMsg(sender, ChatColor.GREEN + "Usage: /duel send <player> <arena>");
             return;
         }
 
         Player duelSender = (Player) sender;
         String duelTarget = getValue(args, 0, "");
+        String arenaNameIn = null;
         DuelManager dm = plugin.getDuelManager();
 
         if(args.length == 1) {
-            dm.sendNormalDuelRequest(duelSender, duelTarget);
+            dm.sendDuelRequest(duelSender, duelTarget, arenaNameIn);
         } else if( args.length == 2) {
-            if(!sender.hasPermission("duelme.player.sendbet")) {
+            if(!sender.hasPermission("duelme.player.sendaena")) {
                 Util.sendMsg(sender, NO_PERM);
                 return;
             }
-            String betAmountIn = getValue(args, 1, "");
-            try {
-                double betAmount = Double.parseDouble(betAmountIn);
-                dm.sendBetDuelRequest(duelSender, duelTarget, betAmount);
-            } catch (NumberFormatException e) {
-                Util.sendMsg(sender, ChatColor.RED + "The bet amount must be a number!");
-                return;
-            }
+            arenaNameIn = getValue(args, 1, "");
+            dm.sendDuelRequest(duelSender, duelTarget, arenaNameIn);
         }
     }
 }

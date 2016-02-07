@@ -5,7 +5,6 @@ import com.teozcommunity.teozfrank.duelme.util.DuelArena;
 import com.teozcommunity.teozfrank.duelme.util.DuelManager;
 import com.teozcommunity.teozfrank.duelme.util.FileManager;
 import com.teozcommunity.teozfrank.duelme.util.Util;
-import net.milkbowl.vault.chat.Chat;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;

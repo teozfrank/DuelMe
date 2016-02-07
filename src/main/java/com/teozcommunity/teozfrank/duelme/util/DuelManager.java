@@ -25,16 +25,13 @@ package com.teozcommunity.teozfrank.duelme.util;
  */
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
-import com.teozcommunity.teozfrank.duelme.menus.AcceptMenu;
 import com.teozcommunity.teozfrank.duelme.threads.StartDuelThread;
-import net.milkbowl.vault.chat.Chat;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
-import sun.plugin2.message.Message;
 
 import java.util.*;
 
@@ -718,20 +715,6 @@ public class DuelManager {
         }
 
         this.resetArena(arena);
-    }
-
-    /**
-     * check to see if the player has enough money
-     *
-     * @param player the player
-     * @param amount the amount being withdrawn
-     * @return true if they have enough, false if not
-     */
-    public boolean hasEnoughMoney(String player, double amount) {
-        if (plugin.getEconomy().getBalance(player) >= amount) {
-            return true;
-        }
-        return false;
     }
 
     /**

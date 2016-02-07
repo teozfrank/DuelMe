@@ -33,10 +33,8 @@ import com.teozcommunity.teozfrank.duelme.mysql.MySql;
 import com.teozcommunity.teozfrank.duelme.threads.RequestTimeoutThread;
 import com.teozcommunity.teozfrank.duelme.threads.UpdateCheckerThread;
 import com.teozcommunity.teozfrank.duelme.util.*;
-import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -69,8 +67,6 @@ public class DuelMe extends JavaPlugin {
      */
     private MySql mySql;
 
-    private Economy economy = null;
-
     /**
      * string to hold the plugin version
      */
@@ -97,7 +93,6 @@ public class DuelMe extends JavaPlugin {
         this.checkForUpdates();
         this.submitStats();
         this.setupDependencies();
-        this.setupEconomy();
         this.messageManager = new MessageManager(this);
         this.duelManager = new DuelManager(this);
         this.itemManager = new ItemManager(this);
@@ -234,20 +229,6 @@ public class DuelMe extends JavaPlugin {
     }
 
     /**
-     * setup economy
-     *
-     * @return economy object
-     */
-    private boolean setupEconomy() {
-        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
-        if (economyProvider != null) {
-            economy = economyProvider.getProvider();
-        }
-
-        return (economy != null);
-    }
-
-    /**
      * sets up the plugin main dependencies such as WorldEdit
      * disables the plugin if the required dependency is not present
      */
@@ -316,10 +297,6 @@ public class DuelMe extends JavaPlugin {
 
     public boolean isUsingSeperatedInventories() {
         return this.getFileManager().isUsingSeperateInventories();
-    }
-
-    public Economy getEconomy() {
-        return economy;
     }
 
     public static String getPrefix() {

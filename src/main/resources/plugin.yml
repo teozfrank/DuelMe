@@ -3,7 +3,7 @@ version: 0.10.0
 author: teozfrank
 description: allows players to duel each other in a controlled environment
 main: com.teozcommunity.teozfrank.duelme.main.DuelMe
-depend: [WorldEdit, Vault]
+depend: [WorldEdit]
 commands:
     duel:
         description: Access to duel commands
@@ -43,7 +43,7 @@ permissions:
             duelme.player.info: true
             duelme.player.accept: true
             duelme.player.send: true
-            duelme.player.sendbet: true
+            duelme.player.sendarena: true
             duelme.player.leave: true
             duelme.player.list: true
     duelme.player.info:
@@ -55,8 +55,8 @@ permissions:
     duelme.player.send:
         description: allows a player to send a duel request
         default: op
-    duelme.player.sendbet:
-        description: allows a player to send a duel bet request
+    duelme.player.sendarena:
+        description: allows a player to send a duel request for a specific arena
         default: op
     duelme.player.leave:
         description: allows a player to leave a duel

@@ -59,7 +59,7 @@ public class SendCmd extends DuelCmd {
         if(args.length == 1) {
             dm.sendDuelRequest(duelSender, duelTarget, arenaNameIn);
         } else if( args.length == 2) {
-            if(!sender.hasPermission("duelme.player.sendaena")) {
+            if(!sender.hasPermission("duelme.player.sendarena")) {
                 Util.sendMsg(sender, NO_PERM);
                 return;
             }

@@ -25,13 +25,12 @@ package com.teozcommunity.teozfrank.duelme.util;
 */
 
 import com.google.common.collect.Lists;
-import com.sk89q.worldedit.WorldEdit;
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
-import net.minecraft.server.v1_8_R3.IChatBaseComponent;
-import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
+import net.minecraft.server.v1_9_R1.IChatBaseComponent;
+import net.minecraft.server.v1_9_R1.PacketPlayOutChat;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_9_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -241,8 +240,9 @@ public class Util {
      * @param message the message to send the player
      */
     public static void sendActionBarMessage(Player player, String message) {
-        PacketPlayOutChat packet = new PacketPlayOutChat(IChatBaseComponent.ChatSerializer.a("{ text: \"" + message + "\" }"), (byte) 2);
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+        IChatBaseComponent icbc = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + message + "\"}");
+        PacketPlayOutChat bar = new PacketPlayOutChat(icbc, (byte)2);
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(bar);
     }
 
     /**
@@ -252,9 +252,8 @@ public class Util {
      * @param message the message to send both players
      */
     public static void sendActionBarMessage(Player sender, Player target, String message) {
-        PacketPlayOutChat packet = new PacketPlayOutChat(IChatBaseComponent.ChatSerializer.a("{ text: \"" + message + "\" }"), (byte) 2);
-        ((CraftPlayer) sender).getHandle().playerConnection.sendPacket(packet);
-        ((CraftPlayer) target).getHandle().playerConnection.sendPacket(packet);
+        sendActionBarMessage(sender, message);
+        sendActionBarMessage(target, message);
     }
 
     /**

@@ -10,9 +10,9 @@
     <description>duelme a plugin to allow players to pvp, in a controlled area</description>
 
     <properties>
-        <spigot.version>1.8.8-R0.1-SNAPSHOT</spigot.version>
-        <bukkit.version>1.8.8-R0.1-SNAPSHOT</bukkit.version>
-        <craftbukkit.version>1.8.8-R0.1-SNAPSHOT</craftbukkit.version>
+        <spigot.version>1.9-R0.1-SNAPSHOT</spigot.version>
+        <bukkit.version>1.9-R0.1-SNAPSHOT</bukkit.version>
+        <craftbukkit.version>1.9-R0.1-SNAPSHOT</craftbukkit.version>
         <worldedit.version>6.0.0-SNAPSHOT</worldedit.version>
     </properties>
 

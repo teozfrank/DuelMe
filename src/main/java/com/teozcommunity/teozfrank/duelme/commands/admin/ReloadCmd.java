@@ -41,14 +41,16 @@ public class ReloadCmd extends DuelAdminCmd {
     public void run(DuelArena duelArena, CommandSender sender, String subCmd, String[] args) {
         DuelManager dm = plugin.getDuelManager();
         FileManager fm = plugin.getFileManager();
-        dm.getDuelArenas().clear();
-        fm.reloadDuelArenas();
-        Util.sendMsg(sender, ChatColor.YELLOW + "Reloaded duel arenas.");
+        Util.sendMsg(sender, ChatColor.GREEN + "Reloading configs, please wait.");
         plugin.reloadConfig();
         Util.sendMsg(sender, ChatColor.YELLOW + "Reloaded config.yml!");
         Util.sendMsg(sender, ChatColor.YELLOW + "Saving Duel arenas!");
         fm.saveDuelArenas();
-        Util.sendMsg(sender, ChatColor.YELLOW + "Loading Duel arenas!");
+        Util.sendMsg(sender, ChatColor.YELLOW + "Clearing Duel arena cache!");
+        dm.getDuelArenas().clear();
+        Util.sendMsg(sender, ChatColor.YELLOW + "Reloading Duel arena config!");
+        fm.reloadDuelArenas();
+        Util.sendMsg(sender, ChatColor.YELLOW + "Loading Duel arenas from config!");
         fm.loadDuelArenas();
         Util.sendMsg(sender, ChatColor.GREEN + "Complete!");
     }

@@ -334,6 +334,11 @@ public class FileManager {
         }
     }
 
+    public void loadKits() {
+
+        ConfigurationSection kitsSec = duelArenas.getConfigurationSection("kits");
+    }
+
     /**
      * get the main config version
      * @return the version of the config

@@ -1,0 +1,27 @@
+kits:
+    examplekit:
+        item1:
+            item: LEATHER_HELMET
+            title: '&bExample helmet title'
+            lore: '&aThis helmet is awesome!;This helmet has a second line of lore!'
+            enchantments: 'UNBREAKING:1;FIRE_PROTECTION:1'
+        item2:
+            item: LEATHER_CHESTPLATE
+            title: '&bExample helmet title'
+            lore: '&aThis helmet is awesome!;This helmet has a second line of lore!'
+            enchantments: 'UNBREAKING:1;FIRE_PROTECTION:1'
+    examplekit2:
+        item1:
+            item: LEATHER_HELMET
+            title: '&bExample helmet title'
+            lore: '&aThis helmet is awesome!;This helmet has a second line of lore!'
+            enchantments: 'UNBREAKING:1;FIRE_PROTECTION:1'
+        item2:
+            item: LEATHER_CHESTPLATE
+            title: '&bExample helmet title'
+            lore: '&aThis helmet is awesome!;This helmet has a second line of lore!'
+            enchantments: 'UNBREAKING:1;FIRE_PROTECTION:1'
+        item3:
+            item: GRILLED_PORK
+            amount: 5
+            title: '&bYummy food'

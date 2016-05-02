@@ -1,28 +1,28 @@
 package com.teozcommunity.teozfrank.duelme.commands;
 
 /**
-        The MIT License (MIT)
-
-        Copyright (c) 2014 teozfrank
-
-        Permission is hereby granted, free of charge, to any person obtaining a copy
-        of this software and associated documentation files (the "Software"), to deal
-        in the Software without restriction, including without limitation the rights
-        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-        copies of the Software, and to permit persons to whom the Software is
-        furnished to do so, subject to the following conditions:
-
-        The above copyright notice and this permission notice shall be included in
-        all copies or substantial portions of the Software.
-
-        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-        THE SOFTWARE.
-*/
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2014 teozfrank
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
 import com.teozcommunity.teozfrank.duelme.commands.admin.*;
 import com.teozcommunity.teozfrank.duelme.commands.duel.AcceptCmd;
@@ -55,12 +55,12 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
         DuelAdminCmd restore = new RestoreCmd(plugin, "duelme.admin.restore");
         DuelAdminCmd forceDuel = new ForceDuel(plugin, "duelme.admin.forceduel");
 
-        addCmd("create", create, new String[] {
-            "c,new"
+        addCmd("create", create, new String[]{
+                "c,new"
         });
 
         addCmd("remove", remove, new String[]{
-                "r","delete"
+                "r", "delete"
         });
 
         addCmd("list", list, new String[]{
@@ -77,17 +77,17 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
 
         addCmd("reload", reload);
 
-        addCmd("setspawnpoint1", setSpawnPoint1, new String[] {
+        addCmd("setspawnpoint1", setSpawnPoint1, new String[]{
                 "ss1"
         });
 
-        addCmd("setspawnpoint2", setSpawnPoint2, new String[] {
+        addCmd("setspawnpoint2", setSpawnPoint2, new String[]{
                 "ss2"
         });
 
         addCmd("restore", restore);
 
-        addCmd("forceduel", forceDuel, new String[] {
+        addCmd("forceduel", forceDuel, new String[]{
                 "fd"
         });
 
@@ -113,27 +113,31 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
         if (command.getName().equalsIgnoreCase("dueladmin")) {
 
             if (args.length < 1) {
-
-                Util.sendEmptyMsg(sender, Util.LINE_BREAK);
-                Util.sendEmptyMsg(sender, ChatColor.GOLD + "                           DuelMe - Admin Commands");
-                Util.sendEmptyMsg(sender, "");
-                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin create <arenaname> - "+ ChatColor.GOLD + "create a duel arena with the given name.");
-                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin list - "+ ChatColor.GOLD + "list the duel arenas.");
-                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin remove <arenaname> - "+ ChatColor.GOLD + "removes a duel arena with the given name.");
-                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin setspawnpoint1 <arenaname> - "+ ChatColor.GOLD + "set the first spawnpoint for a duel arena.");
-                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin setspawnpoint2 <arenaname> - "+ ChatColor.GOLD + "set the second spawnpoint for a duel arena.");
-                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin restore <player> - "+ ChatColor.GOLD + "attempt to restore a players data.");
-                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin forceduel <player1> <player2> - "+ ChatColor.GOLD + "attempt to force a duel between two players.");
-                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin reload - "+ ChatColor.GOLD + "reload the plugin configs.");
-                Util.sendEmptyMsg(sender, "");
-                Util.sendEmptyMsg(sender, ChatColor.GOLD + "Below commands only work if MySql is setup and enabled.");
-                Util.sendEmptyMsg(sender, "");
-                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin addkill <playername> - "+ ChatColor.GOLD + "add a kill for a player.");
-                Util.sendEmptyMsg(sender,ChatColor.GREEN+ "/dueladmin adddeath <playername> - "+ ChatColor.GOLD + "add a death for a player.");
-                Util.sendEmptyMsg(sender, "");
-                Util.sendCredits(sender);
-                Util.sendEmptyMsg(sender, Util.LINE_BREAK);
-                return true;
+                try {
+                    Util.sendEmptyMsg(sender, Util.LINE_BREAK);
+                    Util.sendEmptyMsg(sender, ChatColor.GOLD + "                           DuelMe - Admin Commands");
+                    Util.sendEmptyMsg(sender, "");
+                    Util.sendEmptyMsg(sender, ChatColor.GREEN + "/dueladmin create <arenaname> - " + ChatColor.GOLD + "create a duel arena with the given name.");
+                    Util.sendEmptyMsg(sender, ChatColor.GREEN + "/dueladmin list - " + ChatColor.GOLD + "list the duel arenas.");
+                    Util.sendEmptyMsg(sender, ChatColor.GREEN + "/dueladmin remove <arenaname> - " + ChatColor.GOLD + "removes a duel arena with the given name.");
+                    Util.sendEmptyMsg(sender, ChatColor.GREEN + "/dueladmin setspawnpoint1 <arenaname> - " + ChatColor.GOLD + "set the first spawnpoint for a duel arena.");
+                    Util.sendEmptyMsg(sender, ChatColor.GREEN + "/dueladmin setspawnpoint2 <arenaname> - " + ChatColor.GOLD + "set the second spawnpoint for a duel arena.");
+                    Util.sendEmptyMsg(sender, ChatColor.GREEN + "/dueladmin restore <player> - " + ChatColor.GOLD + "attempt to restore a players data.");
+                    Util.sendEmptyMsg(sender, ChatColor.GREEN + "/dueladmin forceduel <player1> <player2> - " + ChatColor.GOLD + "attempt to force a duel between two players.");
+                    Util.sendEmptyMsg(sender, ChatColor.GREEN + "/dueladmin reload - " + ChatColor.GOLD + "reload the plugin configs.");
+                    Util.sendEmptyMsg(sender, "");
+                    Util.sendEmptyMsg(sender, ChatColor.GOLD + "Below commands only work if MySql is setup and enabled.");
+                    Util.sendEmptyMsg(sender, "");
+                    Util.sendEmptyMsg(sender, ChatColor.GREEN + "/dueladmin addkill <playername> - " + ChatColor.GOLD + "add a kill for a player.");
+                    Util.sendEmptyMsg(sender, ChatColor.GREEN + "/dueladmin adddeath <playername> - " + ChatColor.GOLD + "add a death for a player.");
+                    Util.sendEmptyMsg(sender, "");
+                    Util.sendCredits(sender);
+                    Util.sendEmptyMsg(sender, Util.LINE_BREAK);
+                    return true;
+                } catch (NoClassDefFoundError e) {
+                    this.sendOutdatedMessage(sender);
+                    return true;
+                }
             }
 
         }
@@ -165,18 +169,18 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
             DuelManager dm = plugin.getDuelManager();
             arena = dm.getDuelArenaByName(objId);
 
-            if(dm.getDuelArenas().size() == 0){
-                Util.sendMsg(sender,ChatColor.RED + "There are no arenas to remove!");
+            if (dm.getDuelArenas().size() == 0) {
+                Util.sendMsg(sender, ChatColor.RED + "There are no arenas to remove!");
                 return true;
             }
 
-            if(args.length == 1){
-                Util.sendMsg(sender,ChatColor.YELLOW + "You must provide a Duel Arena name for this command!");
+            if (args.length == 1) {
+                Util.sendMsg(sender, ChatColor.YELLOW + "You must provide a Duel Arena name for this command!");
                 return true;
             }
 
             if (arena == null) {
-                Util.sendMsg(sender,ChatColor.RED + "Duel Arena " + ChatColor.AQUA + objId + ChatColor.RED + " does not exist!");
+                Util.sendMsg(sender, ChatColor.RED + "Duel Arena " + ChatColor.AQUA + objId + ChatColor.RED + " does not exist!");
                 return true;
             }
 
@@ -200,12 +204,22 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
         } catch (ArrayIndexOutOfBoundsException e) {
             Util.sendMsg(sender, INVALID_PARAMS);
             return true;
+        }  catch (NoClassDefFoundError e) {
+            this.sendOutdatedMessage(sender);
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
             return true;
         }
 
         return true;
+    }
+
+    public void sendOutdatedMessage(CommandSender sender) {
+        sender.sendMessage(ChatColor.RED + "You are running an outdated version of spigot: ");
+        sender.sendMessage(ChatColor.YELLOW + plugin.getServer().getBukkitVersion());
+        sender.sendMessage(ChatColor.RED + "Which this plugin does NOT support");
+        sender.sendMessage(ChatColor.RED + "Please update to a newer up to date version in order to use this plugin.");
     }
 
 }

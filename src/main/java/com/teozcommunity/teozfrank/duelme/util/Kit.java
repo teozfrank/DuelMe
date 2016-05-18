@@ -1,6 +1,7 @@
 package com.teozcommunity.teozfrank.duelme.util;
 
-import net.minecraft.server.v1_9_R1.ItemStack;
+
+import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 

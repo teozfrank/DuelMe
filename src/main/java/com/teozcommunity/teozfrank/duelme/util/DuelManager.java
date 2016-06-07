@@ -25,7 +25,7 @@ package com.teozcommunity.teozfrank.duelme.util;
  */
 
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
-import com.teozcommunity.teozfrank.duelme.threads.StartDuelThread;
+import com.teozcommunity.teozfrank.duelme.threads.DuelStartThread;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -118,8 +118,10 @@ public class DuelManager {
      */
     public boolean isInDuel(UUID playerUUIDIn) {
         for (DuelArena a : this.getDuelArenas()) {
-            if (a.getPlayers().contains(playerUUIDIn)) {
-                return true;
+            for(UUID duelPlayerUUID: a.getPlayers()) {
+                if(playerUUIDIn.equals(duelPlayerUUID)) {
+                    return true;
+                }
             }
         }
         return false;
@@ -492,7 +494,7 @@ public class DuelManager {
             im.givePlayerDuelItems(sender);
         }
 
-        new StartDuelThread(plugin, sender, acceptor, duelArena).runTaskTimer(plugin, 20L, 20L);
+        new DuelStartThread(plugin, sender, acceptor, duelArena).runTaskTimer(plugin, 20L, 20L);
 
     }
 

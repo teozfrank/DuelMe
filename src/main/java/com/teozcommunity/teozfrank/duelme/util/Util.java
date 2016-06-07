@@ -26,16 +26,12 @@ package com.teozcommunity.teozfrank.duelme.util;
 
 import com.google.common.collect.Lists;
 import com.teozcommunity.teozfrank.duelme.main.DuelMe;
-import net.minecraft.server.v1_9_R2.IChatBaseComponent;
-import net.minecraft.server.v1_9_R2.PacketPlayOutChat;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_9_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Wool;
-
 import java.util.*;
 
 public class Util {
@@ -192,17 +188,6 @@ public class Util {
     }
 
     /**
-     * set the time for countdown for both players by setting the players level
-     * @param sender the duel sender
-     * @param target the duel acceptor
-     * @param time the time in seconds
-     */
-    public static void setTime(Player sender, Player target, int time) {
-        sender.setLevel(time);
-        target.setLevel(time);
-    }
-
-    /**
      * create menu item with a certain wool color
      * @param color the color of the wool
      * @param name the name of the item
@@ -239,22 +224,11 @@ public class Util {
      * @param player the player to send the message to
      * @param message the message to send the player
      */
-    public static void sendActionBarMessage(Player player, String message) {
+    /*public static void sendActionBarMessage(Player player, String message) {
         IChatBaseComponent icbc = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + message + "\"}");
         PacketPlayOutChat bar = new PacketPlayOutChat(icbc, (byte)2);
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(bar);
-    }
-
-    /**
-     * send a action bar message to two players
-     * @param sender the sender player
-     * @param target the target player
-     * @param message the message to send both players
-     */
-    public static void sendActionBarMessage(Player sender, Player target, String message) {
-        sendActionBarMessage(sender, message);
-        sendActionBarMessage(target, message);
-    }
+    }*/
 
     /**
      * Check to see if a teleport is truly successful

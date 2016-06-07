@@ -12,7 +12,6 @@
     <properties>
         <spigot.version>1.9.4-R0.1-SNAPSHOT</spigot.version>
         <bukkit.version>1.9.4-R0.1-SNAPSHOT</bukkit.version>
-        <craftbukkit.version>1.9.4-R0.1-SNAPSHOT</craftbukkit.version>
         <worldedit.version>6.0.0-SNAPSHOT</worldedit.version>
     </properties>
 
@@ -43,9 +42,7 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>craftbukkit</artifactId>
-            <version>${craftbukkit.version}</version>
-            <scope>compile</scope>
-            <type>jar</type>
+            <version>1.9.4-R0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

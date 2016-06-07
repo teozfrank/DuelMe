@@ -33,7 +33,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
-public class StartDuelThread extends BukkitRunnable {
+public class DuelStartThread extends BukkitRunnable {
 
     private DuelMe plugin;
     private Player sender;
@@ -41,7 +41,7 @@ public class StartDuelThread extends BukkitRunnable {
     private DuelArena duelArena;
     private int countDown;
 
-    public StartDuelThread(DuelMe plugin, Player sender, Player target, DuelArena duelArena) {
+    public DuelStartThread(DuelMe plugin, Player sender, Player target, DuelArena duelArena) {
         this.plugin = plugin;
         this.sender = sender;
         this.target = target;
@@ -72,14 +72,17 @@ public class StartDuelThread extends BukkitRunnable {
 
 
         if (this.countDown > 0 && duelSize == 2) {
-            String duelStartActionBar = mm.getDuelStartingActionBarMessage();
-            duelStartActionBar = duelStartActionBar.replaceAll("%seconds%", String.valueOf(this.countDown));
-            Util.sendActionBarMessage(sender, target, duelStartActionBar);
+            String duelStartTitle = mm.getDuelStartingTitleMessage();
+            duelStartTitle = duelStartTitle.replaceAll("%seconds%", String.valueOf(this.countDown));
+
+            String duelStartSubtitle = mm.getDuelStartingSubtitleMessage();
+            duelStartSubtitle = duelStartSubtitle.replaceAll("%seconds%", String.valueOf(this.countDown));
+
+            plugin.getTitleActionbar().sendTitle(sender, target, duelStartTitle, duelStartSubtitle, 10, 10, 10);
             this.countDown--;
         } else {
             if(duelSize == 2) {
-                Util.setTime(sender, target, this.countDown);
-                Util.sendMsg(sender, target, ChatColor.YELLOW + "Duel!");
+                plugin.getTitleActionbar().sendTitle(sender, target, mm.getDuelStartedMessage(), "", 10, 10, 10);
                 duelArena.setDuelState(DuelState.STARTED);
                 dm.surroundLocation(duelArena.getSpawnpoint1(), Material.AIR);
                 dm.surroundLocation(duelArena.getSpawnpoint2(), Material.AIR);

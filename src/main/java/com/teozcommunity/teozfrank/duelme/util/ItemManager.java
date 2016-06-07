@@ -74,6 +74,7 @@ public class ItemManager {
     public void rewardPlayer(DuelArena arena) {
         DuelManager dm = plugin.getDuelManager();
         FileManager fm = plugin.getFileManager();
+        MessageManager mm = plugin.getMessageManager();
 
         if(arena.getPlayers().size() == 1){ //if there is only one player left in the arena
         if(plugin.isDebugEnabled()){
@@ -85,7 +86,7 @@ public class ItemManager {
                 if(winningPlayer != null){
                     dm.restorePlayerData(winningPlayer);
                     this.giveWinningPlayerRewards(winningPlayer);//give them a reward
-                    Util.sendMsg(winningPlayer, "You have won the duel! here is your prize!");
+                    Util.sendMsg(winningPlayer, mm.getDuelRewardMessage());
                 }
             }
 

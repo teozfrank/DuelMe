@@ -1,27 +1,27 @@
 package com.teozcommunity.teozfrank.duelme.main;
 
 /**
- The MIT License (MIT)
-
- Copyright (c) 2014 teozfrank
-
- Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
-
- The above copyright notice and this permission notice shall be included in
- all copies or substantial portions of the Software.
-
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- THE SOFTWARE.
+ * The MIT License (MIT)
+ * <p>
+ * Copyright (c) 2014 teozfrank
+ * <p>
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * <p>
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * <p>
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 
 import com.teozcommunity.teozfrank.MetricsLite;
@@ -30,6 +30,8 @@ import com.teozcommunity.teozfrank.duelme.commands.DuelExecutor;
 import com.teozcommunity.teozfrank.duelme.events.*;
 import com.teozcommunity.teozfrank.duelme.menus.AcceptMenu;
 import com.teozcommunity.teozfrank.duelme.mysql.MySql;
+import com.teozcommunity.teozfrank.duelme.nms.TitleActionbar;
+import com.teozcommunity.teozfrank.duelme.nms.TitleActionbar_1_9_R2;
 import com.teozcommunity.teozfrank.duelme.threads.RequestTimeoutThread;
 import com.teozcommunity.teozfrank.duelme.threads.UpdateCheckerThread;
 import com.teozcommunity.teozfrank.duelme.util.*;
@@ -67,6 +69,8 @@ public class DuelMe extends JavaPlugin {
      */
     private MySql mySql;
 
+    private TitleActionbar titleActionbar;
+
     /**
      * string to hold the plugin version
      */
@@ -101,11 +105,39 @@ public class DuelMe extends JavaPlugin {
         getCommand("dueladmin").setExecutor(new DuelAdminExecutor(this));
         this.getFileManager().loadDuelArenas();
         this.checkErrors();
-        if(errorCount != 0) {
+        if (errorCount != 0) {
             return;
         }
         this.registerEvents();
         this.startTasks();
+        if(this.setupTitleActionBar()) {
+            SendConsoleMessage.info("NMS Version setup complete");
+        } else {
+            SendConsoleMessage.severe("Error setting up NMS related needed classes! Please make sure you are using the correct version compatible with this plugin! Plugin DISABLED");
+            this.getServer().getPluginManager().disablePlugin(this);
+        }
+
+    }
+
+    private boolean setupTitleActionBar() {
+        String version;
+
+        try {
+
+            version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
+
+        } catch (ArrayIndexOutOfBoundsException whatVersionAreYouUsingException) {
+            return false;
+        }
+
+        SendConsoleMessage.info("Your server is running version " + version);
+
+        if (version.equals("v1_9_R2")) {
+            titleActionbar = new TitleActionbar_1_9_R2();
+        }
+
+        return titleActionbar != null;
+
     }
 
     private void startTasks() {
@@ -221,7 +253,7 @@ public class DuelMe extends JavaPlugin {
         }
 
         if (new File(getDataFolder(), "messages.yml").exists()) {
-            if (fileManager.getMessagesConfigVersion() != 1.1) {
+            if (fileManager.getMessagesConfigVersion() != 1.2) {
                 SendConsoleMessage.warning("Your messages.yml is out of date! please remove or back it up before using the plugin!");
                 errorCount++;
             }
@@ -237,6 +269,13 @@ public class DuelMe extends JavaPlugin {
             SendConsoleMessage.info("WorldEdit found!");
         } else {
             SendConsoleMessage.warning("WorldEdit dependency not found, plugin disabled!");
+            Bukkit.getPluginManager().disablePlugin(this);
+        }
+
+        if (this.getServer().getPluginManager().getPlugin("ProtocolLib") != null) {
+            SendConsoleMessage.info("ProtocolLib Found!");
+        } else {
+            SendConsoleMessage.warning("ProtocolLib dependency not found, plugin disabled!");
             Bukkit.getPluginManager().disablePlugin(this);
         }
     }
@@ -311,4 +350,7 @@ public class DuelMe extends JavaPlugin {
         return messageManager;
     }
 
+    public TitleActionbar getTitleActionbar() {
+        return titleActionbar;
+    }
 }

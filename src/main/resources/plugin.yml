@@ -1,9 +1,9 @@
 name: DuelMe
-version: 0.13.0
+version: 0.14.0
 author: teozfrank
 description: allows players to duel each other in a controlled environment
 main: com.teozcommunity.teozfrank.duelme.main.DuelMe
-depend: [WorldEdit]
+depend: [WorldEdit, ProtocolLib]
 commands:
     duel:
         description: Access to duel commands

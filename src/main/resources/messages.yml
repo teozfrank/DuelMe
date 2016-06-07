@@ -1,5 +1,5 @@
 # do not touch the config version below, it will break the plugin!
-configversion: 1.1
+configversion: 1.2
 messages:
     general:
         prefix: '&6[DuelMe]'
@@ -14,10 +14,13 @@ messages:
         other: '&b%player% &cwas killed in a duel!'
     starting:
         broadcast: '&aA duel is starting between &b%sender% &aand &b%acceptor%'
-        actionbar: '&aStarting duel in &b%seconds%'
+        title: '&aStarting duel in'
+        subtitle: '&b%seconds%'
     started:
         broadcast: '&6Duel!'
         actionbar: '&cDuel ends in &b%seconds%'
+    ended:
+        reward: '&6You have won the duel here is your prize for winning!'
     error:
         noduelarenas: '&cERROR, There are no duel arenas!, please contact a member of staff.'
         forcefullycancelled: '&cDuel was forcefully cancelled'

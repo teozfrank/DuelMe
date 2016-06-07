@@ -88,13 +88,23 @@ public class MessageManager {
     }
 
     /**
-     * get the message shown in the action bar when a duel is starting
-     * @return the message to show a player in the action bar when a duel is starting
+     * get the message shown in the title message when the duel is starting
+     * @return the message to show a player in the title when a duel is starting
      */
-    public String getDuelStartingActionBarMessage() {
-        String startingActionbar = fm.getMessages().getString("messages.starting.actionbar");
-        startingActionbar = ChatColor.translateAlternateColorCodes('&', startingActionbar);
-        return startingActionbar;
+    public String getDuelStartingTitleMessage() {
+        String startingTitleMessage = fm.getMessages().getString("messages.starting.title");
+        startingTitleMessage = ChatColor.translateAlternateColorCodes('&', startingTitleMessage);
+        return startingTitleMessage;
+    }
+
+    /**
+     * get the duel starting subtitle message sent when a duel is starting
+     * @return the duel starting subtitle message
+     */
+    public String getDuelStartingSubtitleMessage() {
+        String startingSubtitleMessage = fm.getMessages().getString("messages.starting.subtitle");
+        startingSubtitleMessage = ChatColor.translateAlternateColorCodes('&', startingSubtitleMessage);
+        return startingSubtitleMessage;
     }
 
     /**
@@ -195,5 +205,15 @@ public class MessageManager {
         String playerAlreadyInDuel = fm.getMessages().getString("messages.request.alreadyinduel");
         playerAlreadyInDuel = ChatColor.translateAlternateColorCodes('&', playerAlreadyInDuel);
         return playerAlreadyInDuel;
+    }
+
+    /**
+     * get the message sent to the player when a player is rewarded at the end of a duel
+     * @return the message sent to the player when they are rewarded for winning
+     */
+    public String getDuelRewardMessage() {
+        String duelRewardMessage = fm.getMessages().getString("messages.ended.reward");
+        duelRewardMessage = ChatColor.translateAlternateColorCodes('&', duelRewardMessage);
+        return duelRewardMessage;
     }
 }

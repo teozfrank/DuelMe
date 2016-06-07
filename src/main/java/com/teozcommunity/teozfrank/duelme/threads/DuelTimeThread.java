@@ -68,14 +68,14 @@ public class DuelTimeThread extends BukkitRunnable {
             //Util.setTime(sender, target, this.duelTime);
             String duelEndActionBar = mm.getDuelRemainingActionBarMessage();
             duelEndActionBar = duelEndActionBar.replaceAll("%seconds%", String.valueOf(this.duelTime));
-            Util.sendActionBarMessage(sender, target, duelEndActionBar);
+            plugin.getTitleActionbar().sendActionbar(sender, target, duelEndActionBar);
             this.duelTime--;
         } else {
             if(plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("Ending duel time thread, time is up!");
             }
             if(duelSize == 2) {
-                Util.setTime(sender, target, this.duelTime);
+                //Util.setTime(sender, target, this.duelTime);
             }
 
             dm.endDuel(duelArena);

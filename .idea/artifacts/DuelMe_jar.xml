@@ -2,6 +2,10 @@
   <artifact type="jar" build-on-make="true" name="DuelMe:jar">
     <output-path>$PROJECT_DIR$/../../PrivateDevServer/plugins</output-path>
     <root id="archive" name="DuelMe.jar">
+      <element id="module-output" name="API" />
+      <element id="module-output" name="Plugin" />
+      <element id="module-output" name="v1_10_R1" />
+      <element id="module-output" name="v1_9_R2" />
       <element id="module-output" name="DuelMe" />
     </root>
   </artifact>

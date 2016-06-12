@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.github.teozfrank</groupId>
+    <artifactId>DuelMe</artifactId>
+    <packaging>jar</packaging>
+    <name>DuelMe</name>
+    <version>0.15.0</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.10-R0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.teozfrank</groupId>
+            <artifactId>duelme-v1_10_R1</artifactId>
+            <version>v1.10_R1</version>
+            <type>jar</type>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.github.teozfrank</groupId>
+            <artifactId>duelme-v1_9_R2</artifactId>
+            <version>v1.9_R2</version>
+            <type>jar</type>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.github.teozfrank</groupId>
+            <artifactId>duelme-api</artifactId>
+            <version>API</version>
+            <type>jar</type>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <directory>../target</directory> <!-- Build it one level up, because it is the one we care about -->
+        <finalName>DuelMe</finalName>
+        <!-- Define filtering for the inclusion of plugin.yml, so we can utilize the pom.xml version in it -->
+        <resources>
+            <resource>
+                <targetPath>.</targetPath>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>*.yml</include>
+                </includes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

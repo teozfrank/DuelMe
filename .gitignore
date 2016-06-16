@@ -1,4 +1,12 @@
-*.class
+bin
+lib
+target
+testing
+
+.settings
+.classpath
+.project
+.directory
 
 # Package Files #
 *.jar

@@ -31,6 +31,14 @@
             <scope>compile</scope>
             <optional>true</optional>
         </dependency>
+	<dependency>
+            <groupId>com.github.teozfrank</groupId>
+            <artifactId>duelme-v1_8_R3</artifactId>
+            <version>v1.8_R3</version>
+            <type>jar</type>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
         <dependency>
             <groupId>com.github.teozfrank</groupId>
             <artifactId>duelme-api</artifactId>

@@ -5,7 +5,6 @@ import com.github.teozfrank.duelme.util.DuelManager;
 import com.github.teozfrank.duelme.util.FileManager;
 import com.github.teozfrank.duelme.util.PlayerData;
 import com.github.teozfrank.duelme.util.SendConsoleMessage;
-import com.sun.xml.internal.ws.api.server.WSEndpoint;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

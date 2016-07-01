@@ -23,7 +23,9 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="API" />
+        <module name="duelme-v1_8_R3" />
         <module name="v1_10_R1" />
+        <module name="v1_8_R3" />
         <module name="v1_9_4_R1" />
         <module name="v1_9_4_R2" />
         <module name="v1_9_4R2" />
@@ -38,11 +40,13 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="API" target="1.7" />
-      <module name="DuelMe" target="1.7" />
-      <module name="Plugin" target="1.7" />
-      <module name="v1_10_R1" target="1.7" />
-      <module name="v1_9_R2" target="1.7" />
+      <module name="API" target="1.5" />
+      <module name="DuelMe" target="1.5" />
+      <module name="duelme-v1_8_R3" target="1.5" />
+      <module name="Plugin" target="1.5" />
+      <module name="v1_10_R1" target="1.5" />
+      <module name="v1_8_R3" target="1.5" />
+      <module name="v1_9_R2" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

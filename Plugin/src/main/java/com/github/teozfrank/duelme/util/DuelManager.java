@@ -769,17 +769,32 @@ public class DuelManager {
     }
 
     /**
-     * loop through the list of arenas and check if there is a free
-     * one to duel in.
-     * @return a free duel arena, null if none is available
+     * loop through the list of arenas and add the free ones to a new list
+     * then return a random free arena
+     * @return a random free duel arena, null if none is available
      */
     public DuelArena getFreeArena() {
+
+        Random random = new Random();
+
+        List<DuelArena> freeDuelArenas = new ArrayList<DuelArena>();
+
         for (DuelArena duelArena : getDuelArenas()) {
             if (duelArena.getDuelState().equals(DuelState.WAITING) && duelArena.getPlayers().size() == 0) {//if the duel arena state is waiting for players and there are no players in the arena.
-                return duelArena;//we can return that arena as it is free.
+                if(getDuelArenas().size() > 1) {
+                    freeDuelArenas.add(duelArena);
+                } else {
+                    return duelArena;
+                }
+
             }
         }
-        return null;//no free duel arenas
+
+        if(freeDuelArenas.isEmpty()) {
+            return null;//no free duel arenas
+        }
+
+        return freeDuelArenas.get(random.nextInt(freeDuelArenas.size()));
     }
 
     /**

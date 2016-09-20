@@ -38,15 +38,11 @@ permissions:
     duelme.player.*:
         description: Gives access to all player commands
         children:
-            duelme.player.info: true
             duelme.player.accept: true
             duelme.player.send: true
             duelme.player.sendarena: true
             duelme.player.leave: true
             duelme.player.list: true
-    duelme.player.info:
-        description: allows a player to read the info about the duel command
-        default: op
     duelme.player.accept:
         description: allows a player to accept a duel request
         default: op

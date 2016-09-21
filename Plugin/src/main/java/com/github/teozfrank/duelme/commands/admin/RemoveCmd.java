@@ -25,10 +25,7 @@ package com.github.teozfrank.duelme.commands.admin;
 */
 
 import com.github.teozfrank.duelme.main.DuelMe;
-import com.github.teozfrank.duelme.util.DuelArena;
-import com.github.teozfrank.duelme.util.DuelManager;
-import com.github.teozfrank.duelme.util.FileManager;
-import com.github.teozfrank.duelme.util.Util;
+import com.github.teozfrank.duelme.util.*;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -51,6 +48,7 @@ public class RemoveCmd extends DuelAdminCmd {
 
         if(duelArenas.isSet("duelarenas." + duelArenaName)) {//check is the arena been saved to disk
             duelArenas.set("duelarenas." + duelArenaName, null);//remove from disk
+            fm.saveDuelArenasFile();
             fm.reloadDuelArenas();
             Util.sendMsg(sender,ChatColor.GREEN + "Removed Duel Arena " +
                     ChatColor.AQUA + duelArenaName + ChatColor.GREEN + " from cache and disk.");

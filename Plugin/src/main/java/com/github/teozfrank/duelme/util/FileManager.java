@@ -258,9 +258,17 @@ public class FileManager {
             duelArenas.save(duelArenasFile);
             SendConsoleMessage.info("Successfully saved " + ChatColor.AQUA + savedArenas + ChatColor.GREEN + " Duel Arena(s).");
         } catch (Exception e) {
-            SendConsoleMessage.severe("Error while saving Duel Arena(s)!");
+            SendConsoleMessage.severe("Error while saving Duel Arena(s)! " + e.getMessage());
         }
 
+    }
+
+    public void saveDuelArenasFile() {
+        try {
+            this.duelArenas.save(duelArenasFile);
+        } catch (IOException e) {
+            SendConsoleMessage.severe("Error while saving Duel Arenas file! " + e.getMessage());
+        }
     }
 
     /**

@@ -412,7 +412,7 @@ public class DuelManager {
         String acceptorName = acceptor.getName();//the duel acceptor name
         String senderName = sender.getName();//the duel request sender name
 
-        DuelArena duelArena;
+        DuelArena duelArena = null;
 
         final UUID acceptorUUID = acceptor.getUniqueId();
         final UUID senderUUID = sender.getUniqueId();
@@ -433,14 +433,15 @@ public class DuelManager {
                 Util.sendMsg(acceptor, ChatColor.RED + "The duel arena you requested to duel in does not exist!");
                 return;
             }
-            if(isArenaFree(duelArena)) {
+            if(!isArenaFree(duelArena)) {
                 Util.sendMsg(acceptor, ChatColor.RED + "The duel arena you requested to duel in is not free!");
                 return;
             }
         }
 
-
-        duelArena = this.getFreeArena();
+        if(duelArena == null) {
+            duelArena = this.getFreeArena();
+        }
 
         if (duelArena == null) {
             Util.sendMsg(acceptor, ChatColor.YELLOW + "There are no free duel arenas, please try again later!");

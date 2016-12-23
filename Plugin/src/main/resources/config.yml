@@ -1,5 +1,5 @@
 # do not touch the config version below, it will break the plugin!
-configversion: 1.6
+configversion: 1.7
 duelme:
     checkforupdates: true
     mysql:
@@ -15,8 +15,6 @@ duelme:
        seperateinventories: true
        rightclicktoduel: false
        dropitemsondeath: false
-       minbetamount: 500
-       maxbetamount: 1000
        guimenuenabled: true
        surroundmaterial: BARRIER
     announce:

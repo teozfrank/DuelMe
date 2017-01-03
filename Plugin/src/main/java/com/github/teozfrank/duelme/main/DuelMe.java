@@ -157,6 +157,7 @@ public class DuelMe extends JavaPlugin {
         this.acceptMenu = new AcceptMenu(this);
         new PlayerEvents(this);
         new SignEdit(this);
+        new PlayerInteract(this);
     }
 
     @Override

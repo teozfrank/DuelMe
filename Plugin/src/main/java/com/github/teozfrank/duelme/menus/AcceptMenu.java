@@ -51,12 +51,6 @@ public class AcceptMenu implements Listener {
     public AcceptMenu(DuelMe plugin){
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
-        acceptMenu = Bukkit.getServer().createInventory(null, 9 , ChatColor.translateAlternateColorCodes('&', "&cDuel request"));
-        accept = Util.createMenuItem(DyeColor.GREEN, "Accept", "Click this item to accept a duel request.");
-        ignore = Util.createMenuItem(DyeColor.RED, "Ignore", "Click this item to ignore this duel request.");
-
-        acceptMenu.setItem(0, accept);
-        acceptMenu.setItem(1, ignore);
     }
 
     /**
@@ -66,22 +60,9 @@ public class AcceptMenu implements Listener {
      */
     public void openNormalDuelAccept(Player sender, Player target){
         senderName = sender.getName();
-        target.openInventory(acceptMenu);
-    }
 
-    /**
-     * opens up a duel bet request accept
-     * @param sender the duel sender
-     * @param target the duel target
-     * @param amount the amount for the duel bet
-     */
-    public void openDuelBetAccept(Player sender, Player target, double amount){
-        List<String> acceptLore = new ArrayList<String>();
-        acceptLore.add("Click this item to accept the");
-        acceptLore.add("duel request for the amount of " + amount);
-        senderName = sender.getName();
-        acceptMenu = Bukkit.getServer().createInventory(null, 9 , ChatColor.translateAlternateColorCodes('&', "&cBet from " + sender.getName()));
-        accept = Util.createMenuItem(DyeColor.GREEN, "Accept", acceptLore);
+        acceptMenu = Bukkit.getServer().createInventory(null, 9 , ChatColor.translateAlternateColorCodes('&', "Duel " + senderName + "?"));
+        accept = Util.createMenuItem(DyeColor.GREEN, "Accept", "Click this item to accept a duel request.");
         ignore = Util.createMenuItem(DyeColor.RED, "Ignore", "Click this item to ignore this duel request.");
 
         acceptMenu.setItem(0, accept);

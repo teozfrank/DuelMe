@@ -10,7 +10,7 @@ duelme:
        user: 'user'
        pass: 'pass'
     duel:
-       countdowntime: 30
+       countdowntime: 15
        dueltime: 120
        seperateinventories: true
        rightclicktoduel: false

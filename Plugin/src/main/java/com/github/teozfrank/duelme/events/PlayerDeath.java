@@ -67,13 +67,17 @@ public class PlayerDeath implements Listener {
                 deathMessageByPlayer = deathMessageByPlayer.replaceAll("%killer%", killerName);
                 e.setDeathMessage(fm.getPrefix() + " " + deathMessageByPlayer);
             }  else {
+                if(plugin.isDebugEnabled()) {
+                    SendConsoleMessage.debug("Death cause not by player.");
+                }
                 if(!fm.isDeathMessagesEnabled()){
                     e.setDeathMessage("");
                     return;
                 }
+
                 String deathMessageByOther = mm.getKillOtherMessage();
-                deathMessageByOther = deathMessageByOther.replaceAll("%player%", deathMessageByOther);
-                e.setDeathMessage(fm.getPrefix() + deathMessageByOther);
+                deathMessageByOther = deathMessageByOther.replaceAll("%player%", playerName);
+                e.setDeathMessage(fm.getPrefix() + " " + deathMessageByOther);
             }
             dm.endDuel(loser);
             loser.spigot().respawn();

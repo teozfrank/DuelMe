@@ -72,7 +72,7 @@ public class AcceptMenu implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     public void onInventoryClick(InventoryClickEvent e){
-        if(!e.getInventory().getName().equalsIgnoreCase(acceptMenu.getName())){
+        if(acceptMenu == null || !e.getInventory().getName().equalsIgnoreCase(acceptMenu.getName())){
             return;
         }
 

@@ -634,6 +634,7 @@ public class DuelManager {
             player.setFoodLevel(foodLevel);
             player.setLevel(expLevel);
             player.setHealth(health);
+            removePotionEffects(player);
             this.removePlayerDataByUUID(playerUUID);
             return true;
         } catch (Exception e) {

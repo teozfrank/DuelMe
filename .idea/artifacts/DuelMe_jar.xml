@@ -7,6 +7,7 @@
       <element id="module-output" name="v1_10_R1" />
       <element id="module-output" name="v1_9_R2" />
       <element id="module-output" name="v1_8_R3" />
+      <element id="module-output" name="v1_11_R1" />
     </root>
   </artifact>
 </component>

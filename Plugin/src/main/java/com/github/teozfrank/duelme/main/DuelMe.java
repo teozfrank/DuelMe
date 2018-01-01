@@ -123,6 +123,7 @@ public class DuelMe extends JavaPlugin {
         // Get full package string of CraftServer.
         // org.bukkit.craftbukkit.version
         String version = packageName.substring(packageName.lastIndexOf('.') + 1);
+        SendConsoleMessage.info("Server NMS Version: " + version);
         // Get the last element of the package
 
         try {

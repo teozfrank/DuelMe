@@ -7,13 +7,21 @@
     <artifactId>DuelMe</artifactId>
     <packaging>jar</packaging>
     <name>DuelMe</name>
-    <version>0.17.6</version>
+    <version>0.18.0</version>
 
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>1.10-R0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.teozfrank</groupId>
+            <artifactId>duelme-v1_12_R1</artifactId>
+            <version>v1.12_R1</version>
+            <type>jar</type>
+            <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.github.teozfrank</groupId>
@@ -39,7 +47,7 @@
             <scope>compile</scope>
             <optional>true</optional>
         </dependency>
-	<dependency>
+	    <dependency>
             <groupId>com.github.teozfrank</groupId>
             <artifactId>duelme-v1_8_R3</artifactId>
             <version>v1.8_R3</version>

@@ -62,7 +62,7 @@ public class FileManager {
 
         InputStream defConfigStream = plugin.getResource("messages.yml");
         if (defConfigStream != null) {
-            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(new File("messages.yml"));
             messages.setDefaults(defConfig);
         }
 
@@ -188,7 +188,7 @@ public class FileManager {
 
         InputStream defConfigStream = plugin.getResource("duelarenas.yml");
         if (defConfigStream != null) {
-            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(new File("duelarenas.yml"));
             duelArenas.setDefaults(defConfig);
         }
 
@@ -411,7 +411,7 @@ public class FileManager {
 
         InputStream defConfigStream = plugin.getResource("signs.yml");
         if (defConfigStream != null) {
-            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(new File("signs.yml"));
             messages.setDefaults(defConfig);
         }
 

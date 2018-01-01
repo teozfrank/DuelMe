@@ -653,7 +653,7 @@ public class DuelManager {
      * this would be used for if a player dies,
      * leaves the game or leaves a duel by command
      *
-     * @param player the player
+     * @param player the losing player
      */
     public void endDuel(Player player) {
         if (plugin.isDebugEnabled()) {
@@ -669,7 +669,7 @@ public class DuelManager {
         }
 
         if (arena.getPlayers().size() == 1) {
-            im.rewardPlayer(arena);
+            im.rewardPlayer(arena, player.getName());
         }
     }
 
@@ -702,7 +702,7 @@ public class DuelManager {
             if (plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("One player remains, rewarding.");
             }
-            im.rewardPlayer(arena);
+            im.rewardPlayer(arena, "");
             return;
         }
 

@@ -57,11 +57,12 @@ public class ItemManager {
      * performs the winning player commands
      * @param player the player
      */
-    public void giveWinningPlayerRewards(Player player){
+    public void giveWinningPlayerRewards(Player player, String losingPlayerName){
         FileManager fm = plugin.getFileManager();
         List<String> commands = fm.getDuelWinnerCommands();
         for(String commandIn : commands){
             commandIn = commandIn.replaceAll("%player%", player.getName());
+            commandIn = commandIn.replaceAll("%losingplayer%", losingPlayerName);
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(),commandIn);
         }
     }
@@ -70,7 +71,7 @@ public class ItemManager {
      * reward a player
      * @param arena the arena which the player is in
      */
-    public void rewardPlayer(DuelArena arena) {
+    public void rewardPlayer(DuelArena arena, String losingPlayerName) {
         DuelManager dm = plugin.getDuelManager();
         FileManager fm = plugin.getFileManager();
         MessageManager mm = plugin.getMessageManager();
@@ -84,7 +85,7 @@ public class ItemManager {
                 String winningPlayerName = winningPlayer.getName();
                 if(winningPlayer != null){
                     dm.restorePlayerData(winningPlayer);
-                    this.giveWinningPlayerRewards(winningPlayer);//give them a reward
+                    this.giveWinningPlayerRewards(winningPlayer, losingPlayerName);//give them a reward
                     Util.sendMsg(winningPlayer, mm.getDuelRewardMessage());
                 }
             }

@@ -24,11 +24,8 @@ package com.github.teozfrank.duelme.commands.admin;
         THE SOFTWARE.
 */
 
-import com.github.teozfrank.duelme.util.DuelArena;
-import com.github.teozfrank.duelme.util.FileManager;
+import com.github.teozfrank.duelme.util.*;
 import com.github.teozfrank.duelme.main.DuelMe;
-import com.github.teozfrank.duelme.util.DuelManager;
-import com.github.teozfrank.duelme.util.Util;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -43,6 +40,13 @@ public class ReloadCmd extends DuelAdminCmd {
         FileManager fm = plugin.getFileManager();
         Util.sendMsg(sender, ChatColor.GREEN + "Reloading configs, please wait.");
         plugin.reloadConfig();
+        for(DuelArena arena: dm.getDuelArenas()) {
+            if(arena.getDuelState() == DuelState.STARTED ||
+                    arena.getDuelState() == DuelState.STARTING) {
+                dm.endDuel(arena);
+                Util.sendMsg(sender, ChatColor.YELLOW + "Duel active in arena: " + arena.getName() + ", Ending.");
+            }
+        }
         Util.sendMsg(sender, ChatColor.YELLOW + "Reloaded config.yml!");
         Util.sendMsg(sender, ChatColor.YELLOW + "Saving Duel arenas!");
         fm.saveDuelArenas();
@@ -52,6 +56,8 @@ public class ReloadCmd extends DuelAdminCmd {
         fm.reloadDuelArenas();
         Util.sendMsg(sender, ChatColor.YELLOW + "Loading Duel arenas from config!");
         fm.loadDuelArenas();
+        Util.sendMsg(sender, ChatColor.YELLOW + "Reloading messages!");
+        fm.reloadMessages();
         Util.sendMsg(sender, ChatColor.GREEN + "Complete!");
     }
 }

@@ -1,5 +1,5 @@
 # do not touch the config version below, it will break the plugin!
-configversion: 1.7
+configversion: 1.8
 duelme:
     checkforupdates: true
     mysql:
@@ -17,6 +17,7 @@ duelme:
        dropitemsondeath: false
        guimenuenabled: true
        surroundmaterial: BARRIER
+       forcerespawn: true
     announce:
        duelstart: true
        deaths: true

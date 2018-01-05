@@ -29,6 +29,9 @@ public class PlayerDeath implements Listener {
 
     @EventHandler (priority = EventPriority.NORMAL)
     public void onPlayerDeath(PlayerDeathEvent e) {
+        if(plugin.isDebugEnabled()) {
+            SendConsoleMessage.debug("Death Event Fired");
+        }
         Player loser = e.getEntity();
         String playerName = loser.getName();
         UUID playerUUID = loser.getUniqueId();
@@ -80,7 +83,10 @@ public class PlayerDeath implements Listener {
                 e.setDeathMessage(fm.getPrefix() + " " + deathMessageByOther);
             }
             dm.endDuel(loser);
-            loser.spigot().respawn();
+            if(plugin.getFileManager().isForceRespawnEnabled()) {
+                loser.spigot().respawn();
+            }
+
         }
     }
 

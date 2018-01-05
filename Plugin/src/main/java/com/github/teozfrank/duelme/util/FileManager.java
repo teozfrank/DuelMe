@@ -522,4 +522,8 @@ public class FileManager {
     public String getDuelSurroundMaterial() {
         return plugin.getConfig().getString("duelme.duel.surroundmaterial");
     }
+
+    public boolean isForceRespawnEnabled() {
+        return plugin.getConfig().getBoolean("duelme.duel.forcerespawn");
+    }
 }

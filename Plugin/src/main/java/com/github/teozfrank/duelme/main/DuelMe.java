@@ -91,8 +91,8 @@ public class DuelMe extends JavaPlugin {
         SendConsoleMessage.info("Enabling.");
         version = this.getDescription().getVersion();
         this.fileManager = new FileManager(this);
-        prefix = getFileManager().getPrefix();
         this.setupYMLs();
+        prefix = getFileManager().getPrefix();
         this.checkForUpdates();
         this.submitStats();
         this.setupDependencies();
@@ -248,7 +248,7 @@ public class DuelMe extends JavaPlugin {
      */
     public void checkConfigVersions() {
         if (new File(getDataFolder(), "config.yml").exists()) {
-            if (fileManager.getConfigVersion() != 1.7) {
+            if (fileManager.getConfigVersion() != 1.8) {
                 SendConsoleMessage.warning("Your config.yml is out of date! please remove or back it up before using the plugin!");
                 errorCount++;
             }

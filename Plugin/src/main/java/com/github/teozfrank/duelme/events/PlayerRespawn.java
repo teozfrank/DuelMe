@@ -27,6 +27,9 @@ public class PlayerRespawn implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerRespawn(PlayerRespawnEvent e) {
+        if(plugin.isDebugEnabled()) {
+            SendConsoleMessage.debug("Respawn Event Fired");
+        }
         final Player player = e.getPlayer();
         String playerName = player.getName();
         UUID playerUUID = player.getUniqueId();

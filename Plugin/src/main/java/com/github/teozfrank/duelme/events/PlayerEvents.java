@@ -119,6 +119,10 @@ public class PlayerEvents implements Listener {
         if(dm.isInDuel(playerUUID)){
             dm.endDuel(player);
         }
+
+        if(dm.isQueued(playerUUID)) {
+            dm.removeQueuedPlayer(playerUUID);
+        }
     }
 
     @EventHandler (priority = EventPriority.NORMAL)

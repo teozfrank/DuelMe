@@ -116,6 +116,18 @@ public class Util {
         player.sendMessage(DuelMe.getPrefix() + " " + message);
     }
 
+    /**
+     * send a plugin message to a player
+     * @param playerUUID the uuid of the player
+     * @param message the message to send the player
+     */
+    public static void sendMsg(UUID playerUUID, String message) {
+        Player player = Bukkit.getPlayer(playerUUID);
+        if(player != null) {
+            sendMsg(player, message);
+        }
+    }
+
 
     /**
      * send the same message to two players

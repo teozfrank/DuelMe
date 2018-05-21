@@ -47,6 +47,11 @@ public class DuelManager {
     private List<UUID> spectatingPlayerUUIDs;
 
     /**
+     * list of queued players
+     */
+    private List<UUID> queuedPlayerUUIDs;
+
+    /**
      * list to hold the frozen player uuids (before a duel starts)
      */
     private List<UUID> frozenPlayerUUIDs;
@@ -270,6 +275,12 @@ public class DuelManager {
         return null;
     }
 
+    /**
+     * check if a player has sent a duel request to a player before
+     * @param sender the sender
+     * @param target the target player
+     * @return true if the player has send a duel request to a given player, false if not
+     */
     public boolean hasSentRequest(UUID sender, UUID target) {
         for(DuelRequest duelRequest: duelRequests) {
             if(duelRequest.getDuelSender() == sender && duelRequest.getDuelTarget() == target) {
@@ -407,7 +418,7 @@ public class DuelManager {
      * @param acceptor the player that accepted the request
      * @param sender   the player that sent the reqest
      */
-    public void startDuel(Player acceptor, Player sender, String arena) {
+    public boolean startDuel(Player acceptor, Player sender, String arena) {
 
         String acceptorName = acceptor.getName();//the duel acceptor name
         String senderName = sender.getName();//the duel request sender name
@@ -424,18 +435,18 @@ public class DuelManager {
         if (arenas.size() <= 0) {//if there are no arenas stop the duel
             Util.sendMsg(sender, mm.getNoDuelArenasMessage());
             Util.sendMsg(acceptor, mm.getNoDuelArenasMessage());
-            return;
+            return false;
         }
 
         if(arena != null) {
             duelArena = getDuelArenaByName(arena);
             if(duelArena == null) {
                 Util.sendMsg(acceptor, ChatColor.RED + "The duel arena you requested to duel in does not exist!");
-                return;
+                return false;
             }
             if(!isArenaFree(duelArena)) {
                 Util.sendMsg(acceptor, ChatColor.RED + "The duel arena you requested to duel in is not free!");
-                return;
+                return false;
             }
         }
 
@@ -446,7 +457,7 @@ public class DuelManager {
         if (duelArena == null) {
             Util.sendMsg(acceptor, ChatColor.YELLOW + "There are no free duel arenas, please try again later!");
             Util.sendMsg(sender, ChatColor.YELLOW + "There are no free duel arenas, please try again later!");
-            return;
+            return false;
         }
 
         duelArena.setDuelState(DuelState.STARTING);//set the duel state to starting
@@ -495,8 +506,9 @@ public class DuelManager {
             im.givePlayerDuelItems(sender);
         }
 
-        new DuelStartThread(plugin, sender, acceptor, duelArena).runTaskTimer(plugin, 20L, 20L);
 
+        new DuelStartThread(plugin, sender, acceptor, duelArena).runTaskTimer(plugin, 20L, 20L);
+        return true;
     }
 
     /**
@@ -801,7 +813,7 @@ public class DuelManager {
 
     /**
      * returns a list of locations based on the inputs given
-     * credits for origional source comes from bukkit forums, here:
+     * credits for original source comes from bukkit forums, here:
      * https://bukkit.org/threads/creating-a-3x3-square-dissapearing-after-time.140159/
      * @param loc the location to surround
      * @param r radius
@@ -848,4 +860,61 @@ public class DuelManager {
         return duelRequests;
     }
 
+    /**
+     * Get a list of queued players
+     * @return a list of queued players
+     */
+    public List<UUID> getQueuedPlayerUUIDs() {
+        return queuedPlayerUUIDs;
+    }
+
+    /**
+     * Add a player to the queue
+     * @param playersUUID the players UUID
+     */
+    public void addQueuedPlayer(UUID playersUUID) {
+        this.queuedPlayerUUIDs.add(playersUUID);
+    }
+
+    /**
+     * remove a player from the queue
+     * @param playersUUID the players uuid
+     */
+    public void removeQueuedPlayer(UUID playersUUID) {
+        this.queuedPlayerUUIDs.remove(playersUUID);
+    }
+
+    /**
+     * Remove a queued player by index
+     * @param index the index to remove from
+     */
+    public void removeQueuedPlayerByIndex(int index) {
+        this.queuedPlayerUUIDs.remove(index);
+    }
+
+    /**
+     * check if a player is currently in the queue
+     * @param playersUUID the players uuid
+     * @return true if the player is queued false if not
+     */
+    public boolean isQueued(UUID playersUUID) {
+        return this.queuedPlayerUUIDs.contains(playersUUID);
+    }
+
+    /**
+     * Set the queued players uuid list
+     * @param queuedPlayerUUIDs a list of queued players
+     */
+    public void setQueuedPlayerUUIDs(List<UUID> queuedPlayerUUIDs) {
+        this.queuedPlayerUUIDs = queuedPlayerUUIDs;
+    }
+
+    /**
+     * get the size of the current duel queue
+     * @return the size of the current duel queue
+     */
+    public int getQueuedPlayersSize()
+    {
+        return this.queuedPlayerUUIDs.size();
+    }
 }

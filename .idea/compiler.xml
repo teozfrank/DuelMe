@@ -27,13 +27,14 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.7">
-      <module name="API" target="1.5" />
-      <module name="DuelMe" target="1.5" />
-      <module name="Plugin" target="1.5" />
-      <module name="v1_10_R1" target="1.5" />
-      <module name="v1_11_R1" target="1.5" />
-      <module name="v1_8_R3" target="1.5" />
-      <module name="v1_9_R2" target="1.5" />
+      <module name="API" target="1.7" />
+      <module name="DuelMe" target="1.7" />
+      <module name="Plugin" target="1.7" />
+      <module name="v1_10_R1" target="1.7" />
+      <module name="v1_11_R1" target="1.7" />
+      <module name="v1_12_R1" target="1.7" />
+      <module name="v1_8_R3" target="1.7" />
+      <module name="v1_9_R2" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

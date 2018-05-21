@@ -37,6 +37,7 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 
 public class AddDeathCmd extends DuelAdminCmd {
+
     public AddDeathCmd(DuelMe plugin, String mainPerm) {
         super(plugin, mainPerm);
     }

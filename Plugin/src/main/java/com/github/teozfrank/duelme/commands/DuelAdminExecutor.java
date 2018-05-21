@@ -25,6 +25,7 @@ package com.github.teozfrank.duelme.commands;
  */
 
 import com.github.teozfrank.duelme.commands.admin.*;
+import com.github.teozfrank.duelme.commands.duel.DuelCmd;
 import com.github.teozfrank.duelme.util.DuelArena;
 import com.github.teozfrank.duelme.util.DuelManager;
 import com.github.teozfrank.duelme.main.DuelMe;
@@ -49,6 +50,7 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
         DuelAdminCmd setSpawnPoint2 = new SetSpawnPoint2Cmd(plugin, "duelme.admin.setspawnpoint2");
         DuelAdminCmd restore = new RestoreCmd(plugin, "duelme.admin.restore");
         DuelAdminCmd forceDuel = new ForceDuel(plugin, "duelme.admin.forceduel");
+        DuelAdminCmd about = new AboutCmd(plugin, "duelme.admin.info");
 
         addCmd("create", create, new String[]{
                 "c,new"
@@ -86,6 +88,8 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
                 "fd"
         });
 
+        addCmd("about", about);
+
         create.needsObject = false;
         remove.needsObject = true;
         list.needsObject = false;
@@ -96,6 +100,7 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
         setSpawnPoint2.needsObject = true;
         restore.needsObject = false;
         forceDuel.needsObject = false;
+        list.needsObject = false;
     }
 
     @Override
@@ -125,6 +130,7 @@ public class DuelAdminExecutor extends CmdExecutor implements CommandExecutor {
                     Util.sendEmptyMsg(sender, "");
                     Util.sendEmptyMsg(sender, ChatColor.GREEN + "/dueladmin addkill <playername> - " + ChatColor.GOLD + "add a kill for a player.");
                     Util.sendEmptyMsg(sender, ChatColor.GREEN + "/dueladmin adddeath <playername> - " + ChatColor.GOLD + "add a death for a player.");
+                    Util.sendEmptyMsg(sender, ChatColor.GREEN + "/duel about - " + ChatColor.GOLD + "more about this plugin.");
                     Util.sendEmptyMsg(sender, "");
                     Util.sendCredits(sender);
                     Util.sendEmptyMsg(sender, Util.LINE_BREAK);

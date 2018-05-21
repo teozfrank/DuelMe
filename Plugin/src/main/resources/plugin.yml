@@ -35,6 +35,7 @@ permissions:
             duelme.admin.setspawnpoint2: true
             duelme.admin.restore: true
             duelme.admin.forceduel: true
+            duelme.admin.info: true
     duelme.player.*:
         description: Gives access to all player commands
         children:
@@ -43,6 +44,7 @@ permissions:
             duelme.player.sendarena: true
             duelme.player.leave: true
             duelme.player.list: true
+            duelme.player.join: true
     duelme.player.accept:
         description: allows a player to accept a duel request
         default: op
@@ -90,4 +92,10 @@ permissions:
         default: op
     duelme.admin.forceduel:
         description: allows admins to force a duel between two players
+        default: op
+    duelme.admin.info:
+        description: allows admins to get the plugin information
+        default: op
+    duelme.admin.join:
+        description: allows players to join a duel queue
         default: op

@@ -17,11 +17,6 @@
         <module>v1_12_R1</module>
     </modules>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-    </properties>
-
     <repositories>
         <repository>
             <id>sk89q-repo</id>
@@ -47,5 +42,10 @@
             <version>1.10-R0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
+
+    <properties>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+    </properties>
 
 </project>

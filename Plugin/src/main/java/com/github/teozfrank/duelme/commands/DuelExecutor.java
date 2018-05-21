@@ -24,6 +24,7 @@ package com.github.teozfrank.duelme.commands;
  * THE SOFTWARE.
  */
 
+import com.github.teozfrank.duelme.commands.admin.AboutCmd;
 import com.github.teozfrank.duelme.commands.duel.*;
 import com.github.teozfrank.duelme.main.DuelMe;
 import com.github.teozfrank.duelme.util.Util;
@@ -41,7 +42,7 @@ public class DuelExecutor extends CmdExecutor implements CommandExecutor {
         DuelCmd send = new SendCmd(plugin, "duelme.player.send");
         DuelCmd leave = new LeaveCmd(plugin, "duelme.player.leave");
         DuelCmd list = new ListCmd(plugin, "duelme.player.list");
-        DuelCmd about = new AboutCmd(plugin, "duelme.player.info");
+
 
         addCmd("accept", accept, new String[]{
                 "a"
@@ -56,8 +57,6 @@ public class DuelExecutor extends CmdExecutor implements CommandExecutor {
         });
 
         addCmd("list", list);
-
-        addCmd("about", about);
     }
 
     @Override
@@ -71,13 +70,13 @@ public class DuelExecutor extends CmdExecutor implements CommandExecutor {
                     Util.sendEmptyMsg(sender, ChatColor.GOLD + "                            DuelMe - PVP for fun!");
                     Util.sendEmptyMsg(sender, "");
                     Util.sendEmptyMsg(sender, ChatColor.GREEN + "/duel - " + ChatColor.GOLD + "brings up this message.");
+                    Util.sendEmptyMsg(sender, ChatColor.GREEN + "/duel join - " + ChatColor.GOLD + "join the duel queue to be put against another player.");
                     Util.sendEmptyMsg(sender, ChatColor.GREEN + "/duel send <player> - " + ChatColor.GOLD + "send a duel request to a player.");
                     Util.sendEmptyMsg(sender, ChatColor.GREEN + "/duel send <player> <amount> - " + ChatColor.GOLD +
                             "send a duel request to a player with a given bet amount.");
                     Util.sendEmptyMsg(sender, ChatColor.GREEN + "/duel accept <player> - " + ChatColor.GOLD + "accept a duel request.");
                     Util.sendEmptyMsg(sender, ChatColor.GREEN + "/duel leave - " + ChatColor.GOLD + "leave a duel.");
                     Util.sendEmptyMsg(sender, ChatColor.GREEN + "/duel list - " + ChatColor.GOLD + "lists duel arenas with their status(es).");
-                    Util.sendEmptyMsg(sender, ChatColor.GREEN + "/duel about - " + ChatColor.GOLD + "more about this plugin.");
                     Util.sendEmptyMsg(sender, "");
                     Util.sendCredits(sender);
                     Util.sendEmptyMsg(sender, Util.LINE_BREAK);

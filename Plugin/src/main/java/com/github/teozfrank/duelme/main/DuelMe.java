@@ -30,6 +30,7 @@ import com.github.teozfrank.duelme.commands.DuelAdminExecutor;
 import com.github.teozfrank.duelme.commands.DuelExecutor;
 import com.github.teozfrank.duelme.events.*;
 import com.github.teozfrank.duelme.menus.AcceptMenu;
+import com.github.teozfrank.duelme.threads.CheckDuelQueueThread;
 import com.github.teozfrank.duelme.util.*;
 import com.github.teozfrank.duelme.mysql.MySql;
 import com.github.teozfrank.duelme.threads.RequestTimeoutThread;
@@ -144,6 +145,7 @@ public class DuelMe extends JavaPlugin {
 
     private void startTasks() {
         this.getServer().getScheduler().runTaskTimer(this, new RequestTimeoutThread(this), 20L, 120L);
+        this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new CheckDuelQueueThread(this), 30*20L, 30*20L);
     }
 
     /**

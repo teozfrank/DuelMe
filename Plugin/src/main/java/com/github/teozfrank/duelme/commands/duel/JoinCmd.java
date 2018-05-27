@@ -37,6 +37,6 @@ public class JoinCmd extends DuelCmd {
         }
 
         dm.addQueuedPlayer(playerUUID);
-        Util.sendMsg(sender, "You have joined the queue, there is currently " + dm.getQueuedPlayersSize() + " in the Queue");
+        Util.sendMsg(sender, ChatColor.GOLD + "You have joined the queue, there is currently " + ChatColor.AQUA + dm.getQueuedPlayersSize() + ChatColor.GOLD + " in the Queue");
     }
 }

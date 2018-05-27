@@ -42,6 +42,7 @@ public class DuelExecutor extends CmdExecutor implements CommandExecutor {
         DuelCmd send = new SendCmd(plugin, "duelme.player.send");
         DuelCmd leave = new LeaveCmd(plugin, "duelme.player.leave");
         DuelCmd list = new ListCmd(plugin, "duelme.player.list");
+        DuelCmd join = new JoinCmd(plugin, "duelme.player.join");
 
 
         addCmd("accept", accept, new String[]{
@@ -57,6 +58,8 @@ public class DuelExecutor extends CmdExecutor implements CommandExecutor {
         });
 
         addCmd("list", list);
+
+        addCmd("join", join);
     }
 
     @Override

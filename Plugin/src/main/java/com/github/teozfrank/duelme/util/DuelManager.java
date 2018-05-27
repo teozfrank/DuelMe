@@ -79,6 +79,7 @@ public class DuelManager {
         this.playerData = new HashMap<UUID, PlayerData>();
         this.deadPlayers = new ArrayList<UUID>();
         this.mm = plugin.getMessageManager();
+        this.queuedPlayerUUIDs = new ArrayList<UUID>();
     }
 
     /**

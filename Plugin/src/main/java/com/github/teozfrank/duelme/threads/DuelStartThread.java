@@ -60,10 +60,6 @@ public class DuelStartThread extends BukkitRunnable {
         UUID targetUUID = target.getUniqueId();
         int duelSize = duelArena.getPlayers().size();
 
-        if (plugin.isDebugEnabled()) {
-            SendConsoleMessage.debug("Duel size: " + duelSize);
-        }
-
         if (duelSize == 0) {
             dm.endDuel(duelArena);
             this.cancel();

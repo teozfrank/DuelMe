@@ -32,6 +32,9 @@ public class CheckDuelQueueThread extends BukkitRunnable {
 
         if(dm.getQueuedPlayersSize() == 1) {
             Util.sendMsg(dm.getQueuedPlayerUUIDs().get(0), ChatColor.YELLOW + "There is not enough players to start a duel yet.");
+            if(plugin.isDebugEnabled()) {
+                SendConsoleMessage.debug("There is one player in the queue.");
+            }
         }
 
         while(dm.getQueuedPlayersSize() >= 2) {
@@ -41,13 +44,16 @@ public class CheckDuelQueueThread extends BukkitRunnable {
             boolean success = dm.startDuel(player1, player2, null);
 
             if(success && player1 != null && player2 != null) {
-                dm.removeQueuedPlayerByIndex(0);
-                dm.removeQueuedPlayerByIndex(1);
+                dm.removeQueuedPlayer(player1.getUniqueId());
+                dm.removeQueuedPlayer(player2.getUniqueId());
+                if(plugin.isDebugEnabled()) {
+                    SendConsoleMessage.debug("Removing first pair of players from queue.");
+                }
             }
             if(plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("Player size is >= 2");
                 SendConsoleMessage.debug("Player 1 is: " + player1.getName());
-                SendConsoleMessage.debug("Player 2 is: " + player1.getName());
+                SendConsoleMessage.debug("Player 2 is: " + player2.getName());
                 SendConsoleMessage.debug("Successful start: " + success);
             }
         }

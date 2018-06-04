@@ -64,6 +64,8 @@ public class DuelMe extends JavaPlugin {
      */
     private MessageManager messageManager;
 
+    private KitManager kitManager;
+
     /**
      * mysql class
      */
@@ -100,10 +102,12 @@ public class DuelMe extends JavaPlugin {
         this.messageManager = new MessageManager(this);
         this.duelManager = new DuelManager(this);
         this.itemManager = new ItemManager(this);
+        this.kitManager = new KitManager(this);
         this.mySql = new MySql(this);
         getCommand("duel").setExecutor(new DuelExecutor(this));
         getCommand("dueladmin").setExecutor(new DuelAdminExecutor(this));
         this.getFileManager().loadDuelArenas();
+        this.getFileManager().loadKits();
         if(this.setupTitleActionBar()) {
             SendConsoleMessage.info("NMS Version setup complete");
         } else {
@@ -242,6 +246,11 @@ public class DuelMe extends JavaPlugin {
             SendConsoleMessage.info("Saving default signs.yml.");
             this.getFileManager().saveDefaultSigns();
         }
+
+        if (!(new File(getDataFolder(), "kits.yml")).exists()) {
+            SendConsoleMessage.info("Saving default kits.yml.");
+            this.getFileManager().saveDefaultKits();
+        }
     }
 
     /**
@@ -349,5 +358,9 @@ public class DuelMe extends JavaPlugin {
 
     public TitleActionbar getTitleActionbar() {
         return titleActionbar;
+    }
+
+    public KitManager getKitManager() {
+        return kitManager;
     }
 }

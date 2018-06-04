@@ -28,9 +28,13 @@ import com.github.teozfrank.duelme.main.DuelMe;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.MaterialData;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,9 +53,11 @@ public class FileManager {
     private FileConfiguration messages = null;
     private FileConfiguration duelArenas = null;
     private FileConfiguration signs;
+    private FileConfiguration kits;
     private File messagesFile = null;
     private File duelArenasFile = null;
     private File signsFile = null;
+    private File kitsFile = null;
 
 
     public void reloadMessages() {
@@ -340,9 +346,94 @@ public class FileManager {
         }
     }
 
+    /**
+     * Load kits from the kits.yml configuration file
+     */
     public void loadKits() {
 
-        ConfigurationSection kitsSec = duelArenas.getConfigurationSection("kits");
+        if(plugin.isDebugEnabled()) {
+            SendConsoleMessage.debug("Loading kits.");
+        }
+        if (kits == null) {
+            reloadKits();
+        }
+
+
+        ConfigurationSection kitsSec = kits.getConfigurationSection("kits");
+        if (kitsSec == null) {
+            return;
+        }
+
+
+
+        int loadedKits = 0;
+        Set<String> kitSet = kitsSec.getKeys(false);
+
+        if(kitSet != null) {
+            for (String aKit : kitSet) {
+                List<ItemStack> kitItems = new ArrayList<>();
+
+                String path = "kits." + aKit + ".";
+                String kitName = ChatColor.translateAlternateColorCodes('&', aKit);
+
+                ConfigurationSection kitItemSection = kits.getConfigurationSection("kits." + kitName);
+
+                Set<String> kitItemSet = kitItemSection.getKeys(false);
+
+                if(kitItemSet != null ){
+
+                    for(String aItem : kitItemSet) {
+                        String itemPath = path + aItem + ".";
+                        String itemName = kits.getString(itemPath + "item");
+                        String title = kits.getString(itemPath + "title");
+                        String lore = kits.getString(itemPath + "lore");
+                        String enchantments = kits.getString(itemPath + "enchantments");
+                        int amount = kits.getInt(itemPath + "amount");
+                        if(plugin.isDebugEnabled()) {
+                            SendConsoleMessage.debug("KitName: " + kitName);
+                            SendConsoleMessage.debug("ItemName: " + itemName);
+                            SendConsoleMessage.debug("Title: " + title);
+                            SendConsoleMessage.debug("Lore: " + lore);
+                            SendConsoleMessage.debug("Enchantments: " + enchantments);
+                            SendConsoleMessage.debug("Amount: " + amount);
+                            SendConsoleMessage.debug(Util.LINE_BREAK);
+                        }
+
+                        ItemStack item;
+
+                        if(amount <= 0) {
+                            item = new ItemStack(Material.valueOf(itemName), 1);
+                        } else {
+                            item = new ItemStack(Material.valueOf(itemName), amount);
+                        }
+
+                        ItemMeta itemMeta = item.getItemMeta();
+
+                        if(title != null) {
+                            itemMeta.setDisplayName(title);
+                        }
+
+                        item.setItemMeta(itemMeta);
+
+                        //TODO add enchantments
+                        //TODO add lore
+
+                        if(item != null) {
+                            kitItems.add(item);
+                        }
+
+
+                    }
+
+                    plugin.getKitManager().addKit(new Kit(kitName, kitItems));
+
+                }
+
+
+                loadedKits++;
+            }
+            SendConsoleMessage.info("Successfully loaded " + ChatColor.AQUA + loadedKits + ChatColor.GREEN + " Kit(s).");
+        }
     }
 
     /**
@@ -525,5 +616,59 @@ public class FileManager {
 
     public boolean isForceRespawnEnabled() {
         return plugin.getConfig().getBoolean("duelme.duel.forcerespawn");
+    }
+
+    /**
+     * reload kits config file
+     */
+    public void reloadKits() {
+        if (kitsFile == null) {
+            kitsFile = new File(plugin.getDataFolder(), "kits.yml");
+        }
+        kits = YamlConfiguration.loadConfiguration(kitsFile);
+
+        InputStream defConfigStream = plugin.getResource("kits.yml");
+        if (defConfigStream != null) {
+            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(new File("kits.yml"));
+            kits.setDefaults(defConfig);
+        }
+
+    }
+
+    /**
+     * get the kits config object
+     * @return the fileconfiguration instance of the kits.yml file
+     */
+    public FileConfiguration getKits() {
+        if (kits == null) {
+            this.reloadKits();
+        }
+        return kits;
+    }
+
+    /**
+     * save the kits.yml config file
+     */
+    public void saveKits() {
+        if (kits == null || kitsFile == null) {
+            return;
+        }
+        try {
+            this.getKits().save(kitsFile);
+        } catch (IOException e) {
+            SendConsoleMessage.severe("Error saving kits config!");
+        }
+    }
+
+    /**
+     * save default messages.yml config
+     */
+    public void saveDefaultKits() {
+        if (kitsFile == null) {
+            kitsFile = new File(plugin.getDataFolder(), "kits.yml");
+        }
+        if (!kitsFile.exists()) {
+            plugin.saveResource("kits.yml", false);
+        }
     }
 }

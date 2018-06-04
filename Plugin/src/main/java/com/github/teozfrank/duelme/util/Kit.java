@@ -13,10 +13,6 @@ public class Kit {
     private String name;
     private List<ItemStack> kitItems;
 
-    public Kit() {
-
-    }
-
     public Kit(String name, List<ItemStack> kitItems) {
         this.name = name;
         this.kitItems = kitItems;

@@ -78,6 +78,8 @@ public class DuelStartThread extends BukkitRunnable {
         } else {
             if(duelSize == 2) {
                 plugin.getTitleActionbar().sendTitle(sender, target, mm.getDuelStartedMessage(), "", 10, 10, 10);
+                sender.setFoodLevel(20);
+                sender.setHealth(20);
                 duelArena.setDuelState(DuelState.STARTED);
                 dm.surroundLocation(duelArena.getSpawnpoint1(), Material.AIR);
                 dm.surroundLocation(duelArena.getSpawnpoint2(), Material.AIR);

@@ -107,7 +107,7 @@ public class DuelMe extends JavaPlugin {
         getCommand("duel").setExecutor(new DuelExecutor(this));
         getCommand("dueladmin").setExecutor(new DuelAdminExecutor(this));
         this.getFileManager().loadDuelArenas();
-        this.getFileManager().loadKits();
+        //this.getFileManager().loadKits();TODO re-enable kits loading kits once tested fully
         if(this.setupTitleActionBar()) {
             SendConsoleMessage.info("NMS Version setup complete");
         } else {
@@ -164,6 +164,7 @@ public class DuelMe extends JavaPlugin {
         this.acceptMenu = new AcceptMenu(this);
         new PlayerEvents(this);
         new SignEdit(this);
+        new PlayerInteract(this);
     }
 
     @Override
@@ -247,10 +248,10 @@ public class DuelMe extends JavaPlugin {
             this.getFileManager().saveDefaultSigns();
         }
 
-        if (!(new File(getDataFolder(), "kits.yml")).exists()) {
+        /*if (!(new File(getDataFolder(), "kits.yml")).exists()) {//TODO re-enable kits config file creation once tested
             SendConsoleMessage.info("Saving default kits.yml.");
             this.getFileManager().saveDefaultKits();
-        }
+        }*/
     }
 
     /**

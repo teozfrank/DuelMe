@@ -1,19 +1,16 @@
-package com.github.teozfrank.duelme.nms.v1_12_R1;
+package com.github.teozfrank.duelme.nms.v1_13_R1;
 
 import com.github.teozfrank.duelme.api.TitleActionbar;
-import net.minecraft.server.v1_12_R1.*;
+import net.minecraft.server.v1_13_R1.*;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_13_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-/**
- * Created by Frank on 22-Dec-16.
- */
 public class NMSHandler implements TitleActionbar {
 
     @Override

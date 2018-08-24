@@ -36,7 +36,6 @@ public class PlayerInteract implements Listener {
             if (! clickedBlock.getType().equals(Material.WALL_SIGN)) {
                 return;
             }
-            SendConsoleMessage.debug("Right click wall sign yay!.");
 
             try {
                 Sign sign = (Sign) clickedBlock.getState();

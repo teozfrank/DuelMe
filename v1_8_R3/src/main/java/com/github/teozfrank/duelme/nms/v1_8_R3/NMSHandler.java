@@ -5,8 +5,14 @@ import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
 import net.minecraft.server.v1_8_R3.PlayerConnection;
+import org.bukkit.Bukkit;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * Created by Frank on 12/06/2016.
@@ -44,4 +50,8 @@ public class NMSHandler implements TitleActionbar {
         sendTitle(acceptor, title, subtitle, fadeIn, stay, fadeOut);
     }
 
+    @Override
+    public void sendBossbar(String title, String colorName, String styleName, Player player, Plugin plugin, int period) {
+        player.sendMessage(title);
+    }
 }

@@ -2,6 +2,7 @@ package com.github.teozfrank.duelme.commands.duel;
 
 import com.github.teozfrank.duelme.main.DuelMe;
 import com.github.teozfrank.duelme.util.DuelManager;
+import com.github.teozfrank.duelme.util.MessageManager;
 import com.github.teozfrank.duelme.util.Util;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -25,18 +26,21 @@ public class JoinCmd extends DuelCmd {
         Player player = (Player) sender;
         UUID playerUUID = player.getUniqueId();
         DuelManager dm = plugin.getDuelManager();
+        MessageManager mm = plugin.getMessageManager();
 
         if(dm.isInDuel(playerUUID)){
-            Util.sendMsg(sender, ChatColor.RED + "You cannot join a duel as you are already in one!");
+            Util.sendMsg(sender, ChatColor.RED + "You cannot join the queue as you are already in a duel!");
             return;
         }
 
         if(dm.isQueued(playerUUID)) {
-            Util.sendMsg(sender, ChatColor.RED + "You are already in the queue.");
+            Util.sendMsg(sender, mm.getAlreadyInQueueMessage());
             return;
         }
 
         dm.addQueuedPlayer(playerUUID);
-        Util.sendMsg(sender, ChatColor.GOLD + "You have joined the queue, there is currently " + ChatColor.AQUA + dm.getQueuedPlayersSize() + ChatColor.GOLD + " in the Queue");
+        String queueJoinedMessage = mm.getQueueJoinMessage();
+        queueJoinedMessage = queueJoinedMessage.replaceAll("%queuesize%", "" + dm.getQueuedPlayersSize());
+        Util.sendMsg(sender, queueJoinedMessage);
     }
 }

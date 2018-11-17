@@ -92,7 +92,7 @@ public class PlayerEvents implements Listener {
         if(entity instanceof Player){
             Player target = (Player) entity;
             if(player.isSneaking() && player.getItemInHand().equals(new ItemStack(Material.DIAMOND_SWORD))){//if the player is sneaking and has a diamond sword
-              //dm.sendNormalDuelRequest(player, target.getName());//send a duel request
+              dm.sendDuelRequest(player, target.getName(), null);//send a duel request
               return;
             }
         }

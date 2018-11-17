@@ -31,7 +31,7 @@ public class CheckDuelQueueThread extends BukkitRunnable {
         }
 
         if(dm.getQueuedPlayersSize() == 1) {
-            Util.sendMsg(dm.getQueuedPlayerUUIDs().get(0), ChatColor.YELLOW + "There is not enough players to start a duel yet.");
+            Util.sendMsg(dm.getQueuedPlayerUUIDs().get(0), mm.getNotEnoughPlayersToStartMessage());
             if(plugin.isDebugEnabled()) {
                 SendConsoleMessage.debug("There is one player in the queue.");
             }

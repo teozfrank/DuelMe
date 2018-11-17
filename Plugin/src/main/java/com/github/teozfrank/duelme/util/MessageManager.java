@@ -216,4 +216,35 @@ public class MessageManager {
         duelRewardMessage = ChatColor.translateAlternateColorCodes('&', duelRewardMessage);
         return duelRewardMessage;
     }
+
+    /**
+     * get the message sent to the player when they try to join the queue after
+     * already joining the queue
+     * @return the message sent to the player
+     */
+    public String getAlreadyInQueueMessage() {
+        String alreadyInQueueMessage = fm.getMessages().getString("messages.queue.alreadyinqueue");
+        alreadyInQueueMessage = ChatColor.translateAlternateColorCodes('&', alreadyInQueueMessage);
+        return alreadyInQueueMessage;
+    }
+
+    /**
+     * get the message sent to the player when they join the queue
+     * @return the message sent to the player
+     */
+    public String getQueueJoinMessage() {
+        String queueJoinMessage = fm.getMessages().getString("messages.queue.queuejoin");
+        queueJoinMessage = ChatColor.translateAlternateColorCodes('&', queueJoinMessage);
+        return queueJoinMessage;
+    }
+
+    /**
+     * get the message sent to the player when there is not enough players in the queue to start a duel
+     * @return the message sent to the player
+     */
+    public String getNotEnoughPlayersToStartMessage() {
+        String notEnoughPlayersToStartMessage = fm.getMessages().getString("messages.queue.notenoughplayerstostart");
+        notEnoughPlayersToStartMessage = ChatColor.translateAlternateColorCodes('&', notEnoughPlayersToStartMessage);
+        return notEnoughPlayersToStartMessage;
+    }
 }

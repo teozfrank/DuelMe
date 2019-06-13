@@ -7,107 +7,112 @@
     <artifactId>DuelMe</artifactId>
     <packaging>jar</packaging>
     <name>DuelMe</name>
-    <version>0.19.1</version>
+    <version>0.20-dev1</version>
 
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>1.10-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sk89q</groupId>
+            <artifactId>worldedit</artifactId>
+            <version>6.0.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.teozfrank</groupId>
+            <artifactId>duelme-v1_14_R1</artifactId>
+            <version>v1.14_R1</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.github.teozfrank</groupId>
             <artifactId>duelme-v1_13_R1</artifactId>
             <version>v1.13_R1</version>
-            <type>jar</type>
             <scope>compile</scope>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.github.teozfrank</groupId>
             <artifactId>duelme-v1_12_R1</artifactId>
             <version>v1.12_R1</version>
-            <type>jar</type>
             <scope>compile</scope>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.github.teozfrank</groupId>
             <artifactId>duelme-v1_11_R1</artifactId>
             <version>v1.11_R1</version>
-            <type>jar</type>
             <scope>compile</scope>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.github.teozfrank</groupId>
             <artifactId>duelme-v1_10_R1</artifactId>
             <version>v1.10_R1</version>
-            <type>jar</type>
             <scope>compile</scope>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.github.teozfrank</groupId>
             <artifactId>duelme-v1_9_R2</artifactId>
             <version>v1.9_R2</version>
-            <type>jar</type>
             <scope>compile</scope>
-            <optional>true</optional>
         </dependency>
 	    <dependency>
             <groupId>com.github.teozfrank</groupId>
             <artifactId>duelme-v1_8_R3</artifactId>
             <version>v1.8_R3</version>
-            <type>jar</type>
             <scope>compile</scope>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.github.teozfrank</groupId>
             <artifactId>duelme-api</artifactId>
             <version>API</version>
-            <type>jar</type>
             <scope>compile</scope>
-            <optional>true</optional>
         </dependency>
     </dependencies>
 
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
     <build>
-        <directory>../target</directory> <!-- Build it one level up, because it is the one we care about -->
-        <finalName>DuelMe</finalName>
-        <!-- Define filtering for the inclusion of plugin.yml, so we can utilize the pom.xml version in it -->
+        <defaultGoal>clean install</defaultGoal>
         <resources>
             <resource>
-                <targetPath>.</targetPath>
+                <directory>src/main/resources/</directory>
                 <filtering>true</filtering>
-                <directory>src/main/resources</directory>
                 <includes>
                     <include>*.yml</include>
                 </includes>
             </resource>
+
+
         </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>1.4</version>
+                <version>3.0.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
                         </goals>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>com.github.teozfrank:*</include>
+                                </includes>
+                            </artifactSet>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
-
-    <properties>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
-    </properties>
 
 
 </project>

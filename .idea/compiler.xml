@@ -6,37 +6,28 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="API" />
+        <module name="DuelMe" />
+        <module name="duelme-api" />
+        <module name="duelme-v1_10_R1" />
+        <module name="duelme-v1_11_R1" />
+        <module name="duelme-v1_12_R1" />
+        <module name="duelme-v1_13_R1" />
+        <module name="duelme-v1_14_R1" />
         <module name="duelme-v1_8_R3" />
-        <module name="v1.12_R1" />
-        <module name="v1_10_R1" />
-        <module name="v1_11_1_R1" />
-        <module name="v1_11_R1" />
-        <module name="v1_12_R1" />
-        <module name="v1_13_R1" />
-        <module name="v1_8_R3" />
-        <module name="v1_9_4_R1" />
-        <module name="v1_9_4_R2" />
-        <module name="v1_9_4R2" />
-        <module name="v1_9_R2" />
-      </profile>
-      <profile name="Annotation profile for Duelme Parent" enabled="true">
-        <sourceOutputDir name="../target/generated-sources/annotations" />
-        <sourceTestOutputDir name="../target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <module name="Plugin" />
+        <module name="duelme-v1_9_R2" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.7">
-      <module name="API" target="1.7" />
-      <module name="DuelMe" target="1.7" />
-      <module name="Plugin" target="1.7" />
-      <module name="v1_10_R1" target="1.7" />
-      <module name="v1_11_R1" target="1.7" />
-      <module name="v1_12_R1" target="1.7" />
-      <module name="v1_13_R1" target="1.7" />
-      <module name="v1_8_R3" target="1.7" />
-      <module name="v1_9_R2" target="1.7" />
+    <bytecodeTargetLevel>
+      <module name="DuelMe" target="1.8" />
+      <module name="duelme-api" target="1.8" />
+      <module name="duelme-parent" target="1.8" />
+      <module name="duelme-v1_10_R1" target="1.8" />
+      <module name="duelme-v1_11_R1" target="1.8" />
+      <module name="duelme-v1_12_R1" target="1.8" />
+      <module name="duelme-v1_13_R1" target="1.8" />
+      <module name="duelme-v1_14_R1" target="1.8" />
+      <module name="duelme-v1_8_R3" target="1.8" />
+      <module name="duelme-v1_9_R2" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -4,10 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.teozfrank</groupId>
-    <artifactId>duelme-v1_11_R1</artifactId>
+    <artifactId>duelme-v1_14_R1</artifactId>
     <packaging>jar</packaging>
-    <name>DuelMe implementation 1_11_R1</name>
-    <version>v1.11_R1</version>
+    <name>DuelMe implementation 1_134R1</name>
+    <version>v1.14_R1</version>
 
     <parent>
         <groupId>com.github.teozfrank</groupId>
@@ -19,7 +19,7 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>craftbukkit</artifactId>
-            <version>1.11-R0.1-SNAPSHOT</version>
+            <version>1.14-R0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.github.teozfrank</groupId>

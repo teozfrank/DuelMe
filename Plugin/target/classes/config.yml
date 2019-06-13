@@ -1,0 +1,35 @@
+# do not touch the config version below, it will break the plugin!
+configversion: 1.8
+duelme:
+    checkforupdates: true
+    mysql:
+       enabled: false
+       host: 'localhost'
+       port: '3306'
+       database: 'duelmestats'
+       user: 'user'
+       pass: 'pass'
+    duel:
+       countdowntime: 15
+       dueltime: 120
+       seperateinventories: true
+       rightclicktoduel: false
+       dropitemsondeath: false
+       guimenuenabled: true
+       surroundmaterial: BARRIER
+       forcerespawn: true
+    announce:
+       duelstart: true
+       deaths: true
+       leavejoin: true
+    commands:
+       duelstart:
+          - 'give %player% 298 1'
+          - 'give %player% 299 1'
+          - 'give %player% 300 1'
+          - 'give %player% 301 1'
+          - 'give %player% 268 1'
+       duelwinner:
+          - 'give %player% 267 1'
+    debug:
+       enabled: false

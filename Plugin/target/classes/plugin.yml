@@ -1,0 +1,98 @@
+name: DuelMe
+version: 0.20-dev1
+author: teozfrank
+api-version: 1.13
+description: allows players to duel each other in a controlled environment
+main: com.github.teozfrank.duelme.main.DuelMe
+depend: [WorldEdit]
+commands:
+    duel:
+        description: Access to duel commands
+        usage: /<command>
+    dueladmin:
+        description: Access to dueladmin commands
+        permission: duelme.admin.info
+        permission-message: You do not have permission for this command!
+        useage: /<command>
+permissions:
+    duelme.*:
+        description: Gives access to all duelme permissions
+        children:
+            duelme.player.*: true
+            duelme.admin.*: true
+    duelme.admin.*:
+        description: Gives access to all duelme admin commands
+        children:
+            duelme.admin.info: true
+            duelme.admin.create: true
+            duelme.admin.set: true
+            duelme.admin.remove: true
+            duelme.admin.list: true
+            duelme.admin.update.notify: true
+            duelme.admin.reload: true
+            duelme.admin.addkill: true
+            duelme.admin.adddeath: true
+            duelme.admin.setspawnpoint1: true
+            duelme.admin.setspawnpoint2: true
+            duelme.admin.restore: true
+            duelme.admin.forceduel: true
+    duelme.player.*:
+        description: Gives access to all player commands
+        children:
+            duelme.player.accept: true
+            duelme.player.send: true
+            duelme.player.sendarena: true
+            duelme.player.leave: true
+            duelme.player.list: true
+            duelme.player.join: true
+    duelme.player.accept:
+        description: allows a player to accept a duel request
+        default: op
+    duelme.player.send:
+        description: allows a player to send a duel request
+        default: op
+    duelme.player.sendarena:
+        description: allows a player to send a duel request for a specific arena
+        default: op
+    duelme.player.leave:
+        description: allows a player to leave a duel
+        default: op
+    duelme.player.list:
+        description: allows a player to list the duels and there status
+        default: op
+    duelme.admin.info:
+        description: allows an admin to see the information about the dueladmin command
+        default: op
+    duelme.admin.create:
+        description: allows an admin to create a duel arena
+        default: op
+    duelme.admin.set:
+        description: allows an admin to set the lobby spawn
+        default: op
+    duelme.admin.remove:
+        description: allows an admin to remove a duel arena
+        default: op
+    duelme.admin.list:
+        description: allows an admin to list all the duel arenas
+        default: op
+    duelme.admin.update.notify:
+        description: notifys admins of plugin updates
+        default: op
+    duelme.admin.reload:
+        description: reloads the plugin configs from disk
+        default: op
+    duelme.admin.setspawnpoint1:
+        description: allows admins to set spawnpoint1 for an arena
+        default: op
+    duelme.admin.setspawnpoint2:
+        description: allows admins to set spawnpoint2 for an arena
+        default: op
+    duelme.admin.restore:
+        description: allows admins to restore players data
+        default: op
+    duelme.admin.forceduel:
+        description: allows admins to force a duel between two players
+        default: op
+    duelme.admin.join:
+        description: allows players to join a duel queue
+        default: op

@@ -9,12 +9,6 @@
     <name>DuelMe</name>
     <version>0.20-dev</version>
 
-    <scm>
-        <connection>scm:svn:http://none</connection>
-        <developerConnection>scm:svn:https://none</developerConnection>
-        <url>scm:svn:https://none</url>
-    </scm>
-
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
@@ -84,8 +78,8 @@
     </properties>
 
     <build>
-        <finalName>DuelMe-${project.version}-r${buildNumber}</finalName>
-        <defaultGoal>clean install buildnumber:create</defaultGoal>
+        <finalName>DuelMe</finalName>
+        <defaultGoal>clean install</defaultGoal>
         <resources>
             <resource>
                 <directory>src/main/resources/</directory>
@@ -115,44 +109,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>buildnumber-maven-plugin</artifactId>
-                <version>1.4</version>
-                <executions>
-                    <execution>
-                        <id>buildnumber</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>create</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <format>{0,number}</format>
-                    <items>
-                        <item>buildNumber</item>
-                    </items>
-                    <revisionOnScmFailure>unknownbuild</revisionOnScmFailure>
-                    <doCheck>false</doCheck>
-                    <doUpdate>false</doUpdate>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.1</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                        </manifest>
-                        <manifestEntries>
-                            <Implementation-Build>$\{buildNumber}</Implementation-Build>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
             </plugin>
         </plugins>
     </build>

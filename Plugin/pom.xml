@@ -10,10 +10,9 @@
     <version>0.20-dev</version>
 
     <scm>
-        <connection>scm:svn:http://127.0.0.1/dummy</connection>
-        <developerConnection>scm:svn:https://127.0.0.1/dummy</developerConnection>
-        <tag>HEAD</tag>
-        <url>http://127.0.0.1/dummy</url>
+        <connection>scm:svn:http://none</connection>
+        <developerConnection>scm:svn:https://none</developerConnection>
+        <url>scm:svn:https://none</url>
     </scm>
 
     <dependencies>

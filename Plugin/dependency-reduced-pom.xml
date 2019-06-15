@@ -4,9 +4,14 @@
   <groupId>com.github.teozfrank</groupId>
   <artifactId>DuelMe</artifactId>
   <name>DuelMe</name>
-  <version>0.20-dev1</version>
+  <version>0.20-dev</version>
+  <scm>
+    <connection>scm:svn:http://127.0.0.1/dummy</connection>
+    <developerConnection>scm:svn:https://127.0.0.1/dummy</developerConnection>
+    <url>http://127.0.0.1/dummy</url>
+  </scm>
   <build>
-    <defaultGoal>clean install</defaultGoal>
+    <defaultGoal>clean install buildnumber:create</defaultGoal>
     <resources>
       <resource>
         <filtering>true</filtering>
@@ -16,6 +21,7 @@
         </includes>
       </resource>
     </resources>
+    <finalName>DuelMe-${project.version}-r${buildNumber}</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
@@ -35,6 +41,43 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>buildnumber-maven-plugin</artifactId>
+        <version>1.4</version>
+        <executions>
+          <execution>
+            <id>buildnumber</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>create</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <format>{0,number}</format>
+          <items>
+            <item>buildNumber</item>
+          </items>
+          <revisionOnScmFailure>unknownbuild</revisionOnScmFailure>
+          <doCheck>false</doCheck>
+          <doUpdate>false</doUpdate>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.1</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+            </manifest>
+            <manifestEntries>
+              <Implementation-Build>$\{buildNumber}</Implementation-Build>
+            </manifestEntries>
+          </archive>
+        </configuration>
       </plugin>
     </plugins>
   </build>

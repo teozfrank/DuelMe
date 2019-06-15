@@ -3,7 +3,6 @@ package com.github.teozfrank.duelme.threads;
 import com.github.teozfrank.duelme.main.DuelMe;
 import com.github.teozfrank.duelme.util.DuelRequest;
 import com.github.teozfrank.duelme.util.SendConsoleMessage;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by Frank on 04/02/2016.
  */
-public class RequestTimeoutThread extends BukkitRunnable {
+public class RequestTimeoutThread implements Runnable {
 
     private DuelMe plugin;
 

@@ -3,13 +3,9 @@ package com.github.teozfrank.duelme.threads;
 import com.github.teozfrank.duelme.main.DuelMe;
 import com.github.teozfrank.duelme.util.*;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.UUID;
-
-public class CheckDuelQueueThread extends BukkitRunnable {
+public class CheckDuelQueueThread implements Runnable {
 
     private DuelMe plugin;
 

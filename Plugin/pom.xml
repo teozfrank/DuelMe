@@ -7,7 +7,14 @@
     <artifactId>DuelMe</artifactId>
     <packaging>jar</packaging>
     <name>DuelMe</name>
-    <version>0.20-dev1</version>
+    <version>0.20-dev</version>
+
+    <scm>
+        <connection>scm:svn:http://127.0.0.1/dummy</connection>
+        <developerConnection>scm:svn:https://127.0.0.1/dummy</developerConnection>
+        <tag>HEAD</tag>
+        <url>http://127.0.0.1/dummy</url>
+    </scm>
 
     <dependencies>
         <dependency>
@@ -78,7 +85,8 @@
     </properties>
 
     <build>
-        <defaultGoal>clean install</defaultGoal>
+        <finalName>DuelMe-${project.version}-r${buildNumber}</finalName>
+        <defaultGoal>clean install buildnumber:create</defaultGoal>
         <resources>
             <resource>
                 <directory>src/main/resources/</directory>
@@ -87,8 +95,6 @@
                     <include>*.yml</include>
                 </includes>
             </resource>
-
-
         </resources>
         <plugins>
             <plugin>
@@ -110,6 +116,44 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <id>buildnumber</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <format>{0,number}</format>
+                    <items>
+                        <item>buildNumber</item>
+                    </items>
+                    <revisionOnScmFailure>unknownbuild</revisionOnScmFailure>
+                    <doCheck>false</doCheck>
+                    <doUpdate>false</doUpdate>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        </manifest>
+                        <manifestEntries>
+                            <Implementation-Build>$\{buildNumber}</Implementation-Build>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
             </plugin>
         </plugins>
     </build>

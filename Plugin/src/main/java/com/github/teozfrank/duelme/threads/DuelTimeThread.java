@@ -70,7 +70,9 @@ public class DuelTimeThread extends BukkitRunnable {
             //Util.setTime(sender, target, this.duelTime);
             String duelEndActionBar = mm.getDuelRemainingActionBarMessage();
             duelEndActionBar = duelEndActionBar.replaceAll("%seconds%", String.valueOf(this.duelTime));
-            plugin.getTitleActionbar().sendActionbar(sender, target, duelEndActionBar);
+            if(plugin.getFileManager().isUseActionBar()) {
+                plugin.getTitleActionbar().sendActionbar(sender, target, duelEndActionBar);
+            }
             this.duelTime--;
         } else {
             if(plugin.isDebugEnabled()) {

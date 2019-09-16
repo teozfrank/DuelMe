@@ -460,6 +460,11 @@ public class FileManager {
         return isDuelStartAnnouncementEnabled;
     }
 
+    public boolean isUseActionBar() {
+        boolean useActionBar = plugin.getConfig().getBoolean("duelme.duel.useactionbar");
+        return useActionBar;
+    }
+
     /**
      * get the min bet amount needed to send a bet duel request
      * @return the min bet amount

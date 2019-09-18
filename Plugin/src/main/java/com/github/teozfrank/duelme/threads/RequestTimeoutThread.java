@@ -32,10 +32,10 @@ public class RequestTimeoutThread implements Runnable {
             long time = TimeUnit.MILLISECONDS.toMinutes(calc);
 
             if(plugin.isDebugEnabled()) {
-                SendConsoleMessage.debug(""+ time);
+                SendConsoleMessage.debug("Request timeout: "+ time);
             }
 
-            if(time >= 1L) {
+            if(time >= plugin.getFileManager().getRequestTimeout()) {
                 duelRequestListToRemove.add(duelRequest);
             }
         }

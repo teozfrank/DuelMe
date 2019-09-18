@@ -602,6 +602,14 @@ public class FileManager {
         return plugin.getConfig().getInt("duelme.duel.maxbetamount");
     }
 
+
+    /**
+     * Get the time in minutes when a duel request times out
+     * @return the time in minuts when a duel request times out
+     */
+    public int getRequestTimeout() {
+        return plugin.getConfig().getInt("duelme.duel.requesttimeout");
+    }
     /**
      * get the config version of the messages config file
      * @return the config version of the messages config file

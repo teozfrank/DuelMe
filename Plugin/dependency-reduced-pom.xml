@@ -4,14 +4,9 @@
   <groupId>com.github.teozfrank</groupId>
   <artifactId>DuelMe</artifactId>
   <name>DuelMe</name>
-  <version>0.20-dev</version>
-  <scm>
-    <connection>scm:svn:http://none</connection>
-    <developerConnection>scm:svn:https://none</developerConnection>
-    <url>scm:svn:https://none</url>
-  </scm>
+  <version>0.21.00-SNAPSHOT</version>
   <build>
-    <defaultGoal>clean install buildnumber:create</defaultGoal>
+    <defaultGoal>clean install</defaultGoal>
     <resources>
       <resource>
         <filtering>true</filtering>
@@ -21,7 +16,7 @@
         </includes>
       </resource>
     </resources>
-    <finalName>DuelMe-${project.version}-r${buildNumber}</finalName>
+    <finalName>DuelMe</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
@@ -41,43 +36,6 @@
             </configuration>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>buildnumber-maven-plugin</artifactId>
-        <version>1.4</version>
-        <executions>
-          <execution>
-            <id>buildnumber</id>
-            <phase>validate</phase>
-            <goals>
-              <goal>create</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <format>{0,number}</format>
-          <items>
-            <item>buildNumber</item>
-          </items>
-          <revisionOnScmFailure>unknownbuild</revisionOnScmFailure>
-          <doCheck>false</doCheck>
-          <doUpdate>false</doUpdate>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>2.1</version>
-        <configuration>
-          <archive>
-            <manifest>
-              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-            </manifest>
-            <manifestEntries>
-              <Implementation-Build>$\{buildNumber}</Implementation-Build>
-            </manifestEntries>
-          </archive>
-        </configuration>
       </plugin>
     </plugins>
   </build>

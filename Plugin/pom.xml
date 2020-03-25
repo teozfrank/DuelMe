@@ -7,7 +7,7 @@
     <artifactId>DuelMe</artifactId>
     <packaging>jar</packaging>
     <name>DuelMe</name>
-    <version>0.20.31-SNAPSHOT</version>
+    <version>0.21.00-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
@@ -21,6 +21,12 @@
             <artifactId>worldedit</artifactId>
             <version>6.0.0-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.teozfrank</groupId>
+            <artifactId>duelme-v1_15_R1</artifactId>
+            <version>v1.15_R1</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.github.teozfrank</groupId>

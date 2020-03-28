@@ -69,3 +69,5 @@ fabric.properties
 *.class
 *.jar
 target/
+*.xml
+*.iml

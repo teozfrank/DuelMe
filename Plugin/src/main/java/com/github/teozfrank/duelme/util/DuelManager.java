@@ -353,7 +353,12 @@ public class DuelManager {
             duelRequestSentMessage = duelRequestSentMessage.replaceAll("%target%", duelTargetName);
             Util.sendMsg(duelSender, duelRequestSentMessage);
             if (fm.isGUIMenuEnabled()) {
-                plugin.getAcceptMenu().openNormalDuelAccept(duelSender, duelTarget);
+
+                SendConsoleMessage.error("This feature is broken and is disabled until it has been fixed! Sent a normal non gui request!");
+                //plugin.getAcceptMenu().openNormalDuelAccept(duelSender, duelTarget);
+                String duelRequestReceived = mm.getDuelRequestReceivedMessage();
+                duelRequestReceived = duelRequestReceived.replaceAll("%sender%", duelSenderName);
+                Util.sendMsg(duelTarget, ChatColor.translateAlternateColorCodes('&', duelRequestReceived));
             } else {
                 String duelRequestReceived = mm.getDuelRequestReceivedMessage();
                 duelRequestReceived = duelRequestReceived.replaceAll("%sender%", duelSenderName);

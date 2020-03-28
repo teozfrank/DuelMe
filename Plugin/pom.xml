@@ -24,6 +24,12 @@
         </dependency>
         <dependency>
             <groupId>com.github.teozfrank</groupId>
+            <artifactId>WorldEditLegacy</artifactId>
+            <version>v1.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.teozfrank</groupId>
             <artifactId>WorldEditLatest</artifactId>
             <version>v1.0</version>
             <scope>compile</scope>

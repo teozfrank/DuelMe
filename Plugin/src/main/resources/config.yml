@@ -1,5 +1,5 @@
 # do not touch the config version below, it will break the plugin!
-configversion: 1.10
+configversion: 1.11
 duelme:
     checkforupdates: true
     mysql:
@@ -26,12 +26,8 @@ duelme:
        leavejoin: true
     commands:
        duelstart:
-          - 'give %player% 298 1'
-          - 'give %player% 299 1'
-          - 'give %player% 300 1'
-          - 'give %player% 301 1'
-          - 'give %player% 268 1'
+          - 'give %player% wooden_sword 1'
        duelwinner:
-          - 'give %player% 267 1'
+          - 'give %player% cookie 1'
     debug:
        enabled: false

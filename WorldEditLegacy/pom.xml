@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.teozfrank</groupId>
-    <artifactId>WorldEditLatest</artifactId>
+    <artifactId>WorldEditLegacy</artifactId>
     <packaging>jar</packaging>
-    <name>DuelMe WorldEdit Latest</name>
+    <name>DuelMe WorldEdit Legacy</name>
     <version>v1.0</version>
 
     <parent>
@@ -25,7 +25,7 @@
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
-            <version>7.0.1-SNAPSHOT</version>
+            <version>6.1.4-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.github.teozfrank</groupId>

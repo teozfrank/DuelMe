@@ -26,6 +26,7 @@ package com.github.teozfrank.duelme.main;
 
 import com.github.teozfrank.MetricsLite;
 import com.github.teozfrank.duelme.api.TitleActionbar;
+import com.github.teozfrank.duelme.api.WorldEditSelectionHelper;
 import com.github.teozfrank.duelme.commands.DuelAdminExecutor;
 import com.github.teozfrank.duelme.commands.DuelExecutor;
 import com.github.teozfrank.duelme.events.*;
@@ -73,6 +74,7 @@ public class DuelMe extends JavaPlugin {
 
     private TitleActionbar titleActionbar;
 
+    private WorldEditSelectionHelper worldEditSelectionHelper;
     /**
      * string to hold the plugin version
      */
@@ -99,6 +101,8 @@ public class DuelMe extends JavaPlugin {
         this.checkForUpdates();
         this.submitStats();
         this.setupDependencies();
+        this.setupWorldEditSelectionHelper();
+
         this.messageManager = new MessageManager(this);
         this.duelManager = new DuelManager(this);
         this.itemManager = new ItemManager(this);
@@ -111,7 +115,7 @@ public class DuelMe extends JavaPlugin {
         if(this.setupTitleActionBar()) {
             SendConsoleMessage.info("NMS Version setup complete");
         } else {
-            SendConsoleMessage.severe("Error setting up NMS related needed classes! Please make sure you are using the correct version compatible with this plugin! Plugin DISABLED");
+            SendConsoleMessage.error("Error setting up NMS related needed classes! Please make sure you are using the correct version compatible with this plugin! Plugin DISABLED");
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
@@ -145,6 +149,73 @@ public class DuelMe extends JavaPlugin {
         }
         SendConsoleMessage.info("Loading support for " + version);
         return true;
+    }
+
+    /**
+     * Get the worldedit version
+     * @return worldedit version, null if plugin is not loaded
+     */
+    public String getWorldEditVersion() {
+        return this.getServer().getPluginManager().getPlugin("WorldEdit").getDescription().getVersion();
+    }
+
+    private boolean setupWorldEditSelectionHelper() {
+        String version = this.getWorldEditVersion();
+
+        if(version == null ) {
+            SendConsoleMessage.warning("WorldEdit plugin not found, WorldEdit related features will not work!");
+            return true;
+        }
+
+        if(isDebugEnabled()) {
+            SendConsoleMessage.debug("WorldEdit Version: " + version);
+        }
+        String[] legacyVersions =  { "6." };
+        String[] latestVersions = {"7."};
+
+        boolean legacy = false;
+        boolean latest = false;
+
+        for(String legacyVersion: legacyVersions) {
+            if(version.startsWith(legacyVersion)) {
+                legacy = true;
+                SendConsoleMessage.info("WorldEdit Selection Helper identified as legacy.");
+            }
+        }
+        if(! legacy) {
+            for(String latestVersion: latestVersions) {
+                if(version.startsWith(latestVersion)) {
+                    latest = true;
+                    SendConsoleMessage.info("WorldEdit Selection Helper identified as latest.");
+                }
+            }
+        }
+
+        if(! legacy && ! latest) {
+            SendConsoleMessage.warning("WorldEdit version not identified as legacy or latest, defaulting to latest. "
+                    + "This can usually happen if you are using a WorldEdit version not matching 6.X or 7.X.");
+            latest = true;
+        }
+        Class<?> clazz;
+        try {
+            if(legacy) {
+                clazz = Class.forName("com.github.teozfrank.duelme.worldedit.legacy.WorldEditLegacy");
+            } else {
+                clazz = Class.forName("com.github.teozfrank.duelme.worldedit.latest.WorldEditLatest");
+            }
+
+            if (WorldEditSelectionHelper.class.isAssignableFrom(clazz)) { // Make sure it actually implements NMS
+                this.worldEditSelectionHelper = (WorldEditSelectionHelper) clazz.getConstructor().newInstance(); // Set our handler
+            } else {
+                SendConsoleMessage.error("WorldEdit Selection Helper is not assignable, instance not created!");
+            }
+        } catch (Exception e) {
+            SendConsoleMessage.error("WorldEdit Selection Helper setup failed: " + e.getMessage());
+            return false;
+        }
+        SendConsoleMessage.info("WorldEdit Selection Helper setup complete.");
+        return true;
+
     }
 
     private void startTasks() {
@@ -221,7 +292,7 @@ public class DuelMe extends JavaPlugin {
             MetricsLite metrics = new MetricsLite(this);
             metrics.start();
         } catch (IOException e) {
-            SendConsoleMessage.severe("Could not submit the stats! :(");
+            SendConsoleMessage.error("Could not submit the stats! :(");
         }
     }
 
@@ -363,5 +434,9 @@ public class DuelMe extends JavaPlugin {
 
     public KitManager getKitManager() {
         return kitManager;
+    }
+
+    public WorldEditSelectionHelper getWorldEditSelectionHelper() {
+        return worldEditSelectionHelper;
     }
 }

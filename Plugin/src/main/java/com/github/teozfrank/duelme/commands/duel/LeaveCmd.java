@@ -54,7 +54,7 @@ public class LeaveCmd extends DuelCmd {
         } else {
             if(dm.isQueued(playerUUID)) {
                 dm.removeQueuedPlayer(playerUUID);
-                Util.sendMsg(sender, ChatColor.GOLD + "You have been removed from the duel queue.");
+                Util.sendMsg(sender, ChatColor.GREEN + "You have been removed from the duel queue.");
                 return;
             }
             Util.sendMsg(sender, ChatColor.RED + "You cannot leave duel if you are not in one!");

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Plugin/DuelMe.iml" filepath="$PROJECT_DIR$/Plugin/DuelMe.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WorldEditLatest/WorldEditLatest.iml" filepath="$PROJECT_DIR$/WorldEditLatest/WorldEditLatest.iml" />
       <module fileurl="file://$PROJECT_DIR$/API/duelme-api.iml" filepath="$PROJECT_DIR$/API/duelme-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/duelme-parent.iml" filepath="$PROJECT_DIR$/duelme-parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/v1_10_R1/duelme-v1_10_R1.iml" filepath="$PROJECT_DIR$/v1_10_R1/duelme-v1_10_R1.iml" />

@@ -30,10 +30,10 @@ import org.bukkit.ChatColor;
 public class SendConsoleMessage {
 
     private static final String prefix = ChatColor.GREEN + "[DuelMe] ";
-    private static final String info = "[Info] ";
-    private static final String severe = ChatColor.YELLOW + "[Severe] ";
-    private static final String warning = ChatColor.RED + "[Warning] ";
     private static final String debug = ChatColor.AQUA + "[Debug] ";
+    private static final String error = ChatColor.RED + "[Error] ";
+    private static final String warning = ChatColor.YELLOW + "[Warning] ";
+    private static final String info = "[Info] ";
 
     public SendConsoleMessage() {
 
@@ -43,8 +43,8 @@ public class SendConsoleMessage {
         Bukkit.getConsoleSender().sendMessage(prefix + info + message);
     }
 
-    public static void severe(String message) {
-        Bukkit.getConsoleSender().sendMessage(prefix + severe + message);
+    public static void error(String message) {
+        Bukkit.getConsoleSender().sendMessage(prefix + error + message);
     }
 
     public static void warning(String message) {

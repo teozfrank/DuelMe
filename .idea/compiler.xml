@@ -10,6 +10,7 @@
         <module name="duelme-v1_12_R1" />
         <module name="duelme-v1_15_R1" />
         <module name="duelme-v1_10_R1" />
+        <module name="WorldEditLatest" />
         <module name="duelme-v1_9_R2" />
         <module name="DuelMe" />
         <module name="duelme-api" />
@@ -30,6 +31,7 @@
       <module name="duelme-v1_15_R1" target="1.8" />
       <module name="duelme-v1_8_R3" target="1.8" />
       <module name="duelme-v1_9_R2" target="1.8" />
+      <module name="WorldEditLatest" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

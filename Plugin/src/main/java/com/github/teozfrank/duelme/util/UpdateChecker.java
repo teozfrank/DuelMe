@@ -155,7 +155,7 @@ public class UpdateChecker {
             }
         } catch (IOException e) {
             // There was an error reading the query
-            SendConsoleMessage.severe("There was an error checking for updates!");
+            SendConsoleMessage.error("There was an error checking for updates!");
             return;
         }
     }

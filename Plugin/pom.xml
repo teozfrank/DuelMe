@@ -24,6 +24,12 @@
         </dependency>
         <dependency>
             <groupId>com.github.teozfrank</groupId>
+            <artifactId>WorldEditLatest</artifactId>
+            <version>v1.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.teozfrank</groupId>
             <artifactId>duelme-v1_15_R1</artifactId>
             <version>v1.15_R1</version>
             <scope>compile</scope>

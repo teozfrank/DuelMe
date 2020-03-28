@@ -25,6 +25,7 @@ package com.github.teozfrank.duelme.commands.admin;
 */
 
 
+import com.github.teozfrank.duelme.api.WorldEditSelectionHelper;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 import com.github.teozfrank.duelme.main.DuelMe;
@@ -37,6 +38,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import util.WorldEditSelection;
 
 /**
  * Created by frank on 20/12/13.
@@ -70,17 +72,17 @@ public class CreateCmd extends DuelAdminCmd {
         Location pos1 = null;
         Location pos2 = null;
 
-        WorldEditPlugin worldEdit = (WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit");
-        Selection selection = worldEdit.getSelection(p);
+        WorldEditSelectionHelper wesh = plugin.getWorldEditSelectionHelper();
+        WorldEditSelection selection = wesh.getWorldEditSelection(p);
 
-        if (selection != null) {
-            World world = selection.getWorld();
-            pos1 = selection.getMinimumPoint();
-            pos2 = selection.getMaximumPoint();
+        if(selection.isSuccess()) {
+            pos1 = selection.getPos1();
+            pos2 = selection.getPos2();
         } else {
             Util.sendMsg(p, ChatColor.RED + "You have not selected a region, please select one first!");
             return;
         }
+
         String arenaName = getValue(args, 0, "Arena");
 
         DuelManager dm = plugin.getDuelManager();

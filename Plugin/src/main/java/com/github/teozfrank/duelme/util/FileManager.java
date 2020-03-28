@@ -34,7 +34,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
 
 import java.io.File;
 import java.io.IOException;
@@ -95,7 +94,7 @@ public class FileManager {
         try {
             this.getMessages().save(messagesFile);
         } catch (IOException e) {
-            SendConsoleMessage.severe("Error saving messages config!");
+            SendConsoleMessage.error("Error saving messages config!");
         }
     }
 
@@ -264,7 +263,7 @@ public class FileManager {
             duelArenas.save(duelArenasFile);
             SendConsoleMessage.info("Successfully saved " + ChatColor.AQUA + savedArenas + ChatColor.GREEN + " Duel Arena(s).");
         } catch (Exception e) {
-            SendConsoleMessage.severe("Error while saving Duel Arena(s)! " + e.getMessage());
+            SendConsoleMessage.error("Error while saving Duel Arena(s)! " + e.getMessage());
         }
 
     }
@@ -273,7 +272,7 @@ public class FileManager {
         try {
             this.duelArenas.save(duelArenasFile);
         } catch (IOException e) {
-            SendConsoleMessage.severe("Error while saving Duel Arenas file! " + e.getMessage());
+            SendConsoleMessage.error("Error while saving Duel Arenas file! " + e.getMessage());
         }
     }
 
@@ -534,7 +533,7 @@ public class FileManager {
         try {
             this.getSigns().save(signsFile);
         } catch (IOException e) {
-            SendConsoleMessage.severe("Error saving signs config!");
+            SendConsoleMessage.error("Error saving signs config!");
         }
     }
 
@@ -669,7 +668,7 @@ public class FileManager {
         try {
             this.getKits().save(kitsFile);
         } catch (IOException e) {
-            SendConsoleMessage.severe("Error saving kits config!");
+            SendConsoleMessage.error("Error saving kits config!");
         }
     }
 

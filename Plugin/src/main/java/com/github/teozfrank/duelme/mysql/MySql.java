@@ -140,13 +140,13 @@ public class MySql {
             } else if (p == 1) {
                 this.addExistingPlayerKillDeath(playerUUID, playerName, fieldName);
             } else {
-                SendConsoleMessage.severe("more than one record was found for a player!! failed to add "
+                SendConsoleMessage.error("more than one record was found for a player!! failed to add "
                         + fieldName + " record!");
             }
             result.close();
             connection.close();
         } catch (SQLException e) {
-            SendConsoleMessage.severe("error adding all time player " + fieldName + "\n" + e);
+            SendConsoleMessage.error("error adding all time player " + fieldName + "\n" + e);
         }
     }
 
@@ -189,10 +189,10 @@ public class MySql {
                 }
                 connection.close();
             } else {
-                SendConsoleMessage.severe("Duplicate player names please check database!");
+                SendConsoleMessage.error("Duplicate player names please check database!");
             }
         } catch (SQLException e) {
-            SendConsoleMessage.severe("SQL Error adding existing player kill/death !" + e);
+            SendConsoleMessage.error("SQL Error adding existing player kill/death !" + e);
         }
 
     }
@@ -217,7 +217,7 @@ public class MySql {
             statement.executeUpdate(sql);
             statement.close();
         } catch (SQLException e) {
-            SendConsoleMessage.severe("ERROR inserting new player " + fieldName + " record!" + e);
+            SendConsoleMessage.error("ERROR inserting new player " + fieldName + " record!" + e);
         }
     }
 

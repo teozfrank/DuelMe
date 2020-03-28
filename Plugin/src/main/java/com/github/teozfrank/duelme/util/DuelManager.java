@@ -604,7 +604,7 @@ public class DuelManager {
         this.addPlayerData(playerUUID, new PlayerData(arm, inv, loc, saturation, foodLevel, expLevel, health, gameMode, allowedFlight));
 
         if (fm.isUsingSeperateInventories()) {
-            player.getInventory().clear(-1, -1);
+            player.getInventory().clear();
         }
     }
 
@@ -637,7 +637,7 @@ public class DuelManager {
             }
 
             if (plugin.isUsingSeperatedInventories()) {
-                player.getInventory().clear(-1, -1);// clear their inventory completely
+                player.getInventory().clear();// clear their inventory completely
                 player.getInventory().setContents(inv);
                 player.getInventory().setArmorContents(arm);
             }

@@ -59,7 +59,7 @@ public class MySql {
             String MySqlUsername = config.getString("duelme.mysql.user");
             String MySqlPassword = config.getString("duelme.mysql.pass");
 
-            return DriverManager.getConnection("jdbc:mysql://" + MySqlHost + ":" + MySqlPort + "/" + MySqlDatabase, MySqlUsername, MySqlPassword);
+            return DriverManager.getConnection("jdbc:mysql://" + MySqlHost + ":" + MySqlPort + "/" + MySqlDatabase + "?autoReconnect=true&useSSL=false", MySqlUsername, MySqlPassword);
         } catch (SQLException e) {
             SendConsoleMessage.warning("MySql could not establish a connection!" + e);
         }

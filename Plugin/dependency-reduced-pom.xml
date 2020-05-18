@@ -4,7 +4,7 @@
   <groupId>com.github.teozfrank</groupId>
   <artifactId>DuelMe</artifactId>
   <name>DuelMe</name>
-  <version>0.21.00-SNAPSHOT</version>
+  <version>0.21.1-SNAPSHOT</version>
   <build>
     <defaultGoal>clean install</defaultGoal>
     <resources>
@@ -36,6 +36,40 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>pl.project13.maven</groupId>
+        <artifactId>git-commit-id-plugin</artifactId>
+        <version>2.2.4</version>
+        <executions>
+          <execution>
+            <id>get-the-git-infos</id>
+            <goals>
+              <goal>revision</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+          <prefix>git</prefix>
+          <verbose>false</verbose>
+          <generateGitPropertiesFile>true</generateGitPropertiesFile>
+          <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+          <format>json</format>
+          <excludeProperties>
+            <excludeProperty>git.remote.origin.url</excludeProperty>
+            <excludeProperty>git.build.user.email</excludeProperty>
+            <excludeProperty>git.build.host</excludeProperty>
+            <excludeProperty>git.commit.user.email</excludeProperty>
+            <excludeProperty>git.build.user.name</excludeProperty>
+            <excludeProperty>git.commit.user.name</excludeProperty>
+          </excludeProperties>
+          <gitDescribe>
+            <skip>false</skip>
+            <always>false</always>
+            <dirty>-dirty</dirty>
+          </gitDescribe>
+        </configuration>
       </plugin>
     </plugins>
   </build>

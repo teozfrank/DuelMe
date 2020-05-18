@@ -84,7 +84,12 @@ public class PlayerDeath implements Listener {
             }
             dm.endDuel(loser);
             if(plugin.getFileManager().isForceRespawnEnabled()) {
-                loser.spigot().respawn();
+                try {
+                    loser.spigot().respawn();
+                } catch (Exception ex) {
+                    SendConsoleMessage.error("Error while respawning player: " + ex.getMessage());
+                }
+
             }
 
         }

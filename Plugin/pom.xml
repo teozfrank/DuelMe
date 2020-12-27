@@ -36,6 +36,24 @@
         </dependency>
         <dependency>
             <groupId>com.github.teozfrank</groupId>
+            <artifactId>duelme-v1_16_R3</artifactId>
+            <version>v1.16_R3</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.teozfrank</groupId>
+            <artifactId>duelme-v1_16_R2</artifactId>
+            <version>v1.16_R2</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.teozfrank</groupId>
+            <artifactId>duelme-v1_16_R1</artifactId>
+            <version>v1.16_R1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.teozfrank</groupId>
             <artifactId>duelme-v1_15_R1</artifactId>
             <version>v1.15_R1</version>
             <scope>compile</scope>

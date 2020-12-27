@@ -3,7 +3,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.github.teozfrank</groupId>
     <artifactId>duelme-v1_10_R1</artifactId>
     <packaging>jar</packaging>
     <name>DuelMe implementation 1_10_R1</name>

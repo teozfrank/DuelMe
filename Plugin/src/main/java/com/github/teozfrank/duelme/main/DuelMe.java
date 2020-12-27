@@ -338,7 +338,7 @@ public class DuelMe extends JavaPlugin {
         }
 
         if (new File(getDataFolder(), "messages.yml").exists()) {
-            if (fileManager.getMessagesConfigVersion() != 1.3) {
+            if (fileManager.getMessagesConfigVersion() != 1.4) {
                 SendConsoleMessage.warning("Your messages.yml is out of date! please remove or back it up before using the plugin!");
                 errorCount++;
             }

@@ -26,6 +26,7 @@ package com.github.teozfrank.duelme.commands.duel;
 
 import com.github.teozfrank.duelme.main.DuelMe;
 import com.github.teozfrank.duelme.util.DuelManager;
+import com.github.teozfrank.duelme.util.MessageManager;
 import com.github.teozfrank.duelme.util.Util;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -48,16 +49,17 @@ public class LeaveCmd extends DuelCmd {
         Player player = (Player) sender;
         UUID playerUUID = player.getUniqueId();
         DuelManager dm = plugin.getDuelManager();
+        MessageManager mm = plugin.getMessageManager();
 
         if(dm.isInDuel(playerUUID)){
             dm.endDuel(player);
         } else {
             if(dm.isQueued(playerUUID)) {
                 dm.removeQueuedPlayer(playerUUID);
-                Util.sendMsg(sender, ChatColor.GREEN + "You have been removed from the duel queue.");
+                Util.sendMsg(sender, mm.getRemovedFromQueueMessage());
                 return;
             }
-            Util.sendMsg(sender, ChatColor.RED + "You cannot leave duel if you are not in one!");
+            Util.sendMsg(sender, mm.getNotInQueueMessage());
         }
     }
 }

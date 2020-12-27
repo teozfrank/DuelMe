@@ -247,4 +247,24 @@ public class MessageManager {
         notEnoughPlayersToStartMessage = ChatColor.translateAlternateColorCodes('&', notEnoughPlayersToStartMessage);
         return notEnoughPlayersToStartMessage;
     }
+
+    /**
+     * get the message sent to the player when they leave the queue
+     * @return the message sent to the player
+     */
+    public String getRemovedFromQueueMessage() {
+        String removedFromQueueMessage = fm.getMessages().getString("messages.queue.removedfromqueue");
+        removedFromQueueMessage = ChatColor.translateAlternateColorCodes('&', removedFromQueueMessage);
+        return removedFromQueueMessage;
+    }
+
+    /**
+     * get the message sent to the player when they are not in the queue
+     * @return the message sent to the player
+     */
+    public String getNotInQueueMessage() {
+        String leaveQueueWhenNotInQueueMessage = fm.getMessages().getString("messages.queue.leavequeuewhennotinqueue");
+        leaveQueueWhenNotInQueueMessage = ChatColor.translateAlternateColorCodes('&', leaveQueueWhenNotInQueueMessage);
+        return leaveQueueWhenNotInQueueMessage;
+    }
 }

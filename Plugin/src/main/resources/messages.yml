@@ -1,10 +1,10 @@
 # do not touch the config version below, it will break the plugin!
-configversion: 1.3
+configversion: 1.4
 messages:
     general:
         prefix: '&6[DuelMe]'
     request:
-        received: 'You have been sent a duel request from %sender% use /duel accept <%sender%> to accept.'
+        received: '&aYou have been sent a duel request from %sender% use /duel accept <%sender%> to accept.'
         sent: '&aYou have sent a duel request to %target%'
         alreadysent: 'You have already sent a duel request to %target%'
         notonline: '&cThe player &b%target% &cis not online did you type it correctly?'
@@ -13,6 +13,8 @@ messages:
         alreadyinqueue: '&cYou are already in the queue.'
         queuejoin: '&6You have joined the queue, there is currently &b%queuesize% &6in the Queue"'
         notenoughplayerstostart: '&eThere is not enough players in the queue to start a duel yet.'
+        removedfromqueue: '&aYou have been removed from the duel queue'
+        leavequeuewhennotinqueue: '&cYou cannot leave the queue if you are not in it!'
     deathcause:
         player: '&b%player% &cwas killed in a duel by &b%killer%!'
         other: '&b%player% &cwas killed in a duel!'

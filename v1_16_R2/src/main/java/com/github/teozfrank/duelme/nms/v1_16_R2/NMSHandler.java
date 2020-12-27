@@ -1,4 +1,4 @@
-package com.github.teozfrank.duelme.nms.v1_16_R1;
+package com.github.teozfrank.duelme.nms.v1_16_R2;
 
 import com.github.teozfrank.duelme.api.TitleActionbar;
 import net.minecraft.server.v1_16_R1.*;
@@ -69,4 +69,3 @@ public class NMSHandler implements TitleActionbar {
         }.runTaskTimerAsynchronously(plugin, 0, 1L);
     }
 }
-

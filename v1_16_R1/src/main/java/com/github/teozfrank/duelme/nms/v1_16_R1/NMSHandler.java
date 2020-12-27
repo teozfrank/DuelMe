@@ -1,7 +1,7 @@
 package com.github.teozfrank.duelme.nms.v1_16_R1;
 
 import com.github.teozfrank.duelme.api.TitleActionbar;
-import net.minecraft.server.v1_15_R1.*;
+import net.minecraft.server.v1_16_R1.*;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -13,11 +13,15 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class NMSHandler implements TitleActionbar {
 
+    private String nmsver = "1_16_R1";
+    private static boolean useOldMethods = false;
+
     @Override
     public void sendActionbar(Player player, String message) {
-        IChatBaseComponent icbc = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + message + "\"}");
+        /*IChatBaseComponent icbc = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + message + "\"}");
         PacketPlayOutChat bar = new PacketPlayOutChat(icbc, ChatMessageType.GAME_INFO);
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(bar);
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(bar);*/
+        player.sendMessage(message);
     }
 
     @Override
